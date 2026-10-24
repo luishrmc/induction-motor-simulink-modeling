@@ -1,0 +1,45 @@
+{
+  "figure_id": "item1e_torque_vs_speed",
+  "task_ref": "Part 1, Item E.i",
+  "title": "Curva Característica Conjugado x Velocidade",
+  "operating_conditions": {
+    "voltage_LL_rms_V": 220.0,
+    "frequency_Hz": 60.0,
+    "speed_range_rpm": [
+      0.0,
+      1800.0
+    ],
+    "slip_range": [
+      1.0,
+      0.0
+    ]
+  },
+  "key_numerical_markers": {
+    "synchronous_speed_rpm": 1800.0,
+    "nominal_speed_rpm": 1715.0,
+    "nominal_slip": 0.04722,
+    "nominal_electromagnetic_torque_Nm": 24.958,
+    "nominal_net_shaft_torque_Nm": 17.308,
+    "nameplate_catalog_torque_Nm": 20.602,
+    "breakdown_torque_Tmax_Nm": 54.634,
+    "breakdown_speed_rpm": 1405.0,
+    "breakdown_slip": 0.2194,
+    "starting_torque_s1_Nm": 25.351
+  },
+  "axis_extents": {
+    "xlim": [
+      0.0,
+      1800.0
+    ],
+    "ylim": [
+      0.0,
+      65.0
+    ]
+  },
+  "physical_phenomena_summary": [
+    "Conjugado máximo de despolarização (Tmax = 54.63 N.m) ocorre a 1405 rpm (escorregamento crítico s_max = 21.94%).",
+    "A razão Tmax/Tn = 2.65 atende folgadamente à categoria N da norma ABNT/WEG (mínimo de 2.0 a 2.3).",
+    "A bancada acoplada dissipa T_loss = B*wm = 7.65 N.m em rotação nominal, resultando em T_shaft = 17.31 N.m.",
+    "O conjugado de partida a rotor bloqueado (s=1) é de 25.35 N.m (Tpart/Tn = 1.23)."
+  ]
+}

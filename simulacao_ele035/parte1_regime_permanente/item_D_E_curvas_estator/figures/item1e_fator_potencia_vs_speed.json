@@ -1,0 +1,37 @@
+{
+  "figure_id": "item1e_fator_potencia_vs_speed",
+  "task_ref": "Part 1, Item E.iv",
+  "title": "Curva Característica Fator de Potência x Velocidade",
+  "operating_conditions": {
+    "voltage_LL_rms_V": 220.0,
+    "frequency_Hz": 60.0,
+    "speed_range_rpm": [
+      0.0,
+      1800.0
+    ]
+  },
+  "key_numerical_markers": {
+    "nominal_power_factor": 0.8146,
+    "nameplate_catalog_power_factor": 0.81,
+    "starting_power_factor_s1": 0.3965,
+    "maximum_power_factor": 0.835,
+    "maximum_pf_speed_rpm": 1650.0,
+    "no_load_power_factor": 0.068
+  },
+  "axis_extents": {
+    "xlim": [
+      0.0,
+      1800.0
+    ],
+    "ylim": [
+      0.0,
+      1.0
+    ]
+  },
+  "physical_phenomena_summary": [
+    "O fator de potência nominal analítico (0.8146) reproduz fidedignamente o valor nominal de placa (0.8100).",
+    "Na partida (s=1), o FP cai para 0.3965 devido ao predomínio indutivo das reatâncias de dispersão (X1+X2 = 5.33 Ohm).",
+    "A vazio, o FP atinge valores mínimos (<0.10) devido à corrente quase puramente indutiva de magnetização.",
+    "O pico do fator de potência ocorre a 1650 rpm (0.835) ligeiramente abaixo da rotação nominal."
+  ]
+}
