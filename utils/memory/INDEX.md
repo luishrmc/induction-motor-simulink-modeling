@@ -28,6 +28,7 @@ Protocol: `.agents/skills/memory-protocol/SKILL.md`. Limit: 40 lines.
 - `episodes/2.2.md`: Analytical locked-rotor starting metrics & simulation test harness
 - `episodes/3.1.md`: DOL startup transient simulation & inrush waveform validation
 - `episodes/3.2.md`: Step nominal load torque transient simulation & convergence audit
+- `episodes/3.3.md`: Generating quadrant simulation, hypersynchronous speed, and power reversal
 
 ## Last Compaction
 

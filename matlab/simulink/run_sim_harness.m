@@ -112,8 +112,8 @@ function results = run_sim_harness(scenario_name, varargin)
 
         case {'regenerative', 'regenerative_braking'}
             % Task 3.3: Step to negative load torque (generator prime mover)
-            t_stop_sim   = 3.0;
-            t_step_sim   = 1.5;
+            t_stop_sim   = 8.0;                      % Full electromechanical settling before and after step
+            t_step_sim   = 5.0;                      % Step applied after full no-load settling (>4.5s)
             T_step_after = -params.T_nom_ref;        % Step to -20.602 N.m (generates power)
             scenario_desc= sprintf('Regenerative Braking / Generator Step (0 -> -%.2f N.m at t=%.1fs)', ...
                 abs(T_step_after), t_step_sim);
@@ -294,6 +294,31 @@ function results = run_sim_harness(scenario_name, varargin)
             fwrite(fid, jsonencode(comp_data), 'char');
             fclose(fid);
             fprintf('[OK] Saved comparison JSON to %s\n\n', json_32);
+        end
+    elseif strcmp(scenario_name, 'regenerative') || strcmp(scenario_name, 'regenerative_braking')
+        % Task 3.3 specific artifacts
+        mat_33 = fullfile(out_dir, 'sim_transient_3.3.mat');
+        save(mat_33, 'results');
+
+        json_33 = fullfile(out_dir, 'comparison_3.3.json');
+        % Analytical metrics for T_L = -20.602 N.m (hypersynchronous generating mode)
+        comp_data.analytical.n_nom_rpm     = 1836.21;
+        comp_data.analytical.T_em_nom      = -12.411;
+        comp_data.analytical.I_line_nom    = 10.046;
+        comp_data.analytical.P_elec_nom    = -2219.34;
+        comp_data.analytical.Q_elec_nom    = 3119.08;
+
+        comp_data.simulated.n_nom_rpm      = ss_speed_rpm;
+        comp_data.simulated.T_em_nom       = ss_torque_Nm;
+        comp_data.simulated.I_line_nom     = ss_Ia_rms;
+        comp_data.simulated.P_elec_nom     = ss_P_W;
+        comp_data.simulated.Q_elec_nom     = ss_Q_var;
+
+        fid = fopen(json_33, 'w');
+        if fid ~= -1
+            fwrite(fid, jsonencode(comp_data), 'char');
+            fclose(fid);
+            fprintf('[OK] Saved comparison JSON to %s\n\n', json_33);
         end
     else
         json_path = fullfile(out_dir, 'comparison_2.2.json');
