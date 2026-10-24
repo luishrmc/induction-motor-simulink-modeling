@@ -42,6 +42,7 @@ If two levels conflict, stop and request clarification. Never make silent approx
 At the end of every task iteration:
 - Record gate evidence in `out/gates/<task-id>.json` using `gate_record.py`.
 - Run `python3 .agents/hooks/tolerance-gate.py` for steady-state simulation vs. analytical checks.
+- Document task challenges, failure modes, and Gauntlet review iterations in `utils/memory/episodes/<task-id>.md`.
 - Update module digests and refresh hashes via `python3 .agents/hooks/memory-check.py --update <module>`.
 - Synchronize project state using `python3 .agents/hooks/plan-sync.py`.
 
@@ -77,7 +78,13 @@ Defined in `.agents/manifest.json` and `.agents/agents/*.md`:
    - If halted, changes are safely reverted via `git`, the incident is logged in `utils/memory/episodes/<task-id>.md`, and the issue is escalated to the user.
 
 4. **Task Promotion & Sign-Off**:
-   - Only when **both** the automated gates pass AND the Gauntlet reviewer delivers an explicit `APPROVE`, does `orchestrator-agent` record gate evidence in `out/gates/<task-id>.json` and promote the task to `Concluída` via `plan-sync.py`.
+   - Only when **both** the automated gates pass AND the Gauntlet reviewer delivers an explicit `APPROVE`:
+     1. Author or finalize `utils/memory/episodes/<task-id>.md` documenting the full audit history, iteration counts, failure modes encountered, and resolutions.
+     2. Update `utils/memory/lessons.md` if any software, solver, or graphical quirks were identified.
+     3. Record gate evidence in `out/gates/<task-id>.json` using `gate_record.py`.
+     4. Synchronize memory digests with `python3 .agents/hooks/memory-check.py --update <module>`.
+     5. Promote the task to `Concluída` via `plan-sync.py set <task-id> "Concluída" --evidence gate:<task-id>`.
+     6. Stage and commit verified deliverables via `git`.
 
 ## 5. Tool Governance
 
