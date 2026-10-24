@@ -30,4 +30,4 @@ O módulo avalia e compara com a teoria:
 - `figures/item2d_step_load_torque.{png,fig}`: Conjugado sob degrau.
 - `figures/item2d_step_load_current.{png,fig}`: Corrente de estator sob degrau.
 - `figures/item2d_step_load_powers.{png,fig}`: Potências ativa e reativa fundamentais.
-- `convergencia_nominal.csv`: Tabela estruturada com auditoria de conformidade analítica.
+- `comparison_3.2.json`: Valores analíticos vs. simulados (auditoria de tolerância).

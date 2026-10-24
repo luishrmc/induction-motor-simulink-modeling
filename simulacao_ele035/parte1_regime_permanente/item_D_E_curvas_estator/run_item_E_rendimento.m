@@ -1,109 +1,140 @@
-%% =========================================================================
-%  UNIVERSIDADE FEDERAL DE MINAS GERAIS - UFMG
-%  ELE035 - Laboratório de Conversão de Energia
-%  Parte 1: Item E.v - Curvas de Rendimento x Velocidade
 % =========================================================================
-
+%  UFMG ELE035 - Parte 1, Item E.v: Rendimento x Velocidade
+%  Origem: matlab/analytical/plot_steady_state_curves.m (formatacao preservada)
+% =========================================================================
 clearvars -except base_dir; clc;
-fprintf('====================================================================\n');
-fprintf('  PARTE 1: ITEM E.v - RENDIMENTO x VELOCIDADE                       \n');
-fprintf('====================================================================\n\n');
 
-%% 1. Parâmetros da Máquina
-V_LL_nom = 220.0; f_nom = 60.0; poles = 4; p_pairs = 2;
-eta_placa = 85.5; n_nom = 1715.0;
-R1 = 1.189; R2_prime = 1.180;
-L_l1 = 5.725e-3; L_l2_prime = 8.420e-3; L_m = 131.571e-3;
-B = 0.0426;
+%% 1. Machine Parameters (Table 2.4 and Section 2.4 of Lab Report)
+V_LL_nom = 220.0;           % Rated line RMS voltage [V]
+f_nom    = 60.0;            % Rated frequency [Hz]
+poles    = 4;               % Poles
+p_pairs  = poles / 2;       % Pole pairs (p = 2)
+P_nom_W  = 3700.0;          % Rated power [W] (5 cv)
+I_nom_A  = 14.0;            % Rated line current [A RMS]
+n_nom    = 1715.0;          % Rated speed [rpm]
+pf_plate = 0.81;            % Nameplate power factor
+eta_plate= 0.855;           % Nameplate efficiency
+
+R1 = 1.189;                 % Stator resistance [Ohm]
+R2 = 1.180;                 % Referred rotor resistance [Ohm]
+L1 = 5.725e-3;              % Stator leakage inductance [H]
+L2 = 8.420e-3;              % Referred rotor leakage inductance [H]
+Lm = 131.571e-3;            % Magnetizing inductance [H]
+% J = 0.701;                % Total inertia [kg.m^2] (used in dynamic simulation)
+B = 0.0426;                 % Viscous friction coefficient [N.m.s/rad]
 
 omega_e = 2 * pi * f_nom;
-n_s = 120 * f_nom / poles; % 1800 rpm
-X1 = omega_e * L_l1;
-X2_prime = omega_e * L_l2_prime;
-Xm = omega_e * L_m;
+omega_s = omega_e / p_pairs;
+n_s     = 120 * f_nom / poles;       % 1800 rpm
+s_nom   = (n_s - n_nom) / n_s;
+omega_nom = (1 - s_nom) * omega_s;
+T_nom_ref = P_nom_W / omega_nom;
 
-%% 2. Resolução Analítica Vetorizada
+X1 = omega_e * L1;
+X2 = omega_e * L2;
+Xm = omega_e * Lm;
+
+
+%% 2. Diretorio de saida e modo de exibicao
+fig_dir = fullfile(fileparts(mfilename('fullpath')), 'figures');
+if ~exist(fig_dir, 'dir'), mkdir(fig_dir); end
+fig_vis = 'off';
+if feature('ShowFigureWindows') && ~strcmp(getenv('QT_QPA_PLATFORM'), 'offscreen')
+    fig_vis = 'on';   % sessao interativa (MATLAB GUI)
+end
+
+%% 3. Resolucao analitica vetorizada (0 a n_s)
+%% 3. Nominal Full-Speed Vectorized Calculation (0 to n_s)
 N_pts = 1000;
+% Speed sweep vector from 0 to synchronous speed (avoid s = 0 division by small epsilon)
 n_vec = linspace(0, n_s - 1e-4, N_pts);
 s_vec = (n_s - n_vec) ./ n_s;
-omega_m_vec = n_vec .* (2*pi/60);
+omega_m_vec = n_vec .* (2 * pi / 60);
 
-V_phase = V_LL_nom;
+% Pure vectorized equivalent circuit calculations
+V_phase = V_LL_nom;                          % Delta connection: V_ph = V_LL
 Z1 = R1 + 1j * X1;
 Zm = 1j * Xm;
-Z2_vec = (R2_prime ./ s_vec) + 1j * X2_prime;
+Z2_vec = (R2 ./ s_vec) + 1j * X2;
+
+% Parallel branch: Zp = (Zm .* Z2) ./ (Zm + Z2)
 Zp_vec = (Zm .* Z2_vec) ./ (Zm + Z2_vec);
 Zin_vec = Z1 + Zp_vec;
 
-I1_ph_vec = V_phase ./ Zin_vec;
-E1_vec = V_phase - I1_ph_vec .* Z1;
-I2_prime_vec = E1_vec ./ Z2_vec;
+% Currents
+I1_ph_vec   = V_phase ./ Zin_vec;
+I1_line_vec = sqrt(3) .* abs(I1_ph_vec);
+E1_vec      = V_phase - I1_ph_vec .* Z1;
+I2_vec      = E1_vec ./ Z2_vec;
 
-P_ag_vec    = 3 .* (abs(I2_prime_vec).^2) .* (R2_prime ./ s_vec);
+% Powers
+P_ag_vec    = 3 .* (abs(I2_vec).^2) .* (R2 ./ s_vec);
 P_em_vec    = (1 - s_vec) .* P_ag_vec;
+P_elec_vec  = 3 .* real(V_phase .* conj(I1_ph_vec));
+Q_elec_vec  = 3 .* imag(V_phase .* conj(I1_ph_vec));
+S_elec_vec  = 3 .* V_phase .* abs(I1_ph_vec);
+cos_phi_vec = P_elec_vec ./ S_elec_vec;
+
+% Mechanical and shaft metrics
 P_rot_vec   = B .* (omega_m_vec.^2);
 P_shaft_vec = P_em_vec - P_rot_vec;
-P_elec_vec  = 3 .* real(V_phase .* conj(I1_ph_vec));
+T_em_vec    = P_ag_vec ./ omega_s;
+T_shaft_vec = T_em_vec - B .* omega_m_vec;
 
-eta_em_vec    = max(0, (P_em_vec ./ P_elec_vec) .* 100);
-eta_shaft_vec = max(0, (P_shaft_vec ./ P_elec_vec) .* 100);
+% Efficiencies (bounded to physical 0-100% range)
+eta_em_vec    = max(P_em_vec, 0) ./ P_elec_vec;
+eta_shaft_vec = max(P_shaft_vec, 0) ./ P_elec_vec;
 
-[~, idx_nom] = min(abs(n_vec - n_nom));
-eta_em_nom = eta_em_vec(idx_nom);
-eta_sh_nom = eta_shaft_vec(idx_nom);
+% Thevenin breakdown calculations
+V_th = V_phase * (1j * Xm) / (R1 + 1j * (X1 + Xm));
+Z_th = (Z1 * Zm) / (Z1 + Zm);
+R_th = real(Z_th);
+X_th = imag(Z_th);
+s_max = R2 / sqrt(R_th^2 + (X_th + X2)^2);
+n_at_Tmax = n_s * (1 - s_max);
+T_max = (3 / (2 * omega_s)) * (abs(V_th)^2) / (R_th + sqrt(R_th^2 + (X_th + X2)^2));
 
-[eta_em_max, idx_em_max] = max(eta_em_vec);
-n_em_max = n_vec(idx_em_max);
+% Interpolate values at nominal speed (n = 1715 rpm)
+T_em_nom_pt    = interp1(n_vec, T_em_vec, n_nom);
+T_shaft_nom_pt = interp1(n_vec, T_shaft_vec, n_nom);
+I_line_nom_pt  = interp1(n_vec, I1_line_vec, n_nom);
+cos_phi_nom_pt = interp1(n_vec, cos_phi_vec, n_nom);
+P_elec_nom_pt  = interp1(n_vec, P_elec_vec, n_nom);
+P_shaft_nom_pt = interp1(n_vec, P_shaft_vec, n_nom);
+eta_em_nom_pt  = interp1(n_vec, eta_em_vec, n_nom);
+eta_shaft_nom_pt = interp1(n_vec, eta_shaft_vec, n_nom);
 
-[eta_sh_max, idx_sh_max] = max(eta_shaft_vec);
-n_sh_max = n_vec(idx_sh_max);
+%% 4. Figura (formatacao original)
+set(groot, 'defaultAxesFontSize', 11);
+set(groot, 'defaultAxesFontName', 'Helvetica');
+set(groot, 'defaultTextInterpreter', 'latex');
+set(groot, 'defaultLegendInterpreter', 'latex');
 
-fprintf('  Rendimento Eletromagnético Nominal: %.2f%% (Placa: %.1f%%)\n', eta_em_nom, eta_placa);
-fprintf('  Rendimento Global no Eixo Nominal:  %.2f%%\n', eta_sh_nom);
-fprintf('  Pico de Rendimento Eletromagnético: %.2f%% em %.0f rpm\n', eta_em_max, n_em_max);
-fprintf('  Pico de Rendimento no Eixo:         %.2f%% em %.0f rpm\n\n', eta_sh_max, n_sh_max);
-
-%% 3. Plotagem Gráfica
-fig_visible = 'on';
-if ~feature('ShowFigureWindows') || strcmp(getenv('QT_QPA_PLATFORM'), 'offscreen')
-    fig_visible = 'off';
-end
-
-fig = figure('Name', 'Item 1.E.v - Rendimento vs Velocidade', ...
-             'Color', 'w', 'Position', [100, 100, 850, 520], ...
-             'Visible', fig_visible);
-ax = axes('Parent', fig);
-hold(ax, 'on');
-
-plot(ax, n_vec, eta_em_vec, 'b-', 'LineWidth', 2.0, ...
-    'DisplayName', '\eta_{em} (Rendimento Eletromagn\^{e}tico Interno: P_{em}/P_{elec})');
-plot(ax, n_vec, eta_shaft_vec, 'r--', 'LineWidth', 1.8, ...
-    'DisplayName', '\eta_{shaft} (Rendimento no Eixo com Bancada CC: P_{shaft}/P_{elec})');
-
-plot(ax, n_nom, eta_em_nom, 'bo', 'MarkerSize', 8, 'MarkerFaceColor', 'b', ...
-    'DisplayName', sprintf('\\eta_{em,nom} = %.2f\\%% (1715~\\mathrm{rpm})', eta_em_nom));
-plot(ax, n_nom, eta_placa, 'ks', 'MarkerSize', 8, 'MarkerFaceColor', 'k', ...
-    'DisplayName', sprintf('\\eta_{placa} = %.1f\\%% (1715~\\mathrm{rpm})', eta_placa));
-plot(ax, n_nom, eta_sh_nom, 'ro', 'MarkerSize', 8, 'MarkerFaceColor', 'r', ...
-    'DisplayName', sprintf('\\eta_{shaft,nom} = %.2f\\%% (1715~\\mathrm{rpm})', eta_sh_nom));
-
-grid(ax, 'on'); box(ax, 'on');
-set(ax, 'FontSize', 11, 'TickLabelInterpreter', 'latex', 'XMinorGrid', 'on', 'YMinorGrid', 'on');
-xlabel(ax, 'Velocidade do Rotor $n$ [$\mathrm{rpm}$]', 'Interpreter', 'latex', 'FontSize', 12);
-ylabel(ax, 'Rendimento $\eta$ [$\%$]', 'Interpreter', 'latex', 'FontSize', 12);
-title(ax, '\textbf{Curvas Caracter\''{\i}sticas de Rendimento $\times$ Velocidade}', ...
-    'Interpreter', 'latex', 'FontSize', 13);
-xlim(ax, [0, 1800]);
-ylim(ax, [0, 100]);
-legend(ax, 'Location', 'northwest', 'Interpreter', 'latex', 'FontSize', 10);
-
-%% 4. Salvamento
-script_dir = fileparts(mfilename('fullpath'));
-fig_dir = fullfile(script_dir, 'figures');
-if ~exist(fig_dir, 'dir'), mkdir(fig_dir); end
-
-savefig(fig, fullfile(fig_dir, 'item1e_rendimento_vs_speed.fig'));
-exportgraphics(fig, fullfile(fig_dir, 'item1e_rendimento_vs_speed.png'), 'Resolution', 300);
-fprintf('[OK] Gráfico salvo com sucesso em:\n  %s\n', fullfile(fig_dir, 'item1e_rendimento_vs_speed.png'));
-
-if strcmp(fig_visible, 'off'), close(fig); end
+% -------------------------------------------------------------
+% Figure 5: Efficiency vs. Speed (eta x n)
+% -------------------------------------------------------------
+f5 = figure('Name', 'Efficiency vs Speed', 'Visible', fig_vis, 'Position', [100, 100, 850, 540]);
+plot(n_vec, eta_em_vec .* 100, 'b-', 'LineWidth', 2.0, ...
+    'DisplayName', 'Rendimento Eletromagn\''etico $\eta_{em} = P_{em}/P_{elec}$');
+hold on;
+plot(n_vec, eta_shaft_vec .* 100, 'r--', 'LineWidth', 2.0, ...
+    'DisplayName', 'Rendimento \''Util no Eixo $\eta_{shaft} = P_{shaft}/P_{elec}$');
+plot(n_nom, eta_em_nom_pt * 100, 'bo', 'MarkerFaceColor', 'b', 'MarkerSize', 7, ...
+    'DisplayName', sprintf('Nominal $\\eta_{em} = %.2f\\,\\%%$', eta_em_nom_pt*100));
+plot(n_nom, eta_shaft_nom_pt * 100, 'ro', 'MarkerFaceColor', 'r', 'MarkerSize', 7, ...
+    'DisplayName', sprintf('Nominal $\\eta_{shaft} = %.2f\\,\\%%$', eta_shaft_nom_pt*100));
+plot(n_nom, eta_plate * 100, 'ks', 'MarkerFaceColor', 'y', 'MarkerSize', 8, ...
+    'DisplayName', sprintf('Rendimento de Placa $\\eta_{nom} = %.1f\\,\\%%$', eta_plate*100));
+grid on; grid minor; box on;
+xlabel('Velocidade Mec\^{a}nica $n$ (rpm)', 'Interpreter', 'latex', 'FontSize', 12);
+ylabel('Rendimento (\%)', 'Interpreter', 'latex', 'FontSize', 12);
+title('Rendimento $\times$ Velocidade ($220\ \mathrm{V},\ 60\ \mathrm{Hz}$)', ...
+      'Interpreter', 'latex', 'FontSize', 13);
+xlim([0, 1850]);
+ylim([0, 105]);
+legend('Location', 'northwest', 'Interpreter', 'latex', 'FontSize', 9.5);
+p5 = fullfile(fig_dir, 'item1e_rendimento_vs_speed.png');
+exportgraphics(f5, p5, 'Resolution', 300);
+savefig(f5, fullfile(fig_dir, 'item1e_rendimento_vs_speed.fig'));
+if strcmp(fig_vis, 'off'), close(f5); end
+fprintf('[OK] Generated: %s\n', p5);

@@ -1,96 +1,138 @@
-%% =========================================================================
-%  UNIVERSIDADE FEDERAL DE MINAS GERAIS - UFMG
-%  ELE035 - Laboratório de Conversão de Energia
-%  Parte 1: Item E.ii - Curva de Corrente de Estator x Velocidade
 % =========================================================================
-
+%  UFMG ELE035 - Parte 1, Item E.ii: Corrente de Estator x Velocidade
+%  Origem: matlab/analytical/plot_steady_state_curves.m (formatacao preservada)
+% =========================================================================
 clearvars -except base_dir; clc;
-fprintf('====================================================================\n');
-fprintf('  PARTE 1: ITEM E.ii - CORRENTE DE ESTATOR x VELOCIDADE             \n');
-fprintf('====================================================================\n\n');
 
-%% 1. Parâmetros da Máquina
-V_LL_nom = 220.0; f_nom = 60.0; poles = 4; p_pairs = 2;
-I_nom_placa = 14.0; n_nom = 1715.0;
-R1 = 1.189; R2_prime = 1.180;
-L_l1 = 5.725e-3; L_l2_prime = 8.420e-3; L_m = 131.571e-3;
+%% 1. Machine Parameters (Table 2.4 and Section 2.4 of Lab Report)
+V_LL_nom = 220.0;           % Rated line RMS voltage [V]
+f_nom    = 60.0;            % Rated frequency [Hz]
+poles    = 4;               % Poles
+p_pairs  = poles / 2;       % Pole pairs (p = 2)
+P_nom_W  = 3700.0;          % Rated power [W] (5 cv)
+I_nom_A  = 14.0;            % Rated line current [A RMS]
+n_nom    = 1715.0;          % Rated speed [rpm]
+pf_plate = 0.81;            % Nameplate power factor
+eta_plate= 0.855;           % Nameplate efficiency
+
+R1 = 1.189;                 % Stator resistance [Ohm]
+R2 = 1.180;                 % Referred rotor resistance [Ohm]
+L1 = 5.725e-3;              % Stator leakage inductance [H]
+L2 = 8.420e-3;              % Referred rotor leakage inductance [H]
+Lm = 131.571e-3;            % Magnetizing inductance [H]
+% J = 0.701;                % Total inertia [kg.m^2] (used in dynamic simulation)
+B = 0.0426;                 % Viscous friction coefficient [N.m.s/rad]
 
 omega_e = 2 * pi * f_nom;
-n_s = 120 * f_nom / poles; % 1800 rpm
-X1 = omega_e * L_l1;
-X2_prime = omega_e * L_l2_prime;
-Xm = omega_e * L_m;
+omega_s = omega_e / p_pairs;
+n_s     = 120 * f_nom / poles;       % 1800 rpm
+s_nom   = (n_s - n_nom) / n_s;
+omega_nom = (1 - s_nom) * omega_s;
+T_nom_ref = P_nom_W / omega_nom;
 
-%% 2. Resolução Analítica Vetorizada
+X1 = omega_e * L1;
+X2 = omega_e * L2;
+Xm = omega_e * Lm;
+
+
+%% 2. Diretorio de saida e modo de exibicao
+fig_dir = fullfile(fileparts(mfilename('fullpath')), 'figures');
+if ~exist(fig_dir, 'dir'), mkdir(fig_dir); end
+fig_vis = 'off';
+if feature('ShowFigureWindows') && ~strcmp(getenv('QT_QPA_PLATFORM'), 'offscreen')
+    fig_vis = 'on';   % sessao interativa (MATLAB GUI)
+end
+
+%% 3. Resolucao analitica vetorizada (0 a n_s)
+%% 3. Nominal Full-Speed Vectorized Calculation (0 to n_s)
 N_pts = 1000;
+% Speed sweep vector from 0 to synchronous speed (avoid s = 0 division by small epsilon)
 n_vec = linspace(0, n_s - 1e-4, N_pts);
 s_vec = (n_s - n_vec) ./ n_s;
+omega_m_vec = n_vec .* (2 * pi / 60);
 
-V_phase = V_LL_nom;
+% Pure vectorized equivalent circuit calculations
+V_phase = V_LL_nom;                          % Delta connection: V_ph = V_LL
 Z1 = R1 + 1j * X1;
 Zm = 1j * Xm;
-Z2_vec = (R2_prime ./ s_vec) + 1j * X2_prime;
+Z2_vec = (R2 ./ s_vec) + 1j * X2;
+
+% Parallel branch: Zp = (Zm .* Z2) ./ (Zm + Z2)
 Zp_vec = (Zm .* Z2_vec) ./ (Zm + Z2_vec);
 Zin_vec = Z1 + Zp_vec;
 
-I1_ph_vec = V_phase ./ Zin_vec;
-I_line_vec = sqrt(3) .* abs(I1_ph_vec);
-I_ph_vec = abs(I1_ph_vec);
+% Currents
+I1_ph_vec   = V_phase ./ Zin_vec;
+I1_line_vec = sqrt(3) .* abs(I1_ph_vec);
+E1_vec      = V_phase - I1_ph_vec .* Z1;
+I2_vec      = E1_vec ./ Z2_vec;
 
-I_start_line = I_line_vec(1);
-I_start_ph   = I_ph_vec(1);
-[~, idx_nom] = min(abs(n_vec - n_nom));
-I_line_nom   = I_line_vec(idx_nom);
-I_ph_nom     = I_ph_vec(idx_nom);
-I_vazio      = I_line_vec(end);
+% Powers
+P_ag_vec    = 3 .* (abs(I2_vec).^2) .* (R2 ./ s_vec);
+P_em_vec    = (1 - s_vec) .* P_ag_vec;
+P_elec_vec  = 3 .* real(V_phase .* conj(I1_ph_vec));
+Q_elec_vec  = 3 .* imag(V_phase .* conj(I1_ph_vec));
+S_elec_vec  = 3 .* V_phase .* abs(I1_ph_vec);
+cos_phi_vec = P_elec_vec ./ S_elec_vec;
 
-fprintf('  Corrente de Linha de Partida (s=1): %.2f A RMS (Pico sim.: %.2f A)\n', ...
-    I_start_line, sqrt(2)*I_start_line);
-fprintf('  Corrente de Linha Nominal:          %.2f A RMS (Placa: %.1f A)\n', ...
-    I_line_nom, I_nom_placa);
-fprintf('  Corrente de Linha a Vazio (s~0):    %.2f A RMS\n\n', I_vazio);
+% Mechanical and shaft metrics
+P_rot_vec   = B .* (omega_m_vec.^2);
+P_shaft_vec = P_em_vec - P_rot_vec;
+T_em_vec    = P_ag_vec ./ omega_s;
+T_shaft_vec = T_em_vec - B .* omega_m_vec;
 
-%% 3. Plotagem Gráfica
-fig_visible = 'on';
-if ~feature('ShowFigureWindows') || strcmp(getenv('QT_QPA_PLATFORM'), 'offscreen')
-    fig_visible = 'off';
-end
+% Efficiencies (bounded to physical 0-100% range)
+eta_em_vec    = max(P_em_vec, 0) ./ P_elec_vec;
+eta_shaft_vec = max(P_shaft_vec, 0) ./ P_elec_vec;
 
-fig = figure('Name', 'Item 1.E.ii - Corrente vs Velocidade', ...
-             'Color', 'w', 'Position', [100, 100, 850, 520], ...
-             'Visible', fig_visible);
-ax = axes('Parent', fig);
-hold(ax, 'on');
+% Thevenin breakdown calculations
+V_th = V_phase * (1j * Xm) / (R1 + 1j * (X1 + Xm));
+Z_th = (Z1 * Zm) / (Z1 + Zm);
+R_th = real(Z_th);
+X_th = imag(Z_th);
+s_max = R2 / sqrt(R_th^2 + (X_th + X2)^2);
+n_at_Tmax = n_s * (1 - s_max);
+T_max = (3 / (2 * omega_s)) * (abs(V_th)^2) / (R_th + sqrt(R_th^2 + (X_th + X2)^2));
 
-plot(ax, n_vec, I_line_vec, 'b-', 'LineWidth', 2.0, ...
-    'DisplayName', 'I_{line} (Corrente de Linha RMS)');
-plot(ax, n_vec, I_ph_vec, 'c--', 'LineWidth', 1.8, ...
-    'DisplayName', 'I_{ph} (Corrente de Fase RMS: I_{line}/\surd 3)');
+% Interpolate values at nominal speed (n = 1715 rpm)
+T_em_nom_pt    = interp1(n_vec, T_em_vec, n_nom);
+T_shaft_nom_pt = interp1(n_vec, T_shaft_vec, n_nom);
+I_line_nom_pt  = interp1(n_vec, I1_line_vec, n_nom);
+cos_phi_nom_pt = interp1(n_vec, cos_phi_vec, n_nom);
+P_elec_nom_pt  = interp1(n_vec, P_elec_vec, n_nom);
+P_shaft_nom_pt = interp1(n_vec, P_shaft_vec, n_nom);
+eta_em_nom_pt  = interp1(n_vec, eta_em_vec, n_nom);
+eta_shaft_nom_pt = interp1(n_vec, eta_shaft_vec, n_nom);
 
-plot(ax, 0, I_start_line, 'ro', 'MarkerSize', 8, 'MarkerFaceColor', 'r', ...
-    'DisplayName', sprintf('I_{partida} = %.2f~\\mathrm{A_{rms}} (s=1)', I_start_line));
-plot(ax, n_nom, I_line_nom, 'bo', 'MarkerSize', 8, 'MarkerFaceColor', 'b', ...
-    'DisplayName', sprintf('I_{calc,nom} = %.2f~\\mathrm{A_{rms}} (1715~\\mathrm{rpm})', I_line_nom));
-plot(ax, n_nom, I_nom_placa, 'ks', 'MarkerSize', 8, 'MarkerFaceColor', 'k', ...
-    'DisplayName', sprintf('I_{placa} = %.2f~\\mathrm{A_{rms}} (1715~\\mathrm{rpm})', I_nom_placa));
+%% 4. Figura (formatacao original)
+set(groot, 'defaultAxesFontSize', 11);
+set(groot, 'defaultAxesFontName', 'Helvetica');
+set(groot, 'defaultTextInterpreter', 'latex');
+set(groot, 'defaultLegendInterpreter', 'latex');
 
-grid(ax, 'on'); box(ax, 'on');
-set(ax, 'FontSize', 11, 'TickLabelInterpreter', 'latex', 'XMinorGrid', 'on', 'YMinorGrid', 'on');
-xlabel(ax, 'Velocidade do Rotor $n$ [$\mathrm{rpm}$]', 'Interpreter', 'latex', 'FontSize', 12);
-ylabel(ax, 'Corrente de Estator [$\mathrm{A_{rms}}$]', 'Interpreter', 'latex', 'FontSize', 12);
-title(ax, '\textbf{Curva Caracter\''{\i}stica Corrente de Estator $\times$ Velocidade}', ...
-    'Interpreter', 'latex', 'FontSize', 13);
-xlim(ax, [0, 1800]);
-ylim(ax, [0, 75]);
-legend(ax, 'Location', 'northeast', 'Interpreter', 'latex', 'FontSize', 10);
-
-%% 4. Salvamento
-script_dir = fileparts(mfilename('fullpath'));
-fig_dir = fullfile(script_dir, 'figures');
-if ~exist(fig_dir, 'dir'), mkdir(fig_dir); end
-
-savefig(fig, fullfile(fig_dir, 'item1e_corrente_vs_speed.fig'));
-exportgraphics(fig, fullfile(fig_dir, 'item1e_corrente_vs_speed.png'), 'Resolution', 300);
-fprintf('[OK] Gráfico salvo com sucesso em:\n  %s\n', fullfile(fig_dir, 'item1e_corrente_vs_speed.png'));
-
-if strcmp(fig_visible, 'off'), close(fig); end
+% -------------------------------------------------------------
+% Figure 2: Current vs. Speed (Is x n)
+% -------------------------------------------------------------
+f2 = figure('Name', 'Current vs Speed', 'Visible', fig_vis, 'Position', [100, 100, 850, 540]);
+plot(n_vec, I1_line_vec, 'r-', 'LineWidth', 2.0, 'DisplayName', 'Corrente de Linha $I_{line}$ (RMS)');
+hold on;
+plot(n_vec, abs(I1_ph_vec), 'b--', 'LineWidth', 1.8, 'DisplayName', 'Corrente de Fase $I_{\phi}$ (RMS)');
+plot(n_nom, I_line_nom_pt, 'ro', 'MarkerFaceColor', 'r', 'MarkerSize', 7, ...
+    'DisplayName', sprintf('Nominal Calculado $I_{line} = %.2f$ A', I_line_nom_pt));
+plot(n_nom, I_nom_A, 'ks', 'MarkerFaceColor', 'y', 'MarkerSize', 8, ...
+    'DisplayName', sprintf('Corrente Nominal de Placa $I_n = %.1f$ A', I_nom_A));
+plot(0, I1_line_vec(1), 'kd', 'MarkerFaceColor', 'm', 'MarkerSize', 8, ...
+    'DisplayName', sprintf('Corrente de Partida $I_{part} = %.2f$ A', I1_line_vec(1)));
+grid on; grid minor; box on;
+xlabel('Velocidade Mec\^{a}nica $n$ (rpm)', 'Interpreter', 'latex', 'FontSize', 12);
+ylabel('Corrente Estat\''orica RMS (A)', 'Interpreter', 'latex', 'FontSize', 12);
+title('Corrente Estat\''orica $\times$ Velocidade ($220\ \mathrm{V},\ 60\ \mathrm{Hz}$)', ...
+      'Interpreter', 'latex', 'FontSize', 13);
+xlim([0, 1850]);
+ylim([0, max(I1_line_vec) * 1.15]);
+legend('Location', 'northeast', 'Interpreter', 'latex', 'FontSize', 10);
+p2 = fullfile(fig_dir, 'item1e_corrente_vs_speed.png');
+exportgraphics(f2, p2, 'Resolution', 300);
+savefig(f2, fullfile(fig_dir, 'item1e_corrente_vs_speed.fig'));
+if strcmp(fig_vis, 'off'), close(f2); end
+fprintf('[OK] Generated: %s\n', p2);

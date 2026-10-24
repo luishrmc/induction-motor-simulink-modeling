@@ -1,31 +1,32 @@
-%% =========================================================================
-%  UNIVERSIDADE FEDERAL DE MINAS GERAIS - UFMG
-%  ELE035 - Laboratório de Conversão de Energia
-%  Parte 2: Item A - Parametrização Simscape e Mapeamento Estrela-Triângulo
-% =========================================================================
-%  Este script autônomo executa:
-%    1. Carregamento dos parâmetros de placa e do circuito equivalente (Delta).
-%    2. Aplicação da Transformação Estrela-Triângulo (ADR-002) para o bloco
-%       Asynchronous Machine SI Units do Simscape SPS:
-%         R1_Y = R1/3, R2_Y = R2'/3, L1_Y = L1/3, L2_Y = L2'/3, Lm_Y = Lm/3
-%    3. Definição das constantes mecânicas da bancada (J = 0.701 kg.m^2, B = 0.0426).
-%    4. Exportação das variáveis para o Workspace base do MATLAB para o Simulink.
-% =========================================================================
-
 function params = setup_parametros_Y()
+% SETUP_MOTOR_PARAMS
+% Configures electrical, mechanical, and simulation parameters for the
+% WEG 3.7 kW (5 cv), 220 V Delta, 4-pole, 60 Hz squirrel-cage induction motor.
+%
+% Loads consolidated laboratory bench measurements from Table 2.4 and Section 2.4
+% of LAB_CONV_RLT_08_09_10.pdf and applies the exact Star-Delta impedance
+% transformation (ADR-002) required by the Simscape SPS internal Wye machine block.
+%
+% Assigns all necessary variables to the MATLAB base workspace for Simulink.
 
     fprintf('====================================================================\n');
-    fprintf('  UFMG ELE035 - PARTE 2: ITEM A (PARAMETRIZAÇÃO ESTRELA-TRIÂNGULO) \n');
+    fprintf('  UFMG ELE035 - SETUP SIMSCAPE MOTOR PARAMETERS (TASK 2.1)           \n');
     fprintf('====================================================================\n\n');
 
-    %% 1. Dados de Placa da Máquina WEG 3.7 kW (5 cv)
-    params.V_LL_nom = 220.0;           % Tensão de linha nominal [V RMS] (60 Hz)
-    params.f_nom    = 60.0;            % Frequência elétrica nominal [Hz]
-    params.P_nom_W  = 3700.0;          % Potência mecânica nominal de catálogo [W] (5 cv)
-    params.I_nom_A  = 14.0;            % Corrente nominal de linha de catálogo [A RMS]
-    params.poles    = 4;               % 4 polos
-    params.p_pairs  = params.poles / 2;% 2 pares de polos
-    params.n_nom    = 1715.0;          % Rotação nominal [rpm]
+    %% 0. Ensure Simscape Electrical Transform Library Is On Path
+    trans_dir = fullfile(matlabroot, 'toolbox', 'physmod', 'elec', 'assistant', 'm', 'transform');
+    if exist(trans_dir, 'dir') && ~contains(path, trans_dir)
+        addpath(trans_dir);
+    end
+
+    %% 1. Machine Nameplate Ratings & Constants
+    params.V_LL_nom = 220.0;           % Rated line RMS voltage [V]
+    params.f_nom    = 60.0;            % Rated electrical frequency [Hz]
+    params.P_nom_W  = 3700.0;          % Rated mechanical shaft power [W] (5 cv)
+    params.I_nom_A  = 14.0;            % Rated line current [A RMS]
+    params.poles    = 4;               % Number of poles
+    params.p_pairs  = params.poles / 2;% Pole pairs (p = 2)
+    params.n_nom    = 1715.0;          % Rated rotor mechanical speed [rpm]
     params.n_s      = 120 * params.f_nom / params.poles; % 1800 rpm
     params.s_nom    = (params.n_s - params.n_nom) / params.n_s; % 0.04722
     params.omega_e  = 2 * pi * params.f_nom;                 % 376.991 rad/s
@@ -33,19 +34,17 @@ function params = setup_parametros_Y()
     params.omega_nom= (1 - params.s_nom) * params.omega_s;   % 179.594 rad/s
     params.T_nom_ref= params.P_nom_W / params.omega_nom;     % 20.602 N.m
 
-    %% 2. Parâmetros por Fase em Conexão Triângulo (Delta) - Ensaio de Bancada
-    params.R1_delta = 1.189;                 % Resistência do estator [Ohm]
-    params.R2_delta = 1.180;                 % Resistência do rotor referida [Ohm]
-    params.L1_delta = 5.725e-3;              % Indutância de dispersão do estator [H]
-    params.L2_delta = 8.420e-3;              % Indutância de dispersão do rotor [H]
-    params.Lm_delta = 131.571e-3;            % Indutância de magnetização [H]
+    %% 2. Consolidated Laboratory Delta Per-Phase Parameters (Table 2.4)
+    params.R1_delta = 1.189;                 % Stator resistance [Ohm]
+    params.R2_delta = 1.180;                 % Referred rotor resistance [Ohm]
+    params.L1_delta = 5.725e-3;              % Stator leakage inductance [H]
+    params.L2_delta = 8.420e-3;              % Referred rotor leakage inductance [H]
+    params.Lm_delta = 131.571e-3;            % Magnetizing inductance [H]
     params.X1_delta = params.omega_e * params.L1_delta;   % 2.1583 Ohm
-    params.X2_delta = params.omega_e * params.L2_delta;   % 3.1743 Ohm
-    params.Xm_delta = params.omega_e * params.Lm_delta;   % 49.6013 Ohm
+    params.X2_delta = params.omega_e * params.L2_delta;   % 3.1748 Ohm
+    params.Xm_delta = params.omega_e * params.Lm_delta;   % 49.6010 Ohm
 
-    %% 3. Mapeamento Rigoroso Estrela-Triângulo para o Bloco Simscape (Y)
-    % O bloco Asynchronous Machine SI Units opera internamente em Wye (Y).
-    % Para equivalência terminal perfeita (mesma tensão de linha de 220 V e correntes):
+    %% 3. Star-Delta Transformed Parameters for Internal-Wye SPS Block (ADR-002)
     % Z_Y = Z_Delta / 3
     params.R1_Y  = params.R1_delta / 3;      % 0.396333 Ohm
     params.R2_Y  = params.R2_delta / 3;      % 0.393333 Ohm
@@ -56,31 +55,44 @@ function params = setup_parametros_Y()
     params.X2_Y  = params.X2_delta / 3;      % 1.058267 Ohm
     params.Xm_Y  = params.Xm_delta / 3;      % 16.533667 Ohm
 
-    %% 4. Parâmetros Mecânicos da Bancada Acoplada (Seção 2.4 do Relatório)
-    params.J = 0.701;                  % Momento de inércia total equivalente [kg.m^2]
-    params.B = 0.0426;                 % Coeficiente de atrito viscoso [N.m.s/rad]
+    %% 4. Mechanical Bench Parameters (Section 2.4 of Lab Report)
+    params.J = 0.701;                  % Equivalent inertia [kg.m^2] (MG bench)
+    params.B = 0.0426;                 % Viscous friction coefficient [N.m.s/rad]
 
-    %% 5. Configuração do Solver Numérico L-Estável
-    params.T_sample    = 50e-6;        % Passo de integração discreto [s] (50 us / 20 kHz)
-    params.t_stop      = 8.0;          % Tempo padrão de simulação [s]
-    params.t_step_load = 5.0;          % Instante de chaveamento do degrau [s]
-    params.T_load_step = params.T_nom_ref; % Amplitude nominal do degrau [N.m] (20.602 N.m)
+    %% 5. Simulation Timing & Solver Parameters
+    params.t_stop      = 3.0;          % Default total simulation time [s]
+    params.t_step_load = 1.5;          % Time of load torque step disturbance [s]
+    params.T_load_step = params.T_nom_ref; % Step amplitude [N.m] (20.602 N.m)
+    params.T_sample    = 50e-6;        % Discrete solver sample time [s] (50 us, 20 kHz)
 
-    %% 6. Exportação para o Base Workspace do MATLAB
+    %% 6. Export Parameters to Base Workspace
     fields = fieldnames(params);
     for k = 1:length(fields)
         assignin('base', fields{k}, params.(fields{k}));
     end
 
-    fprintf('  Tensão de Alimentação (V_LL): %.1f V RMS (60 Hz)\n', params.V_LL_nom);
-    fprintf('  Resistência Estatórica (R1_Y):  %.4f Ohm (Delta: %.4f Ohm)\n', params.R1_Y, params.R1_delta);
-    fprintf('  Resistência Rotórica (R2_Y):   %.4f Ohm (Delta: %.4f Ohm)\n', params.R2_Y, params.R2_delta);
-    fprintf('  Indutância Estatórica (L1_Y):  %.4f mH  (Delta: %.4f mH)\n', params.L1_Y * 1e3, params.L1_delta * 1e3);
-    fprintf('  Indutância Rotórica (L2_Y):   %.4f mH  (Delta: %.4f mH)\n', params.L2_Y * 1e3, params.L2_delta * 1e3);
-    fprintf('  Indutância Magnetização(Lm_Y): %.4f mH  (Delta: %.4f mH)\n', params.Lm_Y * 1e3, params.Lm_delta * 1e3);
-    fprintf('  Momento de Inércia Total (J):  %.4f kg.m^2 (Bancada MG acoplada)\n', params.J);
-    fprintf('  Atrito Viscoso da Bancada (B): %.4f N.m.s/rad\n', params.B);
-    fprintf('  Torque Nominal de Placa (Tn):  %.3f N.m\n', params.T_nom_ref);
-    fprintf('\n[OK] Parâmetros exportados com sucesso para o Base Workspace.\n');
+    fprintf('  Rated Voltage (V_LL):        %.1f V RMS (60 Hz)\n', params.V_LL_nom);
+    fprintf('  Stator Resistance (R1_Y):     %.4f Ohm (Delta: %.4f Ohm)\n', params.R1_Y, params.R1_delta);
+    fprintf('  Rotor Resistance (R2_Y):      %.4f Ohm (Delta: %.4f Ohm)\n', params.R2_Y, params.R2_delta);
+    fprintf('  Stator Inductance (L1_Y):     %.4f mH  (Delta: %.4f mH)\n', params.L1_Y * 1e3, params.L1_delta * 1e3);
+    fprintf('  Rotor Inductance (L2_Y):      %.4f mH  (Delta: %.4f mH)\n', params.L2_Y * 1e3, params.L2_delta * 1e3);
+    fprintf('  Magnetizing Inductance (Lm_Y):%.4f mH  (Delta: %.4f mH)\n', params.Lm_Y * 1e3, params.Lm_delta * 1e3);
+    fprintf('  Total Inertia (J):            %.4f kg.m^2\n', params.J);
+    fprintf('  Viscous Friction (B):         %.4f N.m.s/rad\n', params.B);
+    fprintf('  Nominal Shaft Torque (T_nom): %.3f N.m\n', params.T_nom_ref);
+    fprintf('\n[OK] Motor parameters successfully initialized in base workspace.\n');
+
+    %% 7. Validate Simscape Model Compilation If Present
+    script_dir = fileparts(mfilename('fullpath'));
+    model_path = fullfile(script_dir, 'mit_simscape_model.slx');
+    if exist(model_path, 'file') && ~bdIsLoaded('mit_simscape_model')
+        try
+            load_system('mit_simscape_model');
+            set_param('mit_simscape_model', 'SimulationCommand', 'update');
+            fprintf('[OK] Simscape model validated successfully with 0 compilation errors.\n\n');
+        catch e
+            fprintf('[WARN] Model compilation check deferred: %s\n\n', e.message);
+        end
+    end
 
 end

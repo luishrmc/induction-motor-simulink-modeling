@@ -50,7 +50,6 @@ simulacao_ele035/
     ├── item_D_degrau_carga_nominal/       % Transitório com degrau de carga (TL = +Tnom)
     │   ├── run_item_D_simulacao.m         % Executa degrau em t = 5.0s por 8.0s
     │   ├── figures/                       % Velocidade, conjugado, corrente, potências P e Q
-    │   ├── convergencia_nominal.csv       % Auditoria de tolerância (erro <= 2%)
     │   └── README.md                      % Análise do novo equilíbrio eletromecânico
     └── item_E_operacao_regenerativa/      % Operação regenerativa / gerador (TL = -Tnom)
         ├── run_item_E_simulacao.m         % Executa degrau negativo em t = 5.0s por 8.0s

@@ -57,3 +57,4 @@ Limit: 80 lines. Orchestrator-maintained log of technical insights, solver issue
 ## 14. Plain Char Vectors vs sprintf LaTeX Escapes & Decoupled Concatenation
 - **Quirk:** Writing `\\` inside plain strings `'...'` passes literal `\\` to LaTeX, triggering linebreaks (`\linebreak`) that orphan inline units (e.g. `$\mathrm{s}$` on a second line). Conversely, writing TeX accents (e.g. `\c{c}`) inside `sprintf` triggers invalid escape warnings.
 - **Fix:** In plain char vectors, always use single backslashes for TeX commands (`\mathrm{s}`, `\cdot`, `\omega_m`) and non-breaking space `~`. Never put accented TeX tokens inside `sprintf`; decouple via array concatenation: `['Text ' sprintf('($...$)')]`.
+- Refactors of verified plotting code: extract original lines programmatically (never rewrite); validate with a PNG pixel-diff against the baseline (PIL ImageChops bbox == None) before the Gauntlet.

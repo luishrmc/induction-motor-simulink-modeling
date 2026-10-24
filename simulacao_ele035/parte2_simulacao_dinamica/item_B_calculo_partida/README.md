@@ -24,7 +24,6 @@ Este módulo atende integralmente ao Item B da 2ª Parte da especificação `sim
    $$I_{ph,partida} = \frac{V_{ph}}{|Z_{in}(1)|} = \frac{220}{5,626} = 39,10\text{ A RMS}$$
    $$I_{line,partida} = \sqrt{3} \cdot I_{ph,partida} = 67,73\text{ A RMS}$$
    $$I_{crista,simetrica} = \sqrt{2} \cdot 67,73 = 95,78\text{ A}$$
-3. **Pico Transitório Instantâneo Máximo (Inrush com DC Offset):**
+3. **Pico de inrush (121,25 A):** obtido na simulação do Item C (componente DC do fechamento indutivo), não neste cálculo analítico simétrico.
    Devido ao comportamento indutivo do circuito ($X/R = 2,32, \tau \approx 6,14\text{ ms}$), a corrente instantânea no primeiro semiciclo atinge:
-   $$i_{peak} = \sqrt{2} \cdot I_{line} \cdot 1,266 \approx 121,25\text{ A}$$
    Esse pico é amortecido nos primeiros 70 ms, estabilizando no envelope simétrico de $67,73\text{ A}$ RMS.
