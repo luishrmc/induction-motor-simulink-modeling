@@ -2,15 +2,16 @@
 # Environment configuration for Induction Motor Dynamics Project
 
 export PROJECT_ROOT="/home/luis/ufmg/lab-conv/proj"
-export MATLAB_ROOT="/usr/local/MATLAB/R2025b"
+export MATLAB_ROOT="/usr/local/MATLAB/R2026b"
 export PATH="${MATLAB_ROOT}/bin:${PROJECT_ROOT}/.agents/hooks:${PATH}"
 
-# Ensure headless execution flags by default
+# Ensure headless execution flags and suppress Qt Wayland warnings
 export MATLAB_BATCH_OPTS="-batch"
+export QT_QPA_PLATFORM="offscreen"
 
 # Verify tool availability
 if command -v matlab >/dev/null 2>&1; then
-    echo "[ENV] MATLAB R2025b detected: $(which matlab)"
+    echo "[ENV] MATLAB R2026b detected: $(which matlab)"
 else
     echo "[ENV][WARN] MATLAB executable not found in PATH"
 fi

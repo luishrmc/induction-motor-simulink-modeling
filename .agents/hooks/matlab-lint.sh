@@ -13,21 +13,7 @@ ERRORS=0
 # If matlab executable is present, run checkcode / mlint
 if command -v matlab >/dev/null 2>&1; then
     echo "[LINT] Running MATLAB code analyzer..."
-    matlab -batch "
-        mfiles = dir(fullfile('${SRC_DIR}', '**', '*.m'));
-        has_err = false;
-        for k = 1:length(mfiles)
-            fpath = fullfile(mfiles(k).folder, mfiles(k).name);
-            res = checkcode(fpath);
-            if ~isempty(res)
-                fprintf('Issues in %s:\n', fpath);
-                for j = 1:length(res)
-                    fprintf('  L%d: %s\n', res(j).line, res(j).message);
-                end
-            end
-        end
-        exit(0);
-    " || true
+    QT_QPA_PLATFORM=offscreen matlab -batch "mfiles = dir(fullfile('${SRC_DIR}', '**', '*.m')); for k = 1:length(mfiles), fpath = fullfile(mfiles(k).folder, mfiles(k).name); res = checkcode(fpath); if ~isempty(res), fprintf('Issues in %s:\n', fpath); for j = 1:length(res), fprintf('  L%d: %s\n', res(j).line, res(j).message); end; end; end;" || true
 fi
 
 # Python static check for antipatterns (e.g. for-loops across slip arrays)

@@ -1,6 +1,6 @@
 # Induction Motor Steady-State & Dynamic Simulation
 
-[![MATLAB](https://img.shields.io/badge/MATLAB-R2023b%2B-blue.svg)](https://www.mathworks.com/products/matlab.html)
+[![MATLAB](https://img.shields.io/badge/MATLAB-R2026b-blue.svg)](https://www.mathworks.com/products/matlab.html)
 [![Simulink](https://img.shields.io/badge/Simulink-Simscape%20Electrical-orange.svg)](https://www.mathworks.com/products/simscape.html)
 [![Institution](https://img.shields.io/badge/UFMG-Engenharia%20Elétrica-red.svg)](https://www.ufmg.br/)
 
@@ -37,10 +37,11 @@ All parameters correspond to the **WEG 3.7 kW (5 cv)** 4-pole motor evaluated un
 
 ## ⚙️ Prerequisites & Toolboxes
 
-- **MATLAB** (R2023b or later, tested on R2025b).
+- **MATLAB** (R2026b).
 - **Simulink**.
 - **Simscape**.
 - **Simscape Electrical** (Specialized Power Systems).
+- **Parallel Computing Toolbox**, **Control System Toolbox**, **Optimization Toolbox**, **Signal Processing Toolbox**.
 - **Python 3** (for verification hooks and plan synchronization).
 
 ---
