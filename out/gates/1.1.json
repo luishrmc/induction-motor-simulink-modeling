@@ -1,0 +1,23 @@
+{
+  "task": "1.1",
+  "gates": {
+    "matlab-lint": {
+      "status": "PASS",
+      "detail": "Clean static analysis",
+      "src_sha256": "353dfa8e65f68d55d8e9afcabf116e9ca5630bc554d9f17e870bfce392f94a2f",
+      "timestamp": "2026-10-24T10:14:16-0300"
+    },
+    "analytical-gate": {
+      "status": "PASS",
+      "detail": "Analytical baseline verified",
+      "src_sha256": "00336c1ecced29f0163a4f94d5cb83a4aee1ee0ecb8946e488f60249313152ed",
+      "timestamp": "2026-10-24T10:14:29-0300"
+    },
+    "tolerance-gate": {
+      "status": "PASS",
+      "detail": "Convergence audit: PASS (tol=2.0%)",
+      "src_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "timestamp": "2026-10-24T10:15:18-0300"
+    }
+  }
+}
