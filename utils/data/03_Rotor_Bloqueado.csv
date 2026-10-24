@@ -1,0 +1,6 @@
+ELE035 | Prática 9: Ensaio de rotor bloqueado,,,,,,,,,,,,,,,,,
+Amarelo = medido/entrada | Verde = calculado | Cinza = referência,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+TABELA 3 | Parâmetros série do circuito equivalente,,,,,,,,,,,,,,,,,
+Conjunto,V_linha V (Medido),I_linha A (Medido),W1 W (Medido),W2 W (Medido),P3φ W (Calc.),V_fase V (Calc.),I_fase A (Calc.),Zbl Ω,Req Ω,R2 Ω,Xeq Ω,X1 Ω,X2 Ω,L1 mH,L2 mH,Equação,Observação
+Seus dados,47.4,14.07,-31,500,469.000,47.400,8.123,5.835,2.369,1.180,5.332,2.158,3.174,5.725,8.420,"Req=P3φ/(3Iφ²); R2=Req−R1; Xeq=√(Zbl²−Req²); X1/X2=0,68",Rotor bloqueado: s=1; ramo de magnetização desprezado.

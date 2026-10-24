@@ -1,0 +1,8 @@
+ELE035 | Prática 9: Ensaio de corrente contínua,,,,,,,,,
+Amarelo = medido/entrada | Verde = calculado | Cinza = referência,,,,,,,,,
+,,,,,,,,,
+TABELA 1 | Determinação de R1 por ensaio CC,,,,,,,,,
+Conjunto,Nível,Tensão CC V (Medido),Corrente CC A (Medido),R_medida Ω (Calculado),Média R_medida Ω,Fator de ligação,R1 Ω (Calculado),Equação,Observação
+Seus dados,1,2.547,3.23,0.789,0.793,1.500,1.189,Rmed = VCC/ICC; R1 = fator·média(Rmed),"Fator 1,5 em Δ; 0,5 em Y para medição entre dois terminais."
+Seus dados,2,3.89,4.9,0.794,,,,Rmed = VCC/ICC; R1 = fator·média(Rmed),"Fator 1,5 em Δ; 0,5 em Y para medição entre dois terminais."
+Seus dados,3,1.131,1.42,0.796,,,,Rmed = VCC/ICC; R1 = fator·média(Rmed),"Fator 1,5 em Δ; 0,5 em Y para medição entre dois terminais."

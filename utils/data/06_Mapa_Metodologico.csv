@@ -1,0 +1,19 @@
+ELE035 | Prática 9: Mapa metódico de parâmetros,,,,,
+Amarelo = medido/entrada | Verde = calculado | Cinza = referência,,,,,
+,,,,,
+ETAPA 1 | Parâmetro → ensaio → grandezas → equação,,,,,
+Parâmetro,Ensaio,Grandezas medidas,Equação,Hipótese,Unidade
+R1,CC,"VCC, ICC",R1=fator·média(VCC/ICC),"Ligação Δ: fator 1,5",Ω
+R2,Rotor bloqueado,"VL, IL, W1, W2",R2=P3φ/(3Iφ²)−R1,s=1,Ω
+X1 e X2,Rotor bloqueado,"VL, IL, W1, W2","Xeq=√(Zbl²−Req²); X1/X2=0,68",Categoria N,Ω
+Xm,Vazio,"VL, IL, W1, W2",Xm=√(Znl²−R1²)−X1,Rc desprezado; s≈0,Ω
+"L1,L2,Lm",Derivados,f e reatâncias,L=X/(2πf),Linear em 60 Hz,mH
+Perdas rotacionais,Vazio,"P3φ, I0, R1",Prot=P3φ−3Iφ²R1,Perdas no ferro agregadas,W
+B,Vazio,"Prot, n0",B=Prot/ω0²,Atrito viscoso equivalente,N·m·s/rad
+J,Rundown,"t1,t2,t3",J=B·média(t),Desaceleração linear,kg·m²
+ns e polos,Placa,"f, nnom",ns=120f/p,p=4,rpm
+s nominal,Placa,"ns, nnom",s=(ns−nnom)/ns,Regime nominal,-
+cosφ,Placa/ensaio,"P,V,I",cosφ=P/(√3VI),Trifásico equilibrado,-
+Rendimento,Placa,"Pout,V,I,cosφ",η=Pout/(√3VIcosφ),Nominal,-
+Torque nominal,Placa,"Pn,nnom",T=Pn/ωnom,Potência mecânica de placa,N·m
+Ip/In,Placa,In e Ip/In,"Ip=7,6·In",Valor de placa,A

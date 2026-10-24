@@ -1,0 +1,20 @@
+ELE035 | Prática 9: Resumo do circuito equivalente por fase,,,,
+Amarelo = medido/entrada | Verde = calculado | Cinza = referência,,,,
+,,,,
+TABELA 5A | Parâmetros finais,,,,
+Parâmetro,Seus dados,Unidade,Origem / equação,Comparação / observação
+R1,1.189,Ω,Ensaio CC: fator·média(V/I),Resistência do estator
+R2,1.180,Ω,Rotor bloqueado: Req−R1,Referida ao estator
+X1,2.158,Ω,"Xeq·0,68/1,68",Dispersão do estator
+X2,3.174,Ω,"Xeq/1,68",Dispersão do rotor
+Xm,49.601,Ω,Xnl−X1,Rc desprezado
+L1,5.725,mH,X1/(2πf),
+L2,8.420,mH,X2/(2πf),
+Lm,131.571,mH,Xm/(2πf),
+Prot,129.568,W,P0−3I0φ²R1,Perdas rotacionais equivalentes
+B,0.004,N·m·s/rad,Prot/ω0²,Atrito viscoso equivalente
+J,0.056,kg·m²,B·Δt,Rundown linear
+n_s,1800.000,rpm,120f/p,4 polos
+s_nom,0.047,-,(ns−nnom)/ns,Placa
+T_nom,20.602,N·m,Pn/ωnom,Placa
+Ip,106.400,A,Ip/In·In,Placa

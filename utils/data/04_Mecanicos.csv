@@ -1,0 +1,11 @@
+ELE035 | Prática 9: Parâmetros mecânicos,,,,,,,,,,,
+Amarelo = medido/entrada | Verde = calculado | Cinza = referência,,,,,,,,,,,
+,,,,,,,,,,,
+TABELA 4A | Perdas rotacionais e coeficiente B,,,,,,,,,,,
+Conjunto,P0 W (Vinc.),I0_fase A,R1 Ω,Pcu1 W,P_rot W,n0 rpm,ω0 rad/s,B N·m·s/rad,Equação,Hipótese,
+Seus dados,194.000,4.249,1.189,64.432,129.568,1799.000,188.391,0.004,Prot=P0−3I0φ²R1; B=Prot/ω0²,Perdas rotacionais modeladas como atrito viscoso equivalente.,
+,,,,,,,,,,,
+,,,,,,,,,,,
+TABELA 4B | Rundown: estimativa linear de J,,,,,,,,,,,
+Conjunto,t1 s (Medido),t2 s (Medido),t3 s (Medido),Δt médio s,B N·m·s/rad,J=B·Δt kg·m²,τ=J/B s,J exponencial kg·m²,Equação,Hipótese,Status
+Seus dados,15.49,15.09,15.05,15.210,0.004,0.056,15.210,0.056,Linear: J=B·Δt. Verificação exponencial: τ=J/B e J=Bτ.,"A estimativa exponencial usa τ=Δt apenas como verificação algébrica do método do relatório, não como ajuste independente.",OK

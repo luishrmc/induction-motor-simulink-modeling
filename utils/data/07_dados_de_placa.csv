@@ -1,0 +1,28 @@
+ELE035 | Prática 9: Dados de placa e constantes,,,,,,,
+Amarelo = medido/entrada | Verde = calculado | Cinza = referência,,,,,,,
+,,,,,,,
+TABELA 0 | Dados da nova máquina de indução WEG 3~100L,,,,,,,
+Parâmetro,Nome definido,Valor de placa,Unidade,Parâmetro de controle,Nome definido,Valor,Unidade
+Potência nominal,Pn_W,3700,W,Ligação usada no ensaio,ligacao,Δ,Δ/Y
+Frequência nominal,f_Hz,60,Hz,Número de polos,polos,4,polos
+Velocidade nominal,n_nom,1715,rpm,Constante do tacogerador,K_taco,0.05,V/rpm
+Tensão nominal em Δ,V_delta,220,V,Razão X1/X2,razao_X,0.68,-
+Tensão nominal em Y,V_star,380,V,√3,sqrt3,1.732050808,-
+Corrente nominal em Δ,I_delta,14,A,2π,doispi,6.283185307,-
+Corrente nominal em Y,I_star,8.11,A,Fator CC em Δ,fator_CC_D,1.5,-
+Fator de potência nominal,fp_nom,81.0%,-,Fator CC em Y,fator_CC_Y,0.5,-
+Rendimento nominal,eta_nom,85.5%,-,Velocidade síncrona,n_sync,1800,rpm
+Ip/In de placa,ip_ratio,7.6,-,ω síncrona,omega_sync,188.4955592,rad/s
+Categoria,categoria,N,-,Escorregamento nominal,s_nom,4.72%,-
+Regime,regime,S1,-,Torque nominal,T_nom,20.60198097,N·m
+Grau de proteção,ip,IP55,-,Corrente de partida Δ,Ip_calc,106.4,A
+Classe de isolação,isol,B,-,Potência elétrica de placa,Pplate_check,3694.557903,W
+,,,,,,,
+,,,,,,,
+TABELA 0B | Premissas metodológicas,,,,,,,
+Hipótese,Valor adotado,Justificativa,,,,,
+Rc,Desprezado,O relatório adota o ramo de perdas no ferro como não modelado separadamente; perdas a vazio entram no balanço rotacional.,,,,,
+X1/X2,"0,68",Proporção recomendada para categoria N.,,,,,
+Ensaio a vazio,s ≈ 0,O ramo do rotor é desprezado no cálculo de Znl.,,,,,
+Rundown,Desaceleração linear,"dω/dt ≈ -ω0/Δt, resultando em J = B·Δt.",,,,,
+Tacogerador,"K = 0,05 V/rpm","Mantido como constante documental; o relatório de referência fornece n diretamente, portanto K não altera os resultados pré-preenchidos.",,,,,

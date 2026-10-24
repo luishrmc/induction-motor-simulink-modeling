@@ -1,0 +1,66 @@
+{
+  "ensaio_cc": {
+    "niveis": [
+      {
+        "nivel": 1,
+        "V_cc_V": 2.547,
+        "I_cc_A": 3.23,
+        "R_med_ohm": 0.789
+      },
+      {
+        "nivel": 2,
+        "V_cc_V": 3.890,
+        "I_cc_A": 4.90,
+        "R_med_ohm": 0.794
+      },
+      {
+        "nivel": 3,
+        "V_cc_V": 1.131,
+        "I_cc_A": 1.42,
+        "R_med_ohm": 0.796
+      }
+    ],
+    "R_med_media_ohm": 0.793,
+    "fator_ligacao_delta": 1.5,
+    "R1_ohm": 1.189
+  },
+  "ensaio_vazio": {
+    "V_linha_V": 220.0,
+    "I_linha_A": 7.36,
+    "W1_W": -707.0,
+    "W2_W": 901.0,
+    "P0_W": 194.0,
+    "n_rpm": 1799.0,
+    "omega0_rad_s": 188.391,
+    "s_calc": 0.0006,
+    "V_fase_V": 220.0,
+    "I_fase_A": 4.249,
+    "Z0_ohm": 51.773,
+    "X0_ohm": 51.760,
+    "P_cu1_0_W": 64.400,
+    "P_rot_W": 129.568,
+    "X1_ohm": 2.158,
+    "Xm_ohm": 49.601,
+    "Lm_mH": 131.571,
+    "Rc_desprezado": true
+  },
+  "ensaio_rotor_bloqueado": {
+    "V_linha_V": 47.4,
+    "I_linha_A": 14.07,
+    "W1_W": -31.0,
+    "W2_W": 500.0,
+    "Pcc_W": 469.0,
+    "V_fase_V": 47.4,
+    "I_fase_A": 8.123,
+    "Zcc_ohm": 5.835,
+    "Rcc_ohm": 2.369,
+    "Xcc_ohm": 5.332,
+    "R1_ohm": 1.189,
+    "R2_ohm": 1.180,
+    "razao_X1_X2": 0.68,
+    "X1_ohm": 2.158,
+    "X2_ohm": 3.174,
+    "L1_mH": 5.725,
+    "L2_mH": 8.420
+  }
+}
