@@ -28,7 +28,16 @@ function results = run_sim_harness(scenario_name, varargin)
 %   - ADR-005 (Headless Batch Execution)
 
     if nargin < 1 || isempty(scenario_name)
-        scenario_name = 'nominal_step';
+        task_env = getenv('TASK_ID');
+        if strcmp(task_env, '3.1')
+            scenario_name = 'dol_startup';
+        elseif strcmp(task_env, '3.2')
+            scenario_name = 'nominal_step';
+        elseif strcmp(task_env, '3.3')
+            scenario_name = 'regenerative';
+        else
+            scenario_name = 'nominal_step';
+        end
     end
 
     fprintf('====================================================================\n');
@@ -88,8 +97,8 @@ function results = run_sim_harness(scenario_name, varargin)
     switch lower(scenario_name)
         case 'dol_startup'
             % Task 3.1: DOL startup at no-load (T_L = 0)
-            t_stop_sim   = 3.0;                      % Sufficient for starting current & acceleration
-            t_step_sim   = 1.5;                      % Transition time (irrelevant since amplitude is 0)
+            t_stop_sim   = 6.0;                      % Full electromechanical speed settling
+            t_step_sim   = 3.0;                      % Transition time (irrelevant since amplitude is 0)
             T_step_after = 0.0;                      % No load torque applied
             scenario_desc= 'DOL Startup at No Load (T_L = 0)';
 
@@ -217,21 +226,42 @@ function results = run_sim_harness(scenario_name, varargin)
     fprintf('[OK] Saved scenario telemetry artifact to %s\n', task_mat);
 
     % Also save comparison JSON for tolerance gate
-    json_path = fullfile(out_dir, 'comparison_2.2.json');
-    comp_data.analytical.I_start_line = I_line_start;
-    comp_data.analytical.T_start      = T_start;
-    comp_data.simulated.I_start_line  = I_start_sim_rms;
-    comp_data.simulated.T_start_peak  = T_peak_sim;
-    comp_data.simulated.ss_speed_rpm  = ss_speed_rpm;
-    comp_data.simulated.ss_torque_Nm  = ss_torque_Nm;
+    if strcmp(scenario_name, 'dol_startup')
+        % Task 3.1 specific artifacts
+        mat_31 = fullfile(out_dir, 'sim_transient_3.1.mat');
+        save(mat_31, 'results');
+        
+        json_31 = fullfile(out_dir, 'comparison_3.1.json');
+        comp_data.analytical.n_noload_rpm     = 1775.52;
+        comp_data.analytical.I_line_noload    = 8.49;
+        comp_data.analytical.T_em_noload      = 7.92;
+        comp_data.simulated.n_noload_rpm      = ss_speed_rpm;
+        comp_data.simulated.I_line_noload     = ss_Ia_rms;
+        comp_data.simulated.T_em_noload       = ss_torque_Nm;
 
-    fid = fopen(json_path, 'w');
-    if fid ~= -1
-        fwrite(fid, jsonencode(comp_data), 'char');
-        fclose(fid);
-        fprintf('[OK] Saved comparison JSON to %s\n\n', json_path);
+        fid = fopen(json_31, 'w');
+        if fid ~= -1
+            fwrite(fid, jsonencode(comp_data), 'char');
+            fclose(fid);
+            fprintf('[OK] Saved comparison JSON to %s\n\n', json_31);
+        end
+    else
+        json_path = fullfile(out_dir, 'comparison_2.2.json');
+        comp_data.analytical.I_start_line = I_line_start;
+        comp_data.analytical.T_start      = T_start;
+        comp_data.simulated.I_start_line  = I_start_sim_rms;
+        comp_data.simulated.T_start_peak  = T_peak_sim;
+        comp_data.simulated.ss_speed_rpm  = ss_speed_rpm;
+        comp_data.simulated.ss_torque_Nm  = ss_torque_Nm;
+
+        fid = fopen(json_path, 'w');
+        if fid ~= -1
+            fwrite(fid, jsonencode(comp_data), 'char');
+            fclose(fid);
+            fprintf('[OK] Saved comparison JSON to %s\n\n', json_path);
+        end
     end
 
-    fprintf('[PASS] Task 2.2 Simulation Harness execution complete.\n');
+    fprintf('[PASS] Simulation Harness execution complete (%s).\n', scenario_name);
 
 end

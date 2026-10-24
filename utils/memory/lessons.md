@@ -49,3 +49,7 @@ Limit: 80 lines. Orchestrator-maintained log of technical insights, solver issue
 ## 12. Persistent tmux IPC for Sub-Second Headless CLI Runs
 - **Quirk:** Launching `matlab -batch` repeatedly incurs 8–20s JVM initialization latency per command.
 - **Fix:** Run a persistent background instance in tmux (`matlab_worker`) using `.agents/hooks/matlab-eval.sh` for sub-second CLI command evaluation.
+
+## 13. High-Inertia Simulation Horizon & Bench No-Load Equilibrium
+- **Quirk:** The coupled bench inertia ($J = 0.701\text{ kg}\cdot\text{m}^2$) requires $\ge 4.5\text{ s}$ to accelerate from standstill. Truncating at $t_{stop} \le 5.0\text{ s}$ leaves residual acceleration causing $> 3\%$ torque error vs analytical targets. Furthermore, at no load, equilibrium occurs at $T_{em}(s) = B\omega_m(s) \implies n_{noload} = 1775.5\text{ rpm}$, not synchronous speed.
+- **Fix:** Set $t_{stop} \ge 6.0\text{ s}$ for startup and solve $T_{em}(s) - B\omega_s(1-s) = 0$ via `fzero` for exact steady-state baseline comparisons.

@@ -25,14 +25,11 @@ Protocol: `.agents/skills/memory-protocol/SKILL.md`. Limit: 40 lines.
 - `episodes/1.2.md`: Steady-state sweeps, Gauntlet review iteration, and scalar $V/f$ curves
 - `episodes/2.1.md`: Simscape SPS model assembly, Star-Delta parameterization, and solver tuning
 - `episodes/2.2.md`: Analytical locked-rotor starting metrics & simulation test harness
+- `episodes/3.1.md`: DOL startup transient simulation & inrush waveform validation
 
 ## Planned Modules (Created in Phase 3)
 
 - `dynamic_validation`: Transient testing and tolerance audits (`modules/dynamic_validation.md`)
-
-## Active Handoffs
-
-None.
 
 ## Last Compaction
 
