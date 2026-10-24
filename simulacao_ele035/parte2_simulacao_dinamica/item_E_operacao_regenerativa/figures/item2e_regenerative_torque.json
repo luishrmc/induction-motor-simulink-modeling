@@ -1,0 +1,43 @@
+{
+  "figure_id": "item2e_regenerative_torque",
+  "task_ref": "Part 2, Item E",
+  "title": "Conjugado Eletromagnético de Frenagem Regenerativa",
+  "operating_conditions": {
+    "voltage_LL_rms_V": 220.0,
+    "frequency_Hz": 60.0,
+    "step_instant_s": 5.0,
+    "load_torque_step_Nm": -20.602
+  },
+  "key_numerical_markers": {
+    "pre_step_motoring_torque_Nm": 7.922,
+    "post_step_braking_torque_Nm": -12.41,
+    "theoretical_braking_torque_Nm": -12.411,
+    "applied_driving_torque_TL_Nm": -20.602,
+    "opposing_friction_torque_Nm": 8.192,
+    "steady_state_relative_error_pct": 0.008
+  },
+  "axis_extents": {
+    "xlim_full": [
+      0.0,
+      8.0
+    ],
+    "ylim_full": [
+      -45.0,
+      95.0
+    ],
+    "xlim_zoom": [
+      4.8,
+      6.8
+    ],
+    "ylim_zoom": [
+      -24.0,
+      12.0
+    ]
+  },
+  "physical_phenomena_summary": [
+    "O conjugado eletromagnético torna-se estritamente negativo (Te = -12.41 N.m), atuando como torque de frenagem regenerativa contra o acionamento mecânico.",
+    "O equilíbrio dinâmico no 4o quadrante satisfaz Te = TL + B*wm = -20.602 + (0.0426 * 192.31) = -12.410 N.m com erro relativo de apenas 0.008%.",
+    "O balanço de potência confirma que a potência mecânica do acionador (3962 W) alimenta o atrito da bancada (1575 W), perdas elétricas (168 W) e potência injetada na rede (2218 W).",
+    "Acomodação estável e assintótica alcançada em menos de 1.5 s após a perturbação."
+  ]
+}

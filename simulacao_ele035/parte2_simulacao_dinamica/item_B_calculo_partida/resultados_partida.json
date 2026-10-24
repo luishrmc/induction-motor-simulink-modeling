@@ -1,0 +1,12 @@
+{
+  "slip": 1,
+  "impedance_real_Ohm": 2.2308017147539889,
+  "impedance_imag_Ohm": 5.1649112757275066,
+  "impedance_mag_Ohm": 5.6260807652118254,
+  "impedance_angle_deg": 66.63976862809352,
+  "starting_line_current_rms_A": 67.729418322846655,
+  "starting_symmetrical_peak_A": 95.783861963810551,
+  "starting_inrush_peak_dynamic_A": 121.26236924618416,
+  "starting_torque_Nm": 25.353541748866203,
+  "time_constant_ms": 6.1414479730646363
+}

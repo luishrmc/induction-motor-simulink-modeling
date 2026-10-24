@@ -1,0 +1,9 @@
+Grandeza,Unidade,Placa_Catalogo,Modelo_Analitico,Desvio_pct
+Velocidade de Rotacao,rpm,1715,1715,0
+Conjugado Eletromagnetico Interno,N.m,20.6019809716623,24.9579992241339,21.1436864176472
+Conjugado Util de Eixo,N.m,20.6019809716623,17.3072786348467,15.9921627990407
+Potencia Mecanica de Eixo,W,3700,3108.2899764355,15.9921627990406
+Corrente de Linha Estatorica,A RMS,14,16.1529301841939,15.3780727442418
+Fator de Potencia,-,0.81,0.814724076409182,0.583219309775506
+Rendimento Eletromagnetico Interno,%,85.5,89.3834954908945,4.54209998935035
+Rendimento Global com Bancada,%,85.5,61.9835367380559,27.5046353940867

@@ -23,6 +23,7 @@ Model, solve, simulate, and validate a WEG 3.7 kW (5 cv), 220 V (Delta), 4-pole,
 | `out/parte2_dinamico/` | Part 2 dynamic Simscape transients (Items 2C, 2D, 2E), waveforms, and plot sidecars |
 | `out/sintetizado/` | Multi-scenario overview dashboard and consolidated comparison matrices |
 | `out/gates/` | Verification gate pass/fail receipts |
+| `simulacao_ele035/` | Academic task-specific modular directory mirroring `sim_proj.pdf` (standalone runners, MATLAB GUI models, and sidecars) |
 
 ## 2. Decision Hierarchy (Highest First)
 

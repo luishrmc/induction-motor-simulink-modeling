@@ -13,7 +13,8 @@
     "results": "out/results",
     "parte1": "out/parte1_analitico",
     "parte2": "out/parte2_dinamico",
-    "sintetizado": "out/sintetizado"
+    "sintetizado": "out/sintetizado",
+    "academic_tree": "simulacao_ele035"
   },
   "limits": {
     "max_iterations": 5,
@@ -67,6 +68,7 @@
         ".gitignore",
         "docs/**",
         "matlab/**",
+        "simulacao_ele035/**",
         "utils/matlab/**",
         "utils/memory/INDEX.md",
         "utils/memory/decisions.md",
@@ -90,6 +92,7 @@
       "write": [
         "matlab/analytical/**",
         "out/**",
+        "simulacao_ele035/**",
         "utils/memory/modules/analytical_engine.md",
         "utils/memory/handoff/*"
       ],
@@ -106,6 +109,7 @@
         "matlab/simulink/**",
         "matlab/scripts/**",
         "out/**",
+        "simulacao_ele035/**",
         "utils/memory/modules/simscape_model.md",
         "utils/memory/handoff/*"
       ],
@@ -120,6 +124,7 @@
       "run_scope": ["matlab -batch *", "python3 .agents/hooks/tolerance-gate.py"],
       "write": [
         "out/**",
+        "simulacao_ele035/**",
         "utils/memory/handoff/*",
         "utils/memory/modules/dynamic_validation.md"
       ],
@@ -146,6 +151,7 @@
         "README.md",
         "docs/**",
         "out/**",
+        "simulacao_ele035/**",
         "utils/memory/handoff/*"
       ],
       "skills": ["figure-production", "memory-protocol"]
