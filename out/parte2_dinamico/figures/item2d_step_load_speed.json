@@ -1,0 +1,44 @@
+{
+  "figure_id": "item2d_step_load_speed",
+  "task_ref": "Part 2, Item D",
+  "title": "Transitório de Velocidade no Degrau de Carga Nominal",
+  "operating_conditions": {
+    "voltage_LL_rms_V": 220.0,
+    "frequency_Hz": 60.0,
+    "step_instant_s": 5.0,
+    "load_torque_step_Nm": 20.602,
+    "simulation_horizon_s": 8.0
+  },
+  "key_numerical_markers": {
+    "pre_step_no_load_speed_rpm": 1775.36,
+    "post_step_loaded_speed_rpm": 1700.42,
+    "theoretical_loaded_speed_rpm": 1701.46,
+    "speed_droop_delta_rpm": 74.94,
+    "steady_state_relative_error_pct": 0.061,
+    "settling_time_post_step_s": 1.4
+  },
+  "axis_extents": {
+    "xlim_full": [
+      0.0,
+      8.0
+    ],
+    "ylim_full": [
+      0.0,
+      1950.0
+    ],
+    "xlim_zoom": [
+      4.8,
+      7.0
+    ],
+    "ylim_zoom": [
+      1680.0,
+      1790.0
+    ]
+  },
+  "physical_phenomena_summary": [
+    "O motor opera inicialmente em regime a vazio estabilizado em 1775.36 rpm até t = 5.0 s.",
+    "A aplicação do degrau de torque nominal (TL = +20.602 N.m) provoca uma queda transitória de rotação (droop) de 74.94 rpm.",
+    "A velocidade sob carga acomoda-se monotonicamente em 1700.42 rpm em aproximadamente 1.4 s sem overshoot oscilatório excessivo.",
+    "A concordância com o ponto de equilíbrio analítico (1701.46 rpm) é de 0.061% de erro relativo."
+  ]
+}

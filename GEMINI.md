@@ -19,7 +19,10 @@ Model, solve, simulate, and validate a WEG 3.7 kW (5 cv), 220 V (Delta), 4-pole,
 | `utils/plan/` | Project roadmap CSVs, task breakdowns, `STATUS.md`, `CHANGELOG.md` |
 | `utils/memory/` | Technical memory, ADRs (`decisions.md`), `lessons.md`, and module digests |
 | `.agents/` | Multi-agent topology, domain skills, and validation hooks |
-| `out/` | Gate evidence JSONs, simulation figures, and telemetry exports (gitignored) |
+| `out/parte1_analitico/` | Part 1 steady-state curves (Items 1E & 1F), nominal metrics, and plot sidecars |
+| `out/parte2_dinamico/` | Part 2 dynamic Simscape transients (Items 2C, 2D, 2E), waveforms, and plot sidecars |
+| `out/sintetizado/` | Multi-scenario overview dashboard and consolidated comparison matrices |
+| `out/gates/` | Verification gate pass/fail receipts |
 
 ## 2. Decision Hierarchy (Highest First)
 

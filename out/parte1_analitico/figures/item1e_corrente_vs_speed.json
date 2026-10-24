@@ -1,0 +1,37 @@
+{
+  "figure_id": "item1e_corrente_vs_speed",
+  "task_ref": "Part 1, Item E.ii",
+  "title": "Curva Característica Corrente de Estator x Velocidade",
+  "operating_conditions": {
+    "voltage_LL_rms_V": 220.0,
+    "frequency_Hz": 60.0,
+    "speed_range_rpm": [
+      0.0,
+      1800.0
+    ]
+  },
+  "key_numerical_markers": {
+    "starting_line_current_s1_A_rms": 67.728,
+    "nameplate_starting_current_A_rms": 106.4,
+    "nominal_line_current_A_rms": 16.153,
+    "nameplate_rated_current_A_rms": 14.0,
+    "no_load_line_current_s0_A_rms": 7.36,
+    "current_at_breakdown_torque_A_rms": 47.92
+  },
+  "axis_extents": {
+    "xlim": [
+      0.0,
+      1800.0
+    ],
+    "ylim": [
+      0.0,
+      75.0
+    ]
+  },
+  "physical_phenomena_summary": [
+    "A corrente de partida simétrica calculada em s=1 é de 67.73 A RMS (relação Ip/In = 4.19).",
+    "A corrente nominal calculada no circuito equivalente é 16.15 A RMS, próxima aos 14.0 A de placa da WEG.",
+    "A vazio próximo a s=0, a corrente decai para o valor magnetizante de 7.36 A RMS.",
+    "A impedância de entrada em s=1 é dominada pela reatância de dispersão total (Zin = 2.23 + j5.16 Ohm)."
+  ]
+}

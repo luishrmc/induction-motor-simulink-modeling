@@ -1,0 +1,41 @@
+{
+  "figure_id": "item2c_transient_dol_torque",
+  "task_ref": "Part 2, Item C",
+  "title": "Conjugado Eletromagnético na Partida Direta a Vazio",
+  "operating_conditions": {
+    "voltage_LL_rms_V": 220.0,
+    "frequency_Hz": 60.0,
+    "load_torque_Nm": 0.0
+  },
+  "key_numerical_markers": {
+    "peak_dynamic_oscillatory_torque_Nm": 78.8,
+    "starting_steady_state_torque_s1_Nm": 25.35,
+    "steady_state_no_load_torque_Nm": 7.922,
+    "analytical_no_load_torque_Nm": 7.921,
+    "steady_state_relative_error_pct": 0.024
+  },
+  "axis_extents": {
+    "xlim_full": [
+      0.0,
+      6.0
+    ],
+    "ylim_full": [
+      -30.0,
+      90.0
+    ],
+    "xlim_zoom": [
+      0.0,
+      0.25
+    ],
+    "ylim_zoom": [
+      -30.0,
+      90.0
+    ]
+  },
+  "physical_phenomena_summary": [
+    "Nos primeiros ciclos (t < 50 ms), ocorrem pulsações eletromagnéticas de conjugado decorrentes da interação entre fluxos estatóricos transitórios e correntes rotóricas, com pico de 78.80 N.m.",
+    "As pulsações oscilam em torno do valor de partida em regime permanente simétrico de 25.35 N.m.",
+    "Após o amortecimento subtransitório (~150 ms), o conjugado acompanha a curva quase-estacionária até o ponto de máximo (Tmax ~ 54 N.m) e decai para o valor de equilíbrio a vazio.",
+    "Em regime permanente, o conjugado converge para Te = 7.922 N.m, equilibrando exatamente o atrito viscoso da bancada."
+  ]
+}

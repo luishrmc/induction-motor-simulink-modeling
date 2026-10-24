@@ -1,0 +1,42 @@
+{
+  "figure_id": "item2e_regenerative_powers",
+  "task_ref": "Part 2, Item E",
+  "title": "Inversão do Fluxo de Potência Ativa na Operação Regenerativa",
+  "operating_conditions": {
+    "voltage_LL_rms_V": 220.0,
+    "frequency_Hz": 60.0,
+    "step_instant_s": 5.0,
+    "load_torque_step_Nm": -20.602
+  },
+  "key_numerical_markers": {
+    "pre_step_active_power_W": 1835.8,
+    "post_step_active_power_W": -2218.13,
+    "theoretical_active_power_W": -2219.34,
+    "active_power_relative_error_pct": 0.054,
+    "pre_step_reactive_power_var": 3390.4,
+    "post_step_reactive_power_var": 3118.39,
+    "theoretical_reactive_power_var": 3119.08,
+    "reactive_power_relative_error_pct": 0.022,
+    "active_power_injection_into_grid_W": 2218.13
+  },
+  "axis_extents": {
+    "xlim": [
+      0.0,
+      8.0
+    ],
+    "ylim_P": [
+      -4000.0,
+      14000.0
+    ],
+    "ylim_Q": [
+      0.0,
+      18000.0
+    ]
+  },
+  "physical_phenomena_summary": [
+    "Inversão comprovada do fluxo de potência ativa: de +1.84 kW (consumo a vazio) para -2.22 kW (geração líquida entregue à rede de 220 V).",
+    "O consumo de potência reativa indutiva permanece estritamente positivo (+3.12 kvar), demonstrando que o gerador de indução gaiola de esquilo depende de excitação magnética externa da rede.",
+    "A passagem pelo zero de potência ativa ocorre exatamente no cruzamento da rotação síncrona (1800 rpm).",
+    "A concordância entre a simulação Simscape e a solução do circuito equivalente é excepcional (erro de 0.054% em P e 0.022% em Q)."
+  ]
+}

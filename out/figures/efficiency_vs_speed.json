@@ -1,0 +1,37 @@
+{
+  "figure_id": "item1e_rendimento_vs_speed",
+  "task_ref": "Part 1, Item E.v",
+  "title": "Curva Característica Rendimento x Velocidade",
+  "operating_conditions": {
+    "voltage_LL_rms_V": 220.0,
+    "frequency_Hz": 60.0,
+    "speed_range_rpm": [
+      0.0,
+      1800.0
+    ]
+  },
+  "key_numerical_markers": {
+    "electromagnetic_efficiency_eta_em_pct": 89.38,
+    "net_shaft_efficiency_eta_shaft_pct": 61.98,
+    "nameplate_catalog_efficiency_pct": 85.5,
+    "nominal_speed_rpm": 1715.0,
+    "peak_electromagnetic_efficiency_pct": 91.2,
+    "peak_eta_speed_rpm": 1740.0
+  },
+  "axis_extents": {
+    "xlim": [
+      0.0,
+      1800.0
+    ],
+    "ylim": [
+      0.0,
+      100.0
+    ]
+  },
+  "physical_phenomena_summary": [
+    "O rendimento eletromagnético interno (sem perdas mecânicas da bancada acoplada) atinge 89.38% a 1715 rpm.",
+    "O rendimento de placa de 85.5% reflete o motor individual desacoplado com perdas mecânicas internas de apenas 130 W.",
+    "Na bancada acoplada (B = 0.0426 N.m.s/rad), as perdas rotacionais consomem 1374 W, reduzindo o rendimento útil de eixo para 62.0%.",
+    "Em velocidade nula (s=1), o rendimento é estritamente 0% pois a potência mecânica é nula."
+  ]
+}

@@ -10,7 +10,10 @@
     "memory": "utils/memory",
     "gates": "out/gates",
     "figures": "out/figures",
-    "results": "out/results"
+    "results": "out/results",
+    "parte1": "out/parte1_analitico",
+    "parte2": "out/parte2_dinamico",
+    "sintetizado": "out/sintetizado"
   },
   "limits": {
     "max_iterations": 5,
@@ -86,8 +89,7 @@
       "run_scope": ["matlab -batch *", "bash .agents/hooks/matlab-lint.sh", "python3 .agents/hooks/analytical-gate.py"],
       "write": [
         "matlab/analytical/**",
-        "out/figures/**",
-        "out/results/**",
+        "out/**",
         "utils/memory/modules/analytical_engine.md",
         "utils/memory/handoff/*"
       ],
@@ -103,6 +105,7 @@
       "write": [
         "matlab/simulink/**",
         "matlab/scripts/**",
+        "out/**",
         "utils/memory/modules/simscape_model.md",
         "utils/memory/handoff/*"
       ],
@@ -116,8 +119,7 @@
       "tools_allowed": ["view_file", "write_to_file", "replace_file_content", "run_command"],
       "run_scope": ["matlab -batch *", "python3 .agents/hooks/tolerance-gate.py"],
       "write": [
-        "out/gates/**",
-        "out/results/**",
+        "out/**",
         "utils/memory/handoff/*",
         "utils/memory/modules/dynamic_validation.md"
       ],
@@ -143,6 +145,7 @@
       "write": [
         "README.md",
         "docs/**",
+        "out/**",
         "utils/memory/handoff/*"
       ],
       "skills": ["figure-production", "memory-protocol"]

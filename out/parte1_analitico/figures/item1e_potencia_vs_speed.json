@@ -1,0 +1,39 @@
+{
+  "figure_id": "item1e_potencia_vs_speed",
+  "task_ref": "Part 1, Item E.iii",
+  "title": "Curva Característica Potência Ativa x Velocidade",
+  "operating_conditions": {
+    "voltage_LL_rms_V": 220.0,
+    "frequency_Hz": 60.0,
+    "speed_range_rpm": [
+      0.0,
+      1800.0
+    ]
+  },
+  "key_numerical_markers": {
+    "nominal_electrical_input_power_W": 5014.79,
+    "nominal_airgap_power_W": 4704.58,
+    "nominal_electromagnetic_power_Pem_W": 4482.34,
+    "nominal_net_shaft_power_Pshaft_W": 3108.31,
+    "nameplate_catalog_power_W": 3700.0,
+    "bench_viscous_rotational_loss_W": 1374.03,
+    "stator_copper_loss_W": 310.21,
+    "rotor_copper_loss_W": 222.24
+  },
+  "axis_extents": {
+    "xlim": [
+      0.0,
+      1800.0
+    ],
+    "ylim": [
+      0.0,
+      10000.0
+    ]
+  },
+  "physical_phenomena_summary": [
+    "Na velocidade nominal de 1715 rpm, a potência elétrica ativa absorvida é de 5014.8 W.",
+    "A potência eletromagnética interna desenvolvida no entreferro é de 4482.3 W.",
+    "O arraste viscoso acoplado da bancada MG dissipa B*wm^2 = 1374.0 W, deixando 3108.3 W úteis no eixo.",
+    "As perdas Joule no estator e rotor somam 532.5 W em regime nominal."
+  ]
+}

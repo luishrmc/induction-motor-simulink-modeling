@@ -14,10 +14,28 @@ sf_prj/
 *.mat.bak
 !utils/data/*.mat
 
-# Agent framework transient outputs (keep gate evidence JSONs tracked)
+# Agent framework transient outputs (keep gate evidence, figures, sidecars, and report deliverables)
 out/*
 !out/gates/
 !out/gates/*.json
+!out/parte1_analitico/
+!out/parte1_analitico/figures/
+!out/parte1_analitico/figures/**
+!out/parte1_analitico/results/
+!out/parte1_analitico/results/*.csv
+!out/parte1_analitico/results/*.json
+!out/parte2_dinamico/
+!out/parte2_dinamico/figures/
+!out/parte2_dinamico/figures/**
+!out/parte2_dinamico/results/
+!out/parte2_dinamico/results/*.json
+!out/sintetizado/
+!out/sintetizado/**
+!out/figures/
+!out/figures/**
+!out/results/
+!out/results/*.csv
+!out/results/*.json
 .agent/
 utils/tmp/*
 
