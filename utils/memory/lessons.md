@@ -53,3 +53,7 @@ Limit: 80 lines. Orchestrator-maintained log of technical insights, solver issue
 ## 13. High-Inertia Simulation Horizon & Bench No-Load Equilibrium
 - **Quirk:** The coupled bench inertia ($J = 0.701\text{ kg}\cdot\text{m}^2$) requires $\ge 4.5\text{ s}$ to accelerate from standstill. Truncating at $t_{stop} \le 5.0\text{ s}$ leaves residual acceleration causing $> 3\%$ torque error vs analytical targets. Furthermore, at no load, equilibrium occurs at $T_{em}(s) = B\omega_m(s) \implies n_{noload} = 1775.5\text{ rpm}$, not synchronous speed.
 - **Fix:** Set $t_{stop} \ge 6.0\text{ s}$ for startup and solve $T_{em}(s) - B\omega_s(1-s) = 0$ via `fzero` for exact steady-state baseline comparisons.
+
+## 14. Plain Char Vectors vs sprintf LaTeX Escapes
+- **Quirk:** In MATLAB, plain character vectors `'...'` do not treat `\` as an escape character. Writing `\\` inside a plain string passes two literal backslashes to LaTeX, which interprets them as a newline (`\linebreak`), breaking mathematical terms onto orphaned lines.
+- **Fix:** In plain char vectors, always use single backslashes for TeX commands (`\mathrm{s}`, `\cdot`, `\omega_m`) and non-breaking space `~`. Reserve double backslashes (`\\`) strictly for format strings inside `sprintf(...)` where `\` is consumed by `sprintf`.

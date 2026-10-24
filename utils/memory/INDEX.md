@@ -18,6 +18,7 @@ Protocol: `.agents/skills/memory-protocol/SKILL.md`. Limit: 40 lines.
 - `motor_parameters`: Consolidated electrical and mechanical ratings and parameters (`modules/motor_parameters.md`)
 - `analytical_engine`: Vectorized IEEE T-equivalent circuit solver (`modules/analytical_engine.md`)
 - `simscape_model`: Simscape SPS Asynchronous Machine model (`modules/simscape_model.md`)
+- `dynamic_validation`: Transient testing and tolerance audits (`modules/dynamic_validation.md`)
 
 ## Completed Task Episodes
 
@@ -26,10 +27,7 @@ Protocol: `.agents/skills/memory-protocol/SKILL.md`. Limit: 40 lines.
 - `episodes/2.1.md`: Simscape SPS model assembly, Star-Delta parameterization, and solver tuning
 - `episodes/2.2.md`: Analytical locked-rotor starting metrics & simulation test harness
 - `episodes/3.1.md`: DOL startup transient simulation & inrush waveform validation
-
-## Planned Modules (Created in Phase 3)
-
-- `dynamic_validation`: Transient testing and tolerance audits (`modules/dynamic_validation.md`)
+- `episodes/3.2.md`: Step nominal load torque transient simulation & convergence audit
 
 ## Last Compaction
 

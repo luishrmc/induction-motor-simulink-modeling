@@ -104,8 +104,8 @@ function results = run_sim_harness(scenario_name, varargin)
 
         case 'nominal_step'
             % Task 3.2: Startup at no load, nominal load step disturbance
-            t_stop_sim   = 3.0;
-            t_step_sim   = 1.5;
+            t_stop_sim   = 8.0;                      % Full electromechanical settling before and after step
+            t_step_sim   = 5.0;                      % Step applied after full no-load settling (>4.5s)
             T_step_after = params.T_nom_ref;         % Step to +20.602 N.m
             scenario_desc= sprintf('Nominal Load Torque Step Disturbance (0 -> +%.2f N.m at t=%.1fs)', ...
                 T_step_after, t_step_sim);
@@ -175,6 +175,25 @@ function results = run_sim_harness(scenario_name, varargin)
     ss_torque_Nm = mean(torque_Nm(idx_ss));
     ss_Ia_rms    = rms(current_Ia(idx_ss));
 
+    % Compute instantaneous active and reactive powers via Clarke transform
+    V_LL_rms = params.V_LL_nom;
+    omega_e  = 2 * pi * params.f_nom;
+    V_m_ph   = sqrt(2) * (V_LL_rms / sqrt(3));
+    Va_sin   = V_m_ph * sin(omega_e * tout);
+    Vb_sin   = V_m_ph * sin(omega_e * tout - 2*pi/3);
+    Vc_sin   = V_m_ph * sin(omega_e * tout + 2*pi/3);
+
+    valpha   = sqrt(2/3) * (Va_sin - 0.5*Vb_sin - 0.5*Vc_sin);
+    vbeta    = sqrt(2/3) * (sqrt(3)/2 * Vb_sin - sqrt(3)/2 * Vc_sin);
+    ialpha   = sqrt(2/3) * (current_Ia - 0.5*current_Ib - 0.5*current_Ic);
+    ibeta    = sqrt(2/3) * (sqrt(3)/2 * current_Ib - sqrt(3)/2 * current_Ic);
+
+    p_inst   = valpha .* ialpha + vbeta .* ibeta;
+    q_inst   = vbeta .* ialpha - valpha .* ibeta;
+
+    ss_P_W   = mean(p_inst(idx_ss));
+    ss_Q_var = abs(mean(q_inst(idx_ss)));
+
     fprintf('--------------------------------------------------------------------\n');
     fprintf('  DYNAMIC SIMULATION TELEMETRY SUMMARY\n');
     fprintf('--------------------------------------------------------------------\n');
@@ -187,6 +206,8 @@ function results = run_sim_harness(scenario_name, varargin)
     fprintf('  Steady-State Speed:            %.1f rpm\n', ss_speed_rpm);
     fprintf('  Steady-State Developed Torque: %.2f N.m\n', ss_torque_Nm);
     fprintf('  Steady-State Line Current:     %.2f A RMS\n', ss_Ia_rms);
+    fprintf('  Steady-State Active Power:     %.2f W\n', ss_P_W);
+    fprintf('  Steady-State Reactive Power:   %.2f var\n', ss_Q_var);
     fprintf('--------------------------------------------------------------------\n\n');
 
     %% 6. Package Results Structure
@@ -201,6 +222,8 @@ function results = run_sim_harness(scenario_name, varargin)
     results.current_Ia         = current_Ia;
     results.current_Ib         = current_Ib;
     results.current_Ic         = current_Ic;
+    results.p_inst             = p_inst;
+    results.q_inst             = q_inst;
     results.analytical_start   = analytical_start;
     results.telemetry.I_peak   = I_peak_transient;
     results.telemetry.I_rms_sim= I_start_sim_rms;
@@ -208,6 +231,8 @@ function results = run_sim_harness(scenario_name, varargin)
     results.telemetry.ss_speed = ss_speed_rpm;
     results.telemetry.ss_torque= ss_torque_Nm;
     results.telemetry.ss_current=ss_Ia_rms;
+    results.telemetry.ss_P_W   = ss_P_W;
+    results.telemetry.ss_Q_var = ss_Q_var;
 
     %% 7. Export Baseline Artifacts to out/results/
     out_dir = fullfile(fileparts(mfilename('fullpath')), '..', '..', 'out', 'results');
@@ -244,6 +269,31 @@ function results = run_sim_harness(scenario_name, varargin)
             fwrite(fid, jsonencode(comp_data), 'char');
             fclose(fid);
             fprintf('[OK] Saved comparison JSON to %s\n\n', json_31);
+        end
+    elseif strcmp(scenario_name, 'nominal_step')
+        % Task 3.2 specific artifacts
+        mat_32 = fullfile(out_dir, 'sim_transient_3.2.mat');
+        save(mat_32, 'results');
+
+        json_32 = fullfile(out_dir, 'comparison_3.2.json');
+        % Analytical metrics for T_L = 20.602 N.m
+        comp_data.analytical.n_nom_rpm     = 1700.4;
+        comp_data.analytical.T_em_nom      = 28.188;
+        comp_data.analytical.I_line_nom    = 18.193;
+        comp_data.analytical.P_elec_nom    = 5753.53;
+        comp_data.analytical.Q_elec_nom    = 3867.56;
+
+        comp_data.simulated.n_nom_rpm      = ss_speed_rpm;
+        comp_data.simulated.T_em_nom       = ss_torque_Nm;
+        comp_data.simulated.I_line_nom     = ss_Ia_rms;
+        comp_data.simulated.P_elec_nom     = ss_P_W;
+        comp_data.simulated.Q_elec_nom     = ss_Q_var;
+
+        fid = fopen(json_32, 'w');
+        if fid ~= -1
+            fwrite(fid, jsonencode(comp_data), 'char');
+            fclose(fid);
+            fprintf('[OK] Saved comparison JSON to %s\n\n', json_32);
         end
     else
         json_path = fullfile(out_dir, 'comparison_2.2.json');

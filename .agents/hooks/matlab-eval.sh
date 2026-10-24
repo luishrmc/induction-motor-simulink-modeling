@@ -18,7 +18,7 @@ tmux send-keys -t matlab_worker -l "$MAT_CMD"
 tmux send-keys -t matlab_worker Enter
 
 # Wait with timeout
-TIMEOUT=120
+TIMEOUT=${MATLAB_TIMEOUT:-300}
 ELAPSED=0
 while [ ! -f "$DONEFILE" ]; do
     sleep 0.1
