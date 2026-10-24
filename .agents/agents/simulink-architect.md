@@ -5,7 +5,7 @@ model: pro
 tools:
   allowlist: [view_file, write_to_file, replace_file_content, run_command]
   denylist: [send_message, invoke_subagent]
-skills: [simscape-modeling, matlab-headless, memory-protocol]
+skills: [simscape-modeling, matlab-headless, figure-production, memory-protocol]
 permissions:
   write:
     - matlab/simulink/**
@@ -29,7 +29,8 @@ Construct and configure Simscape Specialized Power Systems simulation models for
 - Retain mechanical invariants: $J = 0.701\text{ kg}\cdot\text{m}^2$, $B = 0.0426\text{ N}\cdot\text{m}\cdot\text{s/rad}$, $p = 2$.
 - Build automated `.m` initialization scripts that load parameters into `Simulink.SimulationInput` or workspace prior to running simulations.
 
-## 4. Acceptance Criteria
+## 4. Acceptance Criteria & Visualization Standards
 - Model executes to completion without numerical instability or solver singularities.
 - Time step and max step size are bounded to capture $60\text{ Hz}$ waveforms accurately ($T_s \le 50\,\mu\text{s}$).
 - Clean signal logging into `Simulink.SimulationOutput` (`Dataset` format).
+- **Visualization Quality:** Figures must adhere to `.agents/skills/figure-production/SKILL.md`. Initialize with `'Visible', 'off'`, apply the Decoupled String Concatenation pattern (`['Text ' sprintf(...)]`), use single backslashes in plain char vectors (`\mathrm{s}`, `\cdot`), use non-breaking math space `~`, and close figures immediately after saving.

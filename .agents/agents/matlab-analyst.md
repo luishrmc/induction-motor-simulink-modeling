@@ -31,7 +31,11 @@ Develop the analytical engine in MATLAB that models the exact IEEE T-equivalent 
 5. Export nominal metrics and curve arrays to `out/results/analytical_baseline.mat`.
 6. Update the module digest in `utils/memory/modules/` and report to orchestrator with status `ready_for_gates`.
 
-## 4. Quality Bar
+## 4. Quality Bar & Typography Self-Audit
 - Every mathematical derivation must match textbook formulas (Krause, Fitzgerald & Kingsley, or Chapman).
-- Figures must display LaTeX axis labels, legends, grids, and annotated nominal operating points.
+- Figures must display LaTeX axis labels, legends, grids, and annotated nominal operating points adhering to `.agents/skills/figure-production/SKILL.md`.
+- **Decoupled String Concatenation:** Never mix accented Portuguese text with TeX escape codes (`\c{c}`, `\~{a}`, `\^{e}`) inside `sprintf(...)`. Always decouple via array concatenation: `['Text ' sprintf('($...$)')]`.
+- **Single-Backslash Invariant:** In plain char vectors (`'...'`), use single backslashes (`\mathrm{s}`, `\cdot`, `\omega_m`); zero `\\` allowed outside `sprintf`.
+- **Math Spacing:** Always use non-breaking space `~` between value and units: `$t = 5.0~\mathrm{s}$`.
+- **Anti-Occlusion:** Choose legend locations dynamically with $\ge 15\%$ headroom (`ylim`).
 - Output metrics must be recorded in SI units.

@@ -26,9 +26,9 @@ Limit: 80 lines. Orchestrator-maintained log of technical insights, solver issue
 - **Quirk:** In MATLAB string literals, unbraced circumflex accents (e.g. `\^e`) can trigger parser dropouts or string truncation (e.g. `Pot\^encia` truncating to literally `Pot`).
 - **Fix:** Enclose accented characters in curly braces (`\^{e}`, `\^{a}`, `\''i`) and use math mode `\mathrm{...}` for engineering units `($220\ \mathrm{V},\ 60\ \mathrm{Hz}$)`.
 
-## 7. Motor Curve Legend Anti-Occlusion & Headroom
-- **Quirk:** Defaulting to `'northeast'` legends on torque-speed curves covers the breakdown torque operating point ($T_{max}$ at $\sim 0.78\,n_s$).
-- **Fix:** Place legends at `'northwest'` where low-speed torque is low, and add $\ge 15\%$ `ylim` headroom above $T_{max}$ to guarantee 100% marker visibility.
+## 7. Motor Curve Legend Anti-Occlusion & Quadrant Placement
+- **Quirk:** Fixed `'northeast'` legends on torque-speed sweeps occlude breakdown torque ($T_{max}$ at $\sim 0.78\,n_s$). Similarly, in generating mode ($T_e < 0$), placing torque legends in `'southeast'` covers the stabilized negative braking curve.
+- **Fix:** On motoring sweeps, place legends at `'northwest'` with $\ge 15\%$ `ylim` headroom above $T_{max}$. On generating transients, place torque legends at `'northeast'` (where $T > 0$ is empty) and speed zoom at `'southeast'`.
 
 ## 8. Headless Linux Canvas Export
 - **Quirk:** In headless Linux environments without an active X11 server, exporting graphics can print benign Qt Wayland/XCB warnings.
@@ -54,6 +54,6 @@ Limit: 80 lines. Orchestrator-maintained log of technical insights, solver issue
 - **Quirk:** The coupled bench inertia ($J = 0.701\text{ kg}\cdot\text{m}^2$) requires $\ge 4.5\text{ s}$ to accelerate from standstill. Truncating at $t_{stop} \le 5.0\text{ s}$ leaves residual acceleration causing $> 3\%$ torque error vs analytical targets. Furthermore, at no load, equilibrium occurs at $T_{em}(s) = B\omega_m(s) \implies n_{noload} = 1775.5\text{ rpm}$, not synchronous speed.
 - **Fix:** Set $t_{stop} \ge 6.0\text{ s}$ for startup and solve $T_{em}(s) - B\omega_s(1-s) = 0$ via `fzero` for exact steady-state baseline comparisons.
 
-## 14. Plain Char Vectors vs sprintf LaTeX Escapes
-- **Quirk:** In MATLAB, plain character vectors `'...'` do not treat `\` as an escape character. Writing `\\` inside a plain string passes two literal backslashes to LaTeX, which interprets them as a newline (`\linebreak`), breaking mathematical terms onto orphaned lines.
-- **Fix:** In plain char vectors, always use single backslashes for TeX commands (`\mathrm{s}`, `\cdot`, `\omega_m`) and non-breaking space `~`. Reserve double backslashes (`\\`) strictly for format strings inside `sprintf(...)` where `\` is consumed by `sprintf`.
+## 14. Plain Char Vectors vs sprintf LaTeX Escapes & Decoupled Concatenation
+- **Quirk:** Writing `\\` inside plain strings `'...'` passes literal `\\` to LaTeX, triggering linebreaks (`\linebreak`) that orphan inline units (e.g. `$\mathrm{s}$` on a second line). Conversely, writing TeX accents (e.g. `\c{c}`) inside `sprintf` triggers invalid escape warnings.
+- **Fix:** In plain char vectors, always use single backslashes for TeX commands (`\mathrm{s}`, `\cdot`, `\omega_m`) and non-breaking space `~`. Never put accented TeX tokens inside `sprintf`; decouple via array concatenation: `['Text ' sprintf('($...$)')]`.

@@ -159,3 +159,10 @@ python3 .agents/hooks/loop-guard.py tick <task-id> <gate> [errfile]
   $$\left|\frac{X_{sim,ss} - X_{analytical}}{X_{analytical}}\right| \le 2.0\%$$
   for $T_e$, $I_{stator,line}$, $P_{active}$, $Q_{reactive}$, and $\omega_{rotor}$.
 - Any task producing simulation values deviating by more than $2\%$ must fail the audit gate and trigger model/parameter recalibration.
+
+### MATLAB Typography & Figure Production Zero-Tolerance Rules
+- **Decoupled String Concatenation:** Never mix accented Portuguese text with TeX escape codes (`\c{c}`, `\~{a}`, `\^{e}`) inside `sprintf(...)` format strings. Always use array concatenation to decouple static text from dynamic numbers: `['Inje\c{c}\~{a}o na Rede ' sprintf('($P_{ss} = %.1f~\\mathrm{W}$)', P_ss)]`.
+- **Single-Backslash Invariant:** In plain character vectors (`'...'`), always use single backslashes for LaTeX tokens (`\mathrm{s}`, `\cdot`, `\omega_m`, `\ge`, `\le`). Never write `\\` in plain char vectors. Double backslashes (`\\`) are strictly reserved for format specifiers inside `sprintf(...)`.
+- **Non-Breaking Math Spacing:** Always use non-breaking tilde `~` between numerical values and units in LaTeX math mode (`$t = 5.0~\mathrm{s}$`, `$n_s = 1800~\mathrm{rpm}$`). Never use `\ ` or `\\ `.
+- **Dynamic Legend Anti-Occlusion:** Select legend locations based on asymptotic trajectory: `'northwest'` for torque sweeps, `'northeast'` for generating torque ($T_e < 0$), and `'southeast'` for hypersynchronous speed zoom ($n > 1800\text{ rpm}$). Maintain $\ge 15\%$ vertical headroom (`ylim`).
+- **Headless Execution & Canvas Safety:** Always initialize figures hidden with `'Visible', 'off'`, export with 300 DPI (`exportgraphics`), execute batch scripts with `export QT_QPA_PLATFORM=offscreen`, and immediately close figure handles (`close(fig)`).

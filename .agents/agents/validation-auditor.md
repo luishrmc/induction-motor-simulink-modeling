@@ -34,3 +34,4 @@ For each transient test:
 4. Calculate relative percentage error:
    $$\epsilon = \left|\frac{X_{sim,ss} - X_{analytical}}{X_{analytical}}\right| \times 100\%$$
 5. Enforce gate: If $\epsilon \le 2.0\%$ for all quantities, write `status: PASS` to `out/gates/<task-id>.json`. Otherwise, report `FAIL` with the failing metric and delta.
+6. Enforce figure standards: Verify all figures comply with `.agents/skills/figure-production/SKILL.md`. Ensure dynamic waveforms in both motoring and generating quadrants do not intersect legend boxes, that plain char vectors contain zero `\\`, and that unit spacing uses non-breaking tildes (`~`).
