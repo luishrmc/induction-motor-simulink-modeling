@@ -3,12 +3,14 @@ module: analytical_engine
 status: verified
 sources:
   - matlab/analytical/solve_equivalent_circuit.m sha256=db1c9c7ff26c3a65e533c3651f541b023738fb5f57e756da07f8d9eaa1e827d9
+  - matlab/analytical/plot_steady_state_curves.m sha256=4dd2cbc91ddd1be33e11fc6a9c1d5c5d24bed3d4fde82690f60ddf13fcd3b224
+  - matlab/analytical/run_analytical_sweeps.m sha256=1ffc478fa38f43b533d9ef0e1e21df720b9cfea1eb64f2143ce8e448823a95cc
 gates_passed: [matlab-lint, analytical-gate]
 ---
 
 # Analytical Engine Digest
 
-Exact analytical solution of the IEEE T-equivalent circuit for the WEG 3.7 kW motor.
+Exact analytical solution of the IEEE T-equivalent circuit for the WEG 3.7 kW motor, full-speed sweeps ($0$ to $n_s$), and scalar $V/f$ control family ($100\%, 75\%, 50\%, 25\%$).
 
 ## Operating Point Summary (Nominal: n = 1715 rpm, s = 0.04722)
 - Input per-phase impedance: $Z_{in} = 19.22 + j13.68\,\Omega$ ($|Z_{in}| = 23.59\,\Omega$, $\phi = 35.44^\circ$).
@@ -33,7 +35,23 @@ Exact analytical solution of the IEEE T-equivalent circuit for the WEG 3.7 kW mo
 - Maximum slip: $s_{max} = 0.2194 \implies n(T_{max}) = 1405.1\text{ rpm}$.
 - Breakdown torque: $T_{max} = 54.63\text{ N}\cdot\text{m}$ ($2.65 \times T_{nom}$).
 
+## Scalar V/f Control Family ($V/f = \text{cte}$)
+- $100\%$ ($220\text{ V}, 60\text{ Hz}$): $n_s = 1800\text{ rpm}$, $T_{max} = 54.63\text{ N}\cdot\text{m}$ at $1405.1\text{ rpm}$.
+- $75\%$ ($165\text{ V}, 45\text{ Hz}$): $n_s = 1350\text{ rpm}$, $T_{max} = 50.88\text{ N}\cdot\text{m}$ at $961.4\text{ rpm}$.
+- $50\%$ ($110\text{ V}, 30\text{ Hz}$): $n_s = 900\text{ rpm}$, $T_{max} = 44.38\text{ N}\cdot\text{m}$ at $531.0\text{ rpm}$.
+- $25\%$ ($55\text{ V}, 15\text{ Hz}$): $n_s = 450\text{ rpm}$, $T_{max} = 30.54\text{ N}\cdot\text{m}$ at $152.0\text{ rpm}$.
+- Stator resistance $R_1$ causes uncompensated IR-drop at lower frequencies, reducing peak breakdown torque unless voltage boost is applied.
+
+## Generated Figures (`out/figures/`)
+- `torque_vs_speed.png`: $T_{em}(n)$ and $T_{shaft}(n)$ vs speed ($0$ to $1800\text{ rpm}$), marking $T_{max}=54.63\text{ N}\cdot\text{m}$ and $T_{nom}$.
+- `current_vs_speed.png`: $I_{line}(n)$ and $I_{\phi}(n)$ vs speed, marking starting current $I_{start}=67.73\text{ A}$ and $I_{nom}$.
+- `power_vs_speed.png`: $P_{elec}(n), P_{ag}(n), P_{em}(n), P_{shaft}(n)$ vs speed.
+- `power_factor_vs_speed.png`: $\cos\phi(n)$ vs speed, marking nominal $\cos\phi=0.8147$.
+- `efficiency_vs_speed.png`: $\eta_{em}(n)$ and $\eta_{shaft}(n)$ vs speed.
+- `vf_scalar_family.png`: 4-curve scalar $V/f$ overlay with breakdown markers.
+
 ## Artifact Exports
 - Data structure: `out/results/nominal_metrics.mat`
 - CSV summary: `out/results/nominal_metrics.csv`
 - Convergence JSON: `out/results/comparison_1.1.json`
+- Analytical baseline arrays: `out/results/analytical_baseline.mat`

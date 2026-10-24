@@ -9,3 +9,5 @@ All modifications to `utils/plan/*.csv` and roadmap milestones are recorded here
 - **ADRs Registered**: Formulated ADR-001 (Consolidated Bench Parameters Ground Truth), ADR-002 (Star-Delta Simscape SPS Block Mapping), ADR-003 (Pure Vectorized MATLAB Sweeps), ADR-004 (+/- 2% Steady-State Convergence Gate), and ADR-005 (Headless Batch Execution Architecture).
 - **2026-10-24 [Task 1.1]**: Transição de `Pendente` para `Em andamento`.
 - **2026-10-24 [Task 1.1]**: Transição de `Em andamento` para `Concluída`. Evidência: `gate:1.1`.
+- **2026-10-24 [Task 1.2]**: Transição de `Pendente` para `Em andamento`.
+- **2026-10-24 [Task 1.2]**: Transição de `Em andamento` para `Concluída`. Evidência: `gate:1.2`.
