@@ -20,26 +20,40 @@ GATE_NAME = "analytical-gate"
 def main():
     print(f"[ANALYTICAL-GATE] Verifying analytical solver outputs for task {TASK_ID}...")
 
-    results_file = ROOT / "out" / "results" / "analytical_baseline.mat"
-    script_entry = ROOT / "matlab" / "analytical" / "run_analytical_sweeps.m"
+    # Determine expected entry point
+    if TASK_ID == "1.1":
+        script_entry = ROOT / "matlab" / "analytical" / "solve_equivalent_circuit.m"
+        results_file = ROOT / "out" / "results" / "nominal_metrics.mat"
+    else:
+        script_entry = ROOT / "matlab" / "analytical" / "run_analytical_sweeps.m"
+        results_file = ROOT / "out" / "results" / "analytical_baseline.mat"
 
-    # If MATLAB is available and script exists, execute it
-    if script_entry.is_file():
-        cmd = ["matlab", "-nodisplay", "-nosplash", "-batch",
-               f"addpath(genpath('{ROOT}/matlab')); run('{script_entry}'); exit;"]
-        print(f"[ANALYTICAL-GATE] Executing: {' '.join(cmd)}")
-        res = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True)
-        if res.returncode != 0:
-            print(f"[ANALYTICAL-GATE] Execution failed:\n{res.stderr}", file=sys.stderr)
-            subprocess.run(["python3", str(ROOT / ".agents/hooks/gate_record.py"),
-                            TASK_ID, GATE_NAME, "FAIL", "--detail", res.stderr[:200]])
-            return 1
+    if not script_entry.is_file():
+        detail = f"Missing entry script: {script_entry.relative_to(ROOT)}"
+        print(f"[ERR][ANALYTICAL-GATE] {detail}", file=sys.stderr)
+        subprocess.run(["python3", str(ROOT / ".agents/hooks/gate_record.py"),
+                        TASK_ID, GATE_NAME, "FAIL", "--detail", detail])
+        return 1
 
-    # Check baseline results presence if required for milestone
-    if not results_file.is_file() and not script_entry.is_file():
-        print(f"[ANALYTICAL-GATE] Pending implementation of analytical engine.")
-        # When invoked during scaffolding, report status
-        return 0
+    # Execute MATLAB script
+    cmd = ["matlab", "-batch",
+           f"addpath(genpath('{ROOT}/matlab')); run('{script_entry}'); exit;"]
+    print(f"[ANALYTICAL-GATE] Executing: {' '.join(cmd)}")
+    res = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True)
+    if res.returncode != 0:
+        detail = res.stderr.strip()[:200] if res.stderr.strip() else "Execution failed with non-zero exit code"
+        print(f"[ERR][ANALYTICAL-GATE] Execution failed:\n{res.stderr}", file=sys.stderr)
+        subprocess.run(["python3", str(ROOT / ".agents/hooks/gate_record.py"),
+                        TASK_ID, GATE_NAME, "FAIL", "--detail", detail])
+        return 1
+
+    # Check baseline results presence
+    if not results_file.is_file():
+        detail = f"Missing output artifact: {results_file.relative_to(ROOT)}"
+        print(f"[ERR][ANALYTICAL-GATE] {detail}", file=sys.stderr)
+        subprocess.run(["python3", str(ROOT / ".agents/hooks/gate_record.py"),
+                        TASK_ID, GATE_NAME, "FAIL", "--detail", detail])
+        return 1
 
     subprocess.run(["python3", str(ROOT / ".agents/hooks/gate_record.py"),
                     TASK_ID, GATE_NAME, "PASS", "--detail", "Analytical baseline verified",

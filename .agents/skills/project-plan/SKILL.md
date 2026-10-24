@@ -5,6 +5,11 @@ description: Rules and mechanisms for deterministic task scheduling and state tr
 
 # Project Plan Skill
 
+## When to Trigger
+- Triggered by `orchestrator-agent` whenever selecting eligible tasks (`plan-sync.py next`).
+- Triggered before dispatching work to author task contract (`utils/plan/<task-id>/task.md`).
+- Triggered on state transitions: setting `Em andamento` or `Concluída` with gate evidence via `python3 .agents/hooks/plan-sync.py`.
+
 ## Principles
 1. `Cronograma_e_Tarefas.csv` is the single source of truth for task status, schedule, and evidence links.
 2. Only `orchestrator-agent` writes to `utils/plan/`, mediated exclusively through `.agents/hooks/plan-sync.py`.

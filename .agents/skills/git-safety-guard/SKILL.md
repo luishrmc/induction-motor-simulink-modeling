@@ -5,6 +5,10 @@ description: Git guardrails preventing destructive commands, forced updates, or 
 
 # Git Safety Guard Skill
 
+## When to Trigger
+- Trigger before executing any git operation (staging, committing, diffing).
+- Enforced at the end of every task iteration to commit verified artifacts safely.
+
 ## Forbidden Operations
 - `git reset --hard`
 - `git clean -fd`

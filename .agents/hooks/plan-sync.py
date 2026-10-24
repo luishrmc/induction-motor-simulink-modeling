@@ -282,6 +282,16 @@ def main():
             print("[ERR][plan-sync] Transition blocked:\n" + "\n".join(f"  {e}" for e in errs), file=sys.stderr)
             return 1
 
+        # Record entry in CHANGELOG.md if status changed
+        if cur != a.status and CHANGELOG.is_file():
+            log_line = f"- **{today()} [Task {a.task}]**: Transição de `{cur}` para `{a.status}`."
+            if a.evidence:
+                log_line += f" Evidência: `{a.evidence}`."
+            if a.notes:
+                log_line += f" Notas: {a.notes}"
+            with CHANGELOG.open("a") as f:
+                f.write(log_line + "\n")
+
     # Regenerate artifacts
     cols = BASE_COLS + [c for c in NEW_COLS if c not in BASE_COLS]
     write_csv(SCHED, cols, rows, eol)

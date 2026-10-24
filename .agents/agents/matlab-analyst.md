@@ -9,10 +9,9 @@ skills: [matlab-headless, figure-production, memory-protocol]
 permissions:
   write:
     - matlab/analytical/**
-    - matlab/scripts/**
     - out/figures/**
     - out/results/**
-    - utils/memory/modules/*
+    - utils/memory/modules/analytical_engine.md
     - utils/memory/handoff/*
 ---
 

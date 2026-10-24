@@ -1,0 +1,11 @@
+{
+  "task": "0.1",
+  "gates": {
+    "plan-check": {
+      "status": "PASS",
+      "detail": "Workspace scaffolding and multi-agent setup complete",
+      "src_sha256": "c2d2549cad12f4360d1145bd5b2236d5f30b409396991af019bdb3576089b9b1",
+      "timestamp": "2026-10-24T09:09:14-0300"
+    }
+  }
+}

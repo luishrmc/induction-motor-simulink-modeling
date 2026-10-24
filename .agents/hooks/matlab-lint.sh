@@ -13,7 +13,7 @@ ERRORS=0
 # If matlab executable is present, run checkcode / mlint
 if command -v matlab >/dev/null 2>&1; then
     echo "[LINT] Running MATLAB code analyzer..."
-    matlab -nodisplay -nosplash -batch "
+    matlab -batch "
         mfiles = dir(fullfile('${SRC_DIR}', '**', '*.m'));
         has_err = false;
         for k = 1:length(mfiles)

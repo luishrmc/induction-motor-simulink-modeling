@@ -11,7 +11,7 @@ permissions:
     - out/gates/**
     - out/results/**
     - utils/memory/handoff/*
-    - utils/memory/modules/*
+    - utils/memory/modules/dynamic_validation.md
 ---
 
 # Validation Auditor Agent

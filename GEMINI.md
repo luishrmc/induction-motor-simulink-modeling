@@ -125,7 +125,10 @@ python3 .agents/hooks/loop-guard.py tick <task-id> <gate> [errfile]
 
 ### MATLAB Programming Standards
 - Pure vectorized calculations for steady-state sweeps: strictly no `for` loops across slip/speed arrays.
-- Clean figure generation: Publication-grade styling (LaTeX interpreters, font size 11+, tight grid, explicit units, nominal markers).
+- Strictly avoid deprecated functions (`csvread`, `csvwrite`, `xlswrite`, `print -dpng`, or legacy multi-output `sim('model')` syntax); use `readmatrix`/`writematrix`, `exportgraphics`, and `sim(simIn)` returning `Simulink.SimulationOutput`.
+- All physical variables must be stored and computed in base SI units ($\text{V}$, $\text{A}$, $\Omega$, $\text{H}$, $\text{W}$, $\text{var}$, $\text{N}\cdot\text{m}$, $\text{rad/s}$, $\text{kg}\cdot\text{m}^2$), converting to $\text{rpm}$ or $\text{mH}$ only for display/table formatting.
+- Both internal electromagnetic metrics ($T_{em}$, $P_{em}$, $\eta_{em}$) and net shaft metrics subtracting coupled bench viscous friction ($T_{shaft} = T_{em} - B\omega_m$, $P_{shaft} = P_{em} - B\omega_m^2$, $\eta_{shaft}$) must be reported in Task 1.1 to reconcile nameplate ratings against coupled MG bench drag.
+- Never commit an unverified `.slx` model without passing `simulink-gate.py`.
 - Stored variables must be structured in `.mat` files or clean CSV tables in `out/`.
 
 ### Convergence & Tolerance Gate

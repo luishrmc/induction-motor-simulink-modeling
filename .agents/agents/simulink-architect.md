@@ -10,7 +10,7 @@ permissions:
   write:
     - matlab/simulink/**
     - matlab/scripts/**
-    - utils/memory/modules/*
+    - utils/memory/modules/simscape_model.md
     - utils/memory/handoff/*
 ---
 

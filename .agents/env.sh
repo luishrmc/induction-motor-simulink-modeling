@@ -6,7 +6,7 @@ export MATLAB_ROOT="/usr/local/MATLAB/R2025b"
 export PATH="${MATLAB_ROOT}/bin:${PROJECT_ROOT}/.agents/hooks:${PATH}"
 
 # Ensure headless execution flags by default
-export MATLAB_BATCH_OPTS="-nodisplay -nosplash -batch"
+export MATLAB_BATCH_OPTS="-batch"
 
 # Verify tool availability
 if command -v matlab >/dev/null 2>&1; then

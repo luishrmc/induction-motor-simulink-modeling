@@ -5,6 +5,11 @@ description: Rules for maintaining bounded, up-to-date technical memory in utils
 
 # Memory Protocol Skill
 
+## When to Trigger
+- Trigger at the conclusion of every task iteration before marking completion.
+- Trigger whenever creating or editing module digests in `utils/memory/modules/` or recording architecture decisions in `utils/memory/decisions.md`.
+- Required before running `python3 .agents/hooks/memory-check.py`.
+
 ## Structure
 - `utils/memory/INDEX.md`: Top-level index of active modules, handoffs, and limits (max 40 lines).
 - `utils/memory/decisions.md`: Append-only Architecture Decision Record (ADR) log.

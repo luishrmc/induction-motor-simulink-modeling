@@ -15,6 +15,7 @@ import argparse
 import json
 import math
 import os
+import subprocess
 import sys
 from pathlib import Path
 
@@ -82,9 +83,12 @@ def main():
             sim_vals = data.get("simulated", {})
             ana_vals = data.get("analytical", default_analytical)
         else:
-            print(f"[TOLERANCE-GATE] No comparison metrics file found. Scaffolding mode active.")
-            sim_vals = default_analytical
-            ana_vals = default_analytical
+            print(f"[ERR][TOLERANCE-GATE] Missing comparison metrics file: {res_json}", file=sys.stderr)
+            subprocess.run([
+                "python3", str(ROOT / ".agents/hooks/gate_record.py"),
+                a.task, GATE_NAME, "FAIL", "--detail", f"Missing metrics file {res_json.name}"
+            ])
+            return 1
 
     passed, report = check_steady_state_convergence(ana_vals, sim_vals, TOLERANCE_PCT)
 

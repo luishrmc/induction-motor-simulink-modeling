@@ -9,7 +9,11 @@ permissions:
   write:
     - utils/plan/**
     - GEMINI.md
+    - README.md
     - .gitignore
+    - docs/**
+    - matlab/**
+    - utils/matlab/**
     - utils/memory/INDEX.md
     - utils/memory/decisions.md
     - utils/memory/lessons.md

@@ -1,17 +1,25 @@
 # MATLAB / Simulink generated artifacts
 *.asv
+*.m~
 *.autosave
+*.slx.autosave
+*.slx.r2*
 *.slxc
 slprj/
+sf_prj/
+*_ert_rtw/
 *.mex*
 *.log
+*.mat
 *.mat.bak
+!utils/data/*.mat
 
-# Agent framework transient outputs
-out/
+# Agent framework transient outputs (keep gate evidence JSONs tracked)
+out/*
+!out/gates/
+!out/gates/*.json
 .agent/
 utils/tmp/*
-!utils/tmp/.gitkeep
 
 # OS and Editor files
 .DS_Store

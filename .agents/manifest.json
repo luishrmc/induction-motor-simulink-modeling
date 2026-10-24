@@ -60,7 +60,11 @@
       "write": [
         "utils/plan/**",
         "GEMINI.md",
+        "README.md",
         ".gitignore",
+        "docs/**",
+        "matlab/**",
+        "utils/matlab/**",
         "utils/memory/INDEX.md",
         "utils/memory/decisions.md",
         "utils/memory/lessons.md",
@@ -79,13 +83,12 @@
       "role": "Circuit theory, vectorized steady-state solver, nominal metrics, scalar V/f family sweeps",
       "model": "pro",
       "tools_allowed": ["view_file", "write_to_file", "replace_file_content", "run_command"],
-      "run_scope": ["matlab -batch *", "python3 .agents/hooks/matlab-lint.sh", "python3 .agents/hooks/analytical-gate.py"],
+      "run_scope": ["matlab -batch *", "bash .agents/hooks/matlab-lint.sh", "python3 .agents/hooks/analytical-gate.py"],
       "write": [
         "matlab/analytical/**",
-        "matlab/scripts/**",
         "out/figures/**",
         "out/results/**",
-        "utils/memory/modules/*",
+        "utils/memory/modules/analytical_engine.md",
         "utils/memory/handoff/*"
       ],
       "skills": ["matlab-headless", "figure-production", "memory-protocol"]
@@ -100,7 +103,7 @@
       "write": [
         "matlab/simulink/**",
         "matlab/scripts/**",
-        "utils/memory/modules/*",
+        "utils/memory/modules/simscape_model.md",
         "utils/memory/handoff/*"
       ],
       "skills": ["simscape-modeling", "matlab-headless", "memory-protocol"]
@@ -116,7 +119,7 @@
         "out/gates/**",
         "out/results/**",
         "utils/memory/handoff/*",
-        "utils/memory/modules/*"
+        "utils/memory/modules/dynamic_validation.md"
       ],
       "skills": ["data-validation", "figure-production", "memory-protocol"]
     },
