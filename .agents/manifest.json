@@ -1,0 +1,148 @@
+{
+  "project": "induction-motor-dynamics-sim",
+  "version": 1,
+  "language": "en",
+  "paths": {
+    "analytical": "matlab/analytical",
+    "simulink": "matlab/simulink",
+    "scripts": "matlab/scripts",
+    "plan": "utils/plan",
+    "memory": "utils/memory",
+    "gates": "out/gates",
+    "figures": "out/figures",
+    "results": "out/results"
+  },
+  "limits": {
+    "max_iterations": 5,
+    "stagnation_cycles": 2,
+    "handoff_max_lines": 50,
+    "digest_max_lines": 60,
+    "index_max_lines": 40,
+    "lessons_max_lines": 80
+  },
+  "tolerance_thresholds": {
+    "steady_state_error_pct": 2.0,
+    "starting_inrush_error_pct": 5.0
+  },
+  "protected": [
+    "utils/docs/**",
+    "utils/data/**",
+    "utils/memory/modules/motor_parameters.md",
+    ".agents/manifest.json"
+  ],
+  "gates_by_phase": {
+    "0": ["plan-check"],
+    "1": ["matlab-lint", "analytical-gate"],
+    "2": ["matlab-lint", "simulink-gate"],
+    "3": ["simulink-gate", "tolerance-gate"],
+    "4": ["deliverable-audit"]
+  },
+  "gates_by_task": {
+    "0.1": ["plan-check"],
+    "1.1": ["matlab-lint", "analytical-gate"],
+    "1.2": ["matlab-lint", "analytical-gate"],
+    "2.1": ["matlab-lint", "simulink-gate"],
+    "2.2": ["matlab-lint", "simulink-gate"],
+    "3.1": ["simulink-gate", "tolerance-gate"],
+    "3.2": ["simulink-gate", "tolerance-gate"],
+    "3.3": ["simulink-gate", "tolerance-gate"],
+    "4.1": ["deliverable-audit"],
+    "4.2": ["deliverable-audit"]
+  },
+  "agents": [
+    {
+      "name": "orchestrator-agent",
+      "definition": ".agents/agents/orchestrator-agent.md",
+      "role": "Supervisor, task DAG, loop guard, sole writer of utils/plan and utils/memory/decisions.md",
+      "model": "pro",
+      "tools_allowed": ["run_command", "send_message", "view_file", "invoke_subagent", "write_to_file", "replace_file_content"],
+      "run_scope": ["git (read-only and commit via git-safety-guard)", ".agents/hooks/*"],
+      "write": [
+        "utils/plan/**",
+        "GEMINI.md",
+        ".gitignore",
+        "utils/memory/INDEX.md",
+        "utils/memory/decisions.md",
+        "utils/memory/lessons.md",
+        "utils/memory/episodes/*",
+        "utils/memory/modules/*",
+        "utils/memory/handoff/*",
+        ".agents/**",
+        "SESSION.txt",
+        "SESSION_ID.txt"
+      ],
+      "skills": ["project-plan", "memory-protocol", "git-safety-guard"]
+    },
+    {
+      "name": "matlab-analyst",
+      "definition": ".agents/agents/matlab-analyst.md",
+      "role": "Circuit theory, vectorized steady-state solver, nominal metrics, scalar V/f family sweeps",
+      "model": "pro",
+      "tools_allowed": ["view_file", "write_to_file", "replace_file_content", "run_command"],
+      "run_scope": ["matlab -batch *", "python3 .agents/hooks/matlab-lint.sh", "python3 .agents/hooks/analytical-gate.py"],
+      "write": [
+        "matlab/analytical/**",
+        "matlab/scripts/**",
+        "out/figures/**",
+        "out/results/**",
+        "utils/memory/modules/*",
+        "utils/memory/handoff/*"
+      ],
+      "skills": ["matlab-headless", "figure-production", "memory-protocol"]
+    },
+    {
+      "name": "simulink-architect",
+      "definition": ".agents/agents/simulink-architect.md",
+      "role": "Simscape Specialized Power Systems modeling, Asynchronous Machine parameterization, solver tuning",
+      "model": "pro",
+      "tools_allowed": ["view_file", "write_to_file", "replace_file_content", "run_command"],
+      "run_scope": ["matlab -batch *", "bash .agents/hooks/matlab-lint.sh", "python3 .agents/hooks/simulink-gate.py"],
+      "write": [
+        "matlab/simulink/**",
+        "matlab/scripts/**",
+        "utils/memory/modules/*",
+        "utils/memory/handoff/*"
+      ],
+      "skills": ["simscape-modeling", "matlab-headless", "memory-protocol"]
+    },
+    {
+      "name": "validation-auditor",
+      "definition": ".agents/agents/validation-auditor.md",
+      "role": "Transient test harness execution, steady-state tolerance verification (<= 2%), bench reconciliation",
+      "model": "pro",
+      "tools_allowed": ["view_file", "write_to_file", "replace_file_content", "run_command"],
+      "run_scope": ["matlab -batch *", "python3 .agents/hooks/tolerance-gate.py"],
+      "write": [
+        "out/gates/**",
+        "out/results/**",
+        "utils/memory/handoff/*",
+        "utils/memory/modules/*"
+      ],
+      "skills": ["data-validation", "figure-production", "memory-protocol"]
+    },
+    {
+      "name": "technical-critic-agent",
+      "definition": ".agents/agents/technical-critic-agent.md",
+      "role": "Adversarial reviewer of physical fidelity, numerical accuracy, equation derivations, and spec compliance",
+      "model": "pro",
+      "tools_allowed": ["view_file"],
+      "run_scope": [],
+      "write": [],
+      "skills": ["data-validation"]
+    },
+    {
+      "name": "doc-agent",
+      "definition": ".agents/agents/doc-agent.md",
+      "role": "Figure synthesis, Markdown report generation, LaTeX equation typesetting, final packaging",
+      "model": "flash",
+      "tools_allowed": ["view_file", "write_to_file", "replace_file_content", "run_command"],
+      "run_scope": ["pandoc", "zip"],
+      "write": [
+        "README.md",
+        "docs/**",
+        "utils/memory/handoff/*"
+      ],
+      "skills": ["figure-production", "memory-protocol"]
+    }
+  ]
+}

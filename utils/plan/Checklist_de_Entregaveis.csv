@@ -1,0 +1,10 @@
+Item,Descrição,Formato,Status de Conformidade,Observações
+Script Analítico MATLAB,Código de resolução do circuito equivalente e curvas de regime permanente,.m,Pendente,Implementação vetorizada prevista para a Fase 1
+Curvas de Regime Permanente,Gráficos de T Is Pa cos(phi) e eta vs velocidade + família V/f,.png / .fig,Pendente,5 gráficos nominais + 1 gráfico com 4 curvas de controle escalar
+Modelo Simscape Simulink,Diagrama SPS com bloco Asynchronous Machine e medições trifásicas,.slx,Pendente,Construção e parametrização com mapeamento Y-Delta previstas para a Fase 2
+Script de Simulação e Setup,Harness de inicialização e execução automatizada dos transitórios,.m,Pendente,Configuração de solver ode23tb e simulação em lote
+Transitório de Partida Direta,Gráfico de corrente de partida e comparação com valor calculado em s=1,.png / .fig,Pendente,Avaliação do pico e corrente de regime a vazio prevista para a Fase 3
+Transitório com Degrau de Carga,Gráficos de velocidade corrente potência ativa e reativa para TL=Tnom,.png / .fig,Pendente,Verificação da convergência e auditoria de erro <= 2% prevista para a Fase 3
+Operação Regenerativa,Gráficos de transitório e fluxo de potência para torque negativo TL=-Tnom,.png / .fig,Pendente,Análise do quadrante de gerador de indução prevista para a Fase 3
+Relatório Técnico Final,Documento completo com equacionamento tabelas prints e discussões,.pdf / .md,Pendente,Consolidação e redação previstas para a Fase 4
+Repositório e Ambiente,Estrutura .agents GEMINI.md e esteira de verificação automatizada,.agents,Conforme,Scaffolding e infraestrutura concluídos na Fase 0

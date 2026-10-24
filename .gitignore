@@ -1,0 +1,20 @@
+# MATLAB / Simulink generated artifacts
+*.asv
+*.autosave
+*.slxc
+slprj/
+*.mex*
+*.log
+*.mat.bak
+
+# Agent framework transient outputs
+out/
+.agent/
+utils/tmp/*
+!utils/tmp/.gitkeep
+
+# OS and Editor files
+.DS_Store
+Thumbs.db
+*.swp
+*~

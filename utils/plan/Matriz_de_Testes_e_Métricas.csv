@@ -1,0 +1,14 @@
+Cenário / Ensaio,Condição de Operação,Grandeza Avaliada,Valor Teórico / Analítico,Valor Simulado,Erro Relativo (%),Critério de Aceitação
+Regime Permanente,Nominal (n=1715 rpm s=0.0472),Torque Eletromagnético (N.m),24.96,,,<= 2.0%
+Regime Permanente,Nominal (n=1715 rpm s=0.0472),Torque Útil no Eixo (N.m),17.31,,,<= 2.0%
+Regime Permanente,Nominal (n=1715 rpm s=0.0472),Corrente de Linha de Estator (A),16.15,,,<= 2.0%
+Regime Permanente,Nominal (n=1715 rpm s=0.0472),Potência Ativa Elétrica (W),5014.8,,,<= 2.0%
+Regime Permanente,Nominal (n=1715 rpm s=0.0472),Potência Reativa (var),3569.0,,,<= 2.0%
+Regime Permanente,Nominal (n=1715 rpm s=0.0472),Fator de Potência (-),0.815,,,<= 2.0%
+Regime Permanente,Nominal (n=1715 rpm s=0.0472),Rendimento Mecânico (%),61.98,,,<= 2.0%
+Partida Direta a Vazio,s = 1.0 (Rotor Bloqueado),Corrente de Linha de Partida RMS (A),67.73,,,<= 5.0%
+Partida Direta a Vazio,s = 1.0 (Rotor Bloqueado),Torque de Partida (N.m),25.36,,,<= 5.0%
+Degrau de Carga,TL = +Tnom (+20.60 N.m),Velocidade Final de Regime (rpm),1700-1725,,,<= 2.0%
+Degrau de Carga,TL = +Tnom (+20.60 N.m),Potência Ativa de Regime (W),~5000,,,<= 2.0%
+Operação Regenerativa,TL = -Tnom (-20.60 N.m),Velocidade Final Hipersíncrona (rpm),> 1800,,,Velocidade > ns
+Operação Regenerativa,TL = -Tnom (-20.60 N.m),Potência Ativa Reversa (W),< 0,,,P < 0 (Gerador)
