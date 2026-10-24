@@ -58,10 +58,26 @@ Defined in `.agents/manifest.json` and `.agents/agents/*.md`:
 | `technical-critic-agent` | pro | Read-only adversarial reviewer of physical validity and spec compliance |
 | `doc-agent` | flash | Figure collation, markdown reporting, thesis-grade formatting, export packaging |
 
-### Verification Loops
-- **Fast Inner Loop**: Authoring agents (`matlab-analyst`, `simulink-architect`) write code and immediately invoke automated linting and execution gates (`matlab-lint.sh`, `analytical-gate.py`, `simulink-gate.py`).
-- **Outer Audit Loop**: The `validation-auditor` runs `tolerance-gate.py` to compare simulation steady-state with analytical predictions ($\pm 2\%$ gate threshold) and bench measurements.
-- **Loop Guard**: Maximum 5 iterations per task; halts on 2 identical error hashes (`loop-guard.py`).
+### Verification Loops & The Gauntlet Protocol
+
+1. **Fast Inner Loop (Builder Self-Correction)**:
+   - The authoring agent (`matlab-analyst` or `simulink-architect`) writes code and immediately invokes automated linting and execution gates (`matlab-lint.sh`, `analytical-gate.py`, `simulink-gate.py`).
+   - If an automated gate fails, the author iterates immediately and fixes the code locally without involving external reviewers.
+
+2. **The Gauntlet (Adversarial Multi-Agent Audit)**:
+   - Once all automated inner gates pass, the artifact faces **The Gauntlet**: an unforgiving, independent review by the verification crew (`validation-auditor` and `technical-critic-agent`).
+   - **Numerical Stress Test**: `validation-auditor` runs `tolerance-gate.py` to compare steady-state values against analytical predictions ($\pm 2.0\%$ tolerance limit) and bench logs.
+   - **Adversarial Critique**: `technical-critic-agent` performs a read-only blind audit of mathematical derivations, sign conventions (motor vs. generator), friction accounting ($B\omega_m^2$), and academic spec compliance (`sim_proj.pdf`).
+   - **Rejection Cycle**: If the Gauntlet critic finds any physical inconsistency, numerical discrepancy $> 2\%$, or non-vectorized pattern, it emits a structured `REJECT` report with exact file lines, formulas, and required remedies.
+   - The task transitions back to the authoring agent for another refinement loop.
+
+3. **Loop Guard (Circuit Breaker & Anti-Stagnation)**:
+   - Monitored deterministically by `loop-guard.py`.
+   - Maximum 5 iterations per task; halts immediately if the exact same error hash repeats twice.
+   - If halted, changes are safely reverted via `git`, the incident is logged in `utils/memory/episodes/<task-id>.md`, and the issue is escalated to the user.
+
+4. **Task Promotion & Sign-Off**:
+   - Only when **both** the automated gates pass AND the Gauntlet reviewer delivers an explicit `APPROVE`, does `orchestrator-agent` record gate evidence in `out/gates/<task-id>.json` and promote the task to `Concluída` via `plan-sync.py`.
 
 ## 5. Tool Governance
 

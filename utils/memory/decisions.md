@@ -26,3 +26,10 @@
 - **Context:** Simulation and test harnesses must execute autonomously within CLI agent workflows without blocking on GUI prompts or manual user interactions.
 - **Decision:** All MATLAB scripts, Simulink compilations, and model executions will be invoked using `matlab -nodisplay -nosplash -batch "<command>"` with programmatic logging into `out/results/` and `out/figures/`.
 - **Status:** Approved.
+
+## ADR-006: The Gauntlet Multi-Agent Verification Protocol
+- **Context:** Self-evaluating agents often approve their own work prematurely or overlook subtle physical inaccuracies (such as omitting viscous friction $B\omega_m^2$, using uncompensated $V/f$ at low speeds without explanation, or treating Wye and Delta parameters interchangeably).
+- **Decision:** Mandate a two-tier verification architecture for all deliverables:
+  1. Inner automated gates (`matlab-lint.sh`, `analytical-gate.py`, `simulink-gate.py`) for instantaneous deterministic feedback.
+  2. The Gauntlet: An independent adversarial review crew (`validation-auditor` for $\pm 2.0\%$ numerical tolerance and `technical-critic-agent` for physical/theoretical audit) must explicitly sign off with `APPROVE` before any task is closed. Rejections trigger an iterative correction cycle bounded by `loop-guard.py` (max 5 iterations, 2-hash stagnation break).
+- **Status:** Approved.
