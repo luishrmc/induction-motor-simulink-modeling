@@ -41,3 +41,11 @@ Limit: 80 lines. Orchestrator-maintained log of technical insights, solver issue
 ## 10. Modern Simscape Electrical SPS Library Path
 - **Quirk:** In modern MATLAB releases (R2024b+ through R2026b), Specialized Power Systems blocks reside under `toolbox/physmod/elec/assistant/m/transform`.
 - **Fix:** Dynamically add `matlabroot/toolbox/physmod/elec/assistant/m/transform` to the MATLAB path in initialization scripts before loading models.
+
+## 11. Simscape Machine Standstill DOL Starting & Unit Scaling
+- **Quirk:** `AsynchronousMachineSIUni_TmSCRotor` defaults to synchronous speed (`fElectrical0 = 60`) and raw per-unit measurement gains (`pu2si_wm = 1`, `pu2si_Te = 1`).
+- **Fix:** Set mask parameters `fElectrical0 = '0'`, `wrm0 = '0'`, `pu2si_wm = 'omega_s'`, and `pu2si_Te = 'P_nom_W / omega_s'` for true standstill ($s=1.0$) DOL startup in base SI units.
+
+## 12. Persistent tmux IPC for Sub-Second Headless CLI Runs
+- **Quirk:** Launching `matlab -batch` repeatedly incurs 8–20s JVM initialization latency per command.
+- **Fix:** Run a persistent background instance in tmux (`matlab_worker`) using `.agents/hooks/matlab-eval.sh` for sub-second CLI command evaluation.

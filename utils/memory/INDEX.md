@@ -24,6 +24,7 @@ Protocol: `.agents/skills/memory-protocol/SKILL.md`. Limit: 40 lines.
 - `episodes/1.1.md`: Equivalent circuit analytical solution & rotational loss reconciliation
 - `episodes/1.2.md`: Steady-state sweeps, Gauntlet review iteration, and scalar $V/f$ curves
 - `episodes/2.1.md`: Simscape SPS model assembly, Star-Delta parameterization, and solver tuning
+- `episodes/2.2.md`: Analytical locked-rotor starting metrics & simulation test harness
 
 ## Planned Modules (Created in Phase 3)
 
