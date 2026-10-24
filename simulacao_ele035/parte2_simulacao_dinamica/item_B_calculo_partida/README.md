@@ -24,6 +24,5 @@ Este módulo atende integralmente ao Item B da 2ª Parte da especificação `sim
    $$I_{ph,partida} = \frac{V_{ph}}{|Z_{in}(1)|} = \frac{220}{5,626} = 39,10\text{ A RMS}$$
    $$I_{line,partida} = \sqrt{3} \cdot I_{ph,partida} = 67,73\text{ A RMS}$$
    $$I_{crista,simetrica} = \sqrt{2} \cdot 67,73 = 95,78\text{ A}$$
-3. **Pico de inrush (121,25 A):** obtido na simulação do Item C (componente DC do fechamento indutivo), não neste cálculo analítico simétrico.
-   Devido ao comportamento indutivo do circuito ($X/R = 2,32, \tau \approx 6,14\text{ ms}$), a corrente instantânea no primeiro semiciclo atinge:
-   Esse pico é amortecido nos primeiros 70 ms, estabilizando no envelope simétrico de $67,73\text{ A}$ RMS.
+3. **Pico de inrush (121,25 A):** obtido na simulação dinâmica do Item C (componente DC aperiódica do fechamento indutivo), não neste cálculo analítico de regime permanente simétrico.
+   Devido ao comportamento indutivo do circuito ($X/R = 2,32, \tau \approx 6,14\text{ ms}$), a corrente instantânea assimétrica no primeiro semiciclo atinge aproximadamente $121,25\text{ A}$, sendo amortecida nos primeiros 70 ms e estabilizando no envelope simétrico de $67,73\text{ A}$ RMS.
