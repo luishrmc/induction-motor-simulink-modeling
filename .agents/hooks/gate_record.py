@@ -41,7 +41,7 @@ def main():
     ap.add_argument("--src", nargs="*", default=[])
     a = ap.parse_args()
 
-    out = ROOT / "out" / "gates"
+    out = ROOT / ".agents" / "gates"
     out.mkdir(parents=True, exist_ok=True)
     f = out / f"{a.task}.json"
     data = json.loads(f.read_text()) if f.exists() else {"task": a.task, "gates": {}}

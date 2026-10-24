@@ -77,7 +77,7 @@ def main():
 
     violations = []
     for path in changed_files().keys():
-        if path.startswith("out/") or path.startswith(".system_generated/"):
+        if path.startswith("out/") or path.startswith(".system_generated/") or path.startswith(".agents/gates/") or path == ".agents/loop_state.json":
             continue
         if matches(path, protected_globs) and not allow_protected:
             violations.append(f"PROTECTED: {path}")

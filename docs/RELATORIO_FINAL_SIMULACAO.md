@@ -249,11 +249,11 @@ Distinguem-se formalmente dois rendimentos:
 
 ## Item 1.D: Programa Computacional Vetorizado em MATLAB
 
-Para determinar as grandezas em toda a faixa de operação (de $n = 0$ até a rotação síncrona $n_s = 1800\text{ rpm}$), desenvolveu-se uma arquitetura modular em MATLAB (`matlab/analytical/solve_equivalent_circuit.m` e `matlab/analytical/plot_steady_state_curves.m`). 
+Para determinar as grandezas em toda a faixa de operação (de $n = 0$ até a rotação síncrona $n_s = 1800\text{ rpm}$), desenvolveu-se uma arquitetura modular em MATLAB (`simulacao_ele035/parte1_regime_permanente/item_A_B_C_ponto_nominal/run_item_ABC.m` e `simulacao_ele035/parte1_regime_permanente/item_D_E_curvas_estator/`). 
 
 Em conformidade rigorosa com os padrões de engenharia de software e diretrizes do projeto (`GEMINI.md`), a implementação é **100% vetorizada**: foram completamente eliminados laços `for` sobre o vetor de velocidade/escorregamento. Toda a álgebra de impedâncias, correntes e potências é processada através de operações matriciais elemento a elemento (`./`, `.*`, `.^`).
 
-### Listagem 1: Trecho fundamental do algoritmo analítico vetorizado (`solve_equivalent_circuit.m`)
+### Listagem 1: Trecho fundamental do algoritmo analítico vetorizado (`run_item_ABC.m`)
 
 ```matlab
 % Definição do vetor de velocidade e escorregamento contínuo
@@ -304,7 +304,7 @@ A seguir são apresentadas e analisadas detalhadamente as cinco curvas caracter�
 
 ### Curva E.i: Conjugado x Velocidade
 
-![Curva Característica Conjugado x Velocidade](../out/parte1_analitico/figures/item1e_torque_vs_speed.png)
+![Curva Característica Conjugado x Velocidade](../simulacao_ele035/parte1_regime_permanente/item_D_E_curvas_estator/figures/item1e_torque_vs_speed.png)
 
 #### Telemetria e Pontos Notáveis (Sidecar `item1e_torque_vs_speed.json`):
 - **Conjugado Máximo (Despolarização / Ruptura - $T_{max}$):** $54,634\text{ N}\cdot\text{m}$ ocorrendo a $1405,0\text{ rpm}$ ($s_{max} = 0,2194$).
@@ -325,7 +325,7 @@ A seguir são apresentadas e analisadas detalhadamente as cinco curvas caracter�
 
 ### Curva E.ii: Corrente de Estator x Velocidade
 
-![Curva Característica Corrente de Estator x Velocidade](../out/parte1_analitico/figures/item1e_corrente_vs_speed.png)
+![Curva Característica Corrente de Estator x Velocidade](../simulacao_ele035/parte1_regime_permanente/item_D_E_curvas_estator/figures/item1e_corrente_vs_speed.png)
 
 #### Telemetria e Pontos Notáveis (Sidecar `item1e_corrente_vs_speed.json`):
 - **Corrente de Linha de Partida a Rotor Bloqueado ($s = 1, n = 0$):** $I_{start} = 67,728\text{ A (RMS)}$.
@@ -344,7 +344,7 @@ A seguir são apresentadas e analisadas detalhadamente as cinco curvas caracter�
 
 ### Curva E.iii: Potência Ativa x Velocidade
 
-![Curva Característica Potência Ativa x Velocidade](../out/parte1_analitico/figures/item1e_potencia_vs_speed.png)
+![Curva Característica Potência Ativa x Velocidade](../simulacao_ele035/parte1_regime_permanente/item_D_E_curvas_estator/figures/item1e_potencia_vs_speed.png)
 
 #### Telemetria e Pontos Notáveis (Sidecar `item1e_potencia_vs_speed.json`):
 - **Potência Elétrica de Entrada Nominal ($n = 1715\text{ rpm}$):** $P_{elec} = 5014,79\text{ W}$.
@@ -365,7 +365,7 @@ A seguir são apresentadas e analisadas detalhadamente as cinco curvas caracter�
 
 ### Curva E.iv: Fator de Potência x Velocidade
 
-![Curva Característica Fator de Potência x Velocidade](../out/parte1_analitico/figures/item1e_fator_potencia_vs_speed.png)
+![Curva Característica Fator de Potência x Velocidade](../simulacao_ele035/parte1_regime_permanente/item_D_E_curvas_estator/figures/item1e_fator_potencia_vs_speed.png)
 
 #### Telemetria e Pontos Notáveis (Sidecar `item1e_fator_potencia_vs_speed.json`):
 - **Fator de Potência Nominal Analítico ($n = 1715\text{ rpm}$):** $\cos\phi = 0,81478$.
@@ -385,7 +385,7 @@ A seguir são apresentadas e analisadas detalhadamente as cinco curvas caracter�
 
 ### Curva E.v: Rendimento x Velocidade
 
-![Curva Característica Rendimento x Velocidade](../out/parte1_analitico/figures/item1e_rendimento_vs_speed.png)
+![Curva Característica Rendimento x Velocidade](../simulacao_ele035/parte1_regime_permanente/item_D_E_curvas_estator/figures/item1e_rendimento_vs_speed.png)
 
 #### Telemetria e Pontos Notáveis (Sidecar `item1e_rendimento_vs_speed.json`):
 - **Rendimento Eletromagnético Interno Nominal ($n = 1715\text{ rpm}$):** $\eta_{em} = 89,38\%$.
@@ -410,7 +410,7 @@ Para investigar o comportamento da máquina sob acionamento por inversor de freq
 
 Todas as curvas foram sobrepostas no mesmo gráfico e assinaladas com os respectivos pontos de conjugado máximo.
 
-![Família de Curvas de Controle Escalar V/f](../out/parte1_analitico/figures/item1f_vf_scalar_family.png)
+![Família de Curvas de Controle Escalar V/f](../simulacao_ele035/parte1_regime_permanente/item_F_controle_escalar_vf/figures/item1f_vf_scalar_family.png)
 
 ### Telemetria e Pontos Notáveis da Família $V/f$ (Sidecar `item1f_vf_scalar_family.json`):
 
@@ -439,7 +439,7 @@ Todas as curvas foram sobrepostas no mesmo gráfico e assinaladas com os respect
 
 ## Item 2.A: Montagem e Parametrização do Diagrama Simscape Specialized Power Systems
 
-Para realizar a análise dinâmica de transitórios eletromecânicos, montou-se um modelo computacional no ambiente **Simscape Specialized Power Systems (SPS)** do MATLAB/Simulink (`matlab/simulink/mit_simscape_model.slx`), governado pelo script de inicialização e parametrização `matlab/simulink/setup_motor_params.m`.
+Para realizar a análise dinâmica de transitórios eletromecânicos, montou-se um modelo computacional no ambiente **Simscape Specialized Power Systems (SPS)** do MATLAB/Simulink (`simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape/mit_simscape_model.slx`), governado pelo script de inicialização e parametrização `setup_parametros_Y.m`.
 
 ### Arquitetura do Modelo Computacional
 
@@ -534,7 +534,7 @@ A simulação de partida direta foi realizada com partida a partir do repouso ab
 
 ### 1. Transitório de Corrente e Inrush
 
-![Transitório de Corrente na Partida Direta a Vazio](../out/parte2_dinamico/figures/item2c_transient_dol_current.png)
+![Transitório de Corrente na Partida Direta a Vazio](../simulacao_ele035/parte2_simulacao_dinamica/item_C_partida_direta_vazio/figures/item2c_transient_dol_current.png)
 
 #### Telemetria Numérica (Sidecar `item2c_transient_dol_current.json`):
 - **Pico Instantâneo Máximo de Inrush:** $i_{peak} = 121,25\text{ A}$ ocorrendo exatamente em $t = 7,9\text{ ms}$ (primeiro semiciclo após o fechamento).
@@ -553,7 +553,7 @@ O gráfico evidencia com total fidelidade as três etapas da corrente:
 
 ### 2. Transitório de Velocidade na Partida a Vazio
 
-![Transitório de Velocidade na Partida Direta a Vazio](../out/parte2_dinamico/figures/item2c_transient_dol_speed.png)
+![Transitório de Velocidade na Partida Direta a Vazio](../simulacao_ele035/parte2_simulacao_dinamica/item_C_partida_direta_vazio/figures/item2c_transient_dol_speed.png)
 
 #### Telemetria Numérica (Sidecar `item2c_transient_dol_speed.json`):
 - **Velocidade Inicial:** $0,0\text{ rpm}$.
@@ -571,7 +571,7 @@ $$T_{em}(s) = B \cdot \omega_m \implies 7,92\text{ N}\cdot\text{m} = 0,0426 \tim
 
 ### 3. Transitório de Conjugado Eletromagnético na Partida a Vazio
 
-![Transitório de Conjugado na Partida Direta a Vazio](../out/parte2_dinamico/figures/item2c_transient_dol_torque.png)
+![Transitório de Conjugado na Partida Direta a Vazio](../simulacao_ele035/parte2_simulacao_dinamica/item_C_partida_direta_vazio/figures/item2c_transient_dol_torque.png)
 
 #### Telemetria Numérica (Sidecar `item2c_transient_dol_torque.json`):
 - **Pico Oscilatório Transitório Inicial:** $T_{e,max} = 78,80\text{ N}\cdot\text{m}$ em $t = 25\text{ ms}$.
@@ -594,7 +594,7 @@ O tempo de simulação total foi de $8,0\text{ segundos}$ para permitir a análi
 
 ### 1. Dinâmica da Rotação sob Carga
 
-![Resposta de Velocidade ao Degrau de Carga Nominal](../out/parte2_dinamico/figures/item2d_step_load_speed.png)
+![Resposta de Velocidade ao Degrau de Carga Nominal](../simulacao_ele035/parte2_simulacao_dinamica/item_D_degrau_carga_nominal/figures/item2d_step_load_speed.png)
 
 #### Telemetria Numérica (Sidecar `item2d_step_load_speed.json`):
 - **Velocidade Pré-Degrau ($t = 4,9\text{ s}$):** $1775,36\text{ rpm}$ ($s = 0,0136$).
@@ -609,7 +609,7 @@ A aplicação da carga de $20,60\text{ N}\cdot\text{m}$ desequilibra momentaneam
 
 ### 2. Dinâmica do Conjugado sob Carga
 
-![Resposta de Conjugado ao Degrau de Carga Nominal](../out/parte2_dinamico/figures/item2d_step_load_torque.png)
+![Resposta de Conjugado ao Degrau de Carga Nominal](../simulacao_ele035/parte2_simulacao_dinamica/item_D_degrau_carga_nominal/figures/item2d_step_load_torque.png)
 
 #### Telemetria Numérica (Sidecar `item2d_step_load_torque.json`):
 - **Conjugado Eletromagnético Pré-Degrau:** $7,922\text{ N}\cdot\text{m}$.
@@ -625,7 +625,7 @@ O conjugado eletromagnético salta de $7,92\text{ N}\cdot\text{m}$ e se estabele
 
 ### 3. Dinâmica da Corrente de Estator sob Carga
 
-![Resposta de Corrente de Estator ao Degrau de Carga Nominal](../out/parte2_dinamico/figures/item2d_step_load_current.png)
+![Resposta de Corrente de Estator ao Degrau de Carga Nominal](../simulacao_ele035/parte2_simulacao_dinamica/item_D_degrau_carga_nominal/figures/item2d_step_load_current.png)
 
 #### Telemetria Numérica (Sidecar `item2d_step_load_current.json`):
 - **Corrente de Linha Pré-Degrau a Vazio:** $8,482\text{ A}$ RMS.
@@ -640,7 +640,7 @@ Com o aumento da solicitação mecânica, a corrente estatórica aumenta de $8,4
 
 ### 4. Dinâmica das Potências Ativa e Reativa sob Carga
 
-![Resposta de Potências ao Degrau de Carga Nominal](../out/parte2_dinamico/figures/item2d_step_load_powers.png)
+![Resposta de Potências ao Degrau de Carga Nominal](../simulacao_ele035/parte2_simulacao_dinamica/item_D_degrau_carga_nominal/figures/item2d_step_load_powers.png)
 
 #### Telemetria Numérica (Sidecar `item2d_step_load_powers.json`):
 - **Potência Ativa Pré-Degrau a Vazio:** $P_{vazio} = 1835,8\text{ W}$.
@@ -666,7 +666,7 @@ Esse cenário emula fisicamente uma máquina motriz primária (como uma turbina 
 
 ### 1. Dinâmica da Rotação Hipersíncrona
 
-![Resposta de Velocidade na Operação Regenerativa](../out/parte2_dinamico/figures/item2e_regenerative_speed.png)
+![Resposta de Velocidade na Operação Regenerativa](../simulacao_ele035/parte2_simulacao_dinamica/item_E_operacao_regenerativa/figures/item2e_regenerative_speed.png)
 
 #### Telemetria Numérica (Sidecar `item2e_regenerative_speed.json`):
 - **Velocidade Inicial a Vazio:** $1775,36\text{ rpm}$ ($s = +0,0136 > 0$, subsíncrona).
@@ -683,7 +683,7 @@ O torque externo negativo acelera o rotor além da rotação síncrona ($1800\te
 
 ### 2. Dinâmica do Conjugado Eletromagnético de Frenagem
 
-![Resposta de Conjugado na Operação Regenerativa](../out/parte2_dinamico/figures/item2e_regenerative_torque.png)
+![Resposta de Conjugado na Operação Regenerativa](../simulacao_ele035/parte2_simulacao_dinamica/item_E_operacao_regenerativa/figures/item2e_regenerative_torque.png)
 
 #### Telemetria Numérica (Sidecar `item2e_regenerative_torque.json`):
 - **Conjugado Pré-Degrau a Vazio:** $+7,922\text{ N}\cdot\text{m}$.
@@ -699,7 +699,7 @@ O conjugado eletromagnético torna-se estritamente **negativo** ($-12,41\text{ N
 
 ### 3. Dinâmica das Potências Ativa e Reativa no Regime Regenerativo
 
-![Resposta de Potências na Operação Regenerativa](../out/parte2_dinamico/figures/item2e_regenerative_powers.png)
+![Resposta de Potências na Operação Regenerativa](../simulacao_ele035/parte2_simulacao_dinamica/item_E_operacao_regenerativa/figures/item2e_regenerative_powers.png)
 
 #### Telemetria Numérica (Sidecar `item2e_regenerative_powers.json`):
 - **Potência Ativa Pré-Degrau:** $+1835,8\text{ W}$ (consumida).
@@ -727,7 +727,7 @@ O conjugado eletromagnético torna-se estritamente **negativo** ($-12,41\text{ N
 
 Para permitir a visualização holística de todas as grandezas dinâmicas simuladas nas três etapas operacionais, consolidou-se o painel executivo apresentado na Figura abaixo.
 
-![Painel Executivo Consolidado de Transitórios Eletromecânicos](../out/sintetizado/figures/consolidated_transient_overview.png)
+![Painel Executivo Consolidado de Transitórios Eletromecânicos](../simulacao_ele035/painel_sintese_consolidado/figures/consolidated_transient_overview.png)
 
 ---
 
@@ -790,35 +790,27 @@ Os códigos desenvolvidos e os artefatos de dados estão organizados no reposit�
 
 ```text
 ufmg/lab-conv/proj/
-├── matlab/
-│   ├── analytical/
-│   │   ├── solve_equivalent_circuit.m       % Solução matricial vetorizada do circuito IEEE
-│   │   ├── plot_steady_state_curves.m       % Geração das 5 curvas nominais de regime
-│   │   └── run_analytical_sweeps.m          % Varreduras de velocidade e família V/f
-│   ├── simulink/
-│   │   ├── mit_simscape_model.slx           % Diagrama Simscape SPS com bloco Asynchronous Machine
-│   │   ├── setup_motor_params.m             % Parametrização com mapeamento Y-Delta
-│   │   └── run_sim_harness.m                % Harness automatizado de execução e despacho
-│   └── scripts/
-│       ├── run_task_3_1.m                   % Script de simulação da partida direta a vazio
-│       ├── run_task_3_2.m                   % Script de simulação do degrau de carga nominal
-│       ├── run_task_3_3.m                   % Script de simulação do regime gerador regenerativo
-│       └── generate_plot_sidecars.py        % Gerador de sidecars de telemetria dos gráficos
-├── out/
-│   ├── parte1_analitico/
-│   │   ├── figures/                         % Gráficos dos Itens 1E e 1F (.png, .fig, .json)
-│   │   └── results/                         % Tabelas e matrizes analíticas (.csv, .mat, .json)
-│   ├── parte2_dinamico/
-│   │   ├── figures/                         % Formas de onda dos transitórios (.png, .fig, .json)
-│   │   └── results/                         % Sinais temporais e validações (.json)
-│   └── sintetizado/
-│       ├── figures/                         % Dashboard executivo de transitórios (.png, .fig, .json)
-│       └── results/                         % Tabela comparativa consolidada multiregime (.csv, .json)
+├── simulacao_ele035/
+│   ├── parte1_regime_permanente/
+│   │   ├── item_A_B_C_ponto_nominal/       % Resolução do ponto nominal de catálogo (1715 rpm)
+│   │   ├── item_D_E_curvas_estator/        % As 5 curvas características de regime pleno
+│   │   └── item_F_controle_escalar_vf/    % Curvas sob controle V/f constante (100% a 25%)
+│   ├── parte2_simulacao_dinamica/
+│   │   ├── item_A_modelo_simscape/        % Diagrama Simscape SPS e parametrização Y
+│   │   ├── item_B_calculo_partida/        % Cálculo analítico em rotor bloqueado (s = 1)
+│   │   ├── item_C_partida_direta_vazio/   % Transitório de partida direta a vazio (TL = 0)
+│   │   ├── item_D_degrau_carga_nominal/   % Transitório com degrau de carga (TL = +Tnom)
+│   │   └── item_E_operacao_regenerativa/  % Operação regenerativa / gerador (TL = -Tnom)
+│   └── painel_sintese_consolidado/        % Painel executivo multicenário e matriz consolidada
 ├── docs/
-│   └── RELATORIO_FINAL_SIMULACAO.md         % Este relatório técnico consolidado
-└── utils/
-    ├── docs/                                % sim_proj.pdf e relatório de bancada experimental
-    └── plan/                                % Cronograma, checklist de entregáveis e STATUS.md
+│   ├── RELATORIO_FINAL_SIMULACAO.md       % Relatório técnico final consolidado
+│   └── RELATORIO_FINAL_SIMULACAO.pdf      % Versão para entrega e impressão
+├── utils/
+│   ├── data/                              % Dados brutos de ensaio de bancada (Aulas 8, 9, 10)
+│   ├── docs/                              % sim_proj.pdf e relatório laboratorial
+│   ├── memory/                            % Registros técnicos e decisões arquiteturais
+│   └── plan/                              % Cronograma, checklist e acompanhamento
+└── .agents/                               % Governança multiagente, hooks e recibos de portões
 ```
 
 ---

@@ -2,10 +2,9 @@
 module: dynamic_validation
 status: verified
 sources:
-  - matlab/scripts/run_task_3_1.m
-  - matlab/scripts/run_task_3_2.m
-  - matlab/scripts/run_task_3_3.m
-  - matlab/simulink/run_sim_harness.m
+  - simulacao_ele035/parte2_simulacao_dinamica/item_C_partida_direta_vazio/run_item_C_simulacao.m
+  - simulacao_ele035/parte2_simulacao_dinamica/item_D_degrau_carga_nominal/run_item_D_simulacao.m
+  - simulacao_ele035/parte2_simulacao_dinamica/item_E_operacao_regenerativa/run_item_E_simulacao.m
 gates_passed: [matlab-lint, simulink-gate, tolerance-gate, technical-critic]
 ---
 

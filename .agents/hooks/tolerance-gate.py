@@ -76,9 +76,18 @@ def main():
         sim_vals = data.get("simulated", {})
         ana_vals = data.get("analytical", default_analytical)
     else:
-        # Check if results json exists in out/results/
-        res_json = ROOT / "out" / "results" / f"comparison_{a.task}.json"
-        if res_json.is_file():
+        # Check comparison file in simulacao_ele035/ or fallback to out/results/
+        task_map = {
+            "1.1": ROOT / "simulacao_ele035" / "parte1_regime_permanente" / "item_A_B_C_ponto_nominal" / "comparison_1.1.json",
+            "3.1": ROOT / "simulacao_ele035" / "parte2_simulacao_dinamica" / "item_C_partida_direta_vazio" / "analise_convergencia.json",
+            "3.2": ROOT / "simulacao_ele035" / "parte2_simulacao_dinamica" / "item_D_degrau_carga_nominal" / "comparison_3.2.json",
+            "3.3": ROOT / "simulacao_ele035" / "parte2_simulacao_dinamica" / "item_E_operacao_regenerativa" / "comparison_3.3.json",
+        }
+        res_json = task_map.get(a.task)
+        if not res_json or not res_json.is_file():
+            res_json = ROOT / "out" / "results" / f"comparison_{a.task}.json"
+
+        if res_json and res_json.is_file():
             data = json.loads(res_json.read_text())
             sim_vals = data.get("simulated", {})
             ana_vals = data.get("analytical", default_analytical)

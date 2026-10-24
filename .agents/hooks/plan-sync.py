@@ -83,7 +83,9 @@ def evidence_ok(row):
     ev = (row.get("Evidência") or "").strip()
     need = required_gates(row)
     if ev.startswith("gate:"):
-        f = ROOT / "out" / "gates" / f"{ev[5:]}.json"
+        f = ROOT / ".agents" / "gates" / f"{ev[5:]}.json"
+        if not f.is_file():
+            f = ROOT / "out" / "gates" / f"{ev[5:]}.json"
         if not f.is_file():
             return f"evidence file missing: {f.relative_to(ROOT)}"
         gates = json.loads(f.read_text()).get("gates", {})

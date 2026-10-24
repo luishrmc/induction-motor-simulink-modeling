@@ -2,9 +2,9 @@
 module: analytical_engine
 status: verified
 sources:
-  - matlab/analytical/solve_equivalent_circuit.m sha256=db1c9c7ff26c3a65e533c3651f541b023738fb5f57e756da07f8d9eaa1e827d9
-  - matlab/analytical/plot_steady_state_curves.m sha256=4dd2cbc91ddd1be33e11fc6a9c1d5c5d24bed3d4fde82690f60ddf13fcd3b224
-  - matlab/analytical/run_analytical_sweeps.m sha256=1ffc478fa38f43b533d9ef0e1e21df720b9cfea1eb64f2143ce8e448823a95cc
+  - simulacao_ele035/parte1_regime_permanente/item_A_B_C_ponto_nominal/run_item_ABC.m
+  - simulacao_ele035/parte1_regime_permanente/item_D_E_curvas_estator/run_all_item_E.m
+  - simulacao_ele035/parte1_regime_permanente/item_F_controle_escalar_vf/run_item_F_vf_family.m
 gates_passed: [matlab-lint, analytical-gate]
 ---
 

@@ -11,19 +11,15 @@ Model, solve, simulate, and validate a WEG 3.7 kW (5 cv), 220 V (Delta), 4-pole,
 
 | Path | Content |
 |---|---|
-| `matlab/analytical/` | Vectorized analytical calculation scripts and steady-state sweep routines |
-| `matlab/simulink/` | Parametric `.slx` models and automated simulation setup/run harnesses |
-| `matlab/scripts/` | Batch orchestration, headless CLI runners, and data extraction scripts |
+| `simulacao_ele035/parte1_regime_permanente/` | Part 1 steady-state analytical engine, nominal metrics, sweeps, and scalar V/f |
+| `simulacao_ele035/parte2_simulacao_dinamica/` | Part 2 Simscape SPS model, locked-rotor calculation, and dynamic transient waveforms |
+| `simulacao_ele035/painel_sintese_consolidado/` | Multi-scenario dynamic overview dashboard and consolidated comparison matrices |
+| `docs/` | Final academic technical report (`RELATORIO_FINAL_SIMULACAO.md` and compiled `.pdf`) |
 | `utils/data/` | Experimental bench CSVs (`01` to `07`) and summary JSONs |
 | `utils/docs/` | Academic specifications (`sim_proj.pdf`) and laboratory baseline report |
 | `utils/plan/` | Project roadmap CSVs, task breakdowns, `STATUS.md`, `CHANGELOG.md` |
 | `utils/memory/` | Technical memory, ADRs (`decisions.md`), `lessons.md`, and module digests |
-| `.agents/` | Multi-agent topology, domain skills, and validation hooks |
-| `out/parte1_analitico/` | Part 1 steady-state curves (Items 1E & 1F), nominal metrics, and plot sidecars |
-| `out/parte2_dinamico/` | Part 2 dynamic Simscape transients (Items 2C, 2D, 2E), waveforms, and plot sidecars |
-| `out/sintetizado/` | Multi-scenario overview dashboard and consolidated comparison matrices |
-| `out/gates/` | Verification gate pass/fail receipts |
-| `simulacao_ele035/` | Academic task-specific modular directory mirroring `sim_proj.pdf` (standalone runners, MATLAB GUI models, and sidecars) |
+| `.agents/` | Multi-agent topology, domain skills, validation hooks, and gate receipts (`.agents/gates/`) |
 
 ## 2. Decision Hierarchy (Highest First)
 
@@ -44,7 +40,7 @@ If two levels conflict, stop and request clarification. Never make silent approx
 5. Technical parameters from `utils/memory/modules/motor_parameters.md`.
 
 At the end of every task iteration:
-- Record gate evidence in `out/gates/<task-id>.json` using `gate_record.py`.
+- Record gate evidence in `.agents/gates/<task-id>.json` using `gate_record.py`.
 - Run `python3 .agents/hooks/tolerance-gate.py` for steady-state simulation vs. analytical checks.
 - Document task challenges, failure modes, and Gauntlet review iterations in `utils/memory/episodes/<task-id>.md`.
 - Update module digests and refresh hashes via `python3 .agents/hooks/memory-check.py --update <module>`.

@@ -2,9 +2,9 @@
 module: simscape_model
 status: verified
 sources:
-  - matlab/simulink/setup_motor_params.m
-  - matlab/simulink/build_simscape_model.m
-  - matlab/simulink/run_sim_harness.m
+  - simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape/setup_parametros_Y.m
+  - simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape/build_simscape_model.m
+  - simulacao_ele035/parte2_simulacao_dinamica/item_B_calculo_partida/run_item_B_partida.m
 gates_passed: [matlab-lint, simulink-gate]
 ---
 

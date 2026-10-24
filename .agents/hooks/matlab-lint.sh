@@ -4,7 +4,7 @@ set -euo pipefail
 
 TASK_ID="${TASK_ID:-unknown}"
 GATE_NAME="matlab-lint"
-SRC_DIR="matlab"
+SRC_DIR="simulacao_ele035"
 
 echo "[LINT] Checking MATLAB source files in ${SRC_DIR}..."
 
