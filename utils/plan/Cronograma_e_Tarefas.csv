@@ -8,4 +8,4 @@ ID da Tarefa,Fase,Atividade Detalhada,Entregável Associado,Duração Estimada (
 3.2,3,Simulação do degrau de torque de carga nominal e auditoria de convergência,Resultados de simulação,3,3.1,Concluída,Alta,2026-10-24,2026-10-24,gate:3.2,2026-10-24,
 3.3,3,Simulação da operação regenerativa em torque negativo e fluxo reverso,Resultados de simulação,2,3.2,Concluída,Alta,2026-10-24,2026-10-24,gate:3.3,2026-10-24,
 4.1,4,Síntese comparativa de dados e exportação das curvas em alta resolução,Tabelas e figuras finais,2,3.3,Concluída,Média,2026-10-24,2026-10-24,gate:4.1,2026-10-24,
-4.2,4,Redação do relatório técnico final e estruturação do pacote de entrega,Relatório final,4,4.1,Em andamento,Alta,2026-10-24,,,2026-10-24,
+4.2,4,Redação do relatório técnico final e estruturação do pacote de entrega,Relatório final,4,4.1,Concluída,Alta,2026-10-24,2026-10-24,gate:4.2,2026-10-24,

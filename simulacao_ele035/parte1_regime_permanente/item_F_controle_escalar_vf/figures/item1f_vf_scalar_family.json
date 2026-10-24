@@ -18,17 +18,17 @@
     "control_type": "Proportional Scalar V/f (Constant Volts/Hertz ratio = 3.667 V/Hz)"
   },
   "key_numerical_markers": {
-    "Tmax_100pct_Nm": 54.634,
-    "speed_Tmax_100pct_rpm": 1405.0,
+    "Tmax_100pct_Nm": 54.633,
+    "speed_Tmax_100pct_rpm": 1405.2,
     "sync_speed_100pct_rpm": 1800.0,
-    "Tmax_75pct_Nm": 52.887,
-    "speed_Tmax_75pct_rpm": 1055.0,
+    "Tmax_75pct_Nm": 50.933,
+    "speed_Tmax_75pct_rpm": 962.7,
     "sync_speed_75pct_rpm": 1350.0,
-    "Tmax_50pct_Nm": 48.961,
-    "speed_Tmax_50pct_rpm": 705.0,
+    "Tmax_50pct_Nm": 44.402,
+    "speed_Tmax_50pct_rpm": 531.9,
     "sync_speed_50pct_rpm": 900.0,
-    "Tmax_25pct_Nm": 38.647,
-    "speed_Tmax_25pct_rpm": 355.0,
+    "Tmax_25pct_Nm": 30.652,
+    "speed_Tmax_25pct_rpm": 151.3,
     "sync_speed_25pct_rpm": 450.0
   },
   "axis_extents": {
@@ -43,7 +43,7 @@
   },
   "physical_phenomena_summary": [
     "Mantendo a razão V/f constante, a velocidade síncrona reduz linearmente com a frequência (1800, 1350, 900 e 450 rpm).",
-    "A conjugado máximo Tmax sofre degradação progressiva em baixas frequências (de 54.6 N.m a 38.6 N.m a 25%).",
+    "A conjugado máximo Tmax sofre degradação progressiva em baixas frequências (de 54.6 N.m a 30.7 N.m a 25%).",
     "Esta queda ocorre porque a resistência estatórica R1 = 1.189 Ohm não varia com a frequência, tornando a queda ôhmica I*R1 preponderante sobre as reatâncias (X proportional to f).",
     "Em inversores reais de frequência, aplica-se a compensação de reforço de torque (voltage boost) em baixas rotações para mitigar este efeito."
   ]

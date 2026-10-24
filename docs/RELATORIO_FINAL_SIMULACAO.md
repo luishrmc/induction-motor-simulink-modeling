@@ -416,10 +416,10 @@ Todas as curvas foram sobrepostas no mesmo gráfico e assinaladas com os respect
 
 | Patamar $V/f$ | Tensão $V_L$ (V) | Frequência $f$ (Hz) | Rotação Síncrona $n_s$ (rpm) | Conjugado Máximo $T_{max}$ (N.m) | Rotação no $T_{max}$ (rpm) |
 |---|---|---|---|---|---|
-| **100%** | $220,0$ | $60,0$ | $1800,0$ | $54,634$ | $1405,0$ |
-| **75%** | $165,0$ | $45,0$ | $1350,0$ | $50,882$ | $961,4$ |
-| **50%** | $110,0$ | $30,0$ | $900,0$ | $44,381$ | $531,0$ |
-| **25%** | $55,0$ | $15,0$ | $450,0$ | $30,542$ | $152,0$ |
+| **100%** | $220,0$ | $60,0$ | $1800,0$ | $54,633$ | $1405,2$ |
+| **75%** | $165,0$ | $45,0$ | $1350,0$ | $50,933$ | $962,7$ |
+| **50%** | $110,0$ | $30,0$ | $900,0$ | $44,402$ | $531,9$ |
+| **25%** | $55,0$ | $15,0$ | $450,0$ | $30,652$ | $151,3$ |
 
 ### Análise Física e Teórica do Comportamento sob Controle Escalar:
 1. **Princípio do Fluxo Magnético Constante:** Em um motor de indução, o fluxo no entreferro por polo é dado aproximadamente por:
@@ -429,7 +429,7 @@ Todas as curvas foram sobrepostas no mesmo gráfico e assinaladas com os respect
 3. **Queda Ôhmica do Estator ($I_1 R_1$) e Degradação de $T_{max}$ em Baixas Frequências:**
    Teoricamente, desconsiderando a resistência estatórica ($R_1 = 0$), o conjugado máximo seria rigorosamente invariante com a frequência:
    $$T_{max} \approx \frac{3 p}{4 \omega_s} \cdot \frac{V_{TH}^2}{X_{TH} + X_2'} \propto \frac{(V/f)^2}{(L_{l1} + L_{l2}')} = \text{constante}$$
-   Entretanto, como evidencia o gráfico gerado com a formulação analítica exata, o conjugado máximo sofre uma redução sistemática de **$54,63\text{ N}\cdot\text{m}$ (a 60 Hz)** para **$30,54\text{ N}\cdot\text{m}$ (a 15 Hz)** — uma perda de **$44,1\%$**.
+   Entretanto, como evidencia o gráfico gerado com a formulação analítica exata, o conjugado máximo sofre uma redução sistemática de **$54,63\text{ N}\cdot\text{m}$ (a 60 Hz)** para **$30,65\text{ N}\cdot\text{m}$ (a 15 Hz)** — uma perda de **$43,9\%$**.
    **Causa Física:** Em frequências reduzidas, a reatância indutiva $X_1 = 2\pi f L_{l1}$ diminui proporcionalmente a $f$, enquanto a resistência ôhmica do condutor $R_1 = 1,189\,\Omega$ permanece estritamente constante. Consequentemente, a queda de tensão resistiva interna $I_1 R_1$ passa a representar uma parcela percentual muito maior da tensão terminal reduzida de entrada ($55\text{ V}$ a 15 Hz). A tensão de entreferro $E_1$ é severamente atenuada, enfraquecendo o fluxo magnético útil $\Phi_m$.
 4. **Implicação Prática de Engenharia:** Este fenômeno demonstra com clareza cristalina a necessidade imperativa da técnica industrial de **compensação de queda $IR$ (*voltage boost*)**, em que os inversores comerciais elevam ligeiramente a tensão em frequências inferiores a 15–20 Hz para restituir o fluxo nominal e assegurar conjugado pleno de partida.
 
