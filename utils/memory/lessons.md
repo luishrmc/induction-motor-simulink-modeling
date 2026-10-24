@@ -33,3 +33,11 @@ Limit: 80 lines. Orchestrator-maintained log of technical insights, solver issue
 ## 8. Headless Linux Canvas Export
 - **Quirk:** In headless Linux environments without an active X11 server, exporting graphics can print benign Qt Wayland/XCB warnings.
 - **Fix:** Set `export QT_QPA_PLATFORM=offscreen` before running batch MATLAB visualization scripts.
+
+## 9. Simscape Stiff DAE Solver Selection (Stalling Prevention)
+- **Quirk:** Defaulting to explicit variable-step solvers (e.g. `ode45`) on Simscape physical networks chokes on stiff DAEs from leakage inductances, causing sub-microsecond time steps and multi-minute stalls.
+- **Fix:** Always use an implicit solver (`ode23tb`, `ode15s`) or configure a discrete local solver (`Backward Euler`, $T_s = 50\,\mu\text{s}$) paired with `FixedStepDiscrete`.
+
+## 10. Modern Simscape Electrical SPS Library Path
+- **Quirk:** In modern MATLAB releases (R2024b+ through R2026b), Specialized Power Systems blocks reside under `toolbox/physmod/elec/assistant/m/transform`.
+- **Fix:** Dynamically add `matlabroot/toolbox/physmod/elec/assistant/m/transform` to the MATLAB path in initialization scripts before loading models.

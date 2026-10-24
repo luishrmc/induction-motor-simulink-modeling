@@ -1,0 +1,17 @@
+{
+  "task": "2.1",
+  "gates": {
+    "matlab-lint": {
+      "status": "PASS",
+      "detail": "Clean static analysis",
+      "src_sha256": "5bbd033c60165b8741b5706f8e9691908c3ac913213bb8c7eeb351923553d74b",
+      "timestamp": "2026-10-24T12:55:59-0300"
+    },
+    "simulink-gate": {
+      "status": "PASS",
+      "detail": "Simscape model execution verified",
+      "src_sha256": "6ae81567dcca940a6a595ec751ae1183834ad35726be60a00c73a2ff9fdbdb5e",
+      "timestamp": "2026-10-24T12:55:45-0300"
+    }
+  }
+}

@@ -11,3 +11,5 @@ All modifications to `utils/plan/*.csv` and roadmap milestones are recorded here
 - **2026-10-24 [Task 1.1]**: Transição de `Em andamento` para `Concluída`. Evidência: `gate:1.1`.
 - **2026-10-24 [Task 1.2]**: Transição de `Pendente` para `Em andamento`.
 - **2026-10-24 [Task 1.2]**: Transição de `Em andamento` para `Concluída`. Evidência: `gate:1.2`.
+- **2026-10-24 [Task 2.1]**: Transição de `Pendente` para `Em andamento`.
+- **2026-10-24 [Task 2.1]**: Transição de `Em andamento` para `Concluída`. Evidência: `gate:2.1`.
