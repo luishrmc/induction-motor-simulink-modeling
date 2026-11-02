@@ -1,52 +1,69 @@
 \section{Dados de Placa e Parâmetros Experimentais da Bancada}\label{sec:parametros_bancada}
 
-A parametrização do circuito equivalente em T e das constantes mecânicas da bancada decorre dos ensaios de resistência sob corrente contínua, rotor bloqueado a \SI{60}{\hertz}, operação a vazio e desaceleração livre. A segregação desses parâmetros permite conciliar o modelo eletromagnético da máquina com o arrasto e a inércia do conjunto motor-gerador acoplado.
+A parametrização do circuito equivalente em T e a caracterização da dinâmica rotacional decorrem de quatro ensaios experimentais padronizados: resistência sob corrente contínua, operação a vazio, rotor bloqueado a \SI{60}{\hertz} e desaceleração livre. Esses ensaios foram executados em um motor assíncrono trifásico WEG de carcaça 100L, cuja placa de identificação indica potência nominal de \SI{3,7}{\kilo\watt} (\SI{5,0}{\cv}), tensão nominal de linha de \SI{220}{\volt} em conexão Triângulo ($\Delta$), corrente nominal de \SI{14,0}{\ampere}, quatro polos ($p = 4$), velocidade de \SI{1715}{\RPM} sob frequência de \SI{60}{\hertz}, fator de potência nominal de $0{,}81$ e rendimento de $85{,}5\,\%$.
 
-O motor avaliado é uma máquina assíncrona trifásica WEG de carcaça 100L, com potência nominal de \SI{3,7}{\kilo\watt} (\SI{5,0}{\cv}), especificada para tensão nominal de linha de \SI{220}{\volt} em conexão Triângulo ($\Delta$) e corrente nominal de \SI{14,0}{\ampere} sob frequência de \SI{60}{\hertz}.
+A determinação da resistência ôhmica do estator realizou-se aplicando-se corrente contínua entre dois terminais externos da máquina por método volt-amperimétrico. Como os enrolamentos internos encontram-se conectados em triângulo, a resistência medida entre fases ($R_{\text{med}}$) corresponde à associação em paralelo de uma fase com as outras duas em série. Dessa relação geométrica deduz-se a resistência por fase $R_1 = \frac{3}{2} R_{\text{med}}$, cujo valor, corrigido termicamente para a temperatura de referência de \SI{75}{\celsius}, resultou em $R_1 = \SI{1,189}{\ohm}$.
 
-A resistência estatórica ($R_1 = \SI{1,189}{\ohm}$) foi obtida pelo método volt-amperimétrico sob corrente contínua, medindo-se a resistência equivalente entre bornes externos com a relação de conversão para estator conectado em triângulo ($R_1 = \frac{3}{2} R_{\text{med}}$), referida à temperatura de operação de \SI{75}{\celsius}. A resistência rotórica refletida ($R_2' = \SI{1,180}{\ohm}$) decorre do ensaio de rotor bloqueado com escorregamento unitário ($s = 1$) sob frequência nominal de \SI{60}{\hertz}, segregando a componente estatórica da resistência de curto-circuito ($R_{cc} = R_1 + R_2'$).
+O ensaio a vazio foi conduzido com o eixo desacoplado de qualquer carga mecânica ($T_L = 0$). Sob alimentação trifásica balanceada em frequência nominal, o rotor acelerou até atingir rotação próxima à síncrona ($n_0 \approx \SI{1799}{\RPM}$), operando com escorregamento praticamente nulo ($s \to 0$). Nessa velocidade, a resistência aparente do ramo rotórico ($R_2'/s$) tende a infinito, fazendo com que o ramo secundário se comporte como um circuito aberto. A corrente absorvida pelo estator reduz-se à componente de excitação necessária para estabelecer o campo magnético no entreferro, permitindo isolar a reatância de magnetização mútua $X_m = \SI{49,601}{\ohm}$ ($L_m = \SI{131,571}{\milli\henry}$). A resistência de perdas no núcleo de ferro ($R_c$) é desconsiderada na formulação clássica do circuito T adotada.
 
-As reatâncias de dispersão ($X_1 = \SI{2,158}{\ohm}$ e $X_2' = \SI{3,174}{\ohm}$) foram determinadas a partir da reatância de curto-circuito ($X_{cc}$), adotando a partição empírica recomendada pela norma ABNT NBR 17094 para motores de classe B ($X_1 = 0{,}4 X_{cc}$ e $X_2' = 0{,}6 X_{cc}$), correspondendo a indutâncias de dispersão de $L_{l1} = \SI{5,725}{\milli\henry}$ e $L_{l2}' = \SI{8,420}{\milli\henry}$. A reatância de magnetização ($X_m = \SI{49,601}{\ohm}$, $L_m = \SI{131,571}{\milli\henry}$) foi obtida do ensaio a vazio com escorregamento nulo ($s \to 0$), no qual o ramo rotórico opera em circuito aberto. A resistência representativa das perdas no núcleo ferromagnético ($R_c$) é desconsiderada no circuito T clássico.
+O ensaio de rotor bloqueado forneceu os parâmetros longitudinais de dispersão e a resistência rotórica referida. Por se tratar de uma máquina de potência moderada e diante da ausência de máquina de carga acoplada ou dinamômetro no arranjo experimental da bancada, o travamento mecânico do eixo foi executado manualmente pelos operadores. O travamento manual do rotor impôs restrições de segurança operacional e proteção térmica aos enrolamentos, exigindo a alimentação do estator sob tensão reduzida mediante autotransformador trifásico regulável (Variac). Elevou-se a tensão gradativamente a partir de zero até que a corrente de linha atingisse o patamar nominal de placa ($I_{cc} = \SI{14,07}{\ampere}$), patamar estabelecido sob tensão de linha de $V_{cc} = \SI{47,4}{\volt}$, prevenindo sobreaquecimento e moderando o conjugado eletromagnético estático desenvolvido durante a medição.
 
-Os parâmetros mecânicos da bancada ($J = \SI{0,701}{\kilogram\meter\squared}$ e $B = \SI{0,0426}{\Nm\cdot\second/\radian}$) resultaram do ensaio dinâmico de desaceleração livre. Enquanto o motor individual apresenta inércia própria reduzida ($J_{\text{motor}} \approx \SI{0,015}{\kilogram\meter\squared}$), o arranjo físico acopla o motor de indução a uma máquina de corrente contínua e a um torquímetro, determinando a inércia total e o atrito viscoso equivalentes.
+Nessa condição de escorregamento unitário ($s = 1$), mediu-se a potência ativa trifásica absorvida pelo método dos dois wattímetros, registrando-se $W_1 = \SI{-31}{\watt}$ e $W_2 = \SI{500}{\watt}$, totalizando $P_{cc} = W_1 + W_2 = \SI{469}{\watt}$. Com o estator em conexão triângulo, a tensão de fase iguala-se à tensão de linha ($V_{cc,ph} = \SI{47,4}{\volt}$) e a corrente de fase resulta em $I_{cc,ph} = I_{cc} / \sqrt{3} = \SI{8,123}{\ampere}$. A impedância de curto-circuito por fase expressa-se por:
+\begin{equation}
+Z_{cc} = \frac{V_{cc,ph}}{I_{cc,ph}} = \frac{47{,}4}{8{,}123} = \SI{5,835}{\ohm}.
+\label{eq:zcc_calculada}
+\end{equation}
+A resistência equivalente de curto-circuito decorre da potência ativa dissipada por fase:
+\begin{equation}
+R_{cc} = \frac{P_{cc}}{3 \cdot I_{cc,ph}^2} = \frac{469}{3 \cdot (8{,}123)^2} = \SI{2,369}{\ohm}.
+\label{eq:rcc_calculada}
+\end{equation}
+Pela quadratura fasorial entre impedância e resistência, obtém-se a reatância total de dispersão:
+\begin{equation}
+X_{cc} = \sqrt{Z_{cc}^2 - R_{cc}^2} = \sqrt{5{,}835^2 - 2{,}369^2} = \SI{5,332}{\ohm}.
+\label{eq:xcc_calculada}
+\end{equation}
+Subtraindo a resistência estatórica ($R_1 = \SI{1,189}{\ohm}$) da resistência de curto-circuito, determina-se a resistência rotórica refletida:
+\begin{equation}
+R_2' = R_{cc} - R_1 = 2{,}369 - 1{,}189 = \SI{1,180}{\ohm}.
+\label{eq:r2_calculada}
+\end{equation}
 
-A equação diferencial que descreve o movimento angular do rotor no domínio do tempo é expressa por:
+A discriminação da reatância total de dispersão nas componentes do estator ($X_1$) e do rotor ($X_2'$) baseou-se na proporção prescrita pela norma ABNT NBR 17094 para motores de projeto Categoria N ($X_1 / X_2' = 0{,}68$). Dessa partição resultam $X_1 = 0{,}405 \cdot X_{cc} = \SI{2,158}{\ohm}$ ($L_{l1} = \SI{5,725}{\milli\henry}$) e $X_2' = 0{,}595 \cdot X_{cc} = \SI{3,174}{\ohm}$ ($L_{l2}' = \SI{8,420}{\milli\henry}$).
+
+A dinâmica rotacional do conjunto é descrita pela equação diferencial do movimento angular:
 \begin{equation}
 J \frac{d\omega_m}{dt} = T_e - T_L - B \omega_m,
 \label{eq:dinamica_rotacional_bancada}
 \end{equation}
-na qual $T_e$ representa o conjugado eletromagnético e $T_L$ o conjugado de carga aplicado ao eixo.
+na qual $T_e$ denota o conjugado eletromagnético gerado, $T_L$ o conjugado de carga externo e $\omega_m$ a velocidade mecânica. As constantes mecânicas da bancada foram levantadas no ensaio de desaceleração livre com alimentação elétrica interrompida ($T_e = 0$) e sem carga externa ($T_L = 0$). Enquanto o motor individual apresenta inércia própria reduzida ($J_{\text{motor}} \approx \SI{0,015}{\kilogram\meter\squared}$), a bancada acopla o motor de indução a uma máquina de corrente contínua e ao conjunto de medição, elevando a inércia equivalente para $J = \SI{0,701}{\kilogram\meter\squared}$ e o coeficiente de atrito viscoso para $B = \SI{0,0426}{\Nm\cdot\second/\radian}$.
 
-A \Cref{tab:parametros_consolidados} consolida os dados de placa e os parâmetros concentrados por fase da máquina.
+A \Cref{tab:parametros_consolidados} consolida os parâmetros elétricos e mecânicos obtidos para a máquina em conexão Triângulo.
 
 \begin{table}[H]
 \centering
 \small
-\caption{Parâmetros nominais e concentrados do motor de indução WEG \SI{3,7}{\kilo\watt}.}
+\caption{Parâmetros elétricos e mecânicos consolidados da máquina sob ensaio.}
 \label{tab:parametros_consolidados}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{lcccc}
 \toprule
-\textbf{Grandeza} & \textbf{Símbolo} & \textbf{Valor} & \textbf{Unidade} & \textbf{Origem} \\
+\textbf{Parâmetro} & \textbf{Símbolo} & \textbf{Valor} & \textbf{Unidade} & \textbf{Origem Experimental} \\
 \midrule
-Potência Mecânica Nominal & $P_{nom}$ & $3{,}70$ ($5{,}0$) & \si{\kilo\watt} (\si{\cv}) & Placa de catálogo \\
-Tensão Nominal de Linha & $V_{L,nom}$ & $220$ & \si{\volt} & Conexão Triângulo ($\Delta$) \\
-Corrente Nominal de Linha & $I_{line,nom}$ & $14{,}0$ & \si{\ampere} & Placa de catálogo \\
-Frequência Nominal & $f_{nom}$ & $60$ & \si{\hertz} & Padrão de rede \\
-Número de Polos & $p$ & $4$ & -- & $p_{\text{pares}} = 2$ ($n_s = \SI{1800}{\RPM}$) \\
-Velocidade Nominal & $n_{nom}$ & $1715$ & \si{\RPM} & $\omega_{nom} = \SI{179,5943}{\rads}$ \\
-Fator de Potência Nominal & $\cos\phi_{nom}$ & $0{,}81$ & -- & Placa de catálogo \\
-Rendimento de Catálogo & $\eta_{nom}$ & $85{,}5$ & \si{\percent} & Placa de catálogo \\
-Escorregamento Nominal & $s_{nom}$ & $0{,}04722$ & -- & $s_{nom} = (1800-1715)/1800$ \\
-\midrule
-Resistência Estatórica & $R_1$ & $1{,}189$ & \si{\ohm} & Ensaio CC (\SI{75}{\celsius}) \\
-Resistência Rotórica Refletida & $R_2'$ & $1{,}180$ & \si{\ohm} & Ensaio de rotor bloqueado \\
-Indutância de Dispersão Estatórica & $L_{l1}$ & $5{,}725$ & \si{\milli\henry} & $X_1 = \SI{2,158}{\ohm}$ \\
-Indutância de Dispersão Rotórica & $L_{l2}'$ & $8{,}420$ & \si{\milli\henry} & $X_2' = \SI{3,174}{\ohm}$ \\
-Indutância de Magnetização & $L_m$ & $131{,}571$ & \si{\milli\henry} & $X_m = \SI{49,601}{\ohm}$ \\
-Momento de Inércia Total & $J$ & $0{,}701$ & \si{\kilogram\meter\squared} & Conjunto motor-gerador \\
-Coeficiente de Atrito Viscoso & $B$ & $0{,}0426$ & \si{\Nm\cdot\second/\radian} & Desaceleração acoplada \\
+Resistência Estatórica por Fase & $R_1$ & $1{,}189$ & \si{\ohm} & Ensaio CC corrigido (\SI{75}{\celsius}) \\
+Resistência Rotórica Refletida & $R_2'$ & $1{,}180$ & \si{\ohm} & Rotor bloqueado ($s = 1$) \\
+Reatância de Dispersão do Estator & $X_1$ & $2{,}158$ & \si{\ohm} & Proporção Categoria N ($0{,}405 X_{cc}$) \\
+Reatância de Dispersão do Rotor & $X_2'$ & $3{,}174$ & \si{\ohm} & Proporção Categoria N ($0{,}595 X_{cc}$) \\
+Indutância de Dispersão do Estator & $L_{l1}$ & $5{,}725$ & \si{\milli\henry} & $L_{l1} = X_1 / (2\pi \cdot 60)$ \\
+Indutância de Dispersão do Rotor & $L_{l2}'$ & $8{,}420$ & \si{\milli\henry} & $L_{l2}' = X_2' / (2\pi \cdot 60)$ \\
+Reatância de Magnetização Mútua & $X_m$ & $49{,}601$ & \si{\ohm} & Ensaio a vazio ($s \to 0$) \\
+Indutância de Magnetização Mútua & $L_m$ & $131{,}571$ & \si{\milli\henry} & $L_m = X_m / (2\pi \cdot 60)$ \\
+Resistência de Perdas no Ferro & $R_c$ & $\infty$ & \si{\ohm} & Desprezada no modelo em T \\
+Inércia Rotacional Equivalente & $J$ & $0{,}701$ & \si{\kilogram\meter\squared} & Desaceleração acoplada à bancada \\
+Atrito Viscoso Equivalente & $B$ & $0{,}0426$ & \si{\Nm\cdot\second/\radian} & Desaceleração acoplada à bancada \\
 \bottomrule
 \end{tabular}%
 }
 \end{table}
+
+A síntese dos parâmetros revela aspectos construtivos da máquina de indução ensaiada. A reatância de dispersão rotórica supera a estatórica ($X_2' / X_1 \approx 1{,}47$), característica típica de gaiolas de esquilo com barras profundas voltadas a conter a corrente de partida mantendo elevado conjugado em velocidade nominal. Ademais, a reatância magnetizante excede a dispersão primária por um fator de vinte e três vezes ($X_m / X_1 \approx 23$), confirmando a baixa relutância magnética do entreferro e a predominância do enlace de fluxo mútuo no circuito elétrico equivalente.

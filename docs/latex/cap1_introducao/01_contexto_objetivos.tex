@@ -1,21 +1,19 @@
 \section{Contextualização e Objetivos Acadêmicos}\label{sec:contexto_objetivos}
 
-A modelagem eletromecânica do motor de indução trifásico com rotor em gaiola de esquilo fundamenta-se na representação por circuitos elétricos equivalentes por fase em regime permanente senoidal e no equacionamento da dinâmica rotacional \cite{fitzgerald2014maquinas,chapman2013fundamentos}. A predição de grandezas nominais e transitórias decorre da segregação entre as perdas Joule, as perdas mecânicas e a potência eletromecânica convertida, governada pelo escorregamento relativo do campo girante.
+O motor de indução trifásico com rotor em gaiola de esquilo atua como o principal elemento de conversão eletromecânica no ambiente industrial. Essa predominância resulta de características construtivas favoráveis, como simplicidade estrutural, custo de aquisição reduzido e ausência de contatos elétricos deslizantes. A modelagem dessas máquinas apoia-se em circuitos elétricos equivalentes monofásicos sob regime permanente senoidal, descritos pelas normas IEEE Std 112 e ABNT NBR 17094 \cite{ieee112_2017,fitzgerald2014maquinas}.
 
-O motor assíncrono de gaiola constitui o principal elemento de conversão eletromecânica em instalações industriais em virtude de sua robustez estrutural, custo de aquisição competitivo e ausência de contatos elétricos deslizantes. A conformidade normativa estabelecida pela IEEE Std 112 e pela ABNT NBR 17094 preconiza métodos analíticos e ensaios experimentais padronizados para determinação de parâmetros concentrados e levantamento de rendimento \cite{ieee112_2017}.
-
-A velocidade angular síncrona do campo magnético girante produzido pela distribuição espacial trifásica dos enrolamentos do estator é dada por:
+Nessa representação circuital, as perdas por efeito Joule nos enrolamentos separam-se da potência mecânica líquida convertida através do escorregamento relativo do rotor frente ao campo magnético girante. Esse campo magnético surge da distribuição espacial trifásica dos enrolamentos do estator excitados por tensões balanceadas, girando com velocidade angular síncrona expressa por:
 \begin{equation}
 n_s = \frac{120 \cdot f}{p} \quad [\RPM], \qquad \omega_s = \frac{2\pi f}{p_{\text{pares}}} \quad [\rads],
 \label{eq:velocidade_sincrona}
 \end{equation}
-em que $f$ representa a frequência da rede elétrica trifásica e $p$ o número total de polos magnéticos da máquina ($p_{\text{pares}} = p/2$). 
+em que $f$ denota a frequência da rede de alimentação e $p$ o número total de polos magnéticos ($p_{\text{pares}} = p/2$).
 
-A rotação mecânica do rotor ($\omega_m$) difere da síncrona pela presença do escorregamento relativo normalizado ($s$):
+A rotação mecânica do rotor ($\omega_m$) diverge da velocidade síncrona do campo pelo escorregamento relativo normalizado:
 \begin{equation}
-s = \frac{n_s - n}{n_s} = \frac{\omega_s - \omega_m}{\omega_s},
+s = \frac{n_s - n}{n_s} = \frac{\omega_s - \omega_m}{\omega_s}.
 \label{eq:escorregamento}
 \end{equation}
-condição necessária para a indução de forças eletromotrizes e circulação de correntes secundárias nas barras rotóricas.
+A existência desse escorregamento assegura a variação no tempo do enlace de fluxo magnético nas barras condutoras do rotor, induzindo as forças eletromotrizes que sustentam as correntes secundárias e geram o conjugado eletromagnético da máquina.
 
-O escopo do trabalho divide-se em duas etapas correlacionadas. Na primeira etapa, desenvolve-se a formulação analítica do circuito equivalente IEEE em conexão Triângulo ($\Delta$) no ponto de operação nominal ($n = \SI{1715}{\RPM}$), procedendo-se à varredura vetorizada das grandezas eletromecânicas ($T_{em}$, $I_{line}$, $P_a$, $\cos\phi$, $\eta$) ao longo de todo o intervalo de velocidade ($0 \le n \le n_s$) e ao levantamento da família de curvas sob controle escalar com relação $V/f$ constante. Na segunda etapa, implementa-se a simulação dinâmica no ambiente Simscape Specialized Power Systems com o bloco Asynchronous Machine SI Units, aplicando a transformação de parâmetros Estrela-Triângulo para avaliar a partida direta a vazio, a resposta ao degrau de carga nominal e a operação em frenagem regenerativa hipersíncrona. Como critério de validação, estabelece-se que os valores simulados em regime permanente devem convergir para a solução analítica com erro relativo inferior a $\pm \SI{2,0}{\percent}$.
+O presente trabalho estrutura-se em duas etapas interdependentes de análise e modelagem. Na primeira etapa, formula-se analiticamente a solução do circuito equivalente IEEE em conexão Triângulo ($\Delta$) na condição nominal de placa ($n = \SI{1715}{\RPM}$), realizando-se a varredura vetorizada das grandezas operacionais ($T_{em}$, $I_{line}$, $P_a$, $\cos\phi$, $\eta$) ao longo de todo o intervalo de velocidade e a avaliação da família de curvas de conjugado sob controle escalar com relação $V/f$ constante. Na segunda etapa, implementa-se o modelo dinâmico no ambiente Simscape Specialized Power Systems com o bloco Asynchronous Machine SI Units, aplicando a transformação de parâmetros Estrela-Triângulo para analisar a partida direta a vazio, a rejeição ao degrau de carga nominal e a transição para frenagem regenerativa hipersíncrona. Como critério de validação, impõe-se que as grandezas simuladas em regime permanente convirjam para os valores analíticos de referência com discrepância inferior a $\pm \SI{2,0}{\percent}$.
