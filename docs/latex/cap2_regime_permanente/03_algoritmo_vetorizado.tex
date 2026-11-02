@@ -1,35 +1,71 @@
-\section{Algoritmo Computacional Vetorizado em MATLAB}\label{sec:algoritmo_matlab}
+\section{Algoritmo Computacional Vetorizado}\label{sec:algoritmo_vetorizado}
 
-A determinação das características de regime permanente ao longo do intervalo de rotação é realizada por formulação matricial vetorizada em ambiente MATLAB. A abordagem viabiliza o cálculo simultâneo de impedâncias, correntes e potências em malhas discretas de escorregamento.
+A determinação das grandezas de regime permanente ao longo de todo o espectro de rotação fundamenta-se em uma formulação matricial puramente vetorizada. Essa abordagem viabiliza a resolução simultânea de impedâncias, correntes, fluxos de potência e conjugados sobre malhas discretizadas de escorregamento, eliminando laços iterativos lentos e prevenindo indeterminações numéricas na vizinhança da velocidade síncrona.
 
 \subsection{Estratégia de Vetorização e Tratamento de Singularidades}\label{subsec:estrategia_vetorizacao}
 
-No motor assíncrono, a impedância aparente do rotor ($R_2'/s$) tende a infinito quando a rotação se aproxima da velocidade síncrona ($s \to 0$). A divisão direta por zero gera indefinições numéricas (\texttt{NaN} ou \texttt{Inf}), inviabilizando rotinas subsequentes de interpolação e busca de máximos.
+No circuito equivalente por fase da máquina assíncrona, a resistência aparente do secundário ($R_2'/s$) tende a infinito quando a rotação do rotor se aproxima da velocidade síncrona ($s \to 0$). Em implementações computacionais, a avaliação dessa razão no ponto exato de sincronismo resulta em indeterminação por divisão por zero (\texttt{NaN} ou \texttt{Inf}), o que prejudica rotinas subsequentes de busca de extremos e traçado de gráficos.
 
-Para contornar essa restrição, a rotina analítica adota uma malha de escorregamento vetorizada composta por 2000 pontos com espaçamento linear no script \texttt{run\_item\_ABC.m}:
+Para assegurar estabilidade numérica em todo o intervalo sem perda de resolução física, define-se um vetor de escorregamento discretizado $\mathbf{s} \in \mathbb{R}^N$ com $N = 2000$ pontos uniformemente espaçados:
 \begin{equation}
-s \in [10^{-4}, \, 1{,}0], \qquad n = (1 - s) \cdot n_s,
-\label{eq:malha_escorregamento}
+\mathbf{s} = [s_1, s_2, \dots, s_N]^T, \qquad s_k \in [10^{-4}, \, 1{,}0],
+\label{eq:vetor_escorregamento}
 \end{equation}
-na qual o limite inferior $s = 10^{-4}$ corresponde à velocidade de $n = \SI{1799,82}{\RPM}$, próxima da sincronia ($n_s = \SI{1800}{\RPM}$), eliminando o risco de divisão por zero. O limite superior $s = 1{,}0$ representa a condição estática de rotor bloqueado na partida ($n = \SI{0}{\RPM}$).
-
-\subsection{Equacionamento Matricial e Equivalente de Thévenin}\label{subsec:thevenin_analitico}
-
-A avaliação das impedâncias é estruturada por operações matriciais elemento a elemento (operadores \texttt{./}, \texttt{.*} e \texttt{.\^{}}). O ramo secundário, a impedância de entreferro e a impedância total de entrada formam vetores complexos de 2000 posições calculados de forma simultânea:
+ao qual correspondem os vetores de velocidade mecânica em rotações por minuto e velocidade angular:
 \begin{equation}
-\mathbf{Z}_2'(s) = \frac{R_2'}{\mathbf{s}} + \jj X_2', \qquad \mathbf{Z}_p(s) = \frac{\jj X_m \cdot \mathbf{Z}_2'(s)}{\mathbf{Z}_2'(s) + \jj X_m}, \qquad \mathbf{Z}_{in}(s) = Z_1 + \mathbf{Z}_p(s).
+\mathbf{n} = (1 - \mathbf{s}) \cdot n_s, \qquad \boldsymbol{\omega}_m = (1 - \mathbf{s}) \cdot \omega_s.
+\label{eq:vetores_velocidade}
+\end{equation}
+O limite inferior $s_1 = 10^{-4}$ corresponde à velocidade de $n = \SI{1799,82}{\RPM}$, infinitesimamente abaixo da sincronia ($n_s = \SI{1800}{\RPM}$), o que permite avaliar a operação a vazio sem gerar divisão por zero. O limite superior $s_N = 1{,}0$ representa a condição de rotor bloqueado na partida ($n = \SI{0}{\RPM}$).
+
+\subsection{Formulação Matricial das Impedâncias e Fasores}\label{subsec:thevenin_analitico}
+
+A partir do vetor $\mathbf{s}$, os ramos de impedância são calculados por operações matriciais elemento a elemento. O ramo secundário refletido, a impedância paralela de entreferro e a impedância total de entrada formam arranjos complexos dimensionados em $\mathbb{C}^N$:
+\begin{equation}
+\mathbf{Z}_2' = \frac{R_2'}{\mathbf{s}} + \jj X_2', \qquad \mathbf{Z}_p = \frac{\jj X_m \cdot \mathbf{Z}_2'}{\mathbf{Z}_2' + \jj X_m}, \qquad \mathbf{Z}_{in} = Z_1 + \mathbf{Z}_p,
 \label{eq:impedancias_vetoriais}
 \end{equation}
+em que $Z_1 = R_1 + \jj X_1$ é a impedância constante do estator.
 
-A corrente estatórica de fase ($\mathbf{I}_{1,ph}$), a corrente de linha ($\mathbf{I}_{line}$), o fasor de tensão de entreferro ($\mathbf{E}_1$) e a corrente secundária referida ($\mathbf{I}_2'$) são obtidos por:
+Sob tensão de fase constante aplicada aos bornes da conexão Triângulo ($V_{ph} = \SI{220}{\volt}$), obtêm-se simultaneamente os vetores de corrente de fase ($\mathbf{I}_{1,ph}$), corrente de linha ($\mathbf{I}_{line}$), força eletromotriz de entreferro ($\mathbf{E}_1$) e corrente rotórica secundária referida ($\mathbf{I}_2'$):
 \begin{equation}
-\mathbf{I}_{1,ph} = \frac{V_{ph}}{\mathbf{Z}_{in}(s)}, \qquad \mathbf{I}_{line} = \sqrt{3} \cdot |\mathbf{I}_{1,ph}|, \qquad \mathbf{E}_1 = V_{ph} - \mathbf{I}_{1,ph} Z_1, \qquad \mathbf{I}_2' = \frac{\mathbf{E}_1}{\mathbf{Z}_2'(s)}.
-\label{eq:correntes_vetoriais}
+\mathbf{I}_{1,ph} = \frac{V_{ph}}{\mathbf{Z}_{in}}, \qquad \mathbf{I}_{line} = \sqrt{3} \cdot |\mathbf{I}_{1,ph}|,
+\label{eq:correntes_estatoricas_vetor}
+\end{equation}
+\begin{equation}
+\mathbf{E}_1 = V_{ph} - \mathbf{I}_{1,ph} Z_1, \qquad \mathbf{I}_2' = \frac{\mathbf{E}_1}{\mathbf{Z}_2'}.
+\label{eq:corrente_rotorica_vetor}
 \end{equation}
 
-Para a extração analítica do conjugado de desengate sem dependência da resolução da malha numérica, o algoritmo emprega o equivalente de Thévenin visto a partir dos terminais do rotor:
+\subsection{Estrutura Vetorial do Balanço de Potência e Conjugado}\label{subsec:balanco_vetorial}
+
+A decomposição dos fluxos de potência ativa e reativa em regime permanente é calculada para cada ponto do vetor discretizado por formulações fasoriais:
 \begin{equation}
-\vec{V}_{th} = \vec{V}_{ph} \cdot \frac{\jj X_m}{R_1 + \jj (X_1 + X_m)} = 220 \cdot \frac{\jj 49{,}6012}{1{,}1890 + \jj 51{,}7595} = \phasor{210{,}74}{1{,}32}\,\text{V},
+\mathbf{P}_{elec} = 3 \cdot \operatorname{Re}\{V_{ph} \cdot \mathbf{I}_{1,ph}^*\}, \qquad \mathbf{Q}_{elec} = 3 \cdot \operatorname{Im}\{V_{ph} \cdot \mathbf{I}_{1,ph}^*\}, \qquad \cos\boldsymbol{\phi} = \frac{\mathbf{P}_{elec}}{3 V_{ph} |\mathbf{I}_{1,ph}|}.
+\label{eq:potencias_entrada_vetoriais}
+\end{equation}
+
+A potência eletromagnética transmitida através do entreferro ($\mathbf{P}_{ag}$) e a potência convertida no rotor ($\mathbf{P}_{em}$) decorrem da dissipação na resistência secundária:
+\begin{equation}
+\mathbf{P}_{ag} = 3 \cdot |\mathbf{I}_2'|^2 \cdot \frac{R_2'}{\mathbf{s}}, \qquad \mathbf{P}_{em} = (1 - \mathbf{s}) \cdot \mathbf{P}_{ag}.
+\label{eq:potencias_conversao_vetoriais}
+\end{equation}
+
+O conjugado eletromagnético interno desenvolvido no entreferro ($\mathbf{T}_{em}$) e o conjugado útil entregue no eixo acoplado ($\mathbf{T}_{shaft}$) expressam-se vetorialmente por:
+\begin{equation}
+\mathbf{T}_{em} = \frac{\mathbf{P}_{ag}}{\omega_s}, \qquad \mathbf{T}_{atrito} = B \cdot \boldsymbol{\omega}_m, \qquad \mathbf{T}_{shaft} = \mathbf{T}_{em} - \mathbf{T}_{atrito}.
+\label{eq:conjugados_vetoriais}
+\end{equation}
+
+Deduzindo-se as perdas mecânicas rotacionais da bancada ($\mathbf{P}_{atrito} = B \cdot \boldsymbol{\omega}_m^2$), a potência mecânica líquida e os rendimentos interno e de eixo são expressos por:
+\begin{equation}
+\mathbf{P}_{shaft} = \mathbf{P}_{em} - \mathbf{P}_{atrito}, \qquad \boldsymbol{\eta}_{em} = \frac{\mathbf{P}_{em}}{\mathbf{P}_{elec}}, \qquad \boldsymbol{\eta}_{shaft} = \max\left(0, \, \frac{\mathbf{P}_{shaft}}{\mathbf{P}_{elec}}\right).
+\label{eq:rendimentos_vetoriais}
+\end{equation}
+
+Para validação analítica independente dos pontos críticos sem dependência da resolução amostral, o algoritmo deduz o equivalente de Thévenin visto a partir dos nós do rotor:
+\begin{equation}
+\vec{V}_{th} = V_{ph} \cdot \frac{\jj X_m}{R_1 + \jj (X_1 + X_m)} = 220 \cdot \frac{\jj 49{,}6012}{1{,}1890 + \jj 51{,}7595} = \phasor{210{,}74}{1{,}32}\,\text{V},
 \label{eq:v_thevenin_valor}
 \end{equation}
 \begin{equation}
@@ -37,74 +73,9 @@ Z_{th} = \frac{Z_1 \cdot \jj X_m}{Z_1 + \jj X_m} = R_{th} + \jj X_{th} = 1{,}090
 \label{eq:z_thevenin_valor}
 \end{equation}
 
-O escorregamento de conjugado máximo ($s_{max}$) e o conjugado máximo ($T_{max}$) são expressos analiticamente por:
+A partir desses parâmetros de Thévenin, determinam-se de forma exata o escorregamento de conjugado máximo ($s_{max} = 0{,}2194$), a velocidade de desengate ($n(T_{max}) = \SI{1405,0}{\RPM}$) e a amplitude do conjugado máximo de despolarização ($T_{max} = \SI{54,634}{\Nm}$):
 \begin{equation}
-s_{max} = \frac{R_2'}{\sqrt{R_{th}^2 + (X_{th} + X_2')^2}} = \frac{1{,}1800}{\sqrt{1{,}0908^2 + (2{,}1122 + 3{,}1743)^2}} = 0{,}2194 \quad (\SI{21,94}{\percent}),
-\label{eq:smax_thevenin_calculado}
+s_{max} = \frac{R_2'}{\sqrt{R_{th}^2 + (X_{th} + X_2')^2}}, \qquad T_{max} = \frac{3 V_{th}^2}{2\omega_s \left[ R_{th} + \sqrt{R_{th}^2 + (X_{th} + X_2')^2} \right]},
+\label{eq:tmax_thevenin_geral}
 \end{equation}
-\begin{equation}
-n(T_{max}) = (1 - s_{max}) \cdot 1800 = (1 - 0{,}2194) \cdot 1800 = \SI{1405,0}{\RPM},
-\label{eq:n_tmax_calculado}
-\end{equation}
-\begin{equation}
-T_{max} = \frac{3 V_{th}^2}{2\omega_s \left[ R_{th} + \sqrt{R_{th}^2 + (X_{th} + X_2')^2} \right]} = \frac{3 \cdot (210{,}74)^2}{2 \cdot 188{,}4956 \cdot [1{,}0908 + 5{,}3782]} = \SI{54,634}{\Nm}.
-\label{eq:tmax_thevenin_calculado}
-\end{equation}
-
-\subsection{Implementação em Código MATLAB}\label{subsec:implementacao_script}
-
-A \Cref{lst:algoritmo_vetorizado} apresenta o trecho da rotina em MATLAB correspondente à formulação matricial implementada no arquivo \texttt{run\_item\_ABC.m}.
-
-\begin{lstlisting}[style=matlabstyle, caption={Rotina vetorizada em MATLAB para resolucao analitica do circuito equivalente IEEE.}, label={lst:algoritmo_vetorizado}]
-% UFMG ELE035 - Task 1.1: Solucao Vetorizada de Regime Permanente
-% Parametros por fase em conexao Triangulo (Delta)
-V_ph = 220.0;              % Tensao de fase [V RMS]
-f    = 60.0;               % Frequencia da rede [Hz]
-p    = 4;                  % Numero de polos
-ws   = (2 * pi * f) / (p / 2);  % Velocidade sincrona [rad/s]
-ns   = (120 * f) / p;      % Velocidade sincrona [rpm]
-
-% Malha de escorregamento vetorizada (evita divisao por zero em s=0)
-N_pts = 2000;
-s = linspace(1e-4, 1.0, N_pts);
-n_rpm = (1 - s) * ns;
-w_m   = (1 - s) * ws;
-
-% Impedancias complexas elemento a elemento
-Z1 = R1 + 1j * X1;
-Zm = 1j * Xm;
-Z2 = (R2 ./ s) + 1j * X2;
-Zp = (Zm .* Z2) ./ (Zm + Z2);
-Z_in = Z1 + Zp;
-
-% Correntes estatoricas e rotoricas
-I1_ph  = V_ph ./ Z_in;
-I_line = sqrt(3) * abs(I1_ph);
-E1     = V_ph - I1_ph * Z1;
-I2_prm = E1 ./ Z2;
-
-% Balanco de potencias trifasicas
-P_elec  = 3 * real(V_ph .* conj(I1_ph));
-Q_elec  = 3 * imag(V_ph .* conj(I1_ph));
-S_elec  = 3 * V_ph .* abs(I1_ph);
-cos_phi = P_elec ./ S_elec;
-
-% Potencia no entreferro, perdas Joule e conversao eletromecanica
-P_cu1 = 3 * (abs(I1_ph).^2) * R1;
-P_cu2 = 3 * (abs(I2_prm).^2) * R2;
-P_ag  = 3 * (abs(I2_prm).^2) .* (R2 ./ s);
-P_em  = (1 - s) .* P_ag;
-
-% Perdas rotacionais por atrito viscoso da bancada (B = 0.0426 N.m.s/rad)
-P_atrito = B .* (w_m.^2);
-P_shaft  = P_em - P_atrito;
-
-% Conjugados eletromagnetico e util de eixo
-T_em    = P_ag / ws;
-T_loss  = B .* w_m;
-T_shaft = T_em - T_loss;
-
-% Rendimentos eletromagnetico e de eixo
-eta_em    = P_em ./ P_elec;
-eta_shaft = max(0, P_shaft ./ P_elec);
-\end{lstlisting}
+valores que atuam como balizadores exatos para os testes de coerência das curvas de varredura.

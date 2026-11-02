@@ -1,6 +1,6 @@
 \section{Cálculo do Conjugado Nominal de Placa ($T_n$)}\label{sec:calculo_tn}
 
-A determinação do conjugado nominal útil de placa estabelece a condição de referência para o carregamento mecânico da máquina em regime permanente. A relação entre a potência mecânica convertida no eixo e a velocidade angular nominal de rotação permite fixar o patamar de torque resistente adotado nas análises dinâmicas, segregando o conjugado disponível na ponta do eixo daquele desenvolvido no entreferro.
+A determinação do conjugado nominal útil de placa estabelece a condição de referência para o carregamento mecânico da máquina em regime permanente. A relação entre a potência mecânica convertida no eixo e a velocidade angular nominal de rotação permite fixar o patamar de torque resistente adotado nas análises dinâmicas, distinguindo o conjugado disponível na ponta do eixo daquele desenvolvido no entreferro.
 
 \subsection{Formulação Mecânica e Dedução Analítica}\label{subsec:deducao_tn}
 
@@ -44,6 +44,12 @@ ao qual corresponde a dissipação de potência rotacional:
 \begin{equation}
 P_{atrito} = B \cdot \omega_{nom}^2 = 0{,}0426 \cdot (179{,}5943)^2 = \SI{1374,03}{\watt}.
 \label{eq:potencia_atrito_nominal}
+\end{equation}
+
+O conjugado mecânico líquido efetivamente entregue à ponta do eixo ($T_{shaft}$) relaciona-se diretamente com o conjugado eletromagnético interno ($T_{em}$) pela subtração das perdas viscosas:
+\begin{equation}
+T_{shaft} = T_{em} - B \omega_m = T_{em} - T_{atrito}.
+\label{eq:torque_util_eixo}
 \end{equation}
 
 Para fornecer à carga acoplada o conjugado nominal de catálogo, com $T_L = T_n = \SI{20,6020}{\Nm}$, o campo do entreferro deve desenvolver um conjugado eletromagnético dado pelo equilíbrio dinâmico em regime permanente:
