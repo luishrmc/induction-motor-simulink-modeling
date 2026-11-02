@@ -1,18 +1,8 @@
 \section{Contextualização e Objetivos Acadêmicos}\label{sec:contexto_objetivos}
 
-A modelagem eletromecânica do motor de indução trifásico com rotor em gaiola de esquilo fundamenta-se na representação por circuitos elétricos equivalentes por fase em regime permanente senoidal e no equacionamento rigoroso da dinâmica rotacional \cite{fitzgerald2014maquinas,chapman2013fundamentos}. A predição de grandezas nominais e transitórias decorre da segregação precisa entre as perdas Joule, as perdas mecânicas e a potência eletromecânica convertida, governada pelo escorregamento relativo do campo girante.
+A modelagem eletromecânica do motor de indução trifásico com rotor em gaiola de esquilo fundamenta-se na representação por circuitos elétricos equivalentes por fase em regime permanente senoidal e no equacionamento da dinâmica rotacional \cite{fitzgerald2014maquinas,chapman2013fundamentos}. A predição de grandezas nominais e transitórias decorre da segregação entre as perdas Joule, as perdas mecânicas e a potência eletromecânica convertida, governada pelo escorregamento relativo do campo girante.
 
-% =========================================================================
-% [DIRETRIZ DE REDAÇÃO]
-% - Objetivo: Contextualizar a máquina de indução como atuador industrial preponderante
-%   e formalizar o escopo acadêmico do trabalho final de ELE035 (sim_proj.pdf).
-% - Formulação: Definir velocidade síncrona (\omega_s, n_s), escorregamento (s) e a
-%   segregação metodológica entre Parte 1 (analítica) e Parte 2 (transitório dinâmico).
-% - Figuras/Tabelas: Citar o documento de requisitos acadêmicos e relatórios anteriores.
-% - Confronto: Justificar o critério de convergência de regime permanente em <= 2,0%.
-% =========================================================================
-
-O motor assíncrono de gaiola constitui o principal elemento de conversão eletromecânica em instalações industriais modernas em virtude de sua robustez estrutural, custo de aquisição competitivo e dispensabilidade de contatos elétricos deslizantes. A conformidade normativa estabelecida pela IEEE Std 112 e pela ABNT NBR 17094 preconiza métodos analíticos e ensaios experimentais padronizados para determinação de parâmetros concentrados e levantamento de rendimento \cite{ieee112_2017}.
+O motor assíncrono de gaiola constitui o principal elemento de conversão eletromecânica em instalações industriais em virtude de sua robustez estrutural, custo de aquisição competitivo e ausência de contatos elétricos deslizantes. A conformidade normativa estabelecida pela IEEE Std 112 e pela ABNT NBR 17094 preconiza métodos analíticos e ensaios experimentais padronizados para determinação de parâmetros concentrados e levantamento de rendimento \cite{ieee112_2017}.
 
 A velocidade angular síncrona do campo magnético girante produzido pela distribuição espacial trifásica dos enrolamentos do estator é dada por:
 \begin{equation}
@@ -26,12 +16,6 @@ A rotação mecânica do rotor ($\omega_m$) difere da síncrona pela presença d
 s = \frac{n_s - n}{n_s} = \frac{\omega_s - \omega_m}{\omega_s},
 \label{eq:escorregamento}
 \end{equation}
-mecanismo físico mandatório para a indução de forças eletromotrizes e circulação de correntes secundárias nas barras rotóricas.
+condição necessária para a indução de forças eletromotrizes e circulação de correntes secundárias nas barras rotóricas.
 
-O presente trabalho técnico estrutura-se em duas etapas correlacionadas:
-\begin{enumerate}
-    \item \textbf{1ª Parte — Regime Permanente Analítico:} Resolução exata do circuito equivalente IEEE em conexão Triângulo ($\Delta$) no ponto de operação nominal ($n = \SI{1715}{\RPM}$), varredura puramente vetorizada de grandezas eletromecânicas ($T_{em}$, $I_{line}$, $P_a$, $\cos\phi$, $\eta$) ao longo de todo o espectro de rotação ($0 \le n \le n_s$) e levantamento da família de curvas características sob controle escalar com fluxo constante ($V/f = \text{cte}$).
-    \item \textbf{2ª Parte — Simulação Dinâmica Computacional:} Modelagem no ambiente Simscape Specialized Power Systems (SPS) empregando o bloco \textit{Asynchronous Machine SI Units}, aplicação do invariante de mapeamento Estrela-Triângulo ($R/3, L/3$), simulação da partida direta a vazio ($T_L = 0$), análise da resposta ao degrau de carga nominal ($T_L = +T_{nom}$) e exploração do quadrante de frenagem regenerativa hipersíncrona ($T_L = -T_{nom}$).
-\end{enumerate}
-
-Para fins de validação técnica, adota-se o critério mandatório de tolerância de regime permanente: todas as variáveis simuladas em regime permanente sob carga nominal devem convergir para a solução analítica com erro relativo estritamente inferior a $\pm \SI{2,0}{\percent}$.
+O escopo do trabalho divide-se em duas etapas correlacionadas. Na primeira etapa, desenvolve-se a formulação analítica do circuito equivalente IEEE em conexão Triângulo ($\Delta$) no ponto de operação nominal ($n = \SI{1715}{\RPM}$), procedendo-se à varredura vetorizada das grandezas eletromecânicas ($T_{em}$, $I_{line}$, $P_a$, $\cos\phi$, $\eta$) ao longo de todo o intervalo de velocidade ($0 \le n \le n_s$) e ao levantamento da família de curvas sob controle escalar com relação $V/f$ constante. Na segunda etapa, implementa-se a simulação dinâmica no ambiente Simscape Specialized Power Systems com o bloco Asynchronous Machine SI Units, aplicando a transformação de parâmetros Estrela-Triângulo para avaliar a partida direta a vazio, a resposta ao degrau de carga nominal e a operação em frenagem regenerativa hipersíncrona. Como critério de validação, estabelece-se que os valores simulados em regime permanente devem convergir para a solução analítica com erro relativo inferior a $\pm \SI{2,0}{\percent}$.

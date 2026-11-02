@@ -1,28 +1,14 @@
 \section{Resolução Analítica do Circuito Equivalente no Ponto Nominal}\label{sec:resolucao_nominal}
 
-A resolução nodal do circuito equivalente monofásico em T na velocidade de placa fundamenta-se na segregação das perdas elétricas nos enrolamentos frente à potência mecânica líquida convertida e entregue à carga acoplada. A modelagem detalhada sob conexão Triângulo a \SI{220}{\volt} nominais possibilita quantificar com rigor as correntes fasoriais, as potências ativa e reativa, o rendimento de conversão e o impacto do atrito viscoso da bancada no ponto nominal ($n = \SI{1715}{\RPM}$, $s_{nom} = 0{,}04722$).
+A resolução nodal do circuito equivalente monofásico em T na velocidade de placa fundamenta-se na segregação das perdas elétricas nos enrolamentos frente à potência mecânica convertida e entregue à carga acoplada. A modelagem sob conexão Triângulo a \SI{220}{\volt} possibilita quantificar as correntes fasoriais, as potências ativa e reativa, o rendimento de conversão e o impacto do atrito viscoso da bancada no ponto nominal ($n = \SI{1715}{\RPM}$, $s_{nom} = 0{,}04722$).
 
-% =========================================================================
-% [DIRETRIZ DE REDAÇÃO]
-% - Objetivo: Atender integralmente ao Item 1.C de sim_proj.pdf. Desenvolver a resolução
-%   passo a passo do circuito equivalente IEEE por fase na rotação nominal (1715 rpm, s = 0,04722).
-% - Formulação: Apresentar o equacionamento completo de Z_2'(s), Z_p = jX_m // Z_2', Z_{in},
-%   I_{1,ph}, I_{line}, I_2', perdas no cobre (P_{cu1}, P_{cu2}), potência no entreferro (P_{ag}),
-%   torque eletromagnético (T_em), perdas de atrito viscoso (B*\omega_m^2), potência líquida (P_{shaft})
-%   e torque útil (T_{shaft} = T_em - B*\omega_m).
-% - Figuras/Tabelas: Diagrama esquemático CircuitikZ do circuito T e Tabela comparativa
-%   entre dados de placa, modelo eletromagnético interno e modelo conciliado de eixo.
-% - Confronto: Demonstrar que o modelo reproduz fidedignamente os parâmetros experimentais
-%   e justificar o rendimento de eixo de 61,98% frente aos 85,5% de placa pelo atrito da bancada (1374 W).
-% =========================================================================
-
-Na conexão Triângulo ($\Delta$) sob alimentação trifásica simétrica e equilibrada, a tensão de fase aplicada sobre cada ramo do circuito equivalente corresponde diretamente à tensão de linha do sistema:
+Na conexão Triângulo ($\Delta$) sob alimentação trifásica simétrica e equilibrada, a tensão de fase aplicada sobre cada ramo do circuito equivalente corresponde à tensão de linha do sistema:
 \begin{equation}
 V_{ph} = V_L = \SI{220}{\volt}, \qquad \vec{V}_{ph} = \phasor{220}{0}.
 \label{eq:tensao_fase_delta}
 \end{equation}
 
-A \Cref{fig:circuito_ieee_t} ilustra a topologia do circuito equivalente monofásico em T recomendada pela norma IEEE Std 112, na qual o ramo paralelo de magnetização segrega os fenômenos estatóricos e rotóricos através da força eletromotriz induzida no entreferro ($\vec{E}_1$).
+A \Cref{fig:circuito_ieee_t} ilustra a topologia do circuito equivalente monofásico em T recomendada pela norma IEEE Std 112, na qual o ramo de magnetização segrega os fenômenos estatóricos e rotóricos através da força eletromotriz induzida no entreferro ($\vec{E}_1$).
 
 \begin{figure}[H]
 \centering
@@ -58,13 +44,13 @@ A \Cref{fig:circuito_ieee_t} ilustra a topologia do circuito equivalente monofá
 
 \subsection{Impedâncias Fasoriais e Correntes no Ponto Nominal}\label{subsec:impedancias_nominal}
 
-Para a rotação mecânica nominal de \SI{1715}{\RPM}, o escorregamento relativo vale $s_{nom} = (1800 - 1715)/1800 = 0{,}047222$. A resistência aparente do circuito secundário, representativa da conversão eletromecânica de potência, é dada por:
+Para a rotação mecânica nominal de \SI{1715}{\RPM}, o escorregamento relativo resulta em $s_{nom} = (1800 - 1715)/1800 = 0{,}047222$. A resistência aparente do circuito secundário, representativa da conversão eletromecânica de potência, é dada por:
 \begin{equation}
 \frac{R_2'}{s_{nom}} = \frac{1{,}180}{0{,}047222} = \SI{24,9882}{\ohm}.
 \label{eq:resistencia_aparente_rotor}
 \end{equation}
 
-A impedância total do ramo rotórico referido ao estator assume o valor complexo:
+A impedância do ramo rotórico referido ao estator assume o valor complexo:
 \begin{equation}
 Z_2'(s_{nom}) = \frac{R_2'}{s_{nom}} + \jj X_2' = 24{,}9882 + \jj 3{,}1743\,\Omega = 25{,}1892 \angle 7{,}24^\circ\,\Omega.
 \label{eq:impedancia_rotor_nominal}
@@ -84,31 +70,31 @@ Z_{in} &= Z_1 + Z_p = (1{,}1890 + 18{,}0305) + \jj (2{,}1583 + 11{,}5205) \nonum
 \label{eq:impedancia_entrada_nominal}
 \end{align}
 
-A corrente estatórica de fase é obtida por divisão direta da tensão aplicada pela impedância de entrada:
+A corrente estatórica de fase é obtida pela divisão da tensão aplicada pela impedância de entrada:
 \begin{equation}
 \vec{I}_{1,ph} = \frac{\vec{V}_{ph}}{Z_{in}} = \frac{220 \angle 0^\circ}{23{,}5902 \angle 35{,}44^\circ} = \phasor{9{,}3259}{-35{,}44}\,\text{A}.
 \label{eq:corrente_fase_nominal}
 \end{equation}
 
-Para a conexão Triângulo simétrica, a corrente eficaz de linha demandada da rede de alimentação resulta em:
+Para a conexão Triângulo, a corrente eficaz de linha fornecida pela rede de alimentação resulta em:
 \begin{equation}
 I_{line} = \sqrt{3} \cdot |\vec{I}_{1,ph}| = \sqrt{3} \cdot 9{,}3259 = \SI{16,1529}{\ampere}.
 \label{eq:corrente_linha_nominal}
 \end{equation}
 
-A tensão induzida de entreferro ($\vec{E}_1$) e a corrente rotórica secundária referida ($\vec{I}_2'$) resultam de:
+A tensão induzida de entreferro ($\vec{E}_1$) e a corrente secundária refletida ($\vec{I}_2'$) resultam de:
 \begin{equation}
 \vec{E}_1 = \vec{I}_{1,ph} \cdot Z_p = (9{,}3259 \angle -35{,}44^\circ)(21{,}3995 \angle 32{,}58^\circ) = \phasor{199{,}5698}{-2{,}86}\,\text{V},
 \label{eq:tensao_entreferro_nominal}
 \end{equation}
 \begin{equation}
-\vec{I}_2' = \frac{\vec{E}_1}{Z_2'(s_{nom})} = \frac{199{,}5698 \angle -2{,}86^\circ}{25{,}1892 \angle 7{,}24^\circ} = \phasor{7{,}9219}{-10{,}10}\,\text{A} \quad (\text{com fase absoluta } -44{,}94^\circ).
+\vec{I}_2' = \frac{\vec{E}_1}{Z_2'(s_{nom})} = \frac{199{,}5698 \angle -2{,}86^\circ}{25{,}1892 \angle 7{,}24^\circ} = \phasor{7{,}9219}{-10{,}10}\,\text{A}.
 \label{eq:corrente_rotor_nominal}
 \end{equation}
 
 \subsection{Balanço Eletromecânico de Potências e Perdas}\label{subsec:balanco_nominal}
 
-A potência ativa trifásica absorvida da rede elétrica e a potência reativa consumida são dadas por:
+A potência ativa trifásica absorvida e a potência reativa demandada são dadas por:
 \begin{equation}
 P_{elec} = 3 \cdot V_{ph} \cdot |\vec{I}_{1,ph}| \cdot \cos\phi = 3 \cdot 220 \cdot 9{,}3259 \cdot \cos(35{,}44^\circ) = \SI{5014,70}{\watt},
 \label{eq:potencia_ativa_nominal}
@@ -117,13 +103,13 @@ P_{elec} = 3 \cdot V_{ph} \cdot |\vec{I}_{1,ph}| \cdot \cos\phi = 3 \cdot 220 \c
 Q_{elec} = 3 \cdot V_{ph} \cdot |\vec{I}_{1,ph}| \cdot \sin\phi = 3 \cdot 220 \cdot 9{,}3259 \cdot \sin(35{,}44^\circ) = \SI{3569,02}{\var},
 \label{eq:potencia_reativa_nominal}
 \end{equation}
-estabelecendo um fator de potência operacional de:
+estabelecendo o fator de potência operacional:
 \begin{equation}
 \cos\phi = \cos(35{,}44^\circ) = 0{,}8147.
 \label{eq:fator_potencia_nominal}
 \end{equation}
 
-As perdas Joule nos enrolamentos trifásicos do estator e nas barras condutoras do rotor são calculadas por:
+As perdas Joule nos enrolamentos trifásicos do estator e nas barras do rotor são calculadas por:
 \begin{equation}
 P_{cu1} = 3 \cdot R_1 \cdot |\vec{I}_{1,ph}|^2 = 3 \cdot 1{,}1890 \cdot (9{,}3259)^2 = \SI{310,23}{\watt},
 \label{eq:perdas_cu1}
@@ -133,29 +119,29 @@ P_{cu2} = 3 \cdot R_2' \cdot |\vec{I}_2'|^2 = 3 \cdot 1{,}1800 \cdot (7{,}9219)^
 \label{eq:perdas_cu2}
 \end{equation}
 
-A potência líquida transmitida eletromagneticamente através do entreferro ($P_{ag}$) satisfaz rigorosamente o princípio da conservação da energia:
+A potência transmitida através do entreferro ($P_{ag}$) satisfaz o balanço de energia:
 \begin{equation}
 P_{ag} = P_{elec} - P_{cu1} = 5014{,}70 - 310{,}23 = \SI{4704,47}{\watt},
 \label{eq:potencia_entreferro_conservacao}
 \end{equation}
-valor identicamente comprovado pela potência dissipada na resistência aparente rotórica:
+valor confirmado pela potência dissipada na resistência aparente rotórica:
 \begin{equation}
 P_{ag} = 3 \cdot \frac{R_2'}{s_{nom}} \cdot |\vec{I}_2'|^2 = 3 \cdot 24{,}9882 \cdot (7{,}9219)^2 = \SI{4704,47}{\watt}.
 \label{eq:potencia_entreferro_rotor}
 \end{equation}
 
-Como as perdas Joule secundárias relacionam-se diretamente com o escorregamento ($P_{cu2} = s_{nom} P_{ag} = 0{,}047222 \cdot 4704{,}47 = \SI{222,16}{\watt}$), a potência mecânica total convertida internamente no entreferro resulta em:
+Como as perdas Joule secundárias relacionam-se com o escorregamento ($P_{cu2} = s_{nom} P_{ag} = 0{,}047222 \cdot 4704{,}47 = \SI{222,16}{\watt}$), a potência eletromecânica convertida no entreferro resulta em:
 \begin{equation}
 P_{em} = (1 - s_{nom}) \cdot P_{ag} = (1 - 0{,}047222) \cdot 4704{,}47 = \SI{4482,32}{\watt}.
 \label{eq:potencia_eletromecanica_nominal}
 \end{equation}
 
-O conjugado eletromagnético interno desenvolvido pela máquina na velocidade síncrona é dado por:
+O conjugado eletromagnético desenvolvido pela máquina é dado por:
 \begin{equation}
 T_{em} = \frac{P_{ag}}{\omega_s} = \frac{\SI{4704,47}{\watt}}{\SI{188,4956}{\rads}} = \SI{24,9580}{\Nm},
 \label{eq:torque_eletromagnetico_nominal}
 \end{equation}
-o qual satisfaz com exatidão a relação cinemática no rotor:
+o qual satisfaz a relação mecânica no rotor:
 \begin{equation}
 T_{em} = \frac{P_{em}}{\omega_{nom}} = \frac{\SI{4482,32}{\watt}}{\SI{179,5943}{\rads}} = \SI{24,9580}{\Nm}.
 \label{eq:torque_rotor_verificacao}
@@ -163,7 +149,7 @@ T_{em} = \frac{P_{em}}{\omega_{nom}} = \frac{\SI{4482,32}{\watt}}{\SI{179,5943}{
 
 \subsection{Conciliação com o Atrito da Bancada e Rendimentos}\label{subsec:atrito_rendimento_nominal}
 
-Conforme caracterizado no ensaio de desaceleração livre da bancada motor-gerador acoplada, o coeficiente de atrito viscoso total é $B = \SI{0,0426}{\Nm\cdot\second/\radian}$. Na rotação nominal de \SI{1715}{\RPM}, o conjugado de arrasto dissipativo e as correspondentes perdas rotacionais mecânicas são dados por:
+Conforme determinado no ensaio de desaceleração livre da bancada motor-gerador acoplada, o coeficiente de atrito viscoso total é $B = \SI{0,0426}{\Nm\cdot\second/\radian}$. Na rotação nominal de \SI{1715}{\RPM}, o conjugado de atrito e as perdas rotacionais mecânicas são dados por:
 \begin{equation}
 T_{atrito} = B \cdot \omega_{nom} = 0{,}0426 \cdot 179{,}5943 = \SI{7,6507}{\Nm},
 \label{eq:torque_atrito_nominal_resolucao}
@@ -173,7 +159,7 @@ P_{atrito} = B \cdot \omega_{nom}^2 = 0{,}0426 \cdot (179{,}5943)^2 = \SI{1374,0
 \label{eq:perdas_rotacionais_viscosas}
 \end{equation}
 
-Descontando-se as perdas rotacionais viscosas do conjugado e da potência eletromecânica interna, determina-se o conjugado mecânico útil e a potência líquida efetivamente entregues no eixo:
+Deduzindo-se as perdas rotacionais do conjugado e da potência eletromecânica, determinam-se o conjugado mecânico e a potência entregues no eixo:
 \begin{equation}
 T_{shaft} = T_{em} - T_{atrito} = 24{,}9580 - 7{,}6507 = \SI{17,3073}{\Nm},
 \label{eq:torque_eixo_reconciliado}
@@ -183,7 +169,7 @@ P_{shaft} = P_{em} - P_{atrito} = 4482{,}32 - 1374{,}03 = \SI{3108,29}{\watt}.
 \label{eq:potencia_eixo_reconciliada}
 \end{equation}
 
-Define-se o rendimento eletromagnético interno da conversão ($\eta_{em}$), que desconsidera as perdas mecânicas da bancada acoplada, e o rendimento global de eixo ($\eta_{shaft}$), medido na ponta do acoplamento mecânico:
+O rendimento eletromecânico da conversão ($\eta_{em}$), que desconsidera as perdas mecânicas da bancada acoplada, e o rendimento líquido de eixo ($\eta_{shaft}$), medido no acoplamento mecânico, resultam em:
 \begin{equation}
 \eta_{em} = \frac{P_{em}}{P_{elec}} = \frac{\SI{4482,32}{\watt}}{\SI{5014,70}{\watt}} = \SI{89,38}{\percent},
 \label{eq:rendimento_eletromagnetico}
@@ -193,34 +179,28 @@ Define-se o rendimento eletromagnético interno da conversão ($\eta_{em}$), que
 \label{eq:rendimento_eixo}
 \end{equation}
 
-A \Cref{tab:comparacao_nominal} confronta os parâmetros nominais de placa do fabricante WEG, os resultados analíticos eletromagnéticos internos e os valores líquidos de eixo conciliados com a dinâmica da bancada de ensaios.
+A \Cref{tab:comparacao_nominal} confronta os parâmetros nominais de catálogo, os resultados analíticos eletromagnéticos e os valores líquidos de eixo com o modelo da bancada.
 
 \begin{table}[H]
 \centering
-\caption{Confronto quantitativo entre os dados de catálogo WEG e a solução analítica do circuito equivalente IEEE.}
+\small
+\caption{Confronto quantitativo entre dados de catálogo e a solução analítica do circuito IEEE.}
 \label{tab:comparacao_nominal}
-\resizebox{\textwidth}{!}{%
 \begin{tabular}{lcccc}
 \toprule
-\textbf{Grandeza Operacional} & \textbf{Símbolo} & \textbf{Placa WEG} & \textbf{Analítico Interno} & \textbf{Analítico Eixo ($B\omega_m$)} \\
+\textbf{Grandeza} & \textbf{Símbolo} & \textbf{\makecell{Catálogo \\ WEG}} & \textbf{\makecell{Analítico \\ Interno}} & \textbf{\makecell{Analítico com \\ Eixo ($B\omega_m$)}} \\
 \midrule
 Velocidade Mecânica & $n$ & \SI{1715}{\RPM} & \SI{1715}{\RPM} & \SI{1715}{\RPM} \\
-Escorregamento Relativo & $s$ & $0{,}04722$ & $0{,}04722$ & $0{,}04722$ \\
-Corrente de Linha (RMS) & $I_{line}$ & \SI{14,00}{\ampere} & \SI{16,15}{\ampere} & \SI{16,15}{\ampere} \\
+Escorregamento & $s$ & $0{,}04722$ & $0{,}04722$ & $0{,}04722$ \\
+Corrente de Linha & $I_{line}$ & \SI{14,00}{\ampere} & \SI{16,15}{\ampere} & \SI{16,15}{\ampere} \\
 Fator de Potência & $\cos\phi$ & $0{,}8100$ & $0{,}8147$ & $0{,}8147$ \\
-Potência Elétrica Ativa & $P_{elec}$ & \SI{4327,5}{\watt} & \SI{5014,7}{\watt} & \SI{5014,7}{\watt} \\
+Potência Ativa & $P_{elec}$ & \SI{4327,5}{\watt} & \SI{5014,7}{\watt} & \SI{5014,7}{\watt} \\
 Potência Reativa & $Q_{elec}$ & \SI{3119,0}{\var} & \SI{3569,0}{\var} & \SI{3569,0}{\var} \\
 Conjugado & $T$ & \SI{20,60}{\Nm} & \SI{24,96}{\Nm} ($T_{em}$) & \SI{17,31}{\Nm} ($T_{shaft}$) \\
 Potência Mecânica & $P_{mec}$ & \SI{3700,0}{\watt} & \SI{4482,3}{\watt} ($P_{em}$) & \SI{3108,3}{\watt} ($P_{shaft}$) \\
-Rendimento Global & $\eta$ & \SI{85,50}{\percent} & \SI{89,38}{\percent} ($\eta_{em}$) & \SI{61,98}{\percent} ($\eta_{shaft}$) \\
+Rendimento & $\eta$ & \SI{85,50}{\percent} & \SI{89,38}{\percent} ($\eta_{em}$) & \SI{61,98}{\percent} ($\eta_{shaft}$) \\
 \bottomrule
-\end{tabular}%
-}
+\end{tabular}
 \end{table}
 
-A análise comparativa da \Cref{tab:comparacao_nominal} elucida com clareza o comportamento da máquina na bancada experimental:
-\begin{enumerate}
-    \item O fator de potência obtido analiticamente ($0{,}8147$) apresenta concordância excelente com a especificação nominal de placa ($0{,}8100$), divergindo em apenas \SI{0,58}{\percent}.
-    \item A corrente de linha analítica calculada sob os parâmetros experimentais de bancada (\SI{16,15}{\ampere}) excede a corrente nominal de placa (\SI{14,00}{\ampere}) em \SI{15,4}{\percent}. Essa diferença decorre das tolerâncias construtivas da carcaça e das dispersões intrínsecas aos ensaios laboratoriais realizados a frio em bancada didática.
-    \item O rendimento intrínseco de conversão eletromecânica ($\eta_{em} = \SI{89,38}{\percent}$) supera a especificação de placa de \SI{85,50}{\percent}, uma vez que desconsidera as perdas mecânicas. Ao incorporar o arrasto viscoso significativo do grupo motor-gerador acoplado ($P_{atrito} = \SI{1374,03}{\watt}$), o rendimento útil de eixo atinge \SI{61,98}{\percent}.
-\end{enumerate}
+A comparação dos resultados evidencia o comportamento da máquina na bancada de ensaios. O fator de potência obtido analiticamente ($0{,}8147$) coincide com a especificação de catálogo ($0{,}8100$), registrando diferença de \SI{0,58}{\percent}. A corrente de linha calculada com os parâmetros experimentais (\SI{16,15}{\ampere}) excede a corrente de catálogo (\SI{14,00}{\ampere}) em \SI{15,4}{\percent}, em virtude das tolerâncias de fabricação e das condições a frio dos ensaios em laboratório. O rendimento eletromecânico interno ($\eta_{em} = \SI{89,38}{\percent}$) supera a especificação de placa de \SI{85,50}{\percent} por não computar perdas mecânicas. Ao incorporar o arrasto viscoso do conjunto acoplado ($P_{atrito} = \SI{1374,03}{\watt}$), o rendimento útil no eixo estabiliza-se em \SI{61,98}{\percent}.

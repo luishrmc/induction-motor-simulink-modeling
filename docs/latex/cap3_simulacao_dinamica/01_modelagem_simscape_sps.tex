@@ -20,10 +20,11 @@ O bloco \textit{Asynchronous Machine SI Units} do Simscape adota internamente a 
 R_{1,Y} = \frac{R_{1,\Delta}}{3} = \frac{\SI{1,189}{\ohm}}{3} = \SI{0,39633}{\ohm}, \qquad R_{2,Y}' = \frac{R_{2,\Delta}'}{3} = \frac{\SI{1,180}{\ohm}}{3} = \SI{0,39333}{\ohm},
 \label{eq:resistencias_estrela}
 \end{equation}
-\begin{equation}
-L_{l1,Y} = \frac{L_{l1,\Delta}}{3} = \SI{1,90833}{\milli\henry}, \quad L_{l2,Y}' = \frac{L_{l2,\Delta}'}{3} = \SI{2,80667}{\milli\henry}, \quad L_{m,Y} = \frac{L_{m,\Delta}}{3} = \SI{43,85700}{\milli\henry}.
+\begin{align}
+L_{l1,Y} &= \frac{L_{l1,\Delta}}{3} = \SI{1,90833}{\milli\henry}, \qquad L_{l2,Y}' = \frac{L_{l2,\Delta}'}{3} = \SI{2,80667}{\milli\henry}, \nonumber \\
+L_{m,Y} &= \frac{L_{m,\Delta}}{3} = \SI{43,85700}{\milli\henry}.
 \label{eq:indutancias_estrela}
-\end{equation}
+\end{align}
 
 Os parâmetros mecânicos acoplados ($J = \SI{0,701}{\kilogram\meter\squared}$, $B = \SI{0,0426}{\Nm\cdot\second/\radian}$ e $p_{\text{pares}} = 2$) permanecem invariantes. A equivalência física garante que as correntes de linha, o fluxo de potência ativa e reativa e o conjugado eletromagnético gerados no Simscape coincidam rigorosamente com a operação em Triângulo.
 
