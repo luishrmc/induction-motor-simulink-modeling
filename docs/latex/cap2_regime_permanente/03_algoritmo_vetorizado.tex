@@ -1,10 +1,10 @@
 \section{Algoritmo Computacional Vetorizado em MATLAB}\label{sec:algoritmo_matlab}
 
-A determinação das características de regime permanente ao longo do intervalo de rotação é realizada por formulação matricial vetorizada em ambiente MATLAB. A abordagem viabiliza o cálculo simultâneo de impedâncias, correntes e potências em malhas discretas de escorregamento, prevenindo divergências numéricas na aproximação da velocidade síncrona ($s \to 0$).
+A determinação das características de regime permanente ao longo do intervalo de rotação é realizada por formulação matricial vetorizada em ambiente MATLAB. A abordagem viabiliza o cálculo simultâneo de impedâncias, correntes e potências em malhas discretas de escorregamento.
 
 \subsection{Estratégia de Vetorização e Tratamento de Singularidades}\label{subsec:estrategia_vetorizacao}
 
-Nas implementações computacionais baseadas em laços iterativos (estruturas \texttt{for}), o cálculo sequencial para cada valor de escorregamento impõe sobrecusto de execução e dificulta o tratamento de indeterminações. No motor assíncrono, a impedância aparente do rotor ($R_2'/s$) tende a infinito quando a rotação se aproxima da velocidade síncrona ($s \to 0$). A divisão direta por zero gera indefinições numéricas (\texttt{NaN} ou \texttt{Inf}), inviabilizando rotinas subsequentes de interpolação e busca de máximos.
+No motor assíncrono, a impedância aparente do rotor ($R_2'/s$) tende a infinito quando a rotação se aproxima da velocidade síncrona ($s \to 0$). A divisão direta por zero gera indefinições numéricas (\texttt{NaN} ou \texttt{Inf}), inviabilizando rotinas subsequentes de interpolação e busca de máximos.
 
 Para contornar essa restrição, a rotina analítica adota uma malha de escorregamento vetorizada composta por 2000 pontos com espaçamento linear no script \texttt{run\_item\_ABC.m}:
 \begin{equation}

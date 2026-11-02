@@ -1,7 +1,13 @@
 ---
 name: refine-prompt
-description: Optimize, refine, and engineer prompts for Gemini and other LLMs. Use when the user asks to improve, rewrite, optimize, evaluate, or structure a prompt, diagnose prompt weaknesses, or convert a task into a high-performance prompt.
+description: >-
+  Optimize, refine, and engineer prompts for Gemini and other LLMs. Supports Dual-Mode
+  operation: generating interactive pair-programming prompts or production-grade application code
+  with Pydantic schemas and variable interpolation. Use when the user asks to "optimize a prompt",
+  "improve prompt", "write better prompts", "structure prompt", "pydantic prompt", or convert a draft
+  task into a high-performance prompt.
 ---
+
 # Prompt Optimizer
 
 A structured engine to analyze, critique, and systematically reconstruct user-provided prompts into high-performance, deterministic instructions tailored for Gemini and modern LLMs.
@@ -9,72 +15,81 @@ A structured engine to analyze, critique, and systematically reconstruct user-pr
 ## When to Use
 
 - When the user asks to improve, refine, polish, or optimize an existing prompt.
-- When the user provides a draft prompt and wants it structured for better LLM adherence.
-- When diagnosing why a prompt generates hallucinations, excessive verbosity, or inconsistent output.
+- When the user provides a draft task and wants it structured for better LLM adherence.
+- When converting natural language instructions into type-safe, production-ready schemas (Pydantic / JSON Mode).
+- When diagnosing why a prompt generates hallucinations, excessive verbosity, format drift, or unverified logic.
 - When creating modular, reusable prompt templates for specific engineering, academic, or coding domains.
 
 ## Core Restrictions
 
-- Do not execute the prompt itself. Always focus exclusively on analyzing and optimizing the prompt text.
-- Do not add artificial verbosity. Every added token must serve a structural or clarity purpose.
-- Do not alter the core intent or introduce hallucinated domain requirements outside what the user implied.
+- **Do not execute the prompt itself.** Focus exclusively on analyzing and optimizing the prompt specification.
+- **No artificial fluff.** Every added token must serve a structural, disambiguating, or constraint-enforcing purpose.
+- **Preserve core intent.** Never alter the underlying goal or inject hallucinated domain requirements outside what the user implied.
 
-## Execution Pipeline
+---
 
-Follow this 5-stage pipeline for every prompt optimization request:
+## Dual-Mode Operation
 
-### 1. Intent Extraction
+Detect the user's intended target environment and select the appropriate operating mode:
 
-Identify the foundational parameters of the input:
+### Mode 1: Interactive Markdown (Default)
+Use when the prompt is intended for human-in-the-loop chat, pair-programming, or CLI agent sessions.
 
-- Primary goal: What is the single core outcome desired?
-- Target output format: Code, markdown table, prose, JSON, step-by-step reasoning.
-- Domain: Academic, software engineering, hardware design, creative, administrative.
-- Target audience: Beginner, expert, peer review, cross-functional stakeholder.
-
-### 2. Diagnosis
-
-Critique the input prompt against common failure modes:
-
-- Ambiguity and vague phrasing (for example, "make it good", "write something about").
-- Missing negative constraints and boundary conditions.
-- Weak structural hierarchy and poor visual separation.
-- Unstated assumptions about context or runtime environment.
-- Format vagueness (missing exact schema, length, or structural markers).
-- Token inefficiency and redundant phrasing.
-
-### 3. Reconstruction Strategy
-
-Incorporate modern LLM optimization heuristics:
-
-- Persona and role grounding: Assign domain-appropriate expertise and tone.
-- Delimiters and sections: Use clear Markdown headings, XML tags, or triple quotes to delineate instructions, context, and input variables.
-- Step-by-step decomposition: Break complex tasks into sequential logic steps.
-- Deterministic output specification: Define precise response structures and negative constraints.
-- Few-shot scaffolding: Add illustrative input/output pairs when the task involves schema compliance or stylistic nuance.
-
-### 4. Output Formatting
-
-Always render the response using the following structure:
-
+**Output Structure:**
 ```markdown
 ## 🔍 Original Prompt Analysis
-- Goal: <Extracted intent primary>
-- Issues Identified: <Bulleted diagnosed list of weaknesses>
+- **Goal:** <Extracted primary intent>
+- **Issues Identified:** <Diagnosed list of weaknesses based on references/failure-modes.md>
 
 ## 🚀 Optimized Prompt
-<Fully and copy paste prompt ready reconstructed to>
+<Fully copy-pasteable, delimited prompt template>
 
 ## 🧠 Improvements Applied
-- <Specific 1 and improvement rationale>
-- <Specific 2 and improvement rationale>
-- <Specific 3 and improvement rationale>
+- <Specific structural improvement 1 and rationale>
+- <Specific structural improvement 2 and rationale>
+- <Specific structural improvement 3 and rationale>
 ```
 
+### Mode 2: Application & Pydantic (Code-Ready)
+Use when the user specifies code integration, API pipelines, automated agents, JSON extraction, or asks for Pydantic models.
+
+**Output Structure:**
+1. **Pydantic Schema:** Strict, validated `BaseModel` with descriptive `Field` annotations and literals.
+2. **Parameterized Prompt Template:** Decoupled prompt text using variable placeholders (e.g. `{input_data}`).
+3. **Execution Snippet:** Clean Python invocation using structured outputs (Google GenAI, Anthropic, or LangChain).
+
+---
+
+## 5-Stage Optimization Pipeline
+
+### 1. Intent Extraction
+Identify the foundational parameters of the input:
+- **Primary Objective:** What is the single non-negotiable outcome?
+- **Target Mode:** Interactive (Markdown) vs. Application (Pydantic / Code).
+- **Domain Context:** Systems architecture, web dev, security, academic modeling, administrative.
+- **Target Model:** Gemini 2.5/3, Claude 3.7 Sonnet, GPT-4o.
+
+### 2. Failure Mode Diagnosis
+Audit the prompt against the failure taxonomy in [references/failure-modes.md](./references/failure-modes.md):
+- **Ambiguity & Under-specification:** Missing boundary conditions or loose verbs.
+- **Negative Constraint Collapse:** Fragile "do not" phrasing lacking positive framing.
+- **Format Drift:** Lack of explicit schema markers or delimiters.
+- **Context Bloat:** Unnecessary pleasantries and conversational filler.
+
+### 3. Reconstruction Strategy
+Incorporate verified reasoning and prompting heuristics:
+- **Persona Grounding:** Assign concrete domain role and evaluation perspective.
+- **Delimiters & Sections:** Structure prompt with XML tags (`<context>`, `<input>`, `<constraints>`) or Markdown headings.
+- **Reasoning Patterns:** Inject structured Chain-of-Thought and backward self-verification loops ([references/reasoning-patterns.md](./references/reasoning-patterns.md)).
+- **Type-Safe Schemas:** Apply strict Pydantic models when structured JSON is required ([references/structured-outputs.md](./references/structured-outputs.md)).
+- **Starter Templates:** Consult [assets/prompt-template-library.md](./assets/prompt-template-library.md) for proven architectural archetypes.
+
+### 4. Output Formatting
+Render the output cleanly adhering strictly to **Mode 1** or **Mode 2** output schemas.
+
 ### 5. Quality Checklist
-
-Before presenting the rewritten prompt, ensure:
-
-- The rewritten prompt contains explicit constraints (length, style, format).
-- Clear delimiters separate instructions from variables or data inputs.
-- The prompt is directly copyable and executable without requiring user guesswork.
+Before presenting the reconstructed prompt, verify:
+- [ ] Explicit constraints (length, style, format, and negative boundaries) are unambiguous.
+- [ ] Delimiters cleanly separate instructions from variable input slots.
+- [ ] The output is directly copy-pasteable or importable without requiring user guesswork.
+- [ ] Backward verification checks are included for complex multi-step reasoning.

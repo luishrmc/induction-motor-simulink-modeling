@@ -1,6 +1,6 @@
 \section{Resolução Analítica do Circuito Equivalente no Ponto Nominal}\label{sec:resolucao_nominal}
 
-A resolução nodal do circuito equivalente monofásico em T na velocidade de placa fundamenta-se na segregação das perdas elétricas nos enrolamentos frente à potência mecânica convertida e entregue à carga acoplada. A modelagem sob conexão Triângulo a \SI{220}{\volt} possibilita quantificar as correntes fasoriais, as potências ativa e reativa, o rendimento de conversão e o impacto do atrito viscoso da bancada no ponto nominal ($n = \SI{1715}{\RPM}$, $s_{nom} = 0{,}04722$).
+A resolução nodal do circuito equivalente monofásico em T na velocidade de placa fundamenta-se na segregação das perdas elétricas nos enrolamentos frente à potência mecânica convertida e entregue à carga acoplada. A modelagem possibilita quantificar as correntes fasoriais, as potências ativa e reativa, o rendimento de conversão e o impacto do atrito viscoso no ponto nominal.
 
 Na conexão Triângulo ($\Delta$) sob alimentação trifásica simétrica e equilibrada, a tensão de fase aplicada sobre cada ramo do circuito equivalente corresponde à tensão de linha do sistema:
 \begin{equation}
@@ -8,7 +8,7 @@ V_{ph} = V_L = \SI{220}{\volt}, \qquad \vec{V}_{ph} = \phasor{220}{0}.
 \label{eq:tensao_fase_delta}
 \end{equation}
 
-A \Cref{fig:circuito_ieee_t} ilustra a topologia do circuito equivalente monofásico em T recomendada pela norma IEEE Std 112, na qual o ramo de magnetização segrega os fenômenos estatóricos e rotóricos através da força eletromotriz induzida no entreferro ($\vec{E}_1$).
+A \Cref{fig:circuito_ieee_t} ilustra a topologia do circuito equivalente monofásico em T, na qual o ramo de magnetização segrega os fenômenos estatóricos e rotóricos através da força eletromotriz induzida no entreferro ($\vec{E}_1$).
 
 \begin{figure}[H]
 \centering
@@ -38,7 +38,7 @@ A \Cref{fig:circuito_ieee_t} ilustra a topologia do circuito equivalente monofá
     % Indicação do potencial induzido no entreferro
     \node[above] at (nodeT) {$\vec{E}_1$};
 \end{circuitikz}
-\caption{Circuito equivalente IEEE por fase em regime permanente para a máquina de indução.}
+\caption{Circuito equivalente por fase em regime permanente para a máquina de indução.}
 \label{fig:circuito_ieee_t}
 \end{figure}
 
@@ -149,7 +149,7 @@ T_{em} = \frac{P_{em}}{\omega_{nom}} = \frac{\SI{4482,32}{\watt}}{\SI{179,5943}{
 
 \subsection{Conciliação com o Atrito da Bancada e Rendimentos}\label{subsec:atrito_rendimento_nominal}
 
-Conforme determinado no ensaio de desaceleração livre da bancada motor-gerador acoplada, o coeficiente de atrito viscoso total é $B = \SI{0,0426}{\Nm\cdot\second/\radian}$. Na rotação nominal de \SI{1715}{\RPM}, o conjugado de atrito e as perdas rotacionais mecânicas são dados por:
+Conforme determinado no ensaio de desaceleração livre da bancada, o coeficiente de atrito viscoso total é $B = \SI{0,0426}{\Nm\cdot\second/\radian}$. Na rotação nominal de \SI{1715}{\RPM}, o conjugado de atrito e as perdas rotacionais mecânicas são dados por:
 \begin{equation}
 T_{atrito} = B \cdot \omega_{nom} = 0{,}0426 \cdot 179{,}5943 = \SI{7,6507}{\Nm},
 \label{eq:torque_atrito_nominal_resolucao}
