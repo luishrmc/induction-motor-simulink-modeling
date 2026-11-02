@@ -107,8 +107,22 @@ Defined in `.agents/manifest.json` and `.agents/agents/*.md`:
    - If rejected, `doc-reviewer` emits a structured `REJECT` report with exact file lines, identified deviations, and mandatory rewrite instructions.
    - Maximum 5 iterations per section (monitored by `loop-guard.py`).
 
-3. **Section Promotion**:
-   - Upon receiving an explicit `APPROVE` from `doc-reviewer` and a clean pass from `latex-gate.py`, the section is signed off.
+3. **Section Promotion & Task Close-Out**:
+   - Upon receiving an explicit `APPROVE` from `doc-reviewer` and clean passes from `latex-lint.py` and `latex-gate.py`:
+     1. Emit gate records via `python3 .agents/hooks/gate_record.py <task-id> latex-lint PASS` and `latex-gate PASS`.
+     2. Author episode summary in `utils/memory/episodes/<task-id>.md`.
+     3. Update module digest via `python3 .agents/hooks/memory-check.py --update latex_report`.
+     4. Promote task via `python3 .agents/hooks/plan-sync.py set <task-id> "Concluída" --evidence gate:<task-id>`.
+     5. Stage and commit deliverables (verified automatically by `.git/hooks/pre-commit`).
+
+### Active Subagent Dispatch & XML Prompt Standard
+When dispatching subagents (`doc-writer`, `doc-reviewer`, `latex-debugger`) via `invoke_subagent`, communicate task context and review verdicts using standardized JSON handoffs in `utils/memory/handoff/<task-id>-*.json` and encapsulate prompts in XML tags:
+- `<role>`: Job title and authority.
+- `<context>`: Target files and laboratory bench sources (`utils/data/`).
+- `<critical_rules>`: Strict modeling invariants (Star-Delta 1/3 transformation, $B\omega_m^2$ friction drag, scalar math formatting, lexical banlist).
+- `<task>`: Concrete atomic task description.
+- `<thinking_and_verification>`: Backward causal tracing, regex banlist scans, and $\pm 2\%$ tolerance checks.
+- `<output_format>`: Structured deliverable receipts and diffs.
 
 ## 5. Tool Governance
 

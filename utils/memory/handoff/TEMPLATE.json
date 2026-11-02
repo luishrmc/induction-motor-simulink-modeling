@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "task_id": "5.3",
+  "iteration": 1,
+  "stage": "REQUESTED",
+  "sender": "orchestrator-agent",
+  "recipient": "doc-writer",
+  "target_files": [
+    "docs/latex/cap3_simulacao_dinamica/01_modelagem_simscape_sps.tex"
+  ],
+  "verification_invariants": {
+    "steady_state_tolerance_pct": 2.0,
+    "viscous_friction_drag_accounted": true,
+    "star_delta_transformation_applied": true,
+    "banlist_violations_count": 0,
+    "bold_math_occurrences": 0
+  },
+  "bench_data_source": "utils/data/04_Mecanicos.csv",
+  "critic_verdict": "PENDING",
+  "timestamp": "2026-11-02T16:42:00-0300"
+}

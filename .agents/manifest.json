@@ -56,7 +56,9 @@
     "4.1": ["deliverable-audit"],
     "4.2": ["deliverable-audit"],
     "5.1": ["latex-lint", "latex-gate"],
-    "5.2": ["latex-lint", "latex-gate"]
+    "5.2": ["latex-lint", "latex-gate"],
+    "5.3": ["latex-lint", "latex-gate"],
+    "5.4": ["latex-lint", "latex-gate"]
   },
   "agents": [
     {

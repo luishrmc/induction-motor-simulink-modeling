@@ -58,3 +58,7 @@ Limit: 80 lines. Orchestrator-maintained log of technical insights, solver issue
 - **Quirk:** Writing `\\` inside plain strings `'...'` passes literal `\\` to LaTeX, triggering linebreaks (`\linebreak`) that orphan inline units (e.g. `$\mathrm{s}$` on a second line). Conversely, writing TeX accents (e.g. `\c{c}`) inside `sprintf` triggers invalid escape warnings.
 - **Fix:** In plain char vectors, always use single backslashes for TeX commands (`\mathrm{s}`, `\cdot`, `\omega_m`) and non-breaking space `~`. Never put accented TeX tokens inside `sprintf`; decouple via array concatenation: `['Text ' sprintf('($...$)')]`.
 - Refactors of verified plotting code: extract original lines programmatically (never rewrite); validate with a PNG pixel-diff against the baseline (PIL ImageChops bbox == None) before the Gauntlet.
+
+## 15. LaTeX Mathematical Standardization & Listings Macro Integration
+- **Quirk:** Adopting bold vector notation (`\mathbf{s}`, `\boldsymbol{\omega}_m`) in algorithm sections introduces typographical disharmony against scalar theory ($s, n, \omega_m$). Furthermore, adding `listings` blocks requires explicit `\crefname{lstlisting}{Código}{Códigos}` in preambles to resolve `cleveref` references.
+- **Fix:** Enforce scalar italic math ($s, n, \omega_m, T_{em}, I_{line}$) across all derivations and inline expressions. Declare `\crefname{lstlisting}` in `00_config.tex` whenever code listings are introduced.

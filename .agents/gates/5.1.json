@@ -1,0 +1,17 @@
+{
+  "task": "5.1",
+  "gates": {
+    "latex-lint": {
+      "status": "PASS",
+      "detail": "Scaffolding modular verificado",
+      "src_sha256": "f7a0be44b4da66b874566eec9d27ee4aaa6b04d0e9c3611e93ca276c76f64648",
+      "timestamp": "2026-11-02T16:36:05-0300"
+    },
+    "latex-gate": {
+      "status": "PASS",
+      "detail": "Compilacao PDF 4.75 MB sem erros",
+      "src_sha256": "990e029854e9bf95e6ba4b6392e46d3c71783bd057a48c543f7adad7a93475ad",
+      "timestamp": "2026-11-02T16:36:05-0300"
+    }
+  }
+}

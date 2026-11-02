@@ -1,0 +1,17 @@
+{
+  "task": "5.2",
+  "gates": {
+    "latex-lint": {
+      "status": "PASS",
+      "detail": "Capitulos 1 e 2 sem violacoes lexicas ou tipograficas",
+      "src_sha256": "6aa42d7ba9ab14cd2d806410a28a7aaf7e7f19faeced61211f17131f692ddc63",
+      "timestamp": "2026-11-02T16:36:05-0300"
+    },
+    "latex-gate": {
+      "status": "PASS",
+      "detail": "Compilacao limpa sem referencias indefinidas",
+      "src_sha256": "990e029854e9bf95e6ba4b6392e46d3c71783bd057a48c543f7adad7a93475ad",
+      "timestamp": "2026-11-02T16:36:05-0300"
+    }
+  }
+}
