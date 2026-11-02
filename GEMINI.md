@@ -58,6 +58,9 @@ Defined in `.agents/manifest.json` and `.agents/agents/*.md`:
 | `validation-auditor` | pro | Transient test harness, error metrics ($\le \pm 2\%$), bench data reconciliation |
 | `technical-critic-agent` | pro | Read-only adversarial reviewer of physical validity and spec compliance |
 | `doc-agent` | flash | Figure collation, markdown reporting, thesis-grade formatting, export packaging |
+| `doc-writer` | pro | Academic LaTeX Technical Writer, drafting rigorous causal Brazilian Portuguese prose |
+| `doc-reviewer` | pro | Adversarial editorial reviewer auditing LaTeX documentation for physical causality, tone, and equations |
+| `latex-debugger` | flash | Compilation debugger resolving fatal TeX errors, missing packages, and overfull \hbox |
 
 ### Verification Loops & The Gauntlet Protocol
 
@@ -86,6 +89,27 @@ Defined in `.agents/manifest.json` and `.agents/agents/*.md`:
      5. Promote the task to `Concluída` via `plan-sync.py set <task-id> "Concluída" --evidence gate:<task-id>`.
      6. Stage and commit verified deliverables via `git`.
 
+### The Gauntlet Documentation Loop Protocol (LaTeX Report Pipeline)
+
+1. **Fast Inner Loop (Author Self-Correction)**:
+   - `doc-writer` authors or refines an individual section in `docs/latex/cap*/*.tex` following the `% [DIRETRIZ DE REDAÇÃO]` block.
+   - The author immediately executes:
+     - `python3 .agents/hooks/latex-lint.py --file <file.tex>` (verifies absence of vertical lines in tables, cleveref usage, and banlist compliance).
+     - `python3 .agents/hooks/latex-gate.py` (verifies headless PDF compilation and absence of undefined references).
+   - If either fails, `doc-writer` (or `latex-debugger` for complex compilation errors) corrects the file locally.
+
+2. **The Editorial Gauntlet (Adversarial Review)**:
+   - Once automated gates pass, the section is submitted to `doc-reviewer` (read-only critic).
+   - `doc-reviewer` verifies:
+     - **Physical Causality & 3-Step Reasoning:** Causal explanation of airgap flux, rotor induction, friction drag, and power flow.
+     - **Impessoalidade & Academic Register:** Strict 3rd person passive voice in formal Brazilian Portuguese.
+     - **Numerical Accuracy & Tolerance:** Agreement with analytical derivations and bench data within $\pm 2.0\%$.
+   - If rejected, `doc-reviewer` emits a structured `REJECT` report with exact file lines, identified deviations, and mandatory rewrite instructions.
+   - Maximum 5 iterations per section (monitored by `loop-guard.py`).
+
+3. **Section Promotion**:
+   - Upon receiving an explicit `APPROVE` from `doc-reviewer` and a clean pass from `latex-gate.py`, the section is signed off.
+
 ## 5. Tool Governance
 
 - Scripts and simulations must run headlessly via MATLAB batch mode:
@@ -112,6 +136,8 @@ TASK_ID=<id> bash .agents/hooks/matlab-lint.sh
 TASK_ID=<id> python3 .agents/hooks/analytical-gate.py
 TASK_ID=<id> python3 .agents/hooks/simulink-gate.py
 TASK_ID=<id> python3 .agents/hooks/tolerance-gate.py --task <id>
+python3 .agents/hooks/latex-lint.py [--file <path>]
+python3 .agents/hooks/latex-gate.py
 
 # Memory & Boundaries
 python3 .agents/hooks/memory-check.py [--update <module>]

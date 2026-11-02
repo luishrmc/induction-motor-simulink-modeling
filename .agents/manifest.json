@@ -14,7 +14,9 @@
     "parte1": "out/parte1_analitico",
     "parte2": "out/parte2_dinamico",
     "sintetizado": "out/sintetizado",
-    "academic_tree": "simulacao_ele035"
+    "academic_tree": "simulacao_ele035",
+    "docs_latex": "docs/latex",
+    "latex_out": "docs/latex/out"
   },
   "limits": {
     "max_iterations": 5,
@@ -39,7 +41,8 @@
     "1": ["matlab-lint", "analytical-gate"],
     "2": ["matlab-lint", "simulink-gate"],
     "3": ["simulink-gate", "tolerance-gate"],
-    "4": ["deliverable-audit"]
+    "4": ["deliverable-audit"],
+    "5": ["latex-lint", "latex-gate"]
   },
   "gates_by_task": {
     "0.1": ["plan-check"],
@@ -51,7 +54,9 @@
     "3.2": ["simulink-gate", "tolerance-gate"],
     "3.3": ["simulink-gate", "tolerance-gate"],
     "4.1": ["deliverable-audit"],
-    "4.2": ["deliverable-audit"]
+    "4.2": ["deliverable-audit"],
+    "5.1": ["latex-lint", "latex-gate"],
+    "5.2": ["latex-lint", "latex-gate"]
   },
   "agents": [
     {
@@ -155,6 +160,47 @@
         "utils/memory/handoff/*"
       ],
       "skills": ["figure-production", "memory-protocol"]
+    },
+    {
+      "name": "doc-writer",
+      "definition": ".agents/agents/doc-writer.md",
+      "role": "Academic LaTeX Technical Writer, drafting rigorous causal Brazilian Portuguese prose from section guidelines",
+      "model": "pro",
+      "tools_allowed": ["view_file", "write_to_file", "replace_file_content", "run_command"],
+      "run_scope": ["python3 .agents/hooks/latex-lint.py *", "python3 .agents/hooks/latex-gate.py"],
+      "write": [
+        "docs/latex/cap*/**",
+        "docs/latex/pos_textuais/**",
+        "docs/latex/anexos/**",
+        "utils/memory/handoff/*"
+      ],
+      "skills": ["latex-syntax-gate", "technical-style-auditor"]
+    },
+    {
+      "name": "doc-reviewer",
+      "definition": ".agents/agents/doc-reviewer.md",
+      "role": "Adversarial editorial reviewer auditing LaTeX documentation for physical causality, tone compliance, and equations",
+      "model": "pro",
+      "tools_allowed": ["view_file"],
+      "run_scope": [],
+      "write": [],
+      "skills": ["technical-style-auditor", "latex-syntax-gate"]
+    },
+    {
+      "name": "latex-debugger",
+      "definition": ".agents/agents/latex-debugger.md",
+      "role": "Compilation debugger resolving fatal TeX errors, missing packages, and overfull hbox",
+      "model": "flash",
+      "tools_allowed": ["view_file", "write_to_file", "replace_file_content", "run_command"],
+      "run_scope": ["latexmk *", "python3 .agents/hooks/latex-gate.py"],
+      "write": [
+        "docs/latex/00_config.tex",
+        "docs/latex/main.tex",
+        "docs/latex/02_referencias.bib",
+        ".vscode/settings.json",
+        "utils/memory/handoff/*"
+      ],
+      "skills": ["latex-build-diagnoser", "latex-syntax-gate"]
     }
   ]
 }
