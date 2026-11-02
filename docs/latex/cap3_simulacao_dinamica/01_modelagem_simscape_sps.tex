@@ -1,0 +1,32 @@
+\section{Arquitetura e Parametrização do Modelo Simscape Specialized Power Systems}\label{sec:modelo_simscape}
+
+A investigação dos transitórios eletromecânicos no domínio do tempo exige modelos matemáticos não lineares formulados no referencial ortogonal $dq0$, capazes de capturar a dinâmica de acoplamento dos fluxos magnéticos e as oscilações de conjugado sob perturbações na rede ou no eixo. A correta parametrização do bloco \textit{Asynchronous Machine SI Units} no ambiente Simscape SPS depende da aplicação rigorosa do invariante de transformação de impedâncias Estrela-Triângulo para preservar a fidelidade física das grandezas terminais.
+
+% =========================================================================
+% [DIRETRIZ DE REDAÇÃO]
+% - Objetivo: Atender ao Item 2.A de sim_proj.pdf. Apresentar o modelo dinâmico implementado
+%   no Simscape Specialized Power Systems (SPS) utilizando o bloco Asynchronous Machine SI Units.
+% - Formulação: Apresentar a dedução formal do invariante de mapeamento Estrela-Triângulo (ADR-002):
+%   R_{1,Y} = R_1 / 3, R_{2,Y}' = R_2' / 3, L_{l1,Y} = L_{l1} / 3, L_{l2,Y}' = L_{l2}' / 3, L_{m,Y} = L_m / 3.
+% - Figuras/Tabelas: Inserir a tabela de parâmetros mapeados e o diagrama esquemático do modelo.
+% - Confronto: Justificar a configuração do solver ode23tb (TR-BDF2, L-estável) para assegurar
+%   estabilidade numérica sob correntes de inrush e degraus abruptos de conjugado mecânico.
+% =========================================================================
+
+\subsection{O Invariante de Mapeamento Estrela-Triângulo ($\text{Y}-\Delta$)}\label{subsec:mapeamento_ydelta}
+
+O bloco \textit{Asynchronous Machine SI Units} do Simscape adota internamente a representação por enrolamentos em Estrela ($\text{Y}$) não aterrada, recebendo como entrada a tensão eficaz entre linhas da rede ($V_L = \SI{220}{\volt}$). Para modelar com exatidão a máquina ensaiada conectada fisicamente em Triângulo ($\Delta$) sem alterar as tensões nodais dos barramentos trifásicos, aplica-se a transformação de impedâncias:
+\begin{equation}
+R_{1,Y} = \frac{R_{1,\Delta}}{3} = \frac{\SI{1,189}{\ohm}}{3} = \SI{0,39633}{\ohm}, \qquad R_{2,Y}' = \frac{R_{2,\Delta}'}{3} = \frac{\SI{1,180}{\ohm}}{3} = \SI{0,39333}{\ohm},
+\label{eq:resistencias_estrela}
+\end{equation}
+\begin{equation}
+L_{l1,Y} = \frac{L_{l1,\Delta}}{3} = \SI{1,90833}{\milli\henry}, \quad L_{l2,Y}' = \frac{L_{l2,\Delta}'}{3} = \SI{2,80667}{\milli\henry}, \quad L_{m,Y} = \frac{L_{m,\Delta}}{3} = \SI{43,85700}{\milli\henry}.
+\label{eq:indutancias_estrela}
+\end{equation}
+
+Os parâmetros mecânicos acoplados ($J = \SI{0,701}{\kilogram\meter\squared}$, $B = \SI{0,0426}{\Nm\cdot\second/\radian}$ e $p_{\text{pares}} = 2$) permanecem invariantes. A equivalência física garante que as correntes de linha, o fluxo de potência ativa e reativa e o conjugado eletromagnético gerados no Simscape coincidam rigorosamente com a operação em Triângulo.
+
+\subsection{Configuração do Solver Numérico L-Estável}\label{subsec:config_solver}
+
+Devido à elevada rigidez numérica (\textit{stiffness}) decorrente das constantes de tempo elétricas subtransitórias frente às constantes de tempo mecânicas da inércia pesada, adotou-se o solver numérico L-estável \texttt{ode23tb} (combinação trapezoidal e diferenciação retroativa TR-BDF2) com tolerância relativa de $10^{-4}$ e passo máximo de amostragem de $\SI{1e-4}{\second}$.

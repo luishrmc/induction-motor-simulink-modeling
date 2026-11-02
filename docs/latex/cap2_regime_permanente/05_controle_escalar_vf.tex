@@ -1,0 +1,40 @@
+\section{Família de Curvas sob Controle Escalar com Relação $V/f$ Constante}\label{sec:controle_escalar}
+
+O acionamento de máquinas de indução com velocidade ajustável mediante inversores de frequência fundamenta-se na manutenção da densidade de fluxo magnético no entreferro através da modulação proporcional entre a amplitude de tensão e a frequência fundamental da alimentação. A análise da família de curvas de conjugado resultante permite verificar a preservação da capacidade de sobrecarga e quantificar os efeitos degradantes da queda resistiva estatórica em baixas rotações.
+
+% =========================================================================
+% [DIRETRIZ DE REDAÇÃO]
+% - Objetivo: Atender ao Item 1.F de sim_proj.pdf. Emular a operação com inversor de
+%   frequência sob controle escalar (V/f constante) nos patamares de 100%, 75%, 50% e 25%.
+% - Formulação: Demonstrar a proporcionalidade do fluxo de entreferro \Phi_{ag} \propto V/f = constante.
+%   Explicar a velocidade síncrona proporcional à frequência (n_s = 1800, 1350, 900 e 450 rpm)
+%   e o efeito da queda resistiva no estator (queda IR_1) em baixas frequências (15 Hz).
+% - Figuras/Tabelas: Inserir a figura comparativa com as 4 curvas sobrepostas: item1f_vf_scalar_family.png.
+% - Confronto: Analisar a constância do conjugado máximo (T_max ~ 45,7 N*m) entre 60 Hz e 30 Hz
+%   e a redução para 41,8 N*m a 15 Hz, justificando a necessidade de compensação de tensão (boost).
+% =========================================================================
+
+A condição de magnetização constante do entreferro é assegurada pela relação:
+\begin{equation}
+\Phi_{ag} \propto \frac{V_1}{f_1} = \frac{\SI{220}{\volt}}{\SI{60}{\hertz}} \approx \SI{3,6667}{\volt/\hertz}.
+\label{eq:razao_vf}
+\end{equation}
+
+Os quatro patamares operacionais avaliados compreendem:
+\begin{enumerate}
+    \item \textbf{100\%}: $V = \SI{220}{\volt}$, $f = \SI{60}{\hertz}$, $n_s = \SI{1800}{\RPM}$;
+    \item \textbf{75\%}: $V = \SI{165}{\volt}$, $f = \SI{45}{\hertz}$, $n_s = \SI{1350}{\RPM}$;
+    \item \textbf{50\%}: $V = \SI{110}{\volt}$, $f = \SI{30}{\hertz}$, $n_s = \SI{900}{\RPM}$;
+    \item \textbf{25\%}: $V = \SI{55}{\volt}$, $f = \SI{15}{\hertz}$, $n_s = \SI{450}{\RPM}$.
+\end{enumerate}
+
+A \Cref{fig:familia_vf} ilustra a família de curvas de conjugado eletromagnético em função da velocidade mecânica.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth]{item1f_vf_scalar_family.png}
+\caption{Família de curvas características de Conjugado versus Velocidade sob controle escalar $V/f$ constante ($100\%$, $75\%$, $50\%$ e $25\%$).}
+\label{fig:familia_vf}
+\end{figure}
+
+Em frequências reduzidas (\SI{15}{\hertz}), a resistência de estator $R_1$ deixa de ser desprezível frente à reatância indutiva ($2\pi f L_{l1}$), acarretando uma queda de tensão resistiva ($I R_1$) que deprime o fluxo de entreferro efetivo e atenua o conjugado máximo ($T_{max}$ de \SI{45,71}{\Nm} para \SI{41,84}{\Nm}), fenômeno corrigido industrialmente por reforço de tensão na partida (\textit{voltage boost}).

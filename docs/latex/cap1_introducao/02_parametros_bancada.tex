@@ -1,0 +1,53 @@
+\section{Dados de Placa e Parâmetros Experimentais da Bancada}\label{sec:parametros_bancada}
+
+A parametrização do modelo circuital em T e das constantes mecânicas da bancada decorre da execução dos ensaios normalizados de resistência ôhmica sob corrente contínua, rotor bloqueado a \SI{60}{\hertz}, operação a vazio e desaceleração livre. A precisa segregação desses coeficientes concentrados permite conciliar o comportamento eletromagnético intrínseco da máquina WEG com os efeitos de arrasto e inércia do conjunto motor-gerador acoplado.
+
+% =========================================================================
+% [DIRETRIZ DE REDAÇÃO]
+% - Objetivo: Atender ao Item 1.A de sim_proj.pdf, apresentando de forma estruturada
+%   os dados nominais de catálogo e os parâmetros elétricos e mecânicos de bancada.
+% - Formulação: Apresentar a equação diferencial da dinâmica mecânica acoplada:
+%   J * d\omega_m/dt = T_e - T_L - B * \omega_m.
+% - Figuras/Tabelas: Tabela estruturada (booktabs) com parâmetros em conexão Triângulo (\Delta).
+% - Confronto: Justificar a inércia total J = 0,701 kg*m^2 e atrito B = 0,0426 N*m*s/rad
+%   decorrentes do acoplamento mecânico com a máquina de corrente contínua da bancada.
+% =========================================================================
+
+A dinâmica rotacional do conjunto mecânico acoplado é governada pela equação diferencial de torque:
+\begin{equation}
+J \frac{d\omega_m}{dt} = T_e - T_L - B \omega_m,
+\label{eq:dinamica_rotacional_bancada}
+\end{equation}
+em que $J$ representa o momento de inércia total equivalente, $B$ o coeficiente de atrito viscoso acoplado, $T_e$ o conjugado eletromagnético interno e $T_L$ o conjugado resistente de carga externa.
+
+A \Cref{tab:parametros_consolidados} consolida as grandezas nominais de placa e os parâmetros concentrados por fase em conexão Triângulo ($\Delta$) obtidos nos ensaios laboratoriais.
+
+\begin{table}[H]
+\centering
+\caption{Parâmetros consolidados do Motor de Indução Trifásico WEG \SI{3,7}{\kilo\watt} (Carcaça 100L).}
+\label{tab:parametros_consolidados}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Grandeza Mecânica / Elétrica} & \textbf{Símbolo} & \textbf{Valor} & \textbf{Unidade} & \textbf{Observação} \\
+\midrule
+Potência Mecânica Nominal & $P_{nom}$ & $3{,}70$ ($5{,}0$) & \si{\kilo\watt} (\si{cv}) & Placa de catálogo \\
+Tensão Nominal de Linha & $V_{L,nom}$ & $220$ & \si{\volt} (RMS) & Conexão Triângulo ($\Delta$) \\
+Corrente Nominal de Linha & $I_{line,nom}$ & $14{,}0$ & \si{\ampere} (RMS) & Placa de catálogo \\
+Frequência Nominal da Rede & $f_{nom}$ & $60$ & \si{\hertz} & Padrão brasileiro \\
+Número de Polos & $p$ & $4$ & -- & $p_{\text{pares}} = 2$ ($n_s = \SI{1800}{\RPM}$) \\
+Velocidade Nominal & $n_{nom}$ & $1715$ & \si{\RPM} & $\omega_{nom} = \SI{179,5943}{\rads}$ \\
+Fator de Potência Nominal & $\cos\phi_{nom}$ & $0{,}81$ & -- & Placa de catálogo \\
+Rendimento Nominal de Catálogo & $\eta_{nom}$ & $85{,}5$ & \si{\percent} & Placa de catálogo \\
+Escorregamento Nominal & $s_{nom}$ & $0{,}04722$ & -- & $s_{nom} = (1800-1715)/1800$ \\
+\midrule
+Resistência Estatórica por Fase & $R_1$ & $1{,}189$ & \si{\ohm} & Ensaio CC com comp. térmica \\
+Resistência Rotórica Refletida & $R_2'$ & $1{,}180$ & \si{\ohm} & Ensaio Rotor Bloqueado a \SI{60}{\hertz} \\
+Indutância de Dispersão do Estator & $L_{l1}$ & $5{,}725$ & \si{\milli\henry} & $X_1 = \SI{2,158}{\ohm}$ a \SI{60}{\hertz} \\
+Indutância de Dispersão do Rotor & $L_{l2}'$ & $8{,}420$ & \si{\milli\henry} & $X_2' = \SI{3,174}{\ohm}$ a \SI{60}{\hertz} \\
+Indutância de Magnetização & $L_m$ & $131{,}571$ & \si{\milli\henry} & $X_m = \SI{49,601}{\ohm}$ a \SI{60}{\hertz} \\
+Resistência de Perdas no Ferro & $R_c$ & $\infty$ & \si{\ohm} & Desprezada no modelo T clássico \\
+Momento de Inércia Total & $J$ & $0{,}701$ & \si{\kilogram\meter\squared} & Conjunto acoplado da bancada \\
+Coeficiente de Atrito Viscoso & $B$ & $0{,}0426$ & \si{\Nm\cdot\second/\radian} & Desaceleração livre acoplada \\
+\bottomrule
+\end{tabular}
+\end{table}

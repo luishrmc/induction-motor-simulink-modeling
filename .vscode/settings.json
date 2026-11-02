@@ -1,0 +1,73 @@
+{
+    "latex-workshop.latex.outDir": "out",
+    "latex-workshop.latex.autoBuild.run": "onSave",
+    "latex-workshop.latex.recipe.default": "Latexmk (pdf)",
+    "latex-workshop.latex.tools": [
+        {
+            "name": "latexmk (Universal)",
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-pdf",
+                "-pdflatex=pdflatex %O %S --shell-escape",
+                "-outdir=out",
+                "-auxdir=out",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "pdflatex (single run)",
+            "command": "pdflatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "--shell-escape",
+                "-output-directory=out",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "bibtex",
+            "command": "bibtex",
+            "args": [
+                "out/%DOCFILE%"
+            ]
+        },
+        {
+            "name": "latexmk clean",
+            "command": "latexmk",
+            "args": [
+                "-C",
+                "-outdir=out",
+                "-auxdir=out",
+                "%DOC%"
+            ]
+        }
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "Latexmk (pdf)",
+            "tools": [
+                "latexmk (Universal)"
+            ]
+        },
+        {
+            "name": "pdflatex -> bibtex -> pdflatex x2",
+            "tools": [
+                "pdflatex (single run)",
+                "bibtex",
+                "pdflatex (single run)",
+                "pdflatex (single run)"
+            ]
+        },
+        {
+            "name": "Clean (latexmk)",
+            "tools": [
+                "latexmk clean"
+            ]
+        }
+    ]
+}

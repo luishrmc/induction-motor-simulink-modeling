@@ -1,0 +1,47 @@
+\section{Dedução Analítica da Corrente de Partida Direta a Rotor Bloqueado ($s = 1$)}\label{sec:partida_bloqueado}
+
+No instante inicial do fechamento dos contatos de alimentação direta com o rotor em repouso, anula-se a componente de velocidade angular, impondo escorregamento unitário ($s = 1$) e transformando a máquina em um transformador com enrolamento secundário em curto-circuito. A dedução analítica da impedância equivalente nessa condição permite prever o patamar simétrico da corrente de partida e a magnitude máxima do transitório de \textit{inrush} decorrente da componente contínua subtransitória.
+
+% =========================================================================
+% [DIRETRIZ DE REDAÇÃO]
+% - Objetivo: Atender ao Item 2.B de sim_proj.pdf. Calcular a corrente de partida direta
+%   a rotor bloqueado resolvendo o circuito equivalente em escorregamento unitário (s = 1).
+% - Formulação: Apresentar a dedução da impedância de entrada em s = 1:
+%   Z_{in}(1) = R_1 + jX_1 + (jX_m // (R_2' + jX_2')) = 5,5947 \phase{65,64^\circ} \Omega.
+%   Calcular a corrente de fase (I_{ph,cc} = 39,32 A) e a corrente de linha RMS (I_{line,cc} = 68,11 A).
+%   Deduzir a componente contínua subtransitória e o fator de pico assimétrico k_p.
+% - Figuras/Tabelas: Equações analíticas completas e valores numéricos resultantes.
+% - Confronto: Confrontar o valor em regime de rotor bloqueado com o pico transitório simulado (105,7 A).
+% =========================================================================
+
+Substituindo $s = 1$ no ramo rotórico do circuito equivalente monofásico em conexão Triângulo:
+\begin{equation}
+Z_2'(1) = R_2' + \jj X_2' = 1{,}180 + \jj 3{,}1742\,\Omega = 3{,}3865 \angle 69{,}60^\circ\,\Omega.
+\label{eq:z2_bloqueado}
+\end{equation}
+
+A impedância total de entrada sob escorregamento unitário resulta em:
+\begin{equation}
+Z_{in}(1) = R_1 + \jj X_1 + \frac{\jj X_m (R_2' + \jj X_2')}{R_2' + \jj (X_m + X_2')} = 2{,}3082 + \jj 5{,}0971\,\Omega = 5{,}5947 \angle 65{,}64^\circ\,\Omega.
+\label{eq:zin_bloqueado}
+\end{equation}
+
+A corrente eficaz de fase e a corrente eficaz de linha de partida em regime simétrico são calculadas por:
+\begin{equation}
+I_{ph,cc} = \frac{V_{ph}}{|Z_{in}(1)|} = \frac{\SI{220}{\volt}}{\SI{5,5947}{\ohm}} = \SI{39,3230}{\ampere},
+\label{eq:iph_bloqueado}
+\end{equation}
+\begin{equation}
+I_{line,cc} = \sqrt{3} \cdot I_{ph,cc} = \sqrt{3} \cdot \SI{39,3230}{\ampere} = \SI{68,1102}{\ampere}.
+\label{eq:iline_bloqueado}
+\end{equation}
+
+Considerando o fechamento do circuito no cruzamento por zero da tensão de fase (condição de máximo \textit{offset} de corrente contínua subtransitória), o fator de assimetria de pico $k_p$ e o pico máximo teórico de inrush são expressos por:
+\begin{equation}
+k_p = \sqrt{2} \cdot \left[ 1 + \exp\left(-\frac{\pi}{\tan \theta_{cc}}\right) \right] = \sqrt{2} \cdot \left[ 1 + \exp\left(-\frac{\pi}{\tan 65{,}64^\circ}\right) \right] \approx 1{,}756,
+\label{eq:fator_kp}
+\end{equation}
+\begin{equation}
+I_{peak,teorico} = k_p \cdot I_{line,cc} = 1{,}756 \cdot \SI{68,1102}{\ampere} \approx \SI{119,6}{\ampere}.
+\label{eq:inrush_teorico}
+\end{equation}

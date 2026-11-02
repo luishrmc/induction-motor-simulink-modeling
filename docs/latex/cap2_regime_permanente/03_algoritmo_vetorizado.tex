@@ -1,0 +1,44 @@
+\section{Algoritmo Computacional Vetorizado em MATLAB}\label{sec:algoritmo_matlab}
+
+A determinação precisa das características de regime permanente ao longo de todo o espectro de rotação demanda rotinas numéricas de elevada eficiência que prescindem de laços iterativos lentos. A formulação matricial e puramente vetorizada em ambiente MATLAB viabiliza a avaliação simultânea de impedâncias, correntes e potências em malhas discretas densas de escorregamento, prevenindo divergências e singularidades numéricas na aproximação da velocidade síncrona ($s \to 0$).
+
+% =========================================================================
+% [DIRETRIZ DE REDAÇÃO]
+% - Objetivo: Atender ao Item 1.D de sim_proj.pdf. Descrever a arquitetura da rotina
+%   computacional desenvolvida em MATLAB para resolução do circuito equivalente em malha de escorregamento.
+% - Formulação: Detalhar a vetorização pura sem laços "for", discretizando a velocidade
+%   de 0 a n_s (s de 1 a 10^-4) para evitar singularidade em s = 0.
+% - Figuras/Tabelas: Inserir a listagem de código-fonte estruturada via ambiente lstlisting (estilo matlabstyle).
+% - Confronto: Justificar o ganho de eficiência computacional e a precisão na detecção de pontos notáveis.
+% =========================================================================
+
+A malha de escorregamento é definida entre $s = 1$ (rotor bloqueado) e $s = 10^{-4}$ (ligeiramente abaixo de $n_s = \SI{1800}{\RPM}$), garantindo estabilidade no cálculo da impedância rotórica aparente ($R_2'/s$).
+
+A \Cref{lst:algoritmo_vetorizado} apresenta o trecho fundamental da rotina vetorizada implementada no script \texttt{run\_item\_ABC.m}.
+
+\begin{lstlisting}[style=matlabstyle, caption={Trecho central da rotina vetorizada em MATLAB para resolucao do circuito IEEE.}, label={lst:algoritmo_vetorizado}]
+% Parametros por fase em conexao Triangulo (Delta)
+V_ph = 220;              % Tensao de fase [V RMS]
+f = 60;                  % Frequencia nominal [Hz]
+ws = 2 * pi * f / 2;     % Velocidade sincrona [rad/s]
+
+% Malha de escorregamento vetorizada (evitando singularidade em s=0)
+s = linspace(1e-4, 1.0, 2000);
+n_rpm = (1 - s) * (120 * f / 4);
+
+% Impedancia rotoria e associacao em paralelo
+Z2_prm = R2_prm ./ s + 1j * X2_prm;
+Z_p = (1j * Xm .* Z2_prm) ./ (Z2_prm + 1j * Xm);
+Z_in = R1 + 1j * X1 + Z_p;
+
+% Correntes de fase e linha estatoricas
+I1_ph = V_ph ./ Z_in;
+I_line = sqrt(3) * abs(I1_ph);
+
+% Corrente do rotor via divisor de corrente
+I2_prm = I1_ph .* (1j * Xm ./ (Z2_prm + 1j * Xm));
+
+% Balanco de potencias e torque eletromagnetico
+P_ag = 3 * (abs(I2_prm).^2) .* (R2_prm ./ s);
+T_em = P_ag / ws;
+\end{lstlisting}

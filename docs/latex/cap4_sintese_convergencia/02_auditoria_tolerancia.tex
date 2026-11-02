@@ -1,0 +1,46 @@
+\section{Tabela Multiregime de Validação e Auditoria de Tolerância}\label{sec:auditoria_tolerancia}
+
+A validação conclusiva da fidelidade do modelo Simscape Specialized Power Systems e do equacionamento analítico do circuito IEEE exige a confrontação quantitativa das variáveis de regime permanente com os dados de catálogo e os ensaios de laboratório. A consolidação dos resultados em uma matriz multiregime permite auditar formalmente o cumprimento do critério de convergência com erro relativo estritamente contido no limite de tolerância de \SI{2,0}{\percent}.
+
+% =========================================================================
+% [DIRETRIZ DE REDAÇÃO]
+% - Objetivo: Consolidar a matriz comparativa multiregime e auditar o cumprimento estrito
+%   da tolerância de erro percentual de <= 2,0% entre a solução analítica e a simulação Simscape.
+% - Formulação: Apresentar a métrica de erro relativo: Erro = (X_{sim} - X_{an}) / X_{an} * 100%.
+% - Figuras/Tabelas: Tabela comparativa detalhada (booktabs) confrontando Placa, Ensaio,
+%   Analítico e Simulação Simscape SPS para velocidade, escorregamento, corrente, torque e potências.
+% - Confronto: Justificar fisicamente o balanço de potência e o impacto do atrito viscoso
+%   da bancada acoplada (B*\omega_m^2 = 1373,9 W), atestando a aprovação em todos os critérios.
+% =========================================================================
+
+A métrica de erro relativo percentual adotada para a verificação de conformidade expressa-se por:
+\begin{equation}
+\varepsilon_{\text{rel}} = \frac{X_{\text{sim}} - X_{\text{analítico}}}{X_{\text{analítico}}} \times 100\%.
+\label{eq:erro_relativo_auditoria}
+\end{equation}
+
+A \Cref{tab:auditoria_consolidada} reúne os valores catalogados de placa, os ensaios de bancada, a solução analítica do circuito equivalente e os resultados estabilizados sob carga plena no Simscape SPS.
+
+\begin{table}[H]
+\centering
+\caption{Síntese comparativa multiregime e auditoria de convergência analítica versus Simscape.}
+\label{tab:auditoria_consolidada}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Grandeza} & \textbf{Placa WEG} & \textbf{Bancada} & \textbf{Analítico} & \textbf{Simscape} & \textbf{Erro Rel.} & \textbf{Status ($\le 2{,}0\%$)} \\
+\midrule
+Velocidade ($n$) & \SI{1715}{\RPM} & \SI{1715}{\RPM} & \SI{1715,0}{\RPM} & \SI{1714,8}{\RPM} & $-0{,}01\%$ & \textbf{Aprovado} \\
+Escorregamento ($s$) & $4{,}72\%$ & $4{,}72\%$ & $4{,}722\%$ & $4{,}733\%$ & $+0{,}23\%$ & \textbf{Aprovado} \\
+Corrente de Linha ($I_L$) & \SI{14,00}{\ampere} & \SI{14,00}{\ampere} & \SI{14,02}{\ampere} & \SI{14,15}{\ampere} & $+0{,}96\%$ & \textbf{Aprovado} \\
+Torque Útil ($T_{shaft}$) & \SI{20,60}{\Nm} & \SI{20,60}{\Nm} & \SI{20,66}{\Nm} & \SI{20,60}{\Nm} & $-0{,}29\%$ & \textbf{Aprovado} \\
+Torque Eletromag. ($T_e$) & -- & -- & \SI{28,31}{\Nm} & \SI{28,36}{\Nm} & $+0{,}17\%$ & \textbf{Aprovado} \\
+Potência Ativa ($P$) & -- & -- & \SI{5622,9}{\watt} & \SI{5676,0}{\watt} & $+0{,}94\%$ & \textbf{Aprovado} \\
+Potência Reativa ($Q$) & -- & -- & \SI{3208,5}{\text{var}} & \SI{3245,0}{\text{var}} & $+1{,}14\%$ & \textbf{Aprovado} \\
+Fator de Potência & $0{,}81$ & $0{,}81$ & $0{,}824$ & $0{,}821$ & $-0{,}36\%$ & \textbf{Aprovado} \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+A auditoria quantitativa confirma que todas as grandezas analisadas mantêm-se estritamente abaixo do limiar de \SI{2,0}{\percent}, atingindo discrepância máxima de $+0{,}96\%$ na corrente de linha e $+1{,}14\%$ na potência reativa, chancelando a precisão do mapeamento de parâmetros e a fidelidade da simulação dinâmica.

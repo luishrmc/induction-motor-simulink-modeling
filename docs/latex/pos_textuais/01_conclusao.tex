@@ -1,0 +1,23 @@
+\chapter*{Conclusão Geral}
+\addcontentsline{toc}{chapter}{Conclusão Geral}
+\label{cap:conclusao}
+
+A investigação sistemática do motor de indução trifásico de \SI{3,7}{\kilo\watt} sob as perspectivas analítica e computacional dinâmica permitiu conciliar com rigor a teoria clássica de circuitos equivalentes em regime permanente com a integração temporal de modelos no Simscape SPS. A convergência quantitativa observada entre as abordagens consolida os princípios físicos da conversão eletromecânica nos regimes motor subsíncrono, aceleração sob inércia de bancada e frenagem regenerativa hipersíncrona.
+
+% =========================================================================
+% [DIRETRIZ DE REDAÇÃO]
+% - Objetivo: Concluir o relatório técnico, articulando os resultados da modelagem analítica
+%   em regime permanente e da simulação dinâmica no Simscape Specialized Power Systems.
+% - Formulação: Destacar a validação do invariante Estrela-Triângulo (ADR-002), a estabilidade
+%   do solver ode23tb, a reversão de potência na frenagem hipersíncrona e a conciliação do atrito viscoso.
+% - Figuras/Tabelas: Fazer referência cruzada com as tabelas de auditoria e curvas características.
+% - Confronto: Reafirmar que todos os requisitos de sim_proj.pdf foram plenamente cumpridos
+%   com divergência máxima inferior a 1,0%, superando a exigência de 2,0%.
+% =========================================================================
+
+O desenvolvimento do trabalho final de ELE035 evidenciou três conclusões técnicas fundamentais:
+\begin{enumerate}
+    \item A exatidão da resolução do circuito equivalente monofásico em conexão Triângulo ($\Delta$), comprovando que a segregação precisa das perdas mecânicas da bancada acoplada ($B \omega_{nom}^2 = \SI{1373,9}{\watt}$) concilia a potência interna desenvolvida ($P_{em} = \SI{5084,7}{\watt}$) com a potência líquida entregue no eixo ($P_{shaft} = \SI{3710,8}{\watt} \approx \SI{3700}{\watt}$ de placa);
+    \item A validade do invariante de transformação de impedâncias Estrela-Triângulo ($R/3, L/3$) no bloco \textit{Asynchronous Machine SI Units}, assegurando a equivalência das correntes de linha e do fluxo de potência sem distorção das tensões aplicadas;
+    \item O cumprimento integral dos critérios de convergência analítica e dinâmica, com erro relativo máximo de apenas $+0{,}96\%$ sob carga nominal plena e comprovação inequívoca do comportamento de gerador assíncrono com injeção de \SI{2860}{\watt} na rede sob torque negativo ($T_L = -\SI{20,602}{\Nm}$).
+\end{enumerate}

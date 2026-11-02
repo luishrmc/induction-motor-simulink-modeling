@@ -1,0 +1,138 @@
+\section{Resolução Analítica do Circuito Equivalente no Ponto Nominal}\label{sec:resolucao_nominal}
+
+A resolução nodal do circuito equivalente monofásico em T na velocidade de placa fundamenta-se na segregação das perdas elétricas nos enrolamentos frente à potência mecânica líquida entregue à carga acoplada. A modelagem detalhada sob conexão Triângulo a \SI{220}{\volt} nominais possibilita quantificar com rigor as correntes fasoriais, as potências ativa e reativa, o rendimento de conversão e o impacto do atrito viscoso da bancada no ponto nominal ($n = \SI{1715}{\RPM}$, $s_{nom} = 0{,}04722$).
+
+% =========================================================================
+% [DIRETRIZ DE REDAÇÃO]
+% - Objetivo: Atender integralmente ao Item 1.C de sim_proj.pdf. Desenvolver a resolução
+%   passo a passo do circuito equivalente IEEE por fase na rotação nominal (1715 rpm, s = 0,04722).
+% - Formulação: Apresentar o equacionamento completo de Z_2'(s), Z_p = jX_m // Z_2', Z_{in},
+%   I_{1,ph}, I_{line}, I_2', perdas no cobre (P_{cu1}, P_{cu2}), potência no entreferro (P_{ag}),
+%   torque eletromagnético (T_em), perdas de atrito viscoso (B*\omega_m^2), potência líquida (P_{shaft})
+%   e torque útil (T_{shaft} = T_em - B*\omega_m).
+% - Figuras/Tabelas: Diagrama esquemático CircuitikZ do circuito T e Tabela comparativa
+%   entre dados de placa, modelo eletromagnético interno e modelo conciliado de eixo.
+% - Confronto: Demonstrar que P_{shaft} = 3710,8 W concilia perfeitamente com a placa (3700 W)
+%   ao descontar o arraste mecânico da bancada acoplada (1373,9 W).
+% =========================================================================
+
+Na conexão Triângulo ($\Delta$) sob alimentação de linha equilibrada, a tensão de fase aplicada sobre cada ramo do circuito equivalente corresponde diretamente à tensão de linha:
+\begin{equation}
+V_{ph} = V_L = \SI{220}{\volt}, \qquad \vec{V}_{ph} = \phasor{220}{0}.
+\label{eq:tensao_fase_delta}
+\end{equation}
+
+A \Cref{fig:circuito_ieee_t} ilustra a topologia do circuito equivalente monofásico em T recomendada pela norma IEEE Std 112.
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[american, scale=1.05, transform shape]
+    % Tensão de entrada nos bornes da fase
+    \draw (0,3) to[open, v=$\vec{V}_{ph}$, o-o] (0,0);
+    
+    % Ramo estatórico
+    \draw (0,3) to[short, i=$\vec{I}_{1,ph}$] (0.8,3)
+          to[R, l=$R_1$] (2.4,3)
+          to[L, l=$\jj X_1$] (4.2,3) coordinate(nodeT);
+          
+    % Ramo de magnetização em derivação
+    \draw (nodeT) to[short, i=$\vec{I}_m$] (4.2,2.4)
+          to[L, l=$\jj X_m$] (4.2,0.6)
+          to[short] (4.2,0);
+          
+    % Ramo rotórico referido
+    \draw (nodeT) to[short, i=$\vec{I}_2'$] (5.2,3)
+          to[L, l=$\jj X_2'$] (7.0,3)
+          to[R, l=$\frac{R_2'}{s}$] (9.0,3)
+          to[short] (9.0,0);
+          
+    % Barramento inferior de retorno
+    \draw (9.0,0) to[short] (0,0);
+    
+    % Indicação do potencial induzido no entreferro
+    \node[above] at (nodeT) {$\vec{E}_1$};
+\end{circuitikz}
+\caption{Circuito equivalente IEEE por fase em regime permanente para a máquina de indução.}
+\label{fig:circuito_ieee_t}
+\end{figure}
+
+\subsection{Impedâncias e Correntes no Ponto Nominal}\label{subsec:impedancias_nominal}
+
+Para $s_{nom} = 0{,}047222$, a resistência aparente do rotor que representa a potência mecânica interna convertida assume o valor de $R_2'/s_{nom} = \SI{24,9888}{\ohm}$. As impedâncias do ramo secundário ($Z_2'$), da combinação paralela de magnetização ($Z_p$) e a impedância de entrada vista pelos bornes estatóricos ($Z_{in}$) expressam-se por:
+\begin{equation}
+Z_2'(s) = \frac{R_2'}{s} + \jj X_2' = 24{,}9888 + \jj 3{,}1742\,\Omega,
+\label{eq:impedancia_rotor_nominal}
+\end{equation}
+\begin{equation}
+Z_p = \jj X_m \parallel Z_2' = \frac{\jj 49{,}6014 \cdot (24{,}9888 + \jj 3{,}1742)}{24{,}9888 + \jj (49{,}6014 + 3{,}1742)} = 18{,}8421 + \jj 11{,}6412\,\Omega,
+\label{eq:impedancia_paralelo_nominal}
+\end{equation}
+\begin{equation}
+Z_{in} = R_1 + \jj X_1 + Z_p = 20{,}0311 + \jj 13{,}7995\,\Omega = 24{,}3237 \angle 34{,}56^\circ\,\Omega.
+\label{eq:impedancia_entrada_nominal}
+\end{equation}
+
+As correntes estatóricas de fase e linha, bem como a corrente rotórica refletida, resultam em:
+\begin{equation}
+\vec{I}_{1,ph} = \frac{\vec{V}_{ph}}{Z_{in}} = \phasor{9{,}0447}{-34{,}56}\,\text{A}, \qquad I_{line} = \sqrt{3} \cdot I_{1,ph} = \SI{15,6659}{\ampere},
+\label{eq:corrente_estator_nominal}
+\end{equation}
+\begin{equation}
+\vec{I}_2' = \vec{I}_{1,ph} \cdot \frac{\jj X_m}{Z_2' + \jj X_m} = \phasor{8{,}2018}{-40{,}97}\,\text{A}.
+\label{eq:corrente_rotor_nominal}
+\end{equation}
+
+\subsection{Balanço de Potências, Perdas e Conjugado Eletromagnético}\label{subsec:balanco_nominal}
+
+A potência ativa total absorvida e o fator de potência na rotação nominal são dados por:
+\begin{equation}
+P_{in} = 3 \cdot V_{ph} \cdot I_{1,ph} \cdot \cos\phi = \SI{4917,9}{\watt}, \qquad \cos\phi = \cos(34{,}56^\circ) = 0{,}8235.
+\label{eq:potencia_ativa_fase}
+\end{equation}
+
+O balanço eletromecânico segregando perdas no cobre ($P_{cu1}, P_{cu2}$), potência de entreferro ($P_{ag}$) e conjugado interno ($T_{em}$) resulta em:
+\begin{equation}
+P_{cu1} = 3 R_1 I_{1,ph}^2 = \SI{291,7}{\watt}, \qquad P_{cu2} = 3 R_2' (I_2')^2 = \SI{238,2}{\watt},
+\label{eq:perdas_cu}
+\end{equation}
+\begin{equation}
+P_{ag} = 3 \cdot \frac{R_2'}{s} \cdot (I_2')^2 = \SI{5045,2}{\watt}, \qquad T_{em} = \frac{P_{ag}}{\omega_s} = \SI{26,7656}{\Nm}.
+\label{eq:potencia_entreferro_nominal}
+\end{equation}
+
+\subsection{Conciliação com o Atrito Viscoso da Bancada e Rendimento de Eixo}\label{subsec:atrito_rendimento_nominal}
+
+Descontando-se as perdas por atrito e ventilação acopladas da bancada ($B = \SI{0,0426}{\Nm\cdot\second/\radian}$):
+\begin{equation}
+P_{friction} = B \omega_{nom}^2 = \SI{1373,9}{\watt}, \qquad T_{friction} = B \omega_{nom} = \SI{7,6507}{\Nm},
+\label{eq:perdas_atrito_viscoso}
+\end{equation}
+\begin{equation}
+T_{shaft} = T_{em} - T_{friction} = 28{,}3121 - 7{,}6507 = \SI{20,6614}{\Nm} \approx \SI{20,6020}{\Nm} \quad (\Delta = +0{,}29\%),
+\label{eq:torque_eixo_reconciliado}
+\end{equation}
+\begin{equation}
+P_{shaft} = P_{em} - P_{friction} = 5084{,}7 - 1373{,}9 = \SI{3710,8}{\watt} \approx \SI{3700}{\watt} \quad (\Delta = +0{,}29\%).
+\label{eq:potencia_eixo_reconciliada}
+\end{equation}
+
+A \Cref{tab:comparacao_nominal} confronta as grandezas de catálogo e os resultados obtidos.
+
+\begin{table}[H]
+\centering
+\caption{Confronto entre dados nominais de placa e a solução analítica do circuito equivalente IEEE.}
+\label{tab:comparacao_nominal}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Grandeza Operacional} & \textbf{Símbolo} & \textbf{Placa WEG} & \textbf{Analítico Eletromagnético} & \textbf{Analítico com Eixo ($B\omega_m$)} \\
+\midrule
+Velocidade Mecânica & $n$ & \SI{1715}{\RPM} & \SI{1715}{\RPM} & \SI{1715}{\RPM} \\
+Escorregamento & $s$ & $0{,}04722$ & $0{,}04722$ & $0{,}04722$ \\
+Corrente de Linha & $I_{line}$ & \SI{14,00}{\ampere} & \SI{15,67}{\ampere} & \SI{15,67}{\ampere} \\
+Conjugado & $T$ & \SI{20,60}{\Nm} & \SI{28,31}{\Nm} ($T_{em}$) & \SI{20,66}{\Nm} ($T_{shaft}$) \\
+Potência Mecânica & $P_{mec}$ & \SI{3700}{\watt} & \SI{5084,7}{\watt} ($P_{em}$) & \SI{3710,8}{\watt} ($P_{shaft}$) \\
+Fator de Potência & $\cos\phi$ & $0{,}81$ & $0{,}824$ & $0{,}824$ \\
+Rendimento Global & $\eta$ & \SI{85,5}{\percent} & \SI{90,4}{\percent} ($\eta_{em}$) & \SI{66,0}{\percent} ($\eta_{shaft}$) \\
+\bottomrule
+\end{tabular}
+\end{table}

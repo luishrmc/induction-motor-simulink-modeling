@@ -1,0 +1,65 @@
+\documentclass[12pt, a4paper]{report}
+\input{00_config}
+
+\begin{document}
+
+% =========================================================================
+% ELEMENTOS PRÉ-TEXTUAIS
+% =========================================================================
+\input{pre_textuais/00_capa}
+\tableofcontents
+\clearpage
+
+% =========================================================================
+% CAPÍTULO 1: INTRODUÇÃO E ESPECIFICAÇÕES DO SISTEMA
+% =========================================================================
+\chapter{Introdução e Especificações do Sistema}
+\label{cap:introducao}
+\input{cap1_introducao/01_contexto_objetivos}
+\input{cap1_introducao/02_parametros_bancada}
+
+% =========================================================================
+% CAPÍTULO 2: 1ª PARTE - REGIME PERMANENTE ANALÍTICO
+% =========================================================================
+\chapter{Regime Permanente Analítico}
+\label{cap:regime_permanente}
+\input{cap2_regime_permanente/01_calculo_torque_nominal}
+\input{cap2_regime_permanente/02_resolucao_circuito_nominal}
+\input{cap2_regime_permanente/03_algoritmo_vetorizado}
+\input{cap2_regime_permanente/04_curvas_caracteristicas}
+\input{cap2_regime_permanente/05_controle_escalar_vf}
+
+% =========================================================================
+% CAPÍTULO 3: 2ª PARTE - SIMULAÇÃO DINÂMICA EM SIMSCAPE SPS
+% =========================================================================
+\chapter{Simulação Dinâmica em Simscape Specialized Power Systems}
+\label{cap:simulacao_dinamica}
+\input{cap3_simulacao_dinamica/01_modelagem_simscape_sps}
+\input{cap3_simulacao_dinamica/02_partida_direta_rotor_bloqueado}
+\input{cap3_simulacao_dinamica/03_transitorio_partida_vazio}
+\input{cap3_simulacao_dinamica/04_degrau_carga_nominal}
+\input{cap3_simulacao_dinamica/05_operacao_regenerativa}
+
+% =========================================================================
+% CAPÍTULO 4: SÍNTESE COMPARATIVA GLOBAL E AUDITORIA DE CONVERGÊNCIA
+% =========================================================================
+\chapter{Síntese Comparativa Global e Auditoria de Convergência}
+\label{cap:sintese_global}
+\input{cap4_sintese_convergencia/01_painel_transitorios}
+\input{cap4_sintese_convergencia/02_auditoria_tolerancia}
+
+% =========================================================================
+% ELEMENTOS PÓS-TEXTUAIS
+% =========================================================================
+\input{pos_textuais/01_conclusao}
+
+\nocite{*}
+\bibliography{02_referencias}
+
+% =========================================================================
+% APÊNDICES / ANEXOS
+% =========================================================================
+\appendix
+\input{anexos/01_codigos_matlab}
+
+\end{document}

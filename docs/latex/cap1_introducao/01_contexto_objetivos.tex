@@ -1,0 +1,24 @@
+\section{Contextualização e Objetivos Acadêmicos}\label{sec:contexto_objetivos}
+
+A modelagem eletromecânica do motor de indução trifásico com rotor em gaiola de esquilo fundamenta-se na representação por circuitos elétricos equivalentes por fase em regime permanente senoidal e no equacionamento rigoroso da dinâmica rotacional \cite{fitzgerald2014maquinas,chapman2013fundamentos}. A predição de grandezas nominais e transitórias decorre da segregação precisa entre as perdas Joule, as perdas mecânicas e a potência eletromecânica convertida, governada pelo escorregamento relativo do campo girante.
+
+% =========================================================================
+% [DIRETRIZ DE REDAÇÃO]
+% - Objetivo: Contextualizar a máquina de indução como atuador industrial preponderante
+%   e formalizar o escopo acadêmico do trabalho final de ELE035 (sim_proj.pdf).
+% - Formulação: Definir velocidade síncrona (\omega_s, n_s), escorregamento (s) e a
+%   segregação metodológica entre Parte 1 (analítica) e Parte 2 (transitório dinâmico).
+% - Figuras/Tabelas: Citar o documento de requisitos acadêmicos e relatórios anteriores.
+% - Confronto: Justificar o critério de convergência de regime permanente em <= 2,0%.
+% =========================================================================
+
+A velocidade síncrona do campo magnético girante produzido pelos enrolamentos do estator e o escorregamento normalizado $s$ são expressos por:
+\begin{equation}
+n_s = \frac{120 \cdot f}{p} \quad [\RPM], \qquad \omega_s = \frac{2\pi f}{p_{\text{pares}}} \quad [\rads],
+\label{eq:velocidade_sincrona}
+\end{equation}
+\begin{equation}
+s = \frac{n_s - n}{n_s} = \frac{\omega_s - \omega_m}{\omega_s},
+\label{eq:escorregamento}
+\end{equation}
+em que $f$ representa a frequência da rede elétrica, $p$ o número de polos ($p_{\text{pares}} = p/2$), e $n$ e $\omega_m$ a rotação mecânica do rotor.

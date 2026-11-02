@@ -1,0 +1,31 @@
+\section{Cálculo do Conjugado Nominal de Placa ($T_n$)}\label{sec:calculo_tn}
+
+A determinação precisa do conjugado nominal útil de placa estabelece o ponto de equilíbrio de referência para o carregamento mecânico da máquina em regime permanente. A relação entre a potência mecânica útil convertida no eixo e a velocidade angular nominal de rotação permite fixar o patamar exato de torque resistente adotado nas análises dinâmicas subsequentes.
+
+% =========================================================================
+% [DIRETRIZ DE REDAÇÃO]
+% - Objetivo: Atender ao Item 1.B de sim_proj.pdf, deduzindo analiticamente o conjugado
+%   mecânico nominal útil de placa (T_n ou T_nom) a partir da rotação de 1715 rpm.
+% - Formulação: Apresentar a relação fundamental da mecânica rotacional:
+%   \omega_{nom} = n_{nom} * 2\pi / 60 e T_n = P_{nom} / \omega_{nom}.
+% - Figuras/Tabelas: Destacar o valor escalar numérico de referência (T_n = 20,6020 N*m).
+% - Confronto: Contrastar com o torque calculado na velocidade síncrona (T_sinc = 19,6296 N*m)
+%   e fixar o valor de referência para os ensaios de degrau de carga na Parte 2.
+% =========================================================================
+
+A velocidade angular nominal de rotação do rotor e o respectivo conjugado mecânico nominal útil de placa são determinados pelas relações fundamentais:
+\begin{equation}
+\omega_{nom} = n_{nom} \cdot \frac{2\pi}{60} = 1715 \cdot \frac{2\pi}{60} \approx \SI{179,5943}{\rads},
+\label{eq:omega_nominal_rad}
+\end{equation}
+\begin{equation}
+T_n = \frac{P_{nom}}{\omega_{nom}} = \frac{\SI{3700}{\watt}}{\SI{179,5943}{\rads}} = \SI{20,6020}{\Nm}.
+\label{eq:torque_nominal_placa}
+\end{equation}
+
+Em contraste, o conjugado associado à rotação síncrona do campo girante ($\omega_s = \SI{188,4956}{\rads}$) para a mesma potência nominal resulta em:
+\begin{equation}
+T_{sinc} = \frac{P_{nom}}{\omega_s} = \frac{\SI{3700}{\watt}}{\SI{188,4956}{\rads}} = \SI{19,6296}{\Nm}.
+\label{eq:torque_sincrono}
+\end{equation}
+O valor de $T_n = \SI{20,6020}{\Nm}$ constitui a amplitude de carga nominal invariante do projeto.

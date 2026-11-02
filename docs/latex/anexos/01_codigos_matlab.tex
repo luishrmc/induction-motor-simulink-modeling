@@ -1,0 +1,96 @@
+\chapter{Códigos Computacionais em MATLAB}\label{anexo:codigos_matlab}
+
+A reprodutibilidade integral dos cálculos numéricos de regime permanente e das rotinas de parametrização do ambiente Simscape SPS fundamenta-se na estruturação modular e vetorizada dos códigos-fonte desenvolvidos em MATLAB. A documentação das rotinas evidencia o emprego de técnicas computacionais eficientes que previnem descontinuidades numéricas e automatizam a geração dos resultados analíticos e gráficos requeridos.
+
+% =========================================================================
+% [DIRETRIZ DE REDAÇÃO]
+% - Objetivo: Apresentar a documentação completa dos scripts computacionais desenvolvidos
+%   em MATLAB para o cumprimento de sim_proj.pdf ("linhas de código").
+% - Formulação: Disponibilizar as rotinas analíticas vetorizadas, o gerador da família V/f
+%   e o script de setup de parâmetros e execução automatizada do Simscape SPS.
+% - Figuras/Tabelas: Formatar as listagens de código através do ambiente lstlisting (style=matlabstyle).
+% - Confronto: Garantir a reprodutibilidade dos resultados analíticos e das figuras do relatório.
+% =========================================================================
+
+\section{Rotina de Resolução Analítica Vetorizada e Varreduras Nominais}\label{sec:codigo_analitico}
+
+A \Cref{lst:run_item_ABC} apresenta o código-fonte em MATLAB responsável pelo cálculo analítico do ponto nominal e pela geração vetorizada das curvas características de regime permanente.
+
+\begin{lstlisting}[style=matlabstyle, caption={Rotina principal de calculo analitico e varredura de regime permanente.}, label={lst:run_item_ABC}]
+%% ELE035 - TRABALHO FINAL: PARTE 1 (ITENS A, B, C, D, E)
+% Resolucao Analitica Vetorizada do Circuito Equivalente IEEE
+clear; clc; close all;
+
+% Parametros nominais da maquina (WEG 3.7 kW, carcaca 100L)
+P_nom = 3700;           % Potencia nominal [W]
+V_LL = 220;             % Tensao de linha [V RMS]
+V_ph = V_LL;            % Conexao Triangulo (Delta)
+f_nom = 60;             % Frequencia [Hz]
+p = 4;                  % Polos
+n_nom = 1715;           % Rotacao nominal [rpm]
+n_s = 120 * f_nom / p;  % Rotacao sincrona [rpm]
+ws = 2 * pi * f_nom / (p/2); % Velocidade sincrona [rad/s]
+
+% Parametros concentrados por fase em Triangulo
+R1 = 1.189;             % Resistencia estatorica [ohm]
+R2_prm = 1.180;         % Resistencia rotorica refletida [ohm]
+X1 = 2.158;             % Reatancia dispersao estator [ohm]
+X2_prm = 3.174;         % Reatancia dispersao rotor [ohm]
+Xm = 49.601;            % Reatancia magnetizante [ohm]
+B = 0.0426;             % Atrito viscoso da bancada [N*m*s/rad]
+J = 0.701;              % Inercia total da bancada [kg*m^2]
+
+% Item 1.B: Conjugado nominal util de placa
+w_nom = n_nom * 2 * pi / 60;
+Tn = P_nom / w_nom;     % Tn = 20.6020 N*m
+
+% Item 1.D: Varredura puramente vetorizada de 0 a n_s
+s = linspace(1e-4, 1.0, 2000);
+n_vec = (1 - s) * n_s;
+wm_vec = n_vec * 2 * pi / 60;
+
+Z2_prm = R2_prm ./ s + 1j * X2_prm;
+Zp = (1j * Xm .* Z2_prm) ./ (Z2_prm + 1j * Xm);
+Zin = R1 + 1j * X1 + Zp;
+
+I1_ph = V_ph ./ Zin;
+I_line = sqrt(3) * abs(I1_ph);
+I2_prm = I1_ph .* (1j * Xm ./ (Z2_prm + 1j * Xm));
+
+Pag = 3 * (abs(I2_prm).^2) .* (R2_prm ./ s);
+Pem = Pag .* (1 - s);
+Tem = Pag / ws;
+
+% Potencia ativa e fator de potencia
+P_in = 3 * real(V_ph .* conj(I1_ph));
+fp = cos(angle(Zin));
+eta_em = Pem ./ P_in;
+\end{lstlisting}
+
+\section{Rotina de Simulação Dinâmica e Parametrização Simscape SPS}\label{sec:codigo_simulink_setup}
+
+A \Cref{lst:setup_simulink} documenta o script de configuração de parâmetros do bloco \textit{Asynchronous Machine} com transformação de impedâncias Estrela-Triângulo.
+
+\begin{lstlisting}[style=matlabstyle, caption={Script de parametrizacao e mapeamento Star-Delta para o Simscape SPS.}, label={lst:setup_simulink}]
+%% ELE035 - TRABALHO FINAL: PARTE 2 (ITEM 2.A)
+% Parametrizacao do Bloco Asynchronous Machine SI Units (Simscape SPS)
+clear; clc;
+
+% Dados nominais
+Vn = 220;               % Tensao nominal de linha [V RMS]
+Pn = 3700;              % Potencia nominal [VA equivalente]
+fn = 60;                % Frequencia nominal [Hz]
+p_pairs = 2;            % Pares de polos
+
+% Transformacao de Impedancias Triangulo -> Estrela interna do bloco
+R1_Y = 1.189 / 3;       % 0.39633 ohm
+R2_Y = 1.180 / 3;       % 0.39333 ohm
+Ll1_Y = 5.725e-3 / 3;   % 1.90833 mH
+Ll2_Y = 8.420e-3 / 3;   % 2.80667 mH
+Lm_Y = 131.571e-3 / 3;  % 43.8570 mH
+
+% Parametros Mecanicos Invariantes
+J_eq = 0.701;           % Momento de inercia acoplado [kg*m^2]
+B_eq = 0.0426;          % Atrito viscoso [N*m*s/rad]
+T_load_nominal = 20.602;% Degrau de carga nominal [N*m]
+\end{lstlisting}

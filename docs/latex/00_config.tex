@@ -1,0 +1,132 @@
+% =========================================================================
+% CONFIGURAÇÕES GERAIS E PACOTES - RELATÓRIO ELE035 UFMG
+% =========================================================================
+
+% Suporte ao idioma português brasileiro e hifenização
+\usepackage[brazilian]{babel}
+\usepackage{indentfirst}
+\usepackage{appendix}
+\usepackage[T1]{fontenc}
+
+% Pacotes matemáticos e notação fasorial
+\usepackage{amsmath, amssymb}
+\usepackage{steinmetz}              % Notação fasorial \phase{...}
+
+% Tipografia Times New Roman (equivalente acadêmico)
+\usepackage{newtxtext}
+\usepackage{newtxmath}
+
+% Unidades e notação do SI
+\usepackage{siunitx}
+\sisetup{
+  output-decimal-marker = {,},
+  separate-uncertainty = true,
+  per-mode = symbol,
+  range-phrase = { a }
+}
+
+% Imagens, circuitos e diagramação de floats
+\usepackage{float}                  % Modificador [H] para posicionamento
+\usepackage{graphicx}               % Inclusão de figuras
+\graphicspath{{img/}}               % Diretório de busca de imagens
+\usepackage{caption}                % Formatação de legendas
+\usepackage{subcaption}             % Subfiguras e subtabelas
+\usepackage{circuitikz}             % Desenho de circuitos equivalentes
+\usepackage{tikz}
+
+% Tabelas elegantes
+\usepackage{booktabs}               % \toprule, \midrule, \bottomrule
+\usepackage{makecell}               % Quebras de linha em células
+\usepackage{multirow}               % Linhas mescladas
+
+% Formatação de página e layout
+\usepackage{geometry}
+\geometry{a4paper, margin=2.5cm, headheight=28pt} % Margens padronizadas de 2,5 cm
+\usepackage{setspace}
+\onehalfspacing                     % Espaçamento 1,5
+\usepackage{parskip}                % Espaço entre parágrafos
+\usepackage{fancyhdr}               % Cabeçalhos e rodapés customizados
+
+% Cores e formatação de código-fonte
+\usepackage[dvipsnames]{xcolor}
+\usepackage{listings}
+
+\lstdefinestyle{matlabstyle}{
+  language=Matlab,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{ForestGreen}\itshape,
+  stringstyle=\color{Purple},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  stepnumber=1,
+  numbersep=8pt,
+  backgroundcolor=\color{black!3},
+  frame=single,
+  rulecolor=\color{black!15},
+  tabsize=4,
+  breaklines=true,
+  breakatwhitespace=false,
+  showstringspaces=false
+}
+
+% Hiperlinks e referências cruzadas
+\usepackage[colorlinks=true, allcolors=black]{hyperref}
+\usepackage[nameinlink, noabbrev, brazilian]{cleveref}
+
+% Customização de nomes no cleveref
+\crefname{figure}{Figura}{Figuras}
+\Crefname{figure}{Figura}{Figuras}
+\crefname{table}{Tabela}{Tabelas}
+\Crefname{table}{Tabela}{Tabelas}
+\crefname{equation}{Equação}{Equações}
+\Crefname{equation}{Equação}{Equações}
+\crefname{chapter}{Capítulo}{Capítulos}
+\Crefname{chapter}{Capítulo}{Capítulos}
+\crefname{section}{Seção}{Seções}
+\Crefname{section}{Seção}{Seções}
+\crefname{subsection}{Subseção}{Subseções}
+\Crefname{subsection}{Subseção}{Subseções}
+\crefname{appendix}{Apêndice}{Apêndices}
+\Crefname{appendix}{Apêndice}{Apêndices}
+
+\AtBeginDocument{
+  \def\crefpairconjunction{ e }
+  \def\creflastconjunction{ e }
+  \def\crefmiddleconjunction{, }
+  \def\crefrangeconjunction{ a }
+}
+
+% Macros customizadas de engenharia eletromecânica
+\newcommand{\phasor}[2]{#1 \phase{#2^\circ}}
+\newcommand{\jj}{\mathrm{j}}
+\newcommand{\prm}{^{\prime}}
+\newcommand{\RPM}{\mathrm{rpm}}
+\newcommand{\rads}{\mathrm{rad/s}}
+\newcommand{\Nm}{\mathrm{N\cdot m}}
+
+% Metadados e cabeçalho institucional
+\title{Modelagem Eletromecânica, Resolução Analítica e Simulação Dinâmica em Simscape de Motor de Indução Trifásico de 3,7 kW}
+\author{Felipe Meireles Leonel, Guilherme Araújo Lima, Luis Henrique Ribeiro Maciel}
+\date{Novembro 2026}
+\def\uname{Universidade Federal de Minas Gerais}
+\def\depart{Escola de Engenharia -- DEE}
+\def\materia{Laboratório de Conversão de Energia (ELE035)}
+\def\turma{Trabalho Final de Simulação}
+\def\professor{Prof. Victor Flores Mendes}
+
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\let\thedate\@date
+\makeatother
+
+% Cabeçalhos e rodapés
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\materia}
+\lhead{\thetitle}
+\cfoot{\thepage}
+
+% Bibliografia
+\bibliographystyle{plain}
