@@ -62,3 +62,7 @@ Limit: 80 lines. Orchestrator-maintained log of technical insights, solver issue
 ## 15. LaTeX Mathematical Standardization & Listings Macro Integration
 - **Quirk:** Adopting bold vector notation (`\mathbf{s}`, `\boldsymbol{\omega}_m`) in algorithm sections introduces typographical disharmony against scalar theory ($s, n, \omega_m$). Furthermore, adding `listings` blocks requires explicit `\crefname{lstlisting}{Código}{Códigos}` in preambles to resolve `cleveref` references.
 - **Fix:** Enforce scalar italic math ($s, n, \omega_m, T_{em}, I_{line}$) across all derivations and inline expressions. Declare `\crefname{lstlisting}` in `00_config.tex` whenever code listings are introduced.
+
+## 16. Distinção Eletromecânica entre Pico de Torque e Pico de Potência Convertida
+- **Quirk:** Assumir erroneamente que a potência mecânica convertida $P_{em}$ atinge o ápice na rotação de conjugado máximo ($T_{max}$). Como $P_{em} = T_{em}\omega_m$, a condição $\frac{dP_{em}}{d\omega_m} = 0 \implies \frac{dT_{em}}{d\omega_m} < 0$ localiza o pico de potência estritamente na região estável da curva de torque ($n = 1492{,}9\,\text{rpm}$ vs. $n(T_{max}) = 1405{,}0\,\text{rpm}$).
+- **Fix:** Distinguir explicitamente o ponto de desengate ($T_{max} = 54{,}63\,\text{N}\cdot\text{m}$ a $1405\,\text{rpm}$) do ápice de potência eletromecânica ($P_{em,max} = 8322\,\text{W}$ a $1493\,\text{rpm}$) em análises teóricas e gráficas de regime permanente.

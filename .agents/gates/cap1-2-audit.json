@@ -1,0 +1,11 @@
+{
+  "task": "cap1-2-audit",
+  "gates": {
+    "latex-gate": {
+      "status": "PASS",
+      "detail": "Auditoria adversarial dos Capitulos 1 e 2 concluida pela tripulacao multi-agente",
+      "src_sha256": "5ed7c7c4decde6f6956dab298f5e5190c053e017bdd166137ad03806970fd37e",
+      "timestamp": "2026-11-02T17:03:26-0300"
+    }
+  }
+}
