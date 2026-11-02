@@ -9,7 +9,7 @@ sources:
   - docs/latex/cap2_regime_permanente/01_calculo_torque_nominal.tex sha256=f3019ea7bcbe8ba9013609859d546e73a35d1abf9895d0696e7d17597af71bfb
   - docs/latex/cap2_regime_permanente/02_resolucao_circuito_nominal.tex sha256=83d1c27ac1262d9f020fa7814d6a29063d34147ac6a15f44e6b481617ba422db
   - docs/latex/cap2_regime_permanente/03_algoritmo_vetorizado.tex sha256=16fb4d5c92561261153068bbdb4388da75a218ce93845f97f7a6baabce28f343
-  - docs/latex/cap2_regime_permanente/04_curvas_caracteristicas.tex sha256=e3939e09ac6d893ff3f6dfa29279aaabd26f03d9eaf68ef8d233f57e56619f65
+  - docs/latex/cap2_regime_permanente/04_curvas_caracteristicas.tex sha256=d8d27c888beba031e4243b7514dc4200d1e605d9fa1c6f655a69043aee55240a
   - docs/latex/cap2_regime_permanente/05_controle_escalar_vf.tex sha256=4697c0599c6fbb16811d3cb102edeb4bf77d2fdba10bb97cbaf25f8ab2646a1a
 gates_passed: [latex-lint, latex-gate]
 ---
