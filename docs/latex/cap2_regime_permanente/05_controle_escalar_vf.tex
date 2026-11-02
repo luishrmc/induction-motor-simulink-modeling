@@ -53,13 +53,22 @@ A \Cref{tab:pontos_notaveis_vf} consolida os marcadores numéricos obtidos anali
 \end{tabular}
 \end{table}
 
-Em uma formulação teórica ideal com resistência de estator nula ($R_1 = 0$), o conjugado máximo seria invariante com a frequência:
+Em uma formulação teórica ideal com resistência de estator nula ($R_1 = 0$), o conjugado máximo e a diferença de rotação de desengate seriam invariantes com a frequência:
 \begin{equation}
-T_{max,\text{ideal}} \approx \frac{3 V_{th}^2}{2\omega_s (X_{th} + X_2')} \propto \frac{(V/f)^2}{(X/f)} = \text{constante}.
+T_{max,\text{ideal}} \approx \frac{3 V_{th}^2}{2\omega_s (X_{th} + X_2')} \propto \frac{(V/f)^2}{(X/f)} = \text{constante},
 \label{eq:tmax_ideal_invariante}
 \end{equation}
+\begin{equation}
+\Delta n_{max} = n_s - n(T_{max}) = s_{max} \cdot n_s = \frac{R_2'}{2\pi f (L_{th} + L_{l2}')} \cdot \frac{120 f}{p} = \frac{60 R_2'}{\pi p (L_{th} + L_{l2}')} \approx \text{constante}.
+\label{eq:delta_n_max_invariante}
+\end{equation}
+Sob regime de fluxo constante ideal, a margem cinemática de escorregamento crítico $\Delta n_{max}$ manter-se-ia em aproximadamente \SI{395}{\RPM} em todos os patamares, transladando rigidamente a curva característica de conjugado ao longo do eixo de velocidades.
 
-Entretanto, na máquina física de \SI{3,7}{\kilo\watt}, a resistência estatórica possui valor constante ($R_1 = \SI{1,189}{\ohm}$), independente da frequência de excitação. À medida que a frequência é reduzida, as reatâncias de dispersão e magnetização decrescem proporcionalmente ($X = 2\pi f L$), enquanto a resistência $R_1$ permanece inalterada. Dessa forma, a queda ôhmica de tensão no estator ($I_1 R_1$) consome uma parcela progressivamente maior da tensão aplicada. A \SI{60}{\hertz} ($V_L = \SI{220}{\volt}$), a queda $I_1 R_1$ representa fração reduzida da tensão de fase e o conjugado máximo atinge $T_{max} = \SI{54,633}{\Nm}$. A \SI{15}{\hertz} ($V_L = \SI{55}{\volt}$), a queda resistiva no enrolamento estatórico consome fração expressiva da tensão aplicada, reduzindo a amplitude da força eletromotriz de entreferro ($E_1$) e atenuando o fluxo $\Phi_{ag}$. Essa atenuação acarreta a redução do conjugado máximo de desengate de \SI{54,633}{\Nm} (a \SI{60}{\hertz}) para \SI{30,652}{\Nm} (a \SI{15}{\hertz}), correspondendo a um decréscimo de \SI{43,9}{\percent} na capacidade de sobrecarga.
+Entretanto, na máquina física de \SI{3,7}{\kilo\watt}, a resistência estatórica possui valor constante ($R_1 = \SI{1,189}{\ohm}$), independente da frequência de excitação. À medida que a frequência é reduzida, as reatâncias de dispersão e magnetização decrescem proporcionalmente ($X = 2\pi f L$), enquanto a resistência $R_1$ permanece inalterada. Essa assimetria introduz dois efeitos fundamentais no desempenho da máquina.
+
+Primeiramente, no ensaio de partida com rotor bloqueado ($s = 1{,}0$), a redução das reatâncias em frequências intermediárias melhora significativamente a relação entre a resistência rotórica e a impedância de dispersão ($R_2' / \omega_e L_{cc}$), elevando o fator de potência das correntes rotóricas de partida. Em virtude desse mecanismo, o conjugado inicial desenvolvido eleva-se progressivamente nos patamares intermediários: de $T_{\text{part}} = \SI{25,35}{\Nm}$ ($1{,}23 T_n$) a \SI{60}{\hertz}, atinge $T_{\text{part}} = \SI{29,95}{\Nm}$ ($1{,}45 T_n$) a \SI{45}{\hertz} e alcança o valor máximo de partida de $T_{\text{part}} = \SI{33,90}{\Nm}$ ($1{,}65 T_n$) a \SI{30}{\hertz}. Contudo, no patamar de \SI{15}{\hertz}, a queda de tensão resistiva $I_1 R_1$ passa a sobrepujar os ganhos de defasagem, reduzindo o torque de partida para $T_{\text{part}} = \SI{29,11}{\Nm}$ ($1{,}41 T_n$).
+
+Em segundo lugar, a queda ôhmica de tensão no estator ($I_1 R_1$) consome uma parcela progressivamente maior da tensão aplicada à medida que a frequência decresce. A \SI{60}{\hertz} ($V_L = \SI{220}{\volt}$), a queda $I_1 R_1$ representa fração reduzida da tensão de fase e o conjugado máximo atinge $T_{max} = \SI{54,633}{\Nm}$ com $\Delta n_{max} = \SI{394,8}{\RPM}$. A \SI{15}{\hertz} ($V_L = \SI{55}{\volt}$), a queda resistiva no estator consome fração expressiva da tensão terminal, reduzindo a amplitude da força eletromotriz de entreferro ($E_1$) e atenuando o fluxo mútuo $\Phi_{ag}$. Essa atenuação acarreta a redução do conjugado máximo de desengate de \SI{54,633}{\Nm} (a \SI{60}{\hertz}) para \SI{30,652}{\Nm} (a \SI{15}{\hertz}), correspondendo a um decréscimo de \SI{43,9}{\percent} na capacidade de sobrecarga e contraindo a diferença de rotação de desengate para $\Delta n_{max} = \SI{298,7}{\RPM}$.
 
 \subsection{Compensação de Tensão em Baixas Rotações}\label{subsec:voltage_boost}
 

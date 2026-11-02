@@ -35,6 +35,10 @@ A \Cref{fig:circuito_equivalente_t} ilustra a topologia do circuito equivalente 
     % Barramento inferior de retorno
     \draw (9.0,0) to[short] (0,0);
     
+    % Pontos de junção nos nós de derivação
+    \node[circ] at (nodeT) {};
+    \node[circ] at (4.2,0) {};
+    
     % Indicação do potencial induzido no entreferro
     \node[above] at (nodeT) {$\vec{E}_1$};
 \end{circuitikz}
