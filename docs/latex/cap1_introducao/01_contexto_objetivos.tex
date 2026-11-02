@@ -12,13 +12,26 @@ A modelagem eletromecânica do motor de indução trifásico com rotor em gaiola
 % - Confronto: Justificar o critério de convergência de regime permanente em <= 2,0%.
 % =========================================================================
 
-A velocidade síncrona do campo magnético girante produzido pelos enrolamentos do estator e o escorregamento normalizado $s$ são expressos por:
+O motor assíncrono de gaiola constitui o principal elemento de conversão eletromecânica em instalações industriais modernas em virtude de sua robustez estrutural, custo de aquisição competitivo e dispensabilidade de contatos elétricos deslizantes. A conformidade normativa estabelecida pela IEEE Std 112 e pela ABNT NBR 17094 preconiza métodos analíticos e ensaios experimentais padronizados para determinação de parâmetros concentrados e levantamento de rendimento \cite{ieee112_2017}.
+
+A velocidade angular síncrona do campo magnético girante produzido pela distribuição espacial trifásica dos enrolamentos do estator é dada por:
 \begin{equation}
 n_s = \frac{120 \cdot f}{p} \quad [\RPM], \qquad \omega_s = \frac{2\pi f}{p_{\text{pares}}} \quad [\rads],
 \label{eq:velocidade_sincrona}
 \end{equation}
+em que $f$ representa a frequência da rede elétrica trifásica e $p$ o número total de polos magnéticos da máquina ($p_{\text{pares}} = p/2$). 
+
+A rotação mecânica do rotor ($\omega_m$) difere da síncrona pela presença do escorregamento relativo normalizado ($s$):
 \begin{equation}
 s = \frac{n_s - n}{n_s} = \frac{\omega_s - \omega_m}{\omega_s},
 \label{eq:escorregamento}
 \end{equation}
-em que $f$ representa a frequência da rede elétrica, $p$ o número de polos ($p_{\text{pares}} = p/2$), e $n$ e $\omega_m$ a rotação mecânica do rotor.
+mecanismo físico mandatório para a indução de forças eletromotrizes e circulação de correntes secundárias nas barras rotóricas.
+
+O presente trabalho técnico estrutura-se em duas etapas correlacionadas:
+\begin{enumerate}
+    \item \textbf{1ª Parte — Regime Permanente Analítico:} Resolução exata do circuito equivalente IEEE em conexão Triângulo ($\Delta$) no ponto de operação nominal ($n = \SI{1715}{\RPM}$), varredura puramente vetorizada de grandezas eletromecânicas ($T_{em}$, $I_{line}$, $P_a$, $\cos\phi$, $\eta$) ao longo de todo o espectro de rotação ($0 \le n \le n_s$) e levantamento da família de curvas características sob controle escalar com fluxo constante ($V/f = \text{cte}$).
+    \item \textbf{2ª Parte — Simulação Dinâmica Computacional:} Modelagem no ambiente Simscape Specialized Power Systems (SPS) empregando o bloco \textit{Asynchronous Machine SI Units}, aplicação do invariante de mapeamento Estrela-Triângulo ($R/3, L/3$), simulação da partida direta a vazio ($T_L = 0$), análise da resposta ao degrau de carga nominal ($T_L = +T_{nom}$) e exploração do quadrante de frenagem regenerativa hipersíncrona ($T_L = -T_{nom}$).
+\end{enumerate}
+
+Para fins de validação técnica, adota-se o critério mandatório de tolerância de regime permanente: todas as variáveis simuladas em regime permanente sob carga nominal devem convergir para a solução analítica com erro relativo estritamente inferior a $\pm \SI{2,0}{\percent}$.

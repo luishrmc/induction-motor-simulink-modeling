@@ -36,6 +36,7 @@ def run_latex_gate():
 
     cmd = [
         "latexmk",
+        "-g",
         "-synctex=1",
         "-interaction=nonstopmode",
         "-file-line-error",
@@ -53,6 +54,8 @@ def run_latex_gate():
             cwd=str(latex_dir),
             capture_output=True,
             text=True,
+            encoding="utf-8",
+            errors="replace",
             check=False
         )
     except FileNotFoundError:

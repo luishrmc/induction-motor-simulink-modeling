@@ -1,6 +1,6 @@
 \section{Cálculo do Conjugado Nominal de Placa ($T_n$)}\label{sec:calculo_tn}
 
-A determinação precisa do conjugado nominal útil de placa estabelece o ponto de equilíbrio de referência para o carregamento mecânico da máquina em regime permanente. A relação entre a potência mecânica útil convertida no eixo e a velocidade angular nominal de rotação permite fixar o patamar exato de torque resistente adotado nas análises dinâmicas subsequentes.
+A determinação precisa do conjugado nominal útil de placa estabelece o ponto de equilíbrio de referência para o carregamento mecânico da máquina em regime permanente. A relação entre a potência mecânica útil convertida no eixo e a velocidade angular nominal de rotação permite fixar o patamar exato de torque resistente adotado nas análises dinâmicas subsequentes, segregando o conjugado disponível na ponta do eixo daquele gerado internamente no entreferro.
 
 % =========================================================================
 % [DIRETRIZ DE REDAÇÃO]
@@ -9,23 +9,58 @@ A determinação precisa do conjugado nominal útil de placa estabelece o ponto 
 % - Formulação: Apresentar a relação fundamental da mecânica rotacional:
 %   \omega_{nom} = n_{nom} * 2\pi / 60 e T_n = P_{nom} / \omega_{nom}.
 % - Figuras/Tabelas: Destacar o valor escalar numérico de referência (T_n = 20,6020 N*m).
-% - Confronto: Contrastar com o torque calculado na velocidade síncrona (T_sinc = 19,6296 N*m)
-%   e fixar o valor de referência para os ensaios de degrau de carga na Parte 2.
+% - Confronto: Contrastar com o torque calculado na velocidade síncrona (T_sinc = 19,6296 N*m),
+%   analisar o arrasto viscoso da bancada (B*\omega_m = 7,6507 N*m) e fixar a referência.
 % =========================================================================
 
-A velocidade angular nominal de rotação do rotor e o respectivo conjugado mecânico nominal útil de placa são determinados pelas relações fundamentais:
+\subsection{Formulação Mecânica e Dedução Analítica}\label{subsec:deducao_tn}
+
+A velocidade angular síncrona do campo magnético girante para uma máquina de quatro polos alimentada a \SI{60}{\hertz} ($p_{\text{pares}} = 2$) é dada por:
 \begin{equation}
-\omega_{nom} = n_{nom} \cdot \frac{2\pi}{60} = 1715 \cdot \frac{2\pi}{60} \approx \SI{179,5943}{\rads},
+\omega_s = \frac{2\pi f}{p_{\text{pares}}} = \frac{2\pi \cdot 60}{2} = 60\pi \approx \SI{188,4956}{\rads},
+\label{eq:omega_sincrona_rad}
+\end{equation}
+correspondendo à velocidade síncrona de rotação de $n_s = \SI{1800}{\RPM}$.
+
+Operando sob escorregamento nominal $s_{nom} = 0{,}04722$, a velocidade mecânica de rotação do rotor no ponto de placa ($n_{nom} = \SI{1715}{\RPM}$) expressa-se em unidades do Sistema Internacional por:
+\begin{equation}
+\omega_{nom} = n_{nom} \cdot \frac{2\pi}{60} = 1715 \cdot \frac{2\pi}{60} \approx \SI{179,5943}{\rads}.
 \label{eq:omega_nominal_rad}
 \end{equation}
+
+O conjugado mecânico nominal útil de placa ($T_n$), disponibilizado no eixo para acionamento de cargas mecânicas acopladas sob potência de catálogo de \SI{3,7}{\kilo\watt} (\SI{5,0}{\text{cv}}), resulta da aplicação direta da definição de potência mecânica rotacional ($P = T \cdot \omega$):
 \begin{equation}
 T_n = \frac{P_{nom}}{\omega_{nom}} = \frac{\SI{3700}{\watt}}{\SI{179,5943}{\rads}} = \SI{20,6020}{\Nm}.
 \label{eq:torque_nominal_placa}
 \end{equation}
 
-Em contraste, o conjugado associado à rotação síncrona do campo girante ($\omega_s = \SI{188,4956}{\rads}$) para a mesma potência nominal resulta em:
+Caso se calculasse hipoteticamente o conjugado desenvolvível com a mesma potência ativa nominal sobre a velocidade angular síncrona do campo girante, obter-se-ia o torque síncrono equivalente:
 \begin{equation}
 T_{sinc} = \frac{P_{nom}}{\omega_s} = \frac{\SI{3700}{\watt}}{\SI{188,4956}{\rads}} = \SI{19,6296}{\Nm}.
 \label{eq:torque_sincrono}
 \end{equation}
-O valor de $T_n = \SI{20,6020}{\Nm}$ constitui a amplitude de carga nominal invariante do projeto.
+
+A disparidade entre $T_n$ e $T_{sinc}$ decorre fisicamente do escorregamento positivo intrínseco aos motores assíncronos. Como $\omega_{nom} < \omega_s$, o conjugado mecânico útil no eixo supera em \SI{4,95}{\percent} o torque fictício associado à velocidade síncrona para a mesma taxa de entrega de energia mecânica.
+
+\subsection{Distinção entre Conjugado Útil de Eixo e Conjugado Eletromagnético}\label{subsec:distincao_torque}
+
+Em ensaios de catálogo de motores isolados em bancada do fabricante, as perdas mecânicas rotacionais internas por atrito e ventilação ($P_{atrito} \approx \SI{130}{\watt}$) são reduzidas, de modo que o conjugado eletromagnético interno desenvolvido no entreferro supera o torque nominal de eixo por uma margem discreta ($T_{em} \approx T_n + \SI{0,7}{\Nm}$).
+
+No contexto da bancada experimental universitária descrita na \Cref{sec:parametros_bancada}, entretanto, o motor WEG encontra-se acoplado mecanicamente a uma máquina de corrente contínua e a um transdutor de conjugado, elevando o coeficiente de atrito viscoso equivalente para $B = \SI{0,0426}{\Nm\cdot\second/\radian}$. Na rotação nominal de \SI{1715}{\RPM}, o torque dissipado unicamente pelas forças viscosas do arrasto acoplado é determinado por:
+\begin{equation}
+T_{atrito} = B \cdot \omega_{nom} = 0{,}0426 \cdot 179{,}5943 = \SI{7,6507}{\Nm},
+\label{eq:torque_atrito_nominal}
+\end{equation}
+ao qual corresponde uma dissipação contínua de potência rotacional:
+\begin{equation}
+P_{atrito} = B \cdot \omega_{nom}^2 = 0{,}0426 \cdot (179{,}5943)^2 = \SI{1374,03}{\watt}.
+\label{eq:potencia_atrito_nominal}
+\end{equation}
+
+Consequentemente, para fornecer à carga mecânica externa o conjugado nominal integral de catálogo ($T_L = T_n = \SI{20,6020}{\Nm}$), o campo magnético do entreferro deve sintetizar um conjugado eletromagnético total dado pelo equilíbrio dinâmico em regime permanente:
+\begin{equation}
+T_{e,\text{req}} = T_n + T_{atrito} = 20{,}6020 + 7{,}6507 = \SI{28,2527}{\Nm}.
+\label{eq:torque_total_requerido}
+\end{equation}
+
+Essa distinção conceitual entre conjugado eletromagnético interno ($T_{em}$), conjugado útil de eixo ($T_{shaft}$) e conjugado resistente de carga aplicado ($T_L$) constitui o fundamento das simulações dinâmicas com degrau de carga e das verificações de tolerância conduzidas nos capítulos seguintes.

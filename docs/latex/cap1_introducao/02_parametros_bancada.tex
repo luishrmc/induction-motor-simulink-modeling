@@ -13,22 +13,33 @@ A parametrização do modelo circuital em T e das constantes mecânicas da banca
 %   decorrentes do acoplamento mecânico com a máquina de corrente contínua da bancada.
 % =========================================================================
 
-A dinâmica rotacional do conjunto mecânico acoplado é governada pela equação diferencial de torque:
+O motor sob ensaio é uma máquina assíncrona trifásica WEG de carcaça 100L, cuja potência mecânica de placa é de \SI{3,7}{\kilo\watt} (\SI{5,0}{\text{cv}}), projetada para operação sob tensão nominal de linha de \SI{220}{\volt} em conexão Triângulo ($\Delta$) e corrente nominal de linha de \SI{14,0}{\ampere} em frequência de \SI{60}{\hertz}.
+
+A extração experimental consolidada na Tabela 2.4 do relatório de laboratório seguiu o seguinte protocolo padronizado:
+\begin{enumerate}
+    \item \textbf{Resistência Estatórica ($R_1 = \SI{1,189}{\ohm}$):} Obtida pelo método volt-amperimétrico sob corrente contínua, medindo-se a resistência equivalente entre bornes externos ($R_{\text{med}}$) e aplicando a relação de conversão para estator conectado em triângulo ($R_1 = \frac{3}{2} R_{\text{med}}$), corrigida termicamente para a temperatura de referência de \SI{75}{\celsius}.
+    \item \textbf{Resistência Rotórica Refletida ($R_2' = \SI{1,180}{\ohm}$):} Determinada no ensaio de rotor bloqueado com escorregamento unitário ($s = 1$) sob frequência nominal de \SI{60}{\hertz}, segregando a resistência total de curto-circuito ($R_{cc} = R_1 + R_2'$).
+    \item \textbf{Reatâncias de Dispersão ($X_1 = \SI{2,158}{\ohm}$, $X_2' = \SI{3,174}{\ohm}$):} Calculadas a partir da impedância de curto-circuito de rotor bloqueado ($Z_{cc} = R_{cc} + \jj X_{cc}$), com a partição empírica de reatâncias para motores padrão NEMA/ABNT de classe B estabelecendo $X_1 = 0{,}4 X_{cc}$ e $X_2' = 0{,}6 X_{cc}$ ($L_{l1} = \SI{5,725}{\milli\henry}$, $L_{l2}' = \SI{8,420}{\milli\henry}$).
+    \item \textbf{Ramo de Magnetização ($X_m = \SI{49,601}{\ohm}$, $L_m = \SI{131,571}{\milli\henry}$):} Extraído do ensaio a vazio desacoplado operando próximo à velocidade síncrona ($s \to 0$), condição na qual o ramo rotórico atua como circuito aberto ($R_2'/s \to \infty$). A resistência de perdas no ferro ($R_c$) é negligenciada no modelo clássico ($R_c \to \infty$).
+    \item \textbf{Constantes da Dinâmica Rotacional ($J = \SI{0,701}{\kilogram\meter\squared}$, $B = \SI{0,0426}{\Nm\cdot\second/\radian}$):} Levantadas no ensaio dinâmico de desaceleração livre. Enquanto um motor WEG 100L isolado apresenta inércia própria de apenas $J_{\text{motor}} \approx \SI{0,015}{\kilogram\meter\squared}$, o conjunto físico disponível na bancada acopla rigidamente o motor de indução a uma máquina de corrente contínua de grande porte, elevando a inércia total para \SI{0,701}{\kilogram\meter\squared} e o coeficiente de atrito viscoso para \SI{0,0426}{\Nm\cdot\second/\radian}.
+\end{enumerate}
+
+A equação diferencial que rege o movimento angular do rotor no domínio do tempo expressa-se por:
 \begin{equation}
 J \frac{d\omega_m}{dt} = T_e - T_L - B \omega_m,
 \label{eq:dinamica_rotacional_bancada}
 \end{equation}
-em que $J$ representa o momento de inércia total equivalente, $B$ o coeficiente de atrito viscoso acoplado, $T_e$ o conjugado eletromagnético interno e $T_L$ o conjugado resistente de carga externa.
+na qual $T_e$ é o conjugado eletromagnético desenvolvido internamente e $T_L$ o conjugado resistente de carga aplicado ao eixo.
 
-A \Cref{tab:parametros_consolidados} consolida as grandezas nominais de placa e os parâmetros concentrados por fase em conexão Triângulo ($\Delta$) obtidos nos ensaios laboratoriais.
+A \Cref{tab:parametros_consolidados} sintetiza os dados de placa nominais e os parâmetros concentrados por fase da máquina.
 
 \begin{table}[H]
 \centering
-\caption{Parâmetros consolidados do Motor de Indução Trifásico WEG \SI{3,7}{\kilo\watt} (Carcaça 100L).}
+\caption{Parâmetros nominais e concentrados do Motor de Indução Trifásico WEG \SI{3,7}{\kilo\watt} (Carcaça 100L).}
 \label{tab:parametros_consolidados}
 \begin{tabular}{lcccc}
 \toprule
-\textbf{Grandeza Mecânica / Elétrica} & \textbf{Símbolo} & \textbf{Valor} & \textbf{Unidade} & \textbf{Observação} \\
+\textbf{Grandeza Mecânica / Elétrica} & \textbf{Símbolo} & \textbf{Valor} & \textbf{Unidade} & \textbf{Origem / Observação} \\
 \midrule
 Potência Mecânica Nominal & $P_{nom}$ & $3{,}70$ ($5{,}0$) & \si{\kilo\watt} (\si{cv}) & Placa de catálogo \\
 Tensão Nominal de Linha & $V_{L,nom}$ & $220$ & \si{\volt} (RMS) & Conexão Triângulo ($\Delta$) \\
@@ -40,14 +51,14 @@ Fator de Potência Nominal & $\cos\phi_{nom}$ & $0{,}81$ & -- & Placa de catálo
 Rendimento Nominal de Catálogo & $\eta_{nom}$ & $85{,}5$ & \si{\percent} & Placa de catálogo \\
 Escorregamento Nominal & $s_{nom}$ & $0{,}04722$ & -- & $s_{nom} = (1800-1715)/1800$ \\
 \midrule
-Resistência Estatórica por Fase & $R_1$ & $1{,}189$ & \si{\ohm} & Ensaio CC com comp. térmica \\
-Resistência Rotórica Refletida & $R_2'$ & $1{,}180$ & \si{\ohm} & Ensaio Rotor Bloqueado a \SI{60}{\hertz} \\
-Indutância de Dispersão do Estator & $L_{l1}$ & $5{,}725$ & \si{\milli\henry} & $X_1 = \SI{2,158}{\ohm}$ a \SI{60}{\hertz} \\
-Indutância de Dispersão do Rotor & $L_{l2}'$ & $8{,}420$ & \si{\milli\henry} & $X_2' = \SI{3,174}{\ohm}$ a \SI{60}{\hertz} \\
-Indutância de Magnetização & $L_m$ & $131{,}571$ & \si{\milli\henry} & $X_m = \SI{49,601}{\ohm}$ a \SI{60}{\hertz} \\
+Resistência Estatórica por Fase & $R_1$ & $1{,}189$ & \si{\ohm} & Ensaio CC com compensação térmica \\
+Resistência Rotórica Refletida & $R_2'$ & $1{,}180$ & \si{\ohm} & Ensaio de Rotor Bloqueado a \SI{60}{\hertz} \\
+Indutância de Dispersão do Estator & $L_{l1}$ & $5{,}725$ & \si{\milli\henry} & $X_1 = 2\pi f L_{l1} = \SI{2,158}{\ohm}$ \\
+Indutância de Dispersão do Rotor & $L_{l2}'$ & $8{,}420$ & \si{\milli\henry} & $X_2' = 2\pi f L_{l2}' = \SI{3,174}{\ohm}$ \\
+Indutância de Magnetização & $L_m$ & $131{,}571$ & \si{\milli\henry} & $X_m = 2\pi f L_m = \SI{49,601}{\ohm}$ \\
 Resistência de Perdas no Ferro & $R_c$ & $\infty$ & \si{\ohm} & Desprezada no modelo T clássico \\
-Momento de Inércia Total & $J$ & $0{,}701$ & \si{\kilogram\meter\squared} & Conjunto acoplado da bancada \\
-Coeficiente de Atrito Viscoso & $B$ & $0{,}0426$ & \si{\Nm\cdot\second/\radian} & Desaceleração livre acoplada \\
+Momento de Inércia Total & $J$ & $0{,}701$ & \si{\kilogram\meter\squared} & Conjunto motor-gerador da bancada \\
+Coeficiente de Atrito Viscoso & $B$ & $0{,}0426$ & \si{\Nm\cdot\second/\radian} & Ensaio de desaceleração acoplado \\
 \bottomrule
 \end{tabular}
 \end{table}

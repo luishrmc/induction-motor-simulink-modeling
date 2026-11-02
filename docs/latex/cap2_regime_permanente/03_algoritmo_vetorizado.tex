@@ -7,38 +7,115 @@ A determinação precisa das características de regime permanente ao longo de t
 % - Objetivo: Atender ao Item 1.D de sim_proj.pdf. Descrever a arquitetura da rotina
 %   computacional desenvolvida em MATLAB para resolução do circuito equivalente em malha de escorregamento.
 % - Formulação: Detalhar a vetorização pura sem laços "for", discretizando a velocidade
-%   de 0 a n_s (s de 1 a 10^-4) para evitar singularidade em s = 0.
+%   de 0 a n_s (s de 1 a 10^-4) para evitar singularidade em s = 0. Deduzir o equivalente
+%   de Thevenin (V_th, Z_th) e os pontos críticos (s_max, T_max).
 % - Figuras/Tabelas: Inserir a listagem de código-fonte estruturada via ambiente lstlisting (estilo matlabstyle).
 % - Confronto: Justificar o ganho de eficiência computacional e a precisão na detecção de pontos notáveis.
 % =========================================================================
 
-A malha de escorregamento é definida entre $s = 1$ (rotor bloqueado) e $s = 10^{-4}$ (ligeiramente abaixo de $n_s = \SI{1800}{\RPM}$), garantindo estabilidade no cálculo da impedância rotórica aparente ($R_2'/s$).
+\subsection{Estratégia de Vetorização e Tratamento de Singularidades}\label{subsec:estrategia_vetorizacao}
 
-A \Cref{lst:algoritmo_vetorizado} apresenta o trecho fundamental da rotina vetorizada implementada no script \texttt{run\_item\_ABC.m}.
+Nas rotinas convencionais baseadas em laços iterativos escalares (\textit{loops} do tipo \texttt{for}), o cálculo sequencial para cada valor de escorregamento impõe sobrecusto de interpretação computacional e dificulta o tratamento de singularidades físicas. No motor assíncrono, a impedância aparente do rotor ($R_2'/s$) tende a infinito quando a rotação se aproxima da velocidade síncrona ($s \to 0$). Uma divisão direta por zero gera valores indefinidos (\texttt{NaN} ou \texttt{Inf}), comprometendo o pós-processamento gráfico e as rotinas de busca de máximos.
 
-\begin{lstlisting}[style=matlabstyle, caption={Trecho central da rotina vetorizada em MATLAB para resolucao do circuito IEEE.}, label={lst:algoritmo_vetorizado}]
+Para contornar essa restrição mantendo máxima densidade amostral, a rotina analítica implementada em \texttt{simulacao\_ele035/parte1\_regime\_permanente/} adota uma malha de escorregamento puramente vetorizada composta por 2000 pontos com espaçamento linear:
+\begin{equation}
+s \in [10^{-4}, \, 1{,}0], \qquad n = (1 - s) \cdot n_s,
+\label{eq:malha_escorregamento}
+\end{equation}
+na qual o limite inferior $s = 10^{-4}$ corresponde à rotação mecânica de $n = \SI{1799,82}{\RPM}$, infinitesimamente abaixo da sincronia ($n_s = \SI{1800}{\RPM}$), eliminando o risco de indeterminação numérica. O limite superior $s = 1{,}0$ representa a condição estática de rotor bloqueado na partida ($n = \SI{0}{\RPM}$).
+
+\subsection{Equacionamento Matricial e Equivalente de Thévenin}\label{subsec:thevenin_analitico}
+
+A avaliação das impedâncias é expressa por operações elemento a elemento (operadores matriciais \texttt{./}, \texttt{.*} e \texttt{.\^{}}). O ramo secundário, a impedância de entreferro e a impedância total de entrada formam arranjos unidimensionais com 2000 elementos complexos calculados simultaneamente:
+\begin{equation}
+\mathbf{Z}_2'(s) = \frac{R_2'}{\mathbf{s}} + \jj X_2', \qquad \mathbf{Z}_p(s) = \frac{\jj X_m \cdot \mathbf{Z}_2'(s)}{\mathbf{Z}_2'(s) + \jj X_m}, \qquad \mathbf{Z}_{in}(s) = Z_1 + \mathbf{Z}_p(s).
+\label{eq:impedancias_vetoriais}
+\end{equation}
+
+A corrente estatórica de fase ($\mathbf{I}_{1,ph}$), a corrente de linha ($\mathbf{I}_{line}$), o fasor de tensão induzida de entreferro ($\mathbf{E}_1$) e a corrente secundária refletida ($\mathbf{I}_2'$) são determinados diretamente por:
+\begin{equation}
+\mathbf{I}_{1,ph} = \frac{V_{ph}}{\mathbf{Z}_{in}(s)}, \qquad \mathbf{I}_{line} = \sqrt{3} \cdot |\mathbf{I}_{1,ph}|, \qquad \mathbf{E}_1 = V_{ph} - \mathbf{I}_{1,ph} Z_1, \qquad \mathbf{I}_2' = \frac{\mathbf{E}_1}{\mathbf{Z}_2'(s)}.
+\label{eq:correntes_vetoriais}
+\end{equation}
+
+Para a extração analítica independente do conjugado de desengate (máximo) sem depender exclusivamente da busca por discretização numérica, o algoritmo implementa o equivalente de Thévenin visto a partir dos terminais do rotor:
+\begin{equation}
+\vec{V}_{th} = \vec{V}_{ph} \cdot \frac{\jj X_m}{R_1 + \jj (X_1 + X_m)} = 220 \cdot \frac{\jj 49{,}6012}{1{,}1890 + \jj 51{,}7595} = \phasor{210{,}74}{1{,}32}\,\text{V},
+\label{eq:v_thevenin_valor}
+\end{equation}
+\begin{equation}
+Z_{th} = \frac{Z_1 \cdot \jj X_m}{Z_1 + \jj X_m} = R_{th} + \jj X_{th} = 1{,}0908 + \jj 2{,}1122\,\Omega.
+\label{eq:z_thevenin_valor}
+\end{equation}
+
+O escorregamento crítico ($s_{max}$) e o conjugado máximo absoluto ($T_{max}$) são calculados analiticamente por:
+\begin{equation}
+s_{max} = \frac{R_2'}{\sqrt{R_{th}^2 + (X_{th} + X_2')^2}} = \frac{1{,}1800}{\sqrt{1{,}0908^2 + (2{,}1122 + 3{,}1743)^2}} = 0{,}2194 \quad (\SI{21,94}{\percent}),
+\label{eq:smax_thevenin_calculado}
+\end{equation}
+\begin{equation}
+n(T_{max}) = (1 - s_{max}) \cdot 1800 = (1 - 0{,}2194) \cdot 1800 = \SI{1405,0}{\RPM},
+\label{eq:n_tmax_calculado}
+\end{equation}
+\begin{equation}
+T_{max} = \frac{3 V_{th}^2}{2\omega_s \left[ R_{th} + \sqrt{R_{th}^2 + (X_{th} + X_2')^2} \right]} = \frac{3 \cdot (210{,}74)^2}{2 \cdot 188{,}4956 \cdot [1{,}0908 + 5{,}3782]} = \SI{54,634}{\Nm}.
+\label{eq:tmax_thevenin_calculado}
+\end{equation}
+
+\subsection{Implementação Estruturada em MATLAB}\label{subsec:implementacao_script}
+
+A \Cref{lst:algoritmo_vetorizado} apresenta o trecho estruturado do código MATLAB correspondente à formulação matricial completa, em conformidade com as diretrizes de desempenho e portabilidade.
+
+\begin{lstlisting}[style=matlabstyle, caption={Rotina vetorizada em MATLAB para resolucao analitica integral do circuito equivalente IEEE.}, label={lst:algoritmo_vetorizado}]
+% UFMG ELE035 - Task 1.1: Solucao Vetorizada de Regime Permanente
 % Parametros por fase em conexao Triangulo (Delta)
-V_ph = 220;              % Tensao de fase [V RMS]
-f = 60;                  % Frequencia nominal [Hz]
-ws = 2 * pi * f / 2;     % Velocidade sincrona [rad/s]
+V_ph = 220.0;              % Tensao de fase [V RMS]
+f    = 60.0;               % Frequencia da rede [Hz]
+p    = 4;                  % Numero de polos
+ws   = (2 * pi * f) / (p / 2);  % Velocidade sincrona [rad/s] (~188.50)
+ns   = (120 * f) / p;      % Velocidade sincrona [rpm] (1800 rpm)
 
-% Malha de escorregamento vetorizada (evitando singularidade em s=0)
-s = linspace(1e-4, 1.0, 2000);
-n_rpm = (1 - s) * (120 * f / 4);
+% Malha densa de escorregamento vetorizada (evita singularidade em s=0)
+N_pts = 2000;
+s = linspace(1e-4, 1.0, N_pts);
+n_rpm = (1 - s) * ns;
+w_m   = (1 - s) * ws;
 
-% Impedancia rotoria e associacao em paralelo
-Z2_prm = R2_prm ./ s + 1j * X2_prm;
-Z_p = (1j * Xm .* Z2_prm) ./ (Z2_prm + 1j * Xm);
-Z_in = R1 + 1j * X1 + Z_p;
+% Impedancias complexas elemento a elemento
+Z1 = R1 + 1j * X1;
+Zm = 1j * Xm;
+Z2 = (R2 ./ s) + 1j * X2;
+Zp = (Zm .* Z2) ./ (Zm + Z2);
+Z_in = Z1 + Zp;
 
-% Correntes de fase e linha estatoricas
-I1_ph = V_ph ./ Z_in;
+% Correntes estatoricas e rotoricas
+I1_ph  = V_ph ./ Z_in;
 I_line = sqrt(3) * abs(I1_ph);
+E1     = V_ph - I1_ph * Z1;
+I2_prm = E1 ./ Z2;
 
-% Corrente do rotor via divisor de corrente
-I2_prm = I1_ph .* (1j * Xm ./ (Z2_prm + 1j * Xm));
+% Balanco de potencias trifasicas
+P_elec  = 3 * real(V_ph .* conj(I1_ph));
+Q_elec  = 3 * imag(V_ph .* conj(I1_ph));
+S_elec  = 3 * V_ph .* abs(I1_ph);
+cos_phi = P_elec ./ S_elec;
 
-% Balanco de potencias e torque eletromagnetico
-P_ag = 3 * (abs(I2_prm).^2) .* (R2_prm ./ s);
-T_em = P_ag / ws;
+% Potencia no entreferro, perdas Joule e conversao eletromecanica
+P_cu1 = 3 * (abs(I1_ph).^2) * R1;
+P_cu2 = 3 * (abs(I2_prm).^2) * R2;
+P_ag  = 3 * (abs(I2_prm).^2) .* (R2 ./ s);
+P_em  = (1 - s) .* P_ag;
+
+% Perdas rotacionais por atrito viscoso da bancada (B = 0.0426 N.m.s/rad)
+P_atrito = B .* (w_m.^2);
+P_shaft  = P_em - P_atrito;
+
+% Conjugados eletromagnetico e util de eixo
+T_em    = P_ag / ws;
+T_loss  = B .* w_m;
+T_shaft = T_em - T_loss;
+
+% Rendimentos eletromagnetico e de eixo
+eta_em    = P_em ./ P_elec;
+eta_shaft = max(0, P_shaft ./ P_elec);
 \end{lstlisting}
