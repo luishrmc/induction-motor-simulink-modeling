@@ -14,7 +14,7 @@ Model, solve, simulate, and validate a WEG 3.7 kW (5 cv), 220 V (Delta), 4-pole,
 | `simulacao_ele035/parte1_regime_permanente/` | Part 1 steady-state analytical engine, nominal metrics, sweeps, and scalar V/f |
 | `simulacao_ele035/parte2_simulacao_dinamica/` | Part 2 Simscape SPS model, locked-rotor calculation, and dynamic transient waveforms |
 | `simulacao_ele035/painel_sintese_consolidado/` | Multi-scenario dynamic overview dashboard and consolidated comparison matrices |
-| `docs/` | Final academic technical report (`RELATORIO_FINAL_SIMULACAO.md` and compiled `.pdf`) |
+| `docs/` | Modular LaTeX academic report (`docs/latex/main.tex`, chapters, and compiled `out/main.pdf`) |
 | `utils/data/` | Experimental bench CSVs (`01` to `07`) and summary JSONs |
 | `utils/docs/` | Academic specifications (`sim_proj.pdf`) and laboratory baseline report |
 | `utils/plan/` | Project roadmap CSVs, task breakdowns, `STATUS.md`, `CHANGELOG.md` |
@@ -84,7 +84,7 @@ Defined in `.agents/manifest.json` and `.agents/agents/*.md`:
    - Only when **both** the automated gates pass AND the Gauntlet reviewer delivers an explicit `APPROVE`:
      1. Author or finalize `utils/memory/episodes/<task-id>.md` documenting the full audit history, iteration counts, failure modes encountered, and resolutions.
      2. Update `utils/memory/lessons.md` if any software, solver, or graphical quirks were identified.
-     3. Record gate evidence in `out/gates/<task-id>.json` using `gate_record.py`.
+     3. Record gate evidence in `.agents/gates/<task-id>.json` using `gate_record.py`.
      4. Synchronize memory digests with `python3 .agents/hooks/memory-check.py --update <module>`.
      5. Promote the task to `Concluída` via `plan-sync.py set <task-id> "Concluída" --evidence gate:<task-id>`.
      6. Stage and commit verified deliverables via `git`.

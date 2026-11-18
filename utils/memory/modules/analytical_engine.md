@@ -42,16 +42,16 @@ Exact analytical solution of the IEEE T-equivalent circuit for the WEG 3.7 kW mo
 - $25\%$ ($55\text{ V}, 15\text{ Hz}$): $n_s = 450\text{ rpm}$, $T_{max} = 30.54\text{ N}\cdot\text{m}$ at $152.0\text{ rpm}$.
 - Stator resistance $R_1$ causes uncompensated IR-drop at lower frequencies, reducing peak breakdown torque unless voltage boost is applied.
 
-## Generated Figures (`out/figures/`)
-- `torque_vs_speed.png`: $T_{em}(n)$ and $T_{shaft}(n)$ vs speed ($0$ to $1800\text{ rpm}$), marking $T_{max}=54.63\text{ N}\cdot\text{m}$ and $T_{nom}$.
-- `current_vs_speed.png`: $I_{line}(n)$ and $I_{\phi}(n)$ vs speed, marking starting current $I_{start}=67.73\text{ A}$ and $I_{nom}$.
-- `power_vs_speed.png`: $P_{elec}(n), P_{ag}(n), P_{em}(n), P_{shaft}(n)$ vs speed.
-- `power_factor_vs_speed.png`: $\cos\phi(n)$ vs speed, marking nominal $\cos\phi=0.8147$.
-- `efficiency_vs_speed.png`: $\eta_{em}(n)$ and $\eta_{shaft}(n)$ vs speed.
-- `vf_scalar_family.png`: 4-curve scalar $V/f$ overlay with breakdown markers.
+## Generated Figures (`simulacao_ele035/parte1_regime_permanente/`)
+- `item_D_E_curvas_estator/figures/item1e_torque_vs_speed.png`: $T_{em}(n)$ and $T_{shaft}(n)$ vs speed ($0$ to $1800\text{ rpm}$), marking $T_{max}=54.63\text{ N}\cdot\text{m}$ and $T_{nom}$.
+- `item_D_E_curvas_estator/figures/item1e_corrente_vs_speed.png`: $I_{line}(n)$ and $I_{\phi}(n)$ vs speed, marking starting current $I_{start}=67.73\text{ A}$ and $I_{nom}$.
+- `item_D_E_curvas_estator/figures/item1e_potencia_vs_speed.png`: $P_{elec}(n), P_{ag}(n), P_{em}(n), P_{shaft}(n)$ vs speed.
+- `item_D_E_curvas_estator/figures/item1e_fator_potencia_vs_speed.png`: $\cos\phi(n)$ vs speed, marking nominal $\cos\phi=0.8147$.
+- `item_D_E_curvas_estator/figures/item1e_rendimento_vs_speed.png`: $\eta_{em}(n)$ and $\eta_{shaft}(n)$ vs speed.
+- `item_F_controle_escalar_vf/figures/item1f_vf_scalar_family.png`: 4-curve scalar $V/f$ overlay with breakdown markers.
 
 ## Artifact Exports
-- Data structure: `out/results/nominal_metrics.mat`
-- CSV summary: `out/results/nominal_metrics.csv`
-- Convergence JSON: `out/results/comparison_1.1.json`
-- Analytical baseline arrays: `out/results/analytical_baseline.mat`
+- Data structure: `item_A_B_C_ponto_nominal/nominal_metrics.mat`
+- CSV summary: `item_A_B_C_ponto_nominal/nominal_metrics.csv`
+- Convergence JSON: `item_A_B_C_ponto_nominal/comparison_1.1.json`
+- Analytical baseline arrays: `item_D_E_curvas_estator/data/analytical_baseline.mat`

@@ -35,7 +35,9 @@ simulacao_ele035/
 └── parte2_simulacao_dinamica/
     ├── item_A_modelo_simscape/            % Diagrama Simscape SPS e parametrização
     │   ├── abrir_modelo.m                 % Abre o modelo no Simulink GUI com 1 clique
+    │   ├── build_simscape_model.m         % Constrói programaticamente o diagrama .slx
     │   ├── mit_simscape_model.slx         % Modelo Simscape SPS (unidades SI, referencial rotor)
+    │   ├── run_sim_harness.m              % Harness em lote para os cenários C, D e E
     │   ├── setup_parametros_Y.m           % Transformação Estrela-Triângulo de impedâncias (R/3, L/3)
     │   └── README.md                      % Explicação dos blocos e convenções
     ├── item_B_calculo_partida/            % Cálculo analítico em rotor bloqueado (s = 1)

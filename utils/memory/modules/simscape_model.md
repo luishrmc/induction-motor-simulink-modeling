@@ -4,6 +4,7 @@ status: verified
 sources:
   - simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape/setup_parametros_Y.m
   - simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape/build_simscape_model.m
+  - simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape/run_sim_harness.m
   - simulacao_ele035/parte2_simulacao_dinamica/item_B_calculo_partida/run_item_B_partida.m
 gates_passed: [matlab-lint, simulink-gate]
 ---
@@ -12,13 +13,13 @@ gates_passed: [matlab-lint, simulink-gate]
 
 Parametric implementation and simulation harness of the WEG 3.7 kW (5 cv), 220 V Delta induction machine in Simscape Specialized Power Systems (SPS).
 
-## Model Architecture (`matlab/simulink/mit_simscape_model.slx`)
+## Model Architecture (`simulacao_ele035/.../item_A_modelo_simscape/mit_simscape_model.slx`)
 - **Block:** `elec_conv_AsynchronousMachineSIUni/AsynchronousMachineSIUni_TmSCRotor` (SI Units, Squirrel Cage, Rotor reference frame).
 - **Three-Phase Supply:** 220 V RMS line-to-line, 60 Hz sinusoidal AC source via `ee_lib/Sources/Voltage Source (Three-Phase)`.
 - **Phase Splitter:** Connects composite three-phase line (`~`) to machine stator phase terminals A, B, C.
 - **Standstill DOL Initialization:** Mask configured with `fElectrical0 = '0'`, `wrm0 = '0'` for true standstill starting ($s=1.0$).
 - **Unit Scaling:** Promoted mask parameters `pu2si_wm = omega_s` and `pu2si_Te = P_nom_W / omega_s` ensure strict base SI scaling.
-- **Simulation Harness (`matlab/simulink/run_sim_harness.m`):** Automated scenario dispatcher supporting `dol_startup` ($T_L = 0$), `nominal_step` ($T_L = +T_{nom}$), and `regenerative` ($T_L = -T_{nom}$) with exact analytical $s=1.0$ starting baseline ($I_{start} = 67.73\text{ A RMS}, T_{start} = 25.35\text{ N}\cdot\text{m}$).
+- **Simulation Harness (`item_A_modelo_simscape/run_sim_harness.m`):** Automated scenario dispatcher supporting `dol_startup` ($T_L = 0$), `nominal_step` ($T_L = +T_{nom}$), and `regenerative` ($T_L = -T_{nom}$) with exact analytical $s=1.0$ starting baseline ($I_{start} = 67.73\text{ A RMS}, T_{start} = 25.35\text{ N}\cdot\text{m}$).
 
 ## Star-Delta Parameter Mapping (ADR-002)
 The internal-Wye SPS machine block requires per-phase Delta parameters divided by 3:
@@ -38,4 +39,4 @@ The internal-Wye SPS machine block requires per-phase Delta parameters divided b
 - `w` [rad/s] $\to$ Gain ($30/\pi$) $\to$ `sim_speed_rpm` [rpm]
 - `Te` [N.m] $\to$ `sim_torque_Nm` [N.m]
 - `ias`, `ibs`, `ics` [A] $\to$ `sim_current_Ia`, `sim_current_Ib`, `sim_current_Ic` [A]
-- Export format: `Timeseries` saved to workspace and `out/results/sim_transient.mat`.
+- Export format: `Timeseries` returned in `Simulink.SimulationOutput` and cached in `out/results/` (gitignored).

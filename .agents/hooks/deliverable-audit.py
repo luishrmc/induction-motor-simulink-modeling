@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """deliverable-audit.py: Final Phase 4 verification gate checking all required figures, tables, and reports."""
+import argparse
 import os
 import subprocess
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-TASK_ID = os.environ.get("TASK_ID", "4.1")
 GATE_NAME = "deliverable-audit"
 
 REQUIRED_FIGURES = [
@@ -50,20 +50,27 @@ REQUIRED_FIGURES = [
 
 
 def main():
-    print(f"[DELIVERABLE-AUDIT] Auditing deliverables for Task {TASK_ID}...")
+    ap = argparse.ArgumentParser(description="Audit required deliverable figures, tables, and documentation.")
+    ap.add_argument("--task", default=os.environ.get("TASK_ID", "4.1"), help="Task ID (e.g. 4.1, 4.2)")
+    args = ap.parse_args()
+    task_id = args.task
+
+    print(f"[DELIVERABLE-AUDIT] Auditing deliverables for Task {task_id}...")
     missing = [p for p in REQUIRED_FIGURES if not (ROOT / p).is_file()]
-    if TASK_ID == "4.2" and not (ROOT / "docs" / "RELATORIO_FINAL_SIMULACAO.md").is_file():
-        missing.append("docs/RELATORIO_FINAL_SIMULACAO.md")
+    if task_id == "4.2":
+        for doc_rel in ("docs/latex/main.tex", "docs/latex/00_config.tex"):
+            if not (ROOT / doc_rel).is_file():
+                missing.append(doc_rel)
 
     if missing:
         detail = "Missing deliverables: " + ", ".join(missing[:3])
         print(f"[ERR][DELIVERABLE-AUDIT] {detail}", file=sys.stderr)
         subprocess.run(["python3", str(ROOT / ".agents/hooks/gate_record.py"),
-                        TASK_ID, GATE_NAME, "FAIL", "--detail", detail])
+                        task_id, GATE_NAME, "FAIL", "--detail", detail])
         return 1
 
     subprocess.run(["python3", str(ROOT / ".agents/hooks/gate_record.py"),
-                    TASK_ID, GATE_NAME, "PASS", "--detail", "All required deliverables verified"])
+                    task_id, GATE_NAME, "PASS", "--detail", "All required deliverables verified"])
     print("[OK][DELIVERABLE-AUDIT] All deliverables verified.")
     return 0
 

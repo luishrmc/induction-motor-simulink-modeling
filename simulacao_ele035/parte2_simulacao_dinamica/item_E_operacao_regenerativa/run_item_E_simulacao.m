@@ -102,8 +102,9 @@ function run_item_E_simulacao()
         n_regen_ana, T_em_regen_ana, I_line_regen_ana, P_elec_regen_ana, Q_elec_regen_ana);
 
     %% 3. Execute or Load Dynamic Simscape Simulation
-    data_dir = fullfile(fileparts(mfilename('fullpath')), '..', '..', '..', 'out', 'results');
-    fig_dir  = fullfile(fileparts(mfilename('fullpath')), 'figures');
+    item_dir = fileparts(mfilename('fullpath'));
+    data_dir = fullfile(item_dir, '..', '..', '..', 'out', 'results');
+    fig_dir  = fullfile(item_dir, 'figures');
     if ~exist(data_dir, 'dir'), mkdir(data_dir); end
     if ~exist(fig_dir, 'dir'), mkdir(fig_dir); end
     fig_vis = 'off';
@@ -118,7 +119,7 @@ function run_item_E_simulacao()
         results = loaded.results;
     else
         fprintf('[INFO] Running Simscape dynamic harness for scenario: regenerative (t_stop = %.1fs)...\n', t_stop_val);
-        addpath(genpath(fullfile(fileparts(mfilename('fullpath')), '..', '..', '..', 'matlab')));
+        addpath(fullfile(item_dir, '..', 'item_A_modelo_simscape'));
         results = run_sim_harness('regenerative', 'StopTime', t_stop_val, 'StepTime', t_step_val);
         save(cache_file, 'results');
         fprintf('[OK] Cached simulation telemetry to %s\n', cache_file);
@@ -169,7 +170,7 @@ function run_item_E_simulacao()
     mat_path = fullfile(data_dir, 'sim_transient_3.3.mat');
     save(mat_path, 'results');
 
-    json_path = fullfile(data_dir, 'comparison_3.3.json');
+    json_path = fullfile(item_dir, 'comparison_3.3.json');
     comp_data.analytical.n_nom_rpm     = n_regen_ana;
     comp_data.analytical.T_em_nom      = T_em_regen_ana;
     comp_data.analytical.I_line_nom    = I_line_regen_ana;

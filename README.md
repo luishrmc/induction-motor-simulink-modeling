@@ -3,12 +3,13 @@
 
 [![MATLAB](https://img.shields.io/badge/MATLAB-R2026b-blue.svg)](https://www.mathworks.com/products/matlab.html)
 [![Simulink](https://img.shields.io/badge/Simulink-Simscape%20Electrical-orange.svg)](https://www.mathworks.com/products/simscape.html)
+[![LaTeX](https://img.shields.io/badge/LaTeX-Modular%20Report-008080.svg)](docs/latex/main.tex)
 [![Institution](https://img.shields.io/badge/UFMG-Engenharia%20Elétrica-red.svg)](https://www.ufmg.br/)
-[![Status](https://img.shields.io/badge/Status-100%25%20Concluído%20%26%20Validado-brightgreen.svg)]()
+[![Status](https://img.shields.io/badge/Status-Fase%205%20(v0.2%20%7C%2084.4%25)-blue.svg)](utils/plan/STATUS.md)
 
-Este repositório contém o projeto computacional completo de modelagem em regime permanente e simulação dinâmica de transitórios eletromecânicos de um **motor de indução trifásico de gaiola de esquilo WEG de 3,7 kW (5 cv)**, desenvolvido para a disciplina **ELE035 - Laboratório de Conversão de Energia** da **Universidade Federal de Minas Gerais (UFMG)**, sob orientação do Prof. Victor Flores Mendes.
+Este repositório contém o projeto computacional de modelagem em regime permanente e simulação dinâmica de transitórios eletromecânicos de um **motor de indução trifásico de gaiola de esquilo WEG de 3,7 kW (5 cv)**, desenvolvido para a disciplina **ELE035 - Laboratório de Conversão de Energia** da **Universidade Federal de Minas Gerais (UFMG)**, sob orientação do Prof. Victor Flores Mendes.
 
-O projeto atende com rigor à especificação oficial acadêmica ([`utils/docs/sim_proj.pdf`](utils/docs/sim_proj.pdf)), combinando os parâmetros consolidados nos ensaios laboratoriais ([`utils/docs/LAB_CONV_RLT_08_09_10.pdf`](utils/docs/LAB_CONV_RLT_08_09_10.pdf)), resolução matricial 100% vetorizada do circuito equivalente IEEE e simulação temporal em **Simscape Specialized Power Systems (SPS)**.
+O projeto atende à especificação oficial acadêmica ([`utils/docs/sim_proj.pdf`](utils/docs/sim_proj.pdf)), combinando os parâmetros consolidados nos ensaios laboratoriais ([`utils/docs/LAB_CONV_RLT_08_09_10.pdf`](utils/docs/LAB_CONV_RLT_08_09_10.pdf)), resolução matricial 100% vetorizada do circuito equivalente em T por fase, simulação temporal em **Simscape Specialized Power Systems (SPS)** e relatório técnico modular em LaTeX ([`docs/latex/main.tex`](docs/latex/main.tex)).
 
 ---
 
@@ -38,13 +39,13 @@ Os parâmetros adotados correspondem à máquina ensaiada em bancada, conectada 
 
 ## 🗂️ Índice Geral das Tarefas e Módulos do Projeto
 
-O código, os modelos, as figuras interativas (`.fig`), as figuras de alta resolução (`.png`), a telemetria (`.json`/`.csv`) e os memoriais de cálculo estão agrupados por tarefa específica na pasta [`simulacao_ele035/`](simulacao_ele035/), espelhando a ementa de [`sim_proj.pdf`](utils/docs/sim_proj.pdf). Utilize os links da tabela abaixo para navegar diretamente para a documentação e os scripts de cada bloco:
+O código, os modelos, as figuras interativas (`.fig`), as figuras de alta resolução (`.png`), a telemetria (`.json`/`.csv`) e os memoriais de cálculo estão agrupados por tarefa específica na pasta [`simulacao_ele035/`](simulacao_ele035/), espelhando a ementa de [`sim_proj.pdf`](utils/docs/sim_proj.pdf).
 
 ### 1ª Parte: Regime Permanente Analítico
 
 | Bloco Acadêmico | Tarefa / Descrição | Script Executável | Documentação do Bloco | Entregáveis Principais |
 |---|---|---|:---:|---|
-| **Itens 1.A, 1.B e 1.C** | Ponto Nominal, Torque Nominal ($T_n$) e Resolução do Circuito IEEE | [`run_item_ABC.m`](simulacao_ele035/parte1_regime_permanente/item_A_B_C_ponto_nominal/run_item_ABC.m) | [📖 README](simulacao_ele035/parte1_regime_permanente/item_A_B_C_ponto_nominal/README.md) | $T_n = 20,60\text{ N}\cdot\text{m}$, $Z_{in}$, balanço de perdas ($B\omega_m^2$) e [`nominal_metrics.csv`](simulacao_ele035/parte1_regime_permanente/item_A_B_C_ponto_nominal/nominal_metrics.csv) |
+| **Itens 1.A, 1.B e 1.C** | Ponto Nominal, Torque Nominal ($T_n$) e Resolução do Circuito Equivalente | [`run_item_ABC.m`](simulacao_ele035/parte1_regime_permanente/item_A_B_C_ponto_nominal/run_item_ABC.m) | [📖 README](simulacao_ele035/parte1_regime_permanente/item_A_B_C_ponto_nominal/README.md) | $T_n = 20,60\text{ N}\cdot\text{m}$, $Z_{in}$, balanço de perdas ($B\omega_m^2$) e [`nominal_metrics.csv`](simulacao_ele035/parte1_regime_permanente/item_A_B_C_ponto_nominal/nominal_metrics.csv) |
 | **Itens 1.D e 1.E** | Varreduras $0 \to n_s$ e as 5 Curvas Características do Estator | [`run_all_item_E.m`](simulacao_ele035/parte1_regime_permanente/item_D_E_curvas_estator/run_all_item_E.m)<br>*(ou scripts individuais)* | [📖 README](simulacao_ele035/parte1_regime_permanente/item_D_E_curvas_estator/README.md) | 5 Gráficos: $T \times n$ ($T_{max} = 54,6\text{ N}\cdot\text{m}$), $I \times n$, $P \times n$, $\cos\phi \times n$, $\eta \times n$ (`.png`, `.fig`, `.json`) |
 | **Item 1.F** | Família de Curvas de Conjugado sob Controle Escalar $V/f$ | [`run_item_F_vf_family.m`](simulacao_ele035/parte1_regime_permanente/item_F_controle_escalar_vf/run_item_F_vf_family.m) | [📖 README](simulacao_ele035/parte1_regime_permanente/item_F_controle_escalar_vf/README.md) | Sobreposição das curvas a $100\%$, $75\%$, $50\%$ e $25\%$ ($V/f = \text{cte}$), marcadores de $T_{max}$ e análise de *voltage boost* |
 
@@ -61,7 +62,7 @@ O código, os modelos, as figuras interativas (`.fig`), as figuras de alta resol
 
 | Bloco Acadêmico | Tarefa / Descrição | Script Executável | Documentação do Bloco | Entregáveis Principais |
 |---|---|---|:---:|---|
-| **Item 2.A** | Modelo Simscape SPS, Abertura no GUI e Parametrização $Y$ | [`abrir_modelo.m`](simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape/abrir_modelo.m)<br>[`setup_parametros_Y.m`](simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape/setup_parametros_Y.m) | [📖 README](simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape/README.md) | Diagrama [`mit_simscape_model.slx`](simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape/mit_simscape_model.slx) parametrizado ($R/3, L/3$) |
+| **Item 2.A** | Modelo Simscape SPS, Abertura no GUI, Parametrização $Y$ e Harness | [`abrir_modelo.m`](simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape/abrir_modelo.m)<br>[`setup_parametros_Y.m`](simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape/setup_parametros_Y.m)<br>[`run_sim_harness.m`](simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape/run_sim_harness.m) | [📖 README](simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape/README.md) | Diagrama [`mit_simscape_model.slx`](simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape/mit_simscape_model.slx) parametrizado ($R/3, L/3$) |
 | **Item 2.B** | Cálculo Analítico de Partida em Rotor Bloqueado ($s = 1$) | [`run_item_B_partida.m`](simulacao_ele035/parte2_simulacao_dinamica/item_B_calculo_partida/run_item_B_partida.m) | [📖 README](simulacao_ele035/parte2_simulacao_dinamica/item_B_calculo_partida/README.md) | Corrente simétrica de partida ($67,73\text{ A}$ RMS), torque de partida ($25,35\text{ N}\cdot\text{m}$) e estimativa de offset CC |
 | **Item 2.C** | Simulação da Partida Direta a Vazio e Validação de Inrush | [`run_item_C_simulacao.m`](simulacao_ele035/parte2_simulacao_dinamica/item_C_partida_direta_vazio/run_item_C_simulacao.m) | [📖 README](simulacao_ele035/parte2_simulacao_dinamica/item_C_partida_direta_vazio/README.md) | Inrush de $121,25\text{ A}$, amortecimento em $70\text{ ms}$, estabilização a $1775,36\text{ rpm}$ e convergência $< 0,1\%$ |
 | **Item 2.D** | Resposta ao Degrau de Carga Nominal ($T_L = +T_{nom}$) | [`run_item_D_simulacao.m`](simulacao_ele035/parte2_simulacao_dinamica/item_D_degrau_carga_nominal/run_item_D_simulacao.m) | [📖 README](simulacao_ele035/parte2_simulacao_dinamica/item_D_degrau_carga_nominal/README.md) | Formas de onda de $n(t)$, $T_e(t)$, $i_a(t)$, $P(t)$ e $Q(t)$; novo equilíbrio em $1700,42\text{ rpm}$ e $T_e = 28,19\text{ N}\cdot\text{m}$ |
@@ -69,38 +70,69 @@ O código, os modelos, as figuras interativas (`.fig`), as figuras de alta resol
 
 ---
 
-### Síntese Consolidada e Relatório Técnico Final
+### Síntese Consolidada e Relatório Técnico em LaTeX (Fase 5)
 
-| Módulo | Descrição do Conteúdo | Arquivo Principal | Documentação / Formatos |
-|---|---|---|:---:|
-| **Painel de Síntese Multicenário** | Visão executiva integrada de todos os transitórios e tabela comparativa | [`run_painel_consolidado.m`](simulacao_ele035/painel_sintese_consolidado/run_painel_consolidado.m) | [📖 README](simulacao_ele035/painel_sintese_consolidado/README.md)<br>[`consolidated_comparison.csv`](simulacao_ele035/painel_sintese_consolidado/results/consolidated_comparison.csv) |
-| **Relatório Técnico Final da Disciplina** | Documento acadêmico completo com deduções teóricas, gráficos e análises | [`RELATORIO_FINAL_SIMULACAO.md`](docs/RELATORIO_FINAL_SIMULACAO.md) | [📖 README docs](docs/README.md)<br>[📄 PDF Compilado](docs/RELATORIO_FINAL_SIMULACAO.pdf) |
+| Módulo | Descrição do Conteúdo | Arquivo Principal | Status / Formatos |
+|---|---|---|---|
+| **Painel de Síntese Multicenário** | Visão executiva integrada de todos os transitórios e tabela comparativa | [`run_painel_consolidado.m`](simulacao_ele035/painel_sintese_consolidado/run_painel_consolidado.m) | [📖 README](simulacao_ele035/painel_sintese_consolidado/README.md) · [`consolidated_comparison.csv`](simulacao_ele035/painel_sintese_consolidado/results/consolidated_comparison.csv) |
+| **Relatório Técnico Modular (LaTeX)** | Documento acadêmico modular com deduções, CircuitikZ, figuras e análises | [`docs/latex/main.tex`](docs/latex/main.tex) | Capítulos 1–2 finalizados (**v0.2**); Capítulos 3–4 e revisão final em `docs/latex/out/main.pdf` (compilação local via `latex-gate.py`) |
 
 ---
 
-## 💻 Guia Rápido de Uso no MATLAB GUI
+## ⚙️ Pré-requisitos, Instalação e Uso
 
-### 1. Inspecionar e Executar Scripts Analíticos e Simulações
-Todos os scripts em [`simulacao_ele035/`](simulacao_ele035/) são autônomos e estruturados em células de código (`%%`).
-1. Abra o MATLAB e utilize o *Current Folder* para navegar até a pasta desejada:
+### 1. Dependências do Ambiente
+- **MATLAB R2026b** com **Simulink** e **Simscape Electrical (Specialized Power Systems)**.
+- **Python 3** (biblioteca padrão; executa os hooks determinísticos de auditoria e sincronização).
+- **Distribuição TeX Live** com `latexmk`, `pdflatex`, `bibtex` e pacotes `babel` (`brazilian`), `newtxtext`, `newtxmath`, `siunitx`, `circuitikz`, `booktabs`, `cleveref`, `listings`, `steinmetz`.
+- *(Opcional)* **VS Code** com a extensão **LaTeX Workshop** (receitas pré-configuradas em [`.vscode/settings.json`](.vscode/settings.json)).
+
+### 2. Configuração Inicial (Após `git clone`)
+```bash
+# 1. Carregue as variáveis de ambiente para execução headless (MATLAB e Python hooks)
+source .agents/env.sh
+
+# 2. Instale o hook de pre-commit localmente (obrigatório para colaboradores)
+cp .agents/hooks/git-pre-commit.sh .git/hooks/pre-commit
+chmod +x .git/hooks/pre-commit
+
+# 3. Verifique a integridade inicial do plano, da memória e das ferramentas
+bash .agents/hooks/pre-task-audit.sh
+```
+
+### 3. Executar Scripts Analíticos e Simulações no MATLAB
+Todos os scripts em [`simulacao_ele035/`](simulacao_ele035/) são autônomos e estruturados em células (`%%`):
+1. **No MATLAB GUI:**
    ```matlab
    cd simulacao_ele035/parte1_regime_permanente/item_D_E_curvas_estator
+   run_item_E_torque   % ou use Ctrl+Enter por seção no MATLAB Editor
    ```
-2. Abra o script no MATLAB Editor (ex.: `run_item_E_torque.m`).
-3. Posicione o cursor em qualquer seção e pressione `Ctrl+Enter` para executar interativamente e inspecionar variáveis no *Workspace*, ou clique no botão **Run** (`F5`).
-4. As janelas gráficas exibem os gráficos com formatação tipográfica rigorosa em LaTeX, mantendo os arquivos `.fig` (para zoom interativo) e `.png` (para impressão) salvos na pasta `figures/`.
+2. **Abrir o modelo Simscape no Simulink GUI:**
+   ```matlab
+   cd simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape
+   abrir_modelo
+   ```
+3. **Execução em lote (headless CLI):**
+   ```bash
+   QT_QPA_PLATFORM=offscreen matlab -batch "cd('simulacao_ele035/parte2_simulacao_dinamica/item_C_partida_direta_vazio'); run_item_C_simulacao;"
+   ```
 
-### 2. Abrir o Modelo Simscape no Simulink
-Para inspecionar o diagrama de blocos, fontes trifásicas, configurações do solver e blocos de medição:
-```matlab
-cd simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape
-abrir_modelo
+### 4. Compilar o Relatório LaTeX
+Como `out/` é ignorado pelo Git, o PDF final é gerado localmente em `docs/latex/out/main.pdf`:
+```bash
+# Compilação automatizada com validação de erros, referências e citações
+python3 .agents/hooks/latex-lint.py
+python3 .agents/hooks/latex-gate.py
 ```
-O comando carrega todos os parâmetros físicos no Base Workspace e abre o arquivo [`mit_simscape_model.slx`](simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape/mit_simscape_model.slx) no Simulink GUI, pronto para simulação manual pelo botão "Play".
+Ou diretamente via `latexmk` dentro de `docs/latex/` (equivalente à receita do VS Code LaTeX Workshop):
+```bash
+cd docs/latex
+latexmk -synctex=1 -interaction=nonstopmode -file-line-error -pdf -pdflatex="pdflatex %O %S --shell-escape" -outdir=out -auxdir=out main.tex
+```
 
 ---
 
-## 🏛️ Estrutura Limpa do Repositório
+## 🏛️ Estrutura do Repositório
 
 ```text
 ufmg/lab-conv/proj/
@@ -111,35 +143,55 @@ ufmg/lab-conv/proj/
 │   │   ├── item_D_E_curvas_estator/          # [README] [run_item_E_*.m] [figures/] [data/]
 │   │   └── item_F_controle_escalar_vf/       # [README] [run_item_F_vf_family.m] [figures/]
 │   ├── parte2_simulacao_dinamica/
-│   │   ├── item_A_modelo_simscape/           # [README] [abrir_modelo.m] [mit_simscape_model.slx]
+│   │   ├── item_A_modelo_simscape/           # [README] [abrir_modelo.m] [run_sim_harness.m] [mit_simscape_model.slx]
 │   │   ├── item_B_calculo_partida/           # [README] [run_item_B_partida.m] [resultados_partida.json]
 │   │   ├── item_C_partida_direta_vazio/      # [README] [run_item_C_simulacao.m] [figures/]
 │   │   ├── item_D_degrau_carga_nominal/      # [README] [run_item_D_simulacao.m] [figures/]
 │   │   └── item_E_operacao_regenerativa/     # [README] [run_item_E_simulacao.m] [figures/]
 │   └── painel_sintese_consolidado/           # [README] [run_painel_consolidado.m] [figures/] [results/]
 ├── docs/
-│   ├── README.md                             # Índice da pasta de documentação
-│   ├── RELATORIO_FINAL_SIMULACAO.md          # Relatório acadêmico completo em Markdown
-│   └── RELATORIO_FINAL_SIMULACAO.pdf         # Relatório final compilado pronto para entrega
+│   ├── CONTRIBUTING.md                       # Guia de colaboração, padrões e fluxo de entrega
+│   └── latex/                                # Relatório acadêmico modular em LaTeX (Fase 5)
+│       ├── main.tex                          # Documento mestre
+│       ├── 00_config.tex                     # Pacotes, siunitx, cleveref, listings e macros
+│       ├── 02_referencias.bib                # Referências bibliográficas
+│       ├── pre_textuais/                     # Capa institucional (00_capa.tex)
+│       ├── cap1_introducao/                  # Capítulo 1 (Concluído — v0.2)
+│       ├── cap2_regime_permanente/           # Capítulo 2 (Concluído — v0.2)
+│       ├── cap3_simulacao_dinamica/          # Capítulo 3 (Pendente — Tarefa 5.3)
+│       ├── cap4_sintese_convergencia/        # Capítulo 4 (Pendente — Tarefa 5.3)
+│       ├── pos_textuais/ & anexos/           # Conclusão e códigos (Pendente — Tarefa 5.4)
+│       └── img/                              # Figuras 300 DPI integradas ao texto
 ├── utils/
 │   ├── data/                                 # Dados brutos de ensaio da bancada (CSVs de 01 a 07)
 │   ├── docs/                                 # sim_proj.pdf e relatório laboratorial de referência
-│   ├── memory/                               # Registros de decisões técnicas (ADRs) e digests
-│   └── plan/                                 # Cronograma de desenvolvimento e checklist
-├── .agents/                                  # Governança multiagente, hooks e recibos (.agents/gates/)
-├── .gitignore                                # Regras estritas de exclusão de artefatos temporários
-└── GEMINI.md                                 # Diretrizes globais de engenharia e modelagem
+│   ├── memory/                               # ADRs, lições aprendidas, episódios e digests SHA256
+│   └── plan/                                 # Cronograma, STATUS.md, CHANGELOG.md e specs 0.1–5.4
+├── .agents/                                  # Governança multiagente, hooks, skills e recibos (.agents/gates/)
+├── .vscode/settings.json                     # Configuração de compilação do LaTeX Workshop
+├── GEMINI.md                                 # Diretrizes globais de engenharia e modelagem
+└── .gitignore                                # Exclusão de build outputs (out/, *.mat, *.slxc)
 ```
 
 ---
 
-## 🛡️ Governança de Qualidade e Portões de Tolerância
+## 📣 Mudanças Recentes e Prontidão para Contribuições (v0.2)
 
-O repositório adota uma política de tolerância zero para desvios numéricos entre o modelo analítico e as simulações dinâmicas de regime permanente ($\text{erro} \le 2,0\%$). Todos os testes são auditados de forma determinística por hooks executáveis em Python:
+- **Consolidação do Workspace (`457260d`, `882e380`):** Os diretórios legados `matlab/` e `out/` foram consolidados em [`simulacao_ele035/`](simulacao_ele035/) e `.agents/gates/`, mantendo o harness [`run_sim_harness.m`](simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape/run_sim_harness.m) integrado junto ao modelo em `item_A_modelo_simscape/`.
+- **Migração para LaTeX Modular (`55a49b3` – `0a32b72`):** O antigo relatório monolítico `docs/RELATORIO_FINAL_SIMULACAO.{md,pdf}` foi substituído pela arquitetura modular em [`docs/latex/`](docs/latex/), com automação via `latex-lint.py`, `latex-gate.py` e hook `pre-commit` ([`.agents/hooks/git-pre-commit.sh`](.agents/hooks/git-pre-commit.sh)).
+- **Marco `v0.2` (Capítulos 1 e 2 aprovados):** Tarefas `5.1` e `5.2` concluídas com zero erros de compilação e auditoria editorial aprovada (`84,4%` do esforço total concluído; ver [`utils/plan/STATUS.md`](utils/plan/STATUS.md) e [`utils/plan/CHANGELOG.md`](utils/plan/CHANGELOG.md)).
+- **Próximas Contribuições:** As tarefas elegíveis em aberto são **5.3** (redação e conciliação dos Capítulos 3 e 4) e **5.4** (revisão editorial global, pós-textuais, apêndices e entrega do PDF final). Consulte [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md) antes de iniciar novos commits.
+
+---
+
+## 🛡️ Governança de Qualidade e Portões de Verificação
+
+O repositório adota tolerância máxima de $\le 2,0\%$ entre o modelo analítico e as simulações dinâmicas de regime permanente, além de verificação automática de sintaxe MATLAB e LaTeX:
 
 ```bash
-# Validação da integridade do plano e dos digests de memória
+# Validação da integridade do plano, próximos passos e memória
 python3 .agents/hooks/plan-sync.py check
+python3 .agents/hooks/plan-sync.py next
 python3 .agents/hooks/memory-check.py
 
 # Verificação estática de código MATLAB (vetorização e estilo)
@@ -151,9 +203,13 @@ python3 .agents/hooks/tolerance-gate.py --task 3.1   # Partida a vazio (Erro má
 python3 .agents/hooks/tolerance-gate.py --task 3.2   # Degrau de carga (Erro máx 0.96%)
 python3 .agents/hooks/tolerance-gate.py --task 3.3   # Operação regenerativa (Erro máx 0.054%)
 
-# Auditoria completa de entregáveis de dados, figuras e relatório
+# Auditoria completa de entregáveis (figuras, tabelas e base LaTeX)
 python3 .agents/hooks/deliverable-audit.py --task 4.1
 python3 .agents/hooks/deliverable-audit.py --task 4.2
+
+# Validação tipográfica e compilação headless do relatório LaTeX
+python3 .agents/hooks/latex-lint.py
+python3 .agents/hooks/latex-gate.py
 ```
 
 ---

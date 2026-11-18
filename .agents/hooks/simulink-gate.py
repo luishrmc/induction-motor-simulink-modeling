@@ -4,7 +4,7 @@
 Validates that:
   1. Simscape model compiles without solver singularities or algebraic loops.
   2. Simulation runs to completion for the requested time horizon.
-  3. Signal telemetry logs are populated in out/results/sim_transient.mat.
+  3. Signal telemetry logs are populated under simulacao_ele035/parte2_simulacao_dinamica/.
 """
 import os
 import sys

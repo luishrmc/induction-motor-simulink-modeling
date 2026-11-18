@@ -9,7 +9,7 @@ Compares simulated steady-state values with theoretical analytical predictions:
   - Reactive Electrical Power (Q)
 
 Exit code: 0 if all errors <= 2.0%, 1 otherwise.
-Records gate evidence in out/gates/<task-id>.json.
+Records gate evidence in .agents/gates/<task-id>.json.
 """
 import argparse
 import json

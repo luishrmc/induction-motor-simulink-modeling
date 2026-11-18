@@ -10,8 +10,8 @@ function results = run_item_D_simulacao()
 %   - Motor decelerates and converges to loaded steady state (~1700 rpm) by t = 8.0 s.
 %
 % Deliverables:
-%   - out/results/sim_transient_3.2.mat
-%   - out/results/comparison_3.2.json
+%   - comparison_3.2.json (local convergence report)
+%   - out/results/sim_transient_3.2.mat (local cache)
 %   - figures/item2d_step_load_speed.png (+ .fig)
 %   - figures/item2d_step_load_current.png (+ .fig)
 %   - figures/item2d_step_load_powers.png (+ .fig)
@@ -29,10 +29,11 @@ function results = run_item_D_simulacao()
     fprintf('====================================================================\n\n');
 
     %% 1. Initialize Paths & Output Directories
-    proj_root = fullfile(fileparts(mfilename('fullpath')), '..', '..', '..');
-    addpath(genpath(fullfile(proj_root, 'matlab')));
+    item_dir  = fileparts(mfilename('fullpath'));
+    proj_root = fullfile(item_dir, '..', '..', '..');
+    addpath(fullfile(item_dir, '..', 'item_A_modelo_simscape'));
 
-    fig_dir = fullfile(fileparts(mfilename('fullpath')), 'figures');
+    fig_dir = fullfile(item_dir, 'figures');
     res_dir = fullfile(proj_root, 'out', 'results');
     if ~exist(fig_dir, 'dir'), mkdir(fig_dir); end
     fig_vis = 'off';
@@ -161,7 +162,7 @@ function results = run_item_D_simulacao()
                    'P_elec_loaded_ana', 'Q_elec_loaded_ana', 'n_loaded_sim', ...
                    'T_em_loaded_sim', 'I_line_loaded_sim', 'P_loaded_sim', 'Q_loaded_sim');
 
-    json_path = fullfile(res_dir, 'comparison_3.2.json');
+    json_path = fullfile(item_dir, 'comparison_3.2.json');
     comp_data.analytical.n_nom_rpm  = n_loaded_ana;
     comp_data.analytical.T_em_nom   = T_em_loaded_ana;
     comp_data.analytical.I_line_nom = I_line_loaded_ana;

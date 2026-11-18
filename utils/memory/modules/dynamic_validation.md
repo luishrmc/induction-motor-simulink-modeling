@@ -49,8 +49,8 @@ Electromechanical and electrical transient validation of the Simscape SPS induct
 | | Active Power ($P$) | $-2219.34\,\mathrm{W}$ | $-2218.13\,\mathrm{W}$ | $0.055\%$ | PASS |
 | | Reactive Power ($Q$) | $+3119.08\,\mathrm{var}$ | $+3118.39\,\mathrm{var}$ | $0.022\%$ | PASS |
 
-## Generated Artifacts
-- **Task 3.1 Waveforms:** `transient_dol_speed.png`, `transient_dol_current.png`, `transient_dol_torque.png` (+ `.fig`).
-- **Task 3.2 Waveforms:** `step_load_speed.png`, `step_load_current.png`, `step_load_powers.png`, `step_load_torque.png` (+ `.fig`).
-- **Task 3.3 Waveforms:** `regenerative_speed.png`, `regenerative_powers.png`, `regenerative_torque.png` (+ `.fig`).
-- **Telemetry & Verification:** `sim_transient_3.1.mat`, `sim_transient_3.2.mat`, `sim_transient_3.3.mat`, `sim_transient_nominal_step.mat`, `sim_transient_regenerative.mat`, `comparison_3.1.json`, `comparison_3.2.json`, `comparison_3.3.json`, `out/gates/3.1.json`, `out/gates/3.2.json`, `out/gates/3.3.json`.
+## Generated Artifacts (`simulacao_ele035/parte2_simulacao_dinamica/` & `.agents/gates/`)
+- **Task 3.1 Waveforms:** `item2c_transient_dol_{speed,current,torque}.{png,fig}` and `analise_convergencia.json`.
+- **Task 3.2 Waveforms:** `item2d_step_load_{speed,current,powers,torque}.{png,fig}` and `comparison_3.2.json`.
+- **Task 3.3 Waveforms:** `item2e_regenerative_{speed,powers,torque}.{png,fig}` and `comparison_3.3.json`.
+- **Gate Receipts:** `.agents/gates/3.1.json`, `.agents/gates/3.2.json`, `.agents/gates/3.3.json`.

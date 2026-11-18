@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Merge a gate result into out/gates/<task>.json (evidence for plan-sync.py).
+"""Merge a gate result into .agents/gates/<task>.json (evidence for plan-sync.py).
 
 Usage: gate_record.py <task-id> <gate> <PASS|FAIL|SKIPPED> [--detail TEXT] [--src PATH ...]
 """

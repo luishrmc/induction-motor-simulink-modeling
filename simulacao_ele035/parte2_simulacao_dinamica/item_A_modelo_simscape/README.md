@@ -17,6 +17,12 @@ Para abrir o modelo diretamente na interface gráfica do Simulink com todos os p
    ```
 3. A janela do Simulink abrirá automaticamente exibindo o diagrama elétrico e mecânico completo.
 
+### Arquivos do Módulo
+- `abrir_modelo.m`: Inicializa o workspace via `setup_parametros_Y()` e abre `mit_simscape_model.slx` no Simulink GUI.
+- `setup_parametros_Y.m`: Define os parâmetros nominais e aplica a transformação Estrela-Triângulo ($R/3, L/3$).
+- `build_simscape_model.m`: Constrói programaticamente o diagrama `mit_simscape_model.slx`.
+- `run_sim_harness.m`: Harness de execução em lote utilizado pelos Itens 2.C, 2.D e 2.E (`dol_startup`, `nominal_step`, `regenerative`).
+
 ---
 
 ## O Invariante de Mapeamento Estrela-Triângulo (ADR-002)

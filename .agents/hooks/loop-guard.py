@@ -15,7 +15,7 @@ import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-STATE = ROOT / "out" / "loop_state.json"
+STATE = ROOT / ".agents" / "loop_state.json"
 EPISODES = ROOT / "utils" / "memory" / "episodes"
 LIMITS = json.loads((ROOT / ".agents" / "manifest.json").read_text())["limits"]
 

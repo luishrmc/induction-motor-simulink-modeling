@@ -4,8 +4,8 @@ function results = run_item_C_simulacao()
 % Direct-On-Line (DOL) No-Load Startup Transient Simulation & Inrush Validation.
 %
 % Generates:
-%   - out/results/sim_transient_3.1.mat
-%   - out/results/comparison_3.1.json
+%   - analise_convergencia.json (local convergence report)
+%   - out/results/sim_transient_dol_startup.mat (local cache)
 %   - figures/item2c_transient_dol_speed.png (.fig)
 %   - figures/item2c_transient_dol_current.png (.fig)
 %   - figures/item2c_transient_dol_torque.png (.fig)
@@ -22,10 +22,11 @@ function results = run_item_C_simulacao()
     fprintf('====================================================================\n\n');
 
     %% 1. Initialize Paths & Simulation Harness
-    proj_root = fullfile(fileparts(mfilename('fullpath')), '..', '..', '..');
-    addpath(genpath(fullfile(proj_root, 'matlab')));
+    item_dir  = fileparts(mfilename('fullpath'));
+    proj_root = fullfile(item_dir, '..', '..', '..');
+    addpath(fullfile(item_dir, '..', 'item_A_modelo_simscape'));
 
-    fig_dir = fullfile(fileparts(mfilename('fullpath')), 'figures');
+    fig_dir = fullfile(item_dir, 'figures');
     res_dir = fullfile(proj_root, 'out', 'results');
     if ~exist(fig_dir, 'dir'), mkdir(fig_dir); end
     fig_vis = 'off';
@@ -46,7 +47,7 @@ function results = run_item_C_simulacao()
     ib     = results.current_Ib;
     ic     = results.current_Ic;
 
-    params = setup_motor_params();
+    params = setup_parametros_Y();
 
     %% 3. Numerical Reconciliation & Analysis
     % Inrush metrics (Standstill s = 1.0)
@@ -83,6 +84,22 @@ function results = run_item_C_simulacao()
     fprintf('  Steady-State No-Load Current:                   %.2f A RMS (Ana: %.2f A RMS, Err: %.2f%%)\n', ...
         I_ss_sim, I_ss_ana, abs(I_ss_sim - I_ss_ana)/I_ss_ana*100);
     fprintf('--------------------------------------------------------------------\n\n');
+
+    % Export analise_convergencia.json for tolerance-gate.py and simulink-gate.py
+    comp_data.analytical.n_noload_rpm  = n_ss_ana;
+    comp_data.analytical.I_line_noload = I_ss_ana;
+    comp_data.analytical.T_em_noload   = T_ss_ana;
+    comp_data.simulated.n_noload_rpm   = n_ss_sim;
+    comp_data.simulated.I_line_noload  = I_ss_sim;
+    comp_data.simulated.T_em_noload    = T_ss_sim;
+
+    json_path = fullfile(item_dir, 'analise_convergencia.json');
+    fid = fopen(json_path, 'w');
+    if fid ~= -1
+        fwrite(fid, jsonencode(comp_data), 'char');
+        fclose(fid);
+        fprintf('[OK] Exported verification JSON to %s\n', json_path);
+    end
 
     %% 4. Configure Figure Production Standards
     set(groot, 'defaultAxesFontSize', 11);

@@ -10,8 +10,8 @@ function metrics = run_item_ABC()
 %
 % Outputs:
 %   metrics - struct containing all electrical and electromechanical variables
-%   Saves results to out/results/nominal_metrics.mat, nominal_metrics.csv,
-%   and comparison_1.1.json for automated tolerance gate verification.
+%   Saves results to nominal_metrics.mat, nominal_metrics.csv,
+%   and comparison_1.1.json in the module directory for automated verification.
 
     fprintf('====================================================================\n');
     fprintf('  UFMG ELE035 - INDUCTION MOTOR STEADY-STATE ANALYTICAL ENGINE     \n');

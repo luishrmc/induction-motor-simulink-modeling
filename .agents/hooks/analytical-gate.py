@@ -4,7 +4,7 @@
 Validates that:
   1. Vectorized analytical script runs without error.
   2. Nominal metrics are generated and physically consistent.
-  3. Steady-state arrays are exported to out/results/analytical_baseline.mat.
+  3. Steady-state artifacts are exported under simulacao_ele035/parte1_regime_permanente/.
 """
 import os
 import sys

@@ -12,7 +12,7 @@ Rules enforced:
   * legal transitions only
   * "Em andamento" needs every dependency Concluída (override: Notas contains "waiver:")
   * "Concluída" needs evidence:
-      gate:<task>  -> out/gates/<task>.json with every required gate PASS
+      gate:<task>  -> .agents/gates/<task>.json with every required gate PASS
       file:<path>  -> existing file; allowed only when phase/task has no required gates
   * IDs unique, dependencies exist, no dependency cycles
 Exit codes: 0 ok, 1 validation error.

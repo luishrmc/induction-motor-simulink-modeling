@@ -3,7 +3,7 @@ function model_name = build_simscape_model()
 % Programmatically constructs, configures, and saves the Simscape Specialized
 % Power Systems induction machine model for the WEG 3.7 kW (5 cv) motor.
 %
-% Generates: matlab/simulink/mit_simscape_model.slx
+% Generates: mit_simscape_model.slx (in current module directory)
 %
 % Architecture:
 %   - 3-Phase AC Voltage Source (220 V RMS L-L, 60 Hz)
@@ -28,7 +28,8 @@ function model_name = build_simscape_model()
     model_path = fullfile(script_dir, [model_name, '.slx']);
 
     %% 1. Initialize Machine & Simulation Parameters in Base Workspace
-    setup_motor_params();
+    addpath(script_dir);
+    setup_parametros_Y();
 
     %% 2. Load Required Libraries
     fprintf('[INFO] Loading Simscape Electrical and Simulink libraries...\n');

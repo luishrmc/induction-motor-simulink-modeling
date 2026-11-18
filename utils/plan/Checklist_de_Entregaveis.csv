@@ -6,5 +6,5 @@ Script de Simulação e Setup,Harness de inicialização e execução automatiza
 Transitório de Partida Direta,Gráfico de corrente de partida e comparação com valor calculado em s=1,.png / .fig,Conforme,Pico e corrente de regime a vazio validados na Fase 3
 Transitório com Degrau de Carga,Gráficos de velocidade corrente potência ativa e reativa para TL=Tnom,.png / .fig,Conforme,Convergência e auditoria de erro <= 0.96% validadas na Fase 3
 Operação Regenerativa,Gráficos de transitório e fluxo de potência para torque negativo TL=-Tnom,.png / .fig,Conforme,Análise do quadrante de gerador de indução validada na Fase 3
-Relatório Técnico Final,Documento completo com equacionamento tabelas prints e discussões,.pdf / .md,Conforme,Consolidação e redação concluídas com PDF de 4.4 MB em docs/
+Relatório Técnico Final,Documento completo com equacionamento tabelas prints e discussões,.tex / .pdf,Em andamento,Migração modular para docs/latex/ concluída; Capítulos 1-2 aprovados (v0.2); Capítulos 3-4 e compilação final pendentes (Tarefas 5.3-5.4)
 Repositório e Ambiente,Estrutura .agents GEMINI.md e esteira de verificação automatizada,.agents,Conforme,Scaffolding e infraestrutura concluídos na Fase 0
