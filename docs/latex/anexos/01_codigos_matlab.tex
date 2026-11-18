@@ -1,96 +1,132 @@
 \chapter{Códigos Computacionais em MATLAB}\label{anexo:codigos_matlab}
 
-A reprodutibilidade integral dos cálculos numéricos de regime permanente e das rotinas de parametrização do ambiente Simscape SPS fundamenta-se na estruturação modular e vetorizada dos códigos-fonte desenvolvidos em MATLAB. A documentação das rotinas evidencia o emprego de técnicas computacionais eficientes que previnem descontinuidades numéricas e automatizam a geração dos resultados analíticos e gráficos requeridos.
+A reprodutibilidade integral dos cálculos numéricos de regime permanente e das rotinas de parametrização e simulação dinâmica no ambiente Simscape SPS fundamenta-se na estruturação modular e vetorizada dos códigos-fonte em MATLAB. Todas as rotinas consomem a fonte única canônica de parâmetros (\texttt{parametros\_motor.m}), eliminando duplicação de constantes entre os módulos analíticos e dinâmicos.
 
-% =========================================================================
-% [DIRETRIZ DE REDAÇÃO]
-% - Objetivo: Apresentar a documentação completa dos scripts computacionais desenvolvidos
-%   em MATLAB para o cumprimento de sim_proj.pdf ("linhas de código").
-% - Formulação: Disponibilizar as rotinas analíticas vetorizadas, o gerador da família V/f
-%   e o script de setup de parâmetros e execução automatizada do Simscape SPS.
-% - Figuras/Tabelas: Formatar as listagens de código através do ambiente lstlisting (style=matlabstyle).
-% - Confronto: Garantir a reprodutibilidade dos resultados analíticos e das figuras do relatório.
-% =========================================================================
+\section{Fonte Canônica de Parâmetros e Resolução Analítica Vetorizada}\label{sec:codigo_analitico}
 
-\section{Rotina de Resolução Analítica Vetorizada e Varreduras Nominais}\label{sec:codigo_analitico}
+O \Cref{lst:parametros_motor} apresenta a função centralizada de parâmetros nominais, circuito equivalente em Triângulo ($\Delta$), transformação Estrela-Triângulo ($\text{Y}$) e constantes mecânicas consolidadas ($B = \SI{0,003651}{\Nm\cdot\second/\radian}$ e $J = \SI{0,0555}{\kilogram\meter\squared}$). Na sequência, o \Cref{lst:run_item_ABC} documenta a rotina vetorizada responsável pelo cálculo do ponto nominal e pelas varreduras de regime permanente.
 
-A \Cref{lst:run_item_ABC} apresenta o código-fonte em MATLAB responsável pelo cálculo analítico do ponto nominal e pela geração vetorizada das curvas características de regime permanente.
+\begin{lstlisting}[style=matlabstyle, caption={Funcao canonica centralizada de parametros eletricos e mecanicos (\texttt{parametros\_motor.m}).}, label={lst:parametros_motor}]
+function p = parametros_motor()
+    % Dados de placa (WEG 3~ 100L, 3.7 kW / 5 cv, 220 V Delta, 4 polos, 60 Hz)
+    p.V_LL_nom  = 220.0;          % Tensao de linha nominal [V RMS]
+    p.f_nom     = 60.0;           % Frequencia nominal [Hz]
+    p.poles     = 4;              % Numero de polos [-]
+    p.p_pairs   = p.poles / 2;    % Pares de polos [-]
+    p.P_nom_W   = 3700.0;         % Potencia nominal de eixo [W]
+    p.I_nom_A   = 14.0;           % Corrente nominal de linha [A RMS]
+    p.n_nom     = 1715.0;         % Velocidade nominal [rpm]
+    p.pf_plate  = 0.81;           % Fator de potencia de placa [-]
+    p.eta_plate = 0.855;          % Rendimento de placa [-]
 
-\begin{lstlisting}[style=matlabstyle, caption={Rotina principal de calculo analitico e varredura de regime permanente.}, label={lst:run_item_ABC}]
-%% ELE035 - TRABALHO FINAL: PARTE 1 (ITENS A, B, C, D, E)
-% Resolucao Analitica Vetorizada do Circuito Equivalente IEEE
-clear; clc; close all;
+    % Grandezas sincronas e escorregamento nominal
+    p.omega_e   = 2 * pi * p.f_nom;
+    p.omega_s   = p.omega_e / p.p_pairs;
+    p.n_s       = (120 * p.f_nom) / p.poles;
+    p.s_nom     = (p.n_s - p.n_nom) / p.n_s;
+    p.omega_nom = (1 - p.s_nom) * p.omega_s;
+    p.T_nom_ref = p.P_nom_W / p.omega_nom;
 
-% Parametros nominais da maquina (WEG 3.7 kW, carcaca 100L)
-P_nom = 3700;           % Potencia nominal [W]
-V_LL = 220;             % Tensao de linha [V RMS]
-V_ph = V_LL;            % Conexao Triangulo (Delta)
-f_nom = 60;             % Frequencia [Hz]
-p = 4;                  % Polos
-n_nom = 1715;           % Rotacao nominal [rpm]
-n_s = 120 * f_nom / p;  % Rotacao sincrona [rpm]
-ws = 2 * pi * f_nom / (p/2); % Velocidade sincrona [rad/s]
+    % Parametros por fase em Triangulo (05_Resumo_Circuito.csv)
+    p.R1 = 1.189;                 % Resistencia estatorica [Ohm]
+    p.R2 = 1.180;                 % Resistencia rotorica referida [Ohm]
+    p.L1 = 5.725e-3;              % Indutancia dispersao estator [H]
+    p.L2 = 8.420e-3;              % Indutancia dispersao rotor [H]
+    p.Lm = 131.571e-3;            % Indutancia magnetizacao [H]
+    p.X1 = p.omega_e * p.L1;
+    p.X2 = p.omega_e * p.L2;
+    p.Xm = p.omega_e * p.Lm;
 
-% Parametros concentrados por fase em Triangulo
-R1 = 1.189;             % Resistencia estatorica [ohm]
-R2_prm = 1.180;         % Resistencia rotorica refletida [ohm]
-X1 = 2.158;             % Reatancia dispersao estator [ohm]
-X2_prm = 3.174;         % Reatancia dispersao rotor [ohm]
-Xm = 49.601;            % Reatancia magnetizante [ohm]
-B = 0.0426;             % Atrito viscoso da bancada [N*m*s/rad]
-J = 0.701;              % Inercia total da bancada [kg*m^2]
+    % Transformacao Estrela-Triangulo (Z_Y = Z_Delta / 3) para Simscape SPS
+    p.R1_Y = p.R1 / 3;  p.R2_Y = p.R2 / 3;
+    p.L1_Y = p.L1 / 3;  p.L2_Y = p.L2 / 3;  p.Lm_Y = p.Lm / 3;
+    p.X1_Y = p.X1 / 3;  p.X2_Y = p.X2 / 3;  p.Xm_Y = p.Xm / 3;
 
-% Item 1.B: Conjugado nominal util de placa
-w_nom = n_nom * 2 * pi / 60;
-Tn = P_nom / w_nom;     % Tn = 20.6020 N*m
-
-% Item 1.D: Varredura puramente vetorizada de 0 a n_s
-s = linspace(1e-4, 1.0, 2000);
-n_vec = (1 - s) * n_s;
-wm_vec = n_vec * 2 * pi / 60;
-
-Z2_prm = R2_prm ./ s + 1j * X2_prm;
-Zp = (1j * Xm .* Z2_prm) ./ (Z2_prm + 1j * Xm);
-Zin = R1 + 1j * X1 + Zp;
-
-I1_ph = V_ph ./ Zin;
-I_line = sqrt(3) * abs(I1_ph);
-I2_prm = I1_ph .* (1j * Xm ./ (Z2_prm + 1j * Xm));
-
-Pag = 3 * (abs(I2_prm).^2) .* (R2_prm ./ s);
-Pem = Pag .* (1 - s);
-Tem = Pag / ws;
-
-% Potencia ativa e fator de potencia
-P_in = 3 * real(V_ph .* conj(I1_ph));
-fp = cos(angle(Zin));
-eta_em = Pem ./ P_in;
+    % Constantes mecanicas consolidadas (04_Mecanicos.csv)
+    p.B = 0.003651;               % Atrito viscoso equivalente [N.m.s/rad]
+    p.J = 0.0555;                 % Momento de inercia equivalente [kg.m^2]
+end
 \end{lstlisting}
 
-\section{Rotina de Simulação Dinâmica e Parametrização Simscape SPS}\label{sec:codigo_simulink_setup}
+\begin{lstlisting}[style=matlabstyle, caption={Rotina vetorizada de resolucao analitica e varredura de regime permanente (\texttt{run\_item\_ABC.m}).}, label={lst:run_item_ABC}]
+%% ELE035 - PARTE 1: RESOLUCAO ANALITICA E VARREDURA VETORIZADA
+p = parametros_motor();
 
-A \Cref{lst:setup_simulink} documenta o script de configuração de parâmetros do bloco \textit{Asynchronous Machine} com transformação de impedâncias Estrela-Triângulo.
+% Malha de escorregamento vetorizada (evita divisao por zero em s = 0)
+N_pts = 1000;
+n_vec = linspace(0, p.n_s - 1e-4, N_pts);
+s_vec = (p.n_s - n_vec) ./ p.n_s;
+wm_vec = n_vec .* (2 * pi / 60);
 
-\begin{lstlisting}[style=matlabstyle, caption={Script de parametrizacao e mapeamento Star-Delta para o Simscape SPS.}, label={lst:setup_simulink}]
-%% ELE035 - TRABALHO FINAL: PARTE 2 (ITEM 2.A)
-% Parametrizacao do Bloco Asynchronous Machine SI Units (Simscape SPS)
-clear; clc;
+% Impedancias complexas elemento a elemento (Delta, V_ph = V_LL)
+V_phase = p.V_LL_nom;
+Z1 = p.R1 + 1j * p.X1;
+Zm = 1j * p.Xm;
+Z2_vec = (p.R2 ./ s_vec) + 1j * p.X2;
+Zp_vec = (Zm .* Z2_vec) ./ (Zm + Z2_vec);
+Zin_vec = Z1 + Zp_vec;
 
-% Dados nominais
-Vn = 220;               % Tensao nominal de linha [V RMS]
-Pn = 3700;              % Potencia nominal [VA equivalente]
-fn = 60;                % Frequencia nominal [Hz]
-p_pairs = 2;            % Pares de polos
+% Correntes estatoricas e rotoricas
+I1_ph_vec   = V_phase ./ Zin_vec;
+I1_line_vec = sqrt(3) .* abs(I1_ph_vec);
+E1_vec      = V_phase - I1_ph_vec .* Z1;
+I2_vec      = E1_vec ./ Z2_vec;
 
-% Transformacao de Impedancias Triangulo -> Estrela interna do bloco
-R1_Y = 1.189 / 3;       % 0.39633 ohm
-R2_Y = 1.180 / 3;       % 0.39333 ohm
-Ll1_Y = 5.725e-3 / 3;   % 1.90833 mH
-Ll2_Y = 8.420e-3 / 3;   % 2.80667 mH
-Lm_Y = 131.571e-3 / 3;  % 43.8570 mH
+% Balanco de potencias, conjugados e rendimentos
+P_ag_vec    = 3 .* (abs(I2_vec).^2) .* (p.R2 ./ s_vec);
+P_em_vec    = (1 - s_vec) .* P_ag_vec;
+P_elec_vec  = 3 .* real(V_phase .* conj(I1_ph_vec));
+Q_elec_vec  = 3 .* imag(V_phase .* conj(I1_ph_vec));
+cos_phi_vec = P_elec_vec ./ (3 .* V_phase .* abs(I1_ph_vec));
 
-% Parametros Mecanicos Invariantes
-J_eq = 0.701;           % Momento de inercia acoplado [kg*m^2]
-B_eq = 0.0426;          % Atrito viscoso [N*m*s/rad]
-T_load_nominal = 20.602;% Degrau de carga nominal [N*m]
+P_rot_vec   = p.B .* (wm_vec.^2);
+P_shaft_vec = P_em_vec - P_rot_vec;
+T_em_vec    = P_ag_vec ./ p.omega_s;
+T_shaft_vec = T_em_vec - p.B .* wm_vec;
+
+eta_em_vec    = max(P_em_vec, 0) ./ P_elec_vec;
+eta_shaft_vec = max(P_shaft_vec, 0) ./ P_elec_vec;
+\end{lstlisting}
+
+\section{Rotina de Parametrização e Execução Dinâmica no Simscape SPS}\label{sec:codigo_simulink_setup}
+
+O \Cref{lst:setup_simulink} documenta a rotina de configuração dos parâmetros transformados Estrela-Triângulo e dos temporizadores de simulação utilizados pelo modelo dinâmico no Simscape SPS (\texttt{setup\_parametros\_Y.m} e despacho via \texttt{run\_sim\_harness.m}).
+
+\begin{lstlisting}[style=matlabstyle, caption={Script de parametrizacao Y-Delta e temporizacao de cenarios Simscape (\texttt{setup\_parametros\_Y.m}).}, label={lst:setup_simulink}]
+function params = setup_parametros_Y()
+    p = parametros_motor();
+
+    % Parametros nominais e mapeamento Star-Delta (Z_Y = Z_Delta / 3)
+    params.V_LL_nom  = p.V_LL_nom;     % 220.0 V RMS (linha-linha)
+    params.f_nom     = p.f_nom;        % 60.0 Hz
+    params.P_nom_W   = p.P_nom_W;      % 3700.0 W
+    params.p_pairs   = p.p_pairs;      % 2 pares de polos
+    params.omega_s   = p.omega_s;      % 188.4956 rad/s
+    params.T_nom_ref = p.T_nom_ref;    % 20.6020 N.m
+
+    params.R1_Y = p.R1_Y;              % 0.396333 Ohm
+    params.R2_Y = p.R2_Y;              % 0.393333 Ohm
+    params.L1_Y = p.L1_Y;              % 1.908333 mH
+    params.L2_Y = p.L2_Y;              % 2.806667 mH
+    params.Lm_Y = p.Lm_Y;              % 43.857000 mH
+    params.X1_Y = p.X1_Y;              % 0.719444 Ohm
+    params.X2_Y = p.X2_Y;              % 1.058267 Ohm
+    params.Xm_Y = p.Xm_Y;              % 16.533667 Ohm
+
+    % Constantes mecanicas invariantes (04_Mecanicos.csv)
+    params.J = p.J;                    % 0.0555 kg.m^2
+    params.B = p.B;                    % 0.003651 N.m.s/rad
+
+    % Temporizacao e passo discreto (FixedStepDiscrete / Backward Euler)
+    params.t_stop      = 3.0;          % Horizonte de simulacao [s]
+    params.t_step_load = 1.5;          % Instante do degrau de carga [s]
+    params.T_load_step = p.T_nom_ref;  % Amplitude do degrau [N.m]
+    params.T_sample    = 50e-6;        % Passo amostral [s] (20 kHz)
+
+    % Exportacao ao workspace base para ligacao com blocos Simscape
+    fields = fieldnames(params);
+    for k = 1:length(fields)
+        assignin('base', fields{k}, params.(fields{k}));
+    end
+end
 \end{lstlisting}

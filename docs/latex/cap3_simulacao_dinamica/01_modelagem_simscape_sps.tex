@@ -1,33 +1,64 @@
 \section{Arquitetura e Parametrização do Modelo Simscape Specialized Power Systems}\label{sec:modelo_simscape}
 
-A investigação dos transitórios eletromecânicos no domínio do tempo exige modelos matemáticos não lineares formulados no referencial ortogonal $dq0$, capazes de capturar a dinâmica de acoplamento dos fluxos magnéticos e as oscilações de conjugado sob perturbações na rede ou no eixo. A correta parametrização do bloco \textit{Asynchronous Machine SI Units} no ambiente Simscape SPS depende da aplicação rigorosa do invariante de transformação de impedâncias Estrela-Triângulo para preservar a fidelidade física das grandezas terminais.
-
-% =========================================================================
-% [DIRETRIZ DE REDAÇÃO]
-% - Objetivo: Atender ao Item 2.A de sim_proj.pdf. Apresentar o modelo dinâmico implementado
-%   no Simscape Specialized Power Systems (SPS) utilizando o bloco Asynchronous Machine SI Units.
-% - Formulação: Apresentar a dedução formal do invariante de mapeamento Estrela-Triângulo (ADR-002):
-%   R_{1,Y} = R_1 / 3, R_{2,Y}' = R_2' / 3, L_{l1,Y} = L_{l1} / 3, L_{l2,Y}' = L_{l2}' / 3, L_{m,Y} = L_m / 3.
-% - Figuras/Tabelas: Inserir a tabela de parâmetros mapeados e o diagrama esquemático do modelo.
-% - Confronto: Justificar a configuração do solver ode23tb (TR-BDF2, L-estável) para assegurar
-%   estabilidade numérica sob correntes de inrush e degraus abruptos de conjugado mecânico.
-% =========================================================================
+A investigação dos transitórios eletromecânicos no domínio do tempo exige modelos matemáticos não lineares formulados no referencial ortogonal $dq0$, capazes de capturar a dinâmica de acoplamento dos fluxos magnéticos e as oscilações de conjugado sob perturbações na rede ou no eixo. A correta parametrização do bloco \textit{Asynchronous Machine SI Units} no ambiente Simscape Specialized Power Systems (SPS) depende da aplicação rigorosa do invariante de transformação de impedâncias Estrela-Triângulo para preservar a fidelidade física das grandezas terminais.
 
 \subsection{O Invariante de Mapeamento Estrela-Triângulo ($\text{Y}-\Delta$)}\label{subsec:mapeamento_ydelta}
 
-O bloco \textit{Asynchronous Machine SI Units} do Simscape adota internamente a representação por enrolamentos em Estrela ($\text{Y}$) não aterrada, recebendo como entrada a tensão eficaz entre linhas da rede ($V_L = \SI{220}{\volt}$). Para modelar com exatidão a máquina ensaiada conectada fisicamente em Triângulo ($\Delta$) sem alterar as tensões nodais dos barramentos trifásicos, aplica-se a transformação de impedâncias:
+O bloco \textit{Asynchronous Machine SI Units} do Simscape adota internamente a representação por enrolamentos em Estrela ($\text{Y}$) não aterrada, recebendo como entrada a tensão eficaz entre linhas da rede ($V_L = \SI{220}{\volt}$). Para modelar com exatidão a máquina ensaiada conectada fisicamente em Triângulo ($\Delta$) sem alterar as tensões nodais dos barramentos trifásicos, aplica-se a transformação de impedâncias $\Delta \to \text{Y}$ ($Z_Y = Z_\Delta / 3$):
 \begin{equation}
-R_{1,Y} = \frac{R_{1,\Delta}}{3} = \frac{\SI{1,189}{\ohm}}{3} = \SI{0,39633}{\ohm}, \qquad R_{2,Y}' = \frac{R_{2,\Delta}'}{3} = \frac{\SI{1,180}{\ohm}}{3} = \SI{0,39333}{\ohm},
+R_{1,Y} = \frac{R_{1,\Delta}}{3} = \frac{\SI{1,189}{\ohm}}{3} = \SI{0,3963}{\ohm}, \qquad R_{2,Y}' = \frac{R_{2,\Delta}'}{3} = \frac{\SI{1,180}{\ohm}}{3} = \SI{0,3933}{\ohm},
 \label{eq:resistencias_estrela}
 \end{equation}
 \begin{align}
-L_{l1,Y} &= \frac{L_{l1,\Delta}}{3} = \SI{1,90833}{\milli\henry}, \qquad L_{l2,Y}' = \frac{L_{l2,\Delta}'}{3} = \SI{2,80667}{\milli\henry}, \nonumber \\
-L_{m,Y} &= \frac{L_{m,\Delta}}{3} = \SI{43,85700}{\milli\henry}.
+L_{l1,Y} &= \frac{L_{l1,\Delta}}{3} = \SI{1,9083}{\milli\henry}, \qquad L_{l2,Y}' = \frac{L_{l2,\Delta}'}{3} = \SI{2,8067}{\milli\henry}, \nonumber \\
+L_{m,Y} &= \frac{L_{m,\Delta}}{3} = \SI{43,8570}{\milli\henry}.
 \label{eq:indutancias_estrela}
 \end{align}
+Os parâmetros mecânicos do rotor ($J = \SI{0,0555}{\kilogram\meter\squared}$, $B = \SI{0,003651}{\Nm\cdot\second/\radian}$ e $p_{\text{pares}} = 2$) permanecem invariantes sob a transformação elétrica. Essa equivalência assegura que a impedância equivalente vista pelos terminais de alimentação, as correntes de linha, o fluxo de potência ativa e reativa e o conjugado eletromagnético no Simscape coincidam rigorosamente com a máquina física em Triângulo. A \Cref{tab:parametros_simscape} sintetiza os parâmetros elétricos e mecânicos mapeados no modelo dinâmico.
 
-Os parâmetros mecânicos acoplados ($J = \SI{0,701}{\kilogram\meter\squared}$, $B = \SI{0,0426}{\Nm\cdot\second/\radian}$ e $p_{\text{pares}} = 2$) permanecem invariantes. A equivalência física garante que as correntes de linha, o fluxo de potência ativa e reativa e o conjugado eletromagnético gerados no Simscape coincidam rigorosamente com a operação em Triângulo.
+\begin{table}[H]
+\centering
+\small
+\caption{Parâmetros elétricos mapeados ($\Delta \to \text{Y}$) e constantes mecânicas no modelo Simscape SPS.}
+\label{tab:parametros_simscape}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Parâmetro} & \textbf{Símbolo} & \textbf{Base $\Delta$ (Ensaio)} & \textbf{Base $\text{Y}$ (Simscape)} & \textbf{Unidade} \\
+\midrule
+Resistência Estatórica & $R_1$ & $1{,}1890$ & $0{,}3963$ & \si{\ohm} \\
+Resistência Rotórica Refletida & $R_2'$ & $1{,}1800$ & $0{,}3933$ & \si{\ohm} \\
+Reatância de Dispersão do Estator & $X_1$ & $2{,}1583$ & $0{,}7194$ & \si{\ohm} \\
+Reatância de Dispersão do Rotor & $X_2'$ & $3{,}1743$ & $1{,}0583$ & \si{\ohm} \\
+Reatância de Magnetização Mútua & $X_m$ & $49{,}6011$ & $16{,}5337$ & \si{\ohm} \\
+Indutância de Dispersão do Estator & $L_{l1}$ & $5{,}7250$ & $1{,}9083$ & \si{\milli\henry} \\
+Indutância de Dispersão do Rotor & $L_{l2}'$ & $8{,}4200$ & $2{,}8067$ & \si{\milli\henry} \\
+Indutância de Magnetização Mútua & $L_m$ & $131{,}5710$ & $43{,}8570$ & \si{\milli\henry} \\
+Momento de Inércia Equivalente & $J$ & $0{,}0555$ & $0{,}0555$ & \si{\kilogram\meter\squared} \\
+Atrito Viscoso Equivalente & $B$ & $0{,}003651$ & $0{,}003651$ & \si{\Nm\cdot\second/\radian} \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\subsection{Topologia Esquemática e Instrumentação Virtual}\label{subsec:topologia_simscape}
+
+A \Cref{fig:diagrama_simscape} apresenta o diagrama esquemático completo implementado no ambiente Simscape Specialized Power Systems. A alimentação elétrica provém de uma fonte trifásica senoidal equilibrada de \SI{220}{\volt} RMS entre linhas a \SI{60}{\hertz} (\textit{Three\_Phase\_Source}) com referência elétrica aterrada (\textit{Elec\_Ref}), conectada por meio de um divisor de fases (\textit{Phase\_Splitter}) aos terminais estatóricos A, B e C da máquina assíncrona em gaiola de esquilo no referencial do rotor (\textit{Asynchronous\_Machine}).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth]{mit_simscape_diagram.png}
+\caption{Diagrama esquemático do modelo dinâmico do motor de indução trifásico no ambiente Simscape Specialized Power Systems.}
+\label{fig:diagrama_simscape}
+\end{figure}
+
+O conjugado mecânico resistente $T_L(t)$ é aplicado diretamente à porta mecânica $T_m$ através de um bloco de degrau programável (\textit{Load\_Torque\_Step}), permitindo alternar entre partida a vazio ($T_L = 0$), degrau de carga nominal ($T_L = +\SI{20,602}{\Nm}$) e frenagem regenerativa ($T_L = -\SI{20,602}{\Nm}$). No barramento de medição $m$, o seletor de sinais (\textit{Bus\_Selector\_m}) extrai a velocidade angular $\omega_m$ (convertida para rotações por minuto mediante ganho $30/\pi$), o conjugado eletromagnético desenvolvido $T_e$ e as três correntes instantâneas de estator ($i_{as}$, $i_{bs}$, $i_{cs}$), enviando os registros ao espaço de trabalho e aos osciloscópios virtuais. As potências trifásicas ativa ($P$) e reativa ($Q$) são computadas pelo pós-processamento instantâneo via transformada ortogonal de Clarke ($\alpha\beta$):
+\begin{equation}
+p(t) = v_\alpha i_\alpha + v_\beta i_\beta, \qquad q(t) = v_\beta i_\alpha - v_\alpha i_\beta,
+\label{eq:potencia_clarke_simscape}
+\end{equation}
+assegurando rastreamento instantâneo dos transitórios de potência sem defasagem de filtragem.
 
 \subsection{Configuração do Solver Numérico L-Estável}\label{subsec:config_solver}
 
-Devido à elevada rigidez numérica (\textit{stiffness}) decorrente das constantes de tempo elétricas subtransitórias frente às constantes de tempo mecânicas da inércia pesada, adotou-se o solver numérico L-estável \texttt{ode23tb} (combinação trapezoidal e diferenciação retroativa TR-BDF2) com tolerância relativa de $10^{-4}$ e passo máximo de amostragem de $\SI{1e-4}{\second}$.
+Devido à elevada rigidez numérica (\textit{stiffness}) decorrente das constantes de tempo elétricas subtransitórias frente à dinâmica mecânica do rotor ($J = \SI{0,0555}{\kilogram\meter\squared}$), o modelo foi configurado em passo fixo discreto (\texttt{FixedStepDiscrete}) associado ao solucionador físico local implícito L-estável de Euler Retroativo (\textit{Backward Euler}, \texttt{NE\_BACKWARD\_EULER\_ADVANCER}) com passo amostral $T_s = \SI{50}{\micro\second}$ (frequência de amostragem de \SI{20}{\kilo\hertz}). Esse esquema implícito garante amortecimento numérico incondicional de modos espúrios de alta frequência, preservando estabilidade rigorosa tanto nas cristas assimétricas de \textit{inrush} quanto nas descontinuidades dos degraus de conjugado mecânico.

@@ -1,46 +1,65 @@
 \section{Tabela Multiregime de Validação e Auditoria de Tolerância}\label{sec:auditoria_tolerancia}
 
-A validação conclusiva da fidelidade do modelo Simscape Specialized Power Systems e do equacionamento analítico do circuito IEEE exige a confrontação quantitativa das variáveis de regime permanente com os dados de catálogo e os ensaios de laboratório. A consolidação dos resultados em uma matriz multiregime permite auditar formalmente o cumprimento do critério de convergência com erro relativo estritamente contido no limite de tolerância de \SI{2,0}{\percent}.
+A validação conclusiva da fidelidade do modelo Simscape Specialized Power Systems e do equacionamento analítico do circuito equivalente em T exige uma arquitetura de verificação em dois níveis independentes: a auditoria de convergência numérica entre a simulação temporal e a formulação analítica (Nível 1) e a validação física independente contra os registros experimentais de bancada e os dados nominais de catálogo (Nível 2).
 
-% =========================================================================
-% [DIRETRIZ DE REDAÇÃO]
-% - Objetivo: Consolidar a matriz comparativa multiregime e auditar o cumprimento estrito
-%   da tolerância de erro percentual de <= 2,0% entre a solução analítica e a simulação Simscape.
-% - Formulação: Apresentar a métrica de erro relativo: Erro = (X_{sim} - X_{an}) / X_{an} * 100%.
-% - Figuras/Tabelas: Tabela comparativa detalhada (booktabs) confrontando Placa, Ensaio,
-%   Analítico e Simulação Simscape SPS para velocidade, escorregamento, corrente, torque e potências.
-% - Confronto: Justificar fisicamente o balanço de potência e o impacto do atrito viscoso
-%   da bancada acoplada (B*\omega_m^2 = 1373,9 W), atestando a aprovação em todos os critérios.
-% =========================================================================
+\subsection{Critérios de Validação em Dois Níveis e Matriz Multiregime}\label{subsec:matriz_validacao}
 
-A métrica de erro relativo percentual adotada para a verificação de conformidade expressa-se por:
+No Nível 1 (\textit{Tier 1}), avalia-se o erro relativo percentual entre o estado estacionário extraído da simulação dinâmica no Simscape SPS ($X_{\text{sim}}$) e a solução exata do circuito equivalente analítico ($X_{\text{an}}$):
 \begin{equation}
-\varepsilon_{\text{rel}} = \frac{X_{\text{sim}} - X_{\text{analítico}}}{X_{\text{analítico}}} \times 100\%.
+\varepsilon_{\text{rel}} = \frac{|X_{\text{sim}} - X_{\text{an}}|}{|X_{\text{an}}|} \times \SI{100}{\percent} \le \SI{2,0}{\percent},
 \label{eq:erro_relativo_auditoria}
 \end{equation}
+impondo convergência estrita para velocidade ($n$), conjugado eletromagnético ($T_e$), corrente de linha ($I_{line}$), potência ativa ($P$) e potência reativa ($Q$) nos regimes a vazio, sob degrau nominal e regenerativo. No Nível 2 (\textit{Tier 2}), confrontam-se os resultados simulados e analíticos diretamente com as medições experimentais do ensaio a vazio ($\SI{194,0}{\watt}$, $\SI{7,36}{\ampere}$, $\SI{1799}{\RPM}$, impondo desvios máximos de $\le \SI{2,0}{\percent}$ em velocidade e corrente e $\le \SI{5,0}{\percent}$ em potência ativa) e com os valores nominais de placa do fabricante WEG ($\SI{3,7}{\kilo\watt}$, $\SI{14,0}{\ampere}$, $\SI{1715}{\RPM}$, $\cos\phi = 0{,}81$, $\eta = \SI{85,5}{\percent}$).
 
-A \Cref{tab:auditoria_consolidada} reúne os valores catalogados de placa, os ensaios de bancada, a solução analítica do circuito equivalente e os resultados estabilizados sob carga plena no Simscape SPS.
+A \Cref{tab:auditoria_consolidada} sintetiza a matriz comparativa multiregime abrangendo partida a rotor bloqueado ($s = 1$), regime permanente a vazio ($T_L = 0$), carga nominal ($T_L = +\SI{20,602}{\Nm}$) e geração regenerativa ($T_L = -\SI{20,602}{\Nm}$).
 
 \begin{table}[H]
 \centering
-\caption{Síntese comparativa multiregime e auditoria de convergência analítica versus Simscape.}
+\caption{Matriz comparativa multiregime: dados de placa, ensaios experimentais, modelo analítico e Simscape SPS.}
 \label{tab:auditoria_consolidada}
 \resizebox{\textwidth}{!}{%
-\begin{tabular}{lcccccc}
+\begin{tabular}{llcccccc}
 \toprule
-\textbf{Grandeza} & \textbf{Placa WEG} & \textbf{Bancada} & \textbf{Analítico} & \textbf{Simscape} & \textbf{Erro Rel.} & \textbf{Status ($\le 2{,}0\%$)} \\
+\textbf{Regime} & \textbf{Grandeza} & \textbf{Unid.} & \textbf{Placa WEG} & \textbf{Ensaio Lab.} & \textbf{Analítico} & \textbf{Simscape} & \textbf{Erro Nível 1} \\
 \midrule
-Velocidade ($n$) & \SI{1715}{\RPM} & \SI{1715}{\RPM} & \SI{1715,0}{\RPM} & \SI{1714,8}{\RPM} & $-0{,}01\%$ & \textbf{Aprovado} \\
-Escorregamento ($s$) & $4{,}72\%$ & $4{,}72\%$ & $4{,}722\%$ & $4{,}733\%$ & $+0{,}23\%$ & \textbf{Aprovado} \\
-Corrente de Linha ($I_L$) & \SI{14,00}{\ampere} & \SI{14,00}{\ampere} & \SI{14,02}{\ampere} & \SI{14,15}{\ampere} & $+0{,}96\%$ & \textbf{Aprovado} \\
-Torque Útil ($T_{shaft}$) & \SI{20,60}{\Nm} & \SI{20,60}{\Nm} & \SI{20,66}{\Nm} & \SI{20,60}{\Nm} & $-0{,}29\%$ & \textbf{Aprovado} \\
-Torque Eletromag. ($T_e$) & -- & -- & \SI{28,31}{\Nm} & \SI{28,36}{\Nm} & $+0{,}17\%$ & \textbf{Aprovado} \\
-Potência Ativa ($P$) & -- & -- & \SI{5622,9}{\watt} & \SI{5676,0}{\watt} & $+0{,}94\%$ & \textbf{Aprovado} \\
-Potência Reativa ($Q$) & -- & -- & \SI{3208,5}{\text{var}} & \SI{3245,0}{\text{var}} & $+1{,}14\%$ & \textbf{Aprovado} \\
-Fator de Potência & $0{,}81$ & $0{,}81$ & $0{,}824$ & $0{,}821$ & $-0{,}36\%$ & \textbf{Aprovado} \\
+\multirow{3}{*}{Partida ($s = 1{,}0$)}
+ & Corrente de Partida ($I_{\text{part}}$) & \si{\ampere} & $106{,}40$ & $65{,}30$ & $67{,}73$ & $67{,}73$ & \SI{0,000}{\percent} \\
+ & Pico Instantâneo de \textit{Inrush} & \si{\ampere} & $150{,}47$ & -- & $95{,}78$ (sim.) & $121{,}18$ (CC) & -- \\
+ & Conjugado de Partida ($T_{\text{part}}$) & \si{\Nm} & -- & -- & $25{,}35$ & $25{,}35$ & \SI{0,000}{\percent} \\
+\midrule
+\multirow{6}{*}{A Vazio ($T_L = 0$)}
+ & Velocidade de Rotação ($n_0$) & \si{\RPM} & $1800{,}00$ & $1799{,}00$ & $1797{,}93$ & $1797{,}92$ & \SI{0,001}{\percent} \\
+ & Conjugado Eletromag. ($T_e$) & \si{\Nm} & $0{,}00$ & -- & $0{,}687$ & $0{,}687$ & \SI{0,001}{\percent} \\
+ & Corrente de Linha ($I_{line}$) & \si{\ampere} & -- & $7{,}36$ & $7{,}362$ & $7{,}342$ & \SI{0,274}{\percent} \\
+ & Potência Ativa ($P_0$) & \si{\watt} & -- & $194{,}00$ & $194{,}01$ & $194{,}25$ & \SI{0,121}{\percent} \\
+ & Potência Reativa ($Q_0$) & \si{\var} & -- & -- & $2798{,}52$ & $2790{,}65$ & \SI{0,281}{\percent} \\
+ & Fator de Potência ($\cos\phi_0$) & -- & -- & $0{,}069$ & $0{,}069$ & $0{,}069$ & \SI{0,396}{\percent} \\
+\midrule
+\multirow{7}{*}{Carga Nominal ($+T_{nom}$)}
+ & Velocidade de Rotação ($n$) & \si{\RPM} & $1715{,}00$ & $1715{,}00$ & $1729{,}45$ & $1728{,}87$ & \SI{0,034}{\percent} \\
+ & Conjugado Eletromag. ($T_e$) & \si{\Nm} & $20{,}60$ & $20{,}60$ & $21{,}263$ & $21{,}263$ & \SI{0,001}{\percent} \\
+ & Corrente de Linha ($I_{line}$) & \si{\ampere} & $14{,}00$ & -- & $14{,}133$ & $14{,}163$ & \SI{0,210}{\percent} \\
+ & Potência Elétrica Ativa ($P$) & \si{\watt} & $4327{,}49$ & -- & $4245{,}53$ & $4248{,}71$ & \SI{0,075}{\percent} \\
+ & Potência Reativa ($Q$) & \si{\var} & $3119{,}00$ & -- & $3313{,}59$ & $3328{,}09$ & \SI{0,437}{\percent} \\
+ & Fator de Potência ($\cos\phi$) & -- & $0{,}810$ & -- & $0{,}788$ & $0{,}787$ & \SI{0,135}{\percent} \\
+ & Rendimento de Eixo ($\eta_{shaft}$) & \si{\percent} & $85{,}50$ & -- & $87{,}88$ & $87{,}79$ & \SI{0,109}{\percent} \\
+\midrule
+\multirow{6}{*}{Gerador ($-T_{nom}$)}
+ & Velocidade de Rotação ($n$) & \si{\RPM} & -- & -- & $1857{,}49$ & $1857{,}86$ & \SI{0,020}{\percent} \\
+ & Conjugado Eletromag. ($T_e$) & \si{\Nm} & -- & -- & $-19{,}892$ & $-19{,}892$ & \SI{0,001}{\percent} \\
+ & Corrente de Linha ($I_{line}$) & \si{\ampere} & -- & -- & $13{,}084$ & $13{,}099$ & \SI{0,109}{\percent} \\
+ & Potência Elétrica Ativa ($P$) & \si{\watt} & -- & -- & $-3545{,}96$ & $-3543{,}60$ & \SI{0,067}{\percent} \\
+ & Potência Reativa ($Q$) & \si{\var} & -- & -- & $3504{,}96$ & $3515{,}10$ & \SI{0,289}{\percent} \\
+ & Fator de Potência ($\cos\phi$) & -- & -- & -- & $-0{,}711$ & $-0{,}710$ & \SI{0,176}{\percent} \\
 \bottomrule
 \end{tabular}%
 }
 \end{table}
 
-A auditoria quantitativa confirma que todas as grandezas analisadas mantêm-se estritamente abaixo do limiar de \SI{2,0}{\percent}, atingindo discrepância máxima de $+0{,}96\%$ na corrente de linha e $+1{,}14\%$ na potência reativa, chancelando a precisão do mapeamento de parâmetros e a fidelidade da simulação dinâmica.
+\subsection{Análise dos Desvios de Nível 1 e Nível 2}\label{subsec:analise_dois_niveis}
+
+Na auditoria de Nível 1 (\cref{tab:auditoria_consolidada}), todas as grandezas dinâmicas de regime permanente convergem para os respectivos valores analíticos com desvios inferiores a $\SI{0,44}{\percent}$, sendo o maior erro relativo observado na potência reativa sob carga nominal ($\varepsilon_Q = \SI{0,437}{\percent}$), seguido pela potência reativa no modo regenerativo ($\SI{0,289}{\percent}$) e pela corrente a vazio ($\SI{0,274}{\percent}$). Velocidade, conjugado eletromagnético e potência ativa exibem discrepâncias residuais inferiores a $\SI{0,13}{\percent}$ em todos os regimes, ratificando a exatidão da transformação Estrela-Triângulo e a estabilidade do esquema implícito de Euler Retroativo. Na partida a rotor bloqueado, o pico instantâneo simulado ($\SI{121,18}{\ampere}$) inclui a componente contínua aperiódica de fechamento, enquanto o valor analítico de $\SI{95,78}{\ampere}$ corresponde à crista senoidal simétrica; em regime simétrico eficaz, ambas as formulações coincidem em $\SI{67,73}{\ampere}$ RMS.
+
+Na validação física independente de Nível 2 contra o ensaio a vazio de laboratório, a simulação dinâmica reproduz com elevada fidelidade as medições experimentais diretas: a rotação a vazio simulada ($\SI{1797,92}{\RPM}$) diverge apenas \SI{0,060}{\percent} da medição experimental ($\SI{1799}{\RPM}$, limite $\le \SI{2,0}{\percent}$), a corrente de linha ($\SI{7,342}{\ampere}$) difere \SI{0,249}{\percent} da leitura de bancada ($\SI{7,36}{\ampere}$, limite $\le \SI{2,0}{\percent}$) e a potência ativa absorvida ($\SI{194,25}{\watt}$) concorda em \SI{0,127}{\percent} com a soma dos dois wattímetros ($P_0 = \SI{194,0}{\watt}$, limite $\le \SI{5,0}{\percent}$).
+
+No confronto de Nível 2 frente aos dados nominais de placa sob aplicação do torque útil nominal ($T_L = +\SI{20,602}{\Nm}$), a corrente simulada ($\SI{14,16}{\ampere}$) aproxima-se a \SI{+1,17}{\percent} da corrente nominal de catálogo ($\SI{14,00}{\ampere}$) e a velocidade estabiliza apenas \SI{+0,81}{\percent} acima da especificação ($\SI{1728,87}{\RPM}$ vs. $\SI{1715}{\RPM}$). Os desvios moderados em rendimento ($\SI{87,79}{\percent}$ vs. $\SI{85,50}{\percent}$, $\Delta = +2{,}68\%$) e fator de potência ($0{,}787$ vs. $0{,}810$, $\Delta = -2{,}81\%$) decorrem diretamente da parametrização térmica a frio ($R_2' = \SI{1,180}{\ohm}$), que reduz o escorregamento necessário para desenvolver o torque nominal ($3{,}95\%$ em lugar de $4{,}72\%$) e diminui as perdas Joule rotóricas ($I_2'^2 R_2'$), bem como da aglutinação das perdas no núcleo ($R_c \to \infty$) no termo viscoso equivalente $B$. Todas as verificações de convergência e consistência física encontram-se plenamente atendidas.

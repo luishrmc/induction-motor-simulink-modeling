@@ -36,7 +36,7 @@ A dinâmica rotacional do conjunto é descrita pela equação diferencial do mov
 J \frac{d\omega_m}{dt} = T_e - T_L - B \omega_m,
 \label{eq:dinamica_rotacional_bancada}
 \end{equation}
-na qual $T_e$ denota o conjugado eletromagnético gerado, $T_L$ o conjugado de carga externo e $\omega_m$ a velocidade mecânica. As constantes mecânicas da bancada foram levantadas no ensaio de desaceleração livre com alimentação elétrica interrompida ($T_e = 0$) e sem carga externa ($T_L = 0$). Enquanto o motor individual apresenta inércia própria reduzida ($J_{\text{motor}} \approx \SI{0,015}{\kilogram\meter\squared}$), a bancada acopla o motor de indução a uma máquina de corrente contínua e ao conjunto de medição, elevando a inércia equivalente para $J = \SI{0,701}{\kilogram\meter\squared}$ e o coeficiente de atrito viscoso para $B = \SI{0,0426}{\Nm\cdot\second/\radian}$.
+na qual $T_e$ denota o conjugado eletromagnético gerado, $T_L$ o conjugado de carga externo e $\omega_m$ a velocidade mecânica. As constantes mecânicas do motor individual desacoplado foram determinadas a partir do balanço de potência a vazio e do ensaio de desaceleração livre (\textit{rundown}) com alimentação elétrica interrompida ($T_e = 0$) e eixo livre ($T_L = 0$). No ensaio a vazio ($n_0 = \SI{1799}{\RPM}$, $\omega_0 = \SI{188,391}{\rads}$, $I_{0,ph} = \SI{4,249}{\ampere}$), subtraindo-se as perdas Joule estatóricas ($P_{cu1,0} = 3 R_1 I_{0,ph}^2 = \SI{64,432}{\watt}$) da potência ativa absorvida ($P_0 = \SI{194,0}{\watt}$), obtêm-se as perdas rotacionais equivalentes $P_{rot} = \SI{129,568}{\watt}$, as quais englobam o atrito mecânico, a ventilação e as perdas no núcleo desconsideradas por $R_c \to \infty$. Modelando tais perdas como arrasto viscoso equivalente ($P_{rot} = B \omega_0^2$), determina-se o coeficiente de atrito viscoso $B = 129{,}568 / (188{,}391)^2 = \SI{0,003651}{\Nm\cdot\second/\radian}$. Nas três medições cronometradas de parada livre até o repouso ($t_1 = \SI{15,49}{\second}$, $t_2 = \SI{15,09}{\second}$ e $t_3 = \SI{15,05}{\second}$, média $\Delta t = \SI{15,210}{\second}$), a hipótese de desaceleração linear ($d\omega_m / dt \approx -\omega_0 / \Delta t$) conduz ao momento de inércia equivalente $J = B \cdot \Delta t = 0{,}003651 \cdot 15{,}210 = \SI{0,0555}{\kilogram\meter\squared}$.
 
 A \Cref{tab:parametros_consolidados} consolida os parâmetros elétricos e mecânicos obtidos para a máquina em conexão Triângulo.
 
@@ -59,8 +59,8 @@ Indutância de Dispersão do Rotor & $L_{l2}'$ & $8{,}420$ & \si{\milli\henry} &
 Reatância de Magnetização Mútua & $X_m$ & $49{,}601$ & \si{\ohm} & Ensaio a vazio ($s \to 0$) \\
 Indutância de Magnetização Mútua & $L_m$ & $131{,}571$ & \si{\milli\henry} & $L_m = X_m / (2\pi \cdot 60)$ \\
 Resistência de Perdas no Ferro & $R_c$ & $\infty$ & \si{\ohm} & Desprezada no modelo em T \\
-Inércia Rotacional Equivalente & $J$ & $0{,}701$ & \si{\kilogram\meter\squared} & Desaceleração acoplada à bancada \\
-Atrito Viscoso Equivalente & $B$ & $0{,}0426$ & \si{\Nm\cdot\second/\radian} & Desaceleração acoplada à bancada \\
+Inércia Rotacional Equivalente & $J$ & $0{,}0555$ & \si{\kilogram\meter\squared} & Desaceleração livre ($B \cdot \Delta t$, $\Delta t = \SI{15,210}{\second}$) \\
+Atrito Viscoso Equivalente & $B$ & $0{,}003651$ & \si{\Nm\cdot\second/\radian} & Perdas rotacionais a vazio ($P_{rot} / \omega_0^2$) \\
 \bottomrule
 \end{tabular}%
 }

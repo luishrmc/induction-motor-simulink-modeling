@@ -1,55 +1,48 @@
 \section{Operação Regenerativa sob Torque Negativo ($T_L = -T_{nom}$)}\label{sec:operacao_regenerativa}
 
-A aplicação de um conjugado mecânico motriz externo no eixo reverte o sentido do escorregamento relativo e transporta a máquina para o quadrante operacional de gerador de indução hipersíncrono. A simulação desse regime dinâmico no Simscape SPS comprova a injeção contínua de potência ativa na rede elétrica de alimentação, vinculada à absorção ininterrupta de potência reativa para sustentação do campo girante de magnetização no entreferro.
-
-% =========================================================================
-% [DIRETRIZ DE REDAÇÃO]
-% - Objetivo: Atender ao Item 2.E de sim_proj.pdf. Simular a máquina operando com torque negativo
-%   (T_L = -T_nom = -20,6020 N*m), analisando o regime de gerador de indução hipersíncrono.
-% - Formulação: Apresentar a teoria da conversão eletromecânica no quadrante gerador:
-%   n > n_s (1885,3 rpm > 1800 rpm) \implies s < 0 (-0,0474) \implies R_2'/s < 0.
-%   Demonstrar a reversão da potência ativa (P < 0, injeção na rede) e o consumo contínuo de reativo (Q > 0).
-% - Figuras/Tabelas: Incluir os 3 gráficos do regime regenerativo:
-%   item2e_regenerative_speed.png, item2e_regenerative_torque.png e item2e_regenerative_powers.png.
-% - Confronto: Confrontar os valores numéricos simulados estabilizados (n = 1885,3 rpm,
-%   T_e = -29,01 N*m, P = -2860 W, Q = +3305 var) com os fundamentos teóricos de máquinas CA.
-% =========================================================================
-
-Em $t = \SI{2,0}{\second}$, aplica-se $T_L = -\SI{20,6020}{\Nm}$, atuando o torque como máquina motriz primária. A rotação ultrapassa a velocidade síncrona ($n > n_s$), estabelecendo escorregamento estritamente negativo e resistência aparente refletida negativa:
-\begin{equation}
-s_{regen} = \frac{1800 - 1885{,}3}{1800} = -0{,}04739, \qquad \frac{R_2'}{s_{regen}} = \frac{\SI{1,180}{\ohm}}{-0{,}04739} = -\SI{24,90}{\ohm} < 0.
-\label{eq:escorregamento_negativo_regen}
-\end{equation}
+A aplicação de um conjugado mecânico motriz externo no eixo reverte o sinal do escorregamento relativo e conduz a máquina assíncrona ao quadrante de gerador de indução hipersíncrono. A simulação desse regime dinâmico no Simscape SPS ao longo de $t \in [0, \, \SI{3,0}{\second}]$ comprova a inversão do fluxo de potência ativa, com injeção contínua de energia elétrica na rede trifásica de alimentação condicionada à absorção ininterrupta de potência reativa indutiva para sustentação do campo girante no entreferro.
 
 \subsection{Dinâmica Hipersíncrona e Conjugado de Frenagem}\label{subsec:regen_speed_torque}
 
-As \Cref{fig:regen_velocidade,fig:regen_torque} exibem a evolução temporal da rotação e do conjugado eletromagnético sob torque motriz.
+Com o motor operando previamente em regime permanente a vazio ($n_0 = \SI{1797,92}{\RPM}$), aplica-se em $t = \SI{1,5}{\second}$ um degrau negativo de conjugado mecânico no eixo ($T_L = -\SI{20,6020}{\Nm}$), representando uma máquina primária externa que impulsiona o rotor no mesmo sentido do campo magnético girante. O saldo positivo de torque acelera o rotor acima da velocidade síncrona ($n > n_s = \SI{1800}{\RPM}$), invertendo o sentido relativo de corte do fluxo magnético pelas barras da gaiola e impondo escorregamento negativo e resistência aparente rotórica negativa:
+\begin{equation}
+s_{\text{regen}} = \frac{1800 - 1857{,}86}{1800} = -0{,}03214 \quad (-\SI{3,21}{\percent}), \qquad \frac{R_2'}{s_{\text{regen}}} = \frac{\SI{1,180}{\ohm}}{-0{,}03214} = -\SI{36,71}{\ohm} < 0.
+\label{eq:escorregamento_negativo_regen}
+\end{equation}
+A presença da resistência aparente estritamente negativa no ramo secundário caracteriza o comportamento de fonte ativa de energia elétrica no circuito equivalente.
+
+As \Cref{fig:regen_velocidade,fig:regen_torque} exibem a transição hipersíncrona da rotação e a inversão do conjugado eletromagnético para o modo de frenagem regenerativa.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.82\textwidth]{item2e_regenerative_speed.png}
-\caption{Resposta da Velocidade Mecânica na aceleração hipersíncrona ($T_L = -\SI{20,6020}{\Nm}$).}
+\includegraphics[width=0.84\textwidth]{item2e_regenerative_speed.png}
+\caption{Resposta da Velocidade Mecânica na transição para o quadrante hipersíncrono ($T_L = -\SI{20,6020}{\Nm}$ em $t = \SI{1,5}{\second}$).}
 \label{fig:regen_velocidade}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.82\textwidth]{item2e_regenerative_torque.png}
-\caption{Conjugado Eletromagnético de frenagem desenvolvido no regime de gerador de indução.}
+\includegraphics[width=0.84\textwidth]{item2e_regenerative_torque.png}
+\caption{Conjugado Eletromagnético de frenagem regenerativa desenvolvido no regime de gerador de indução.}
 \label{fig:regen_torque}
 \end{figure}
 
-A rotação estabiliza em $n = \SI{1885,3}{\RPM}$ e o conjugado eletromagnético de frenagem acomoda-se em $T_{em} = -\SI{29,01}{\Nm}$, equilibrando o torque motriz aplicado e o atrito da bancada.
+Após ultrapassar a fronteira síncrona de \SI{1800}{\RPM}, a velocidade acomoda-se assintoticamente em cerca de \SI{0,15}{\second} no regime hipersíncrono de $n_{\text{sim}} = \SI{1857,86}{\RPM}$ ($\omega_m = \SI{194,555}{\rads}$), apresentando erro relativo de \SI{0,020}{\percent} frente ao valor analítico ($n_{\text{an}} = \SI{1857,49}{\RPM}$). Simultaneamente, o conjugado eletromagnético inverte de polaridade e estabiliza em $T_{e,\text{sim}} = -\SI{19,892}{\Nm}$ (erro de \SI{0,001}{\percent} frente a $T_{e,\text{an}} = -\SI{19,892}{\Nm}$), atuando como torque de frenagem regenerativa que equilibra a máquina primária após descontar o atrito viscoso rotacional:
+\begin{equation}
+T_e = T_L + B\omega_m = -20{,}6020 + 0{,}003651 \cdot 194{,}555 = -20{,}6020 + 0{,}7103 = -\SI{19,892}{\Nm}.
+\label{eq:equilibrio_conjugado_regen}
+\end{equation}
+A corrente eficaz de linha no estator estabiliza em $I_{line,\text{sim}} = \SI{13,099}{\ampere}$ RMS (erro de \SI{0,109}{\percent} frente à predição analítica de $\SI{13,084}{\ampere}$ RMS).
 
 \subsection{Reversão do Fluxo de Potência Ativa e Demanda de Reativo}\label{subsec:regen_potencias}
 
-A \Cref{fig:regen_potencias} ilustra a transição dos fluxos de potência nos terminais da máquina.
+A \Cref{fig:regen_potencias} ilustra a inversão do fluxo de potência ativa trifásica e a permanência da demanda reativa de magnetização.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.82\textwidth]{item2e_regenerative_powers.png}
+\includegraphics[width=0.84\textwidth]{item2e_regenerative_powers.png}
 \caption{Dinâmica das Potências Ativa ($P$) e Reativa ($Q$) com injeção regenerativa de potência ativa na rede.}
 \label{fig:regen_potencias}
 \end{figure}
 
-A potência ativa inverte o sentido de fluxo e estabiliza em $P = -\SI{2860}{\watt}$ (potência injetada na rede de \SI{220}{\volt}), enquanto a potência reativa permanece positiva ($Q = +\SI{3305}{\text{var}}$), atestando a dependência do gerador assíncrono em relação à excitação reativa da rede.
+No instante em que a velocidade do rotor cruza a rotação síncrona ($n = \SI{1800}{\RPM}$), a potência ativa nos terminais estatóricos anula-se e inverte seu sentido de fluxo, transitando de $+\SI{194,25}{\watt}$ (consumo a vazio) para $P_{\text{sim}} = -\SI{3543,60}{\watt}$ (erro de \SI{0,067}{\percent} frente ao valor analítico de $-\SI{3545,96}{\watt}$). Esse balanço comprova que a potência mecânica fornecida pela máquina motriz no eixo ($P_{\text{mec}} = T_L \omega_m = -\SI{4008,21}{\watt}$) supre as perdas rotacionais ($P_{rot} = \SI{138,20}{\watt}$) e as perdas Joule no estator e rotor, entregando $\SI{3,54}{\kilo\watt}$ líquidos à rede de \SI{220}{\volt}. Em contrapartida, a potência reativa permanece estritamente positiva no quadrante indutivo, elevando-se de \SI{2790,65}{\text{var}} para $Q_{\text{sim}} = +\SI{3515,10}{\text{var}}$ (erro de \SI{0,289}{\percent} frente a $+\SI{3504,96}{\text{var}}$ analítico), estabelecendo fator de potência regenerativo $\cos\phi = -0{,}710$ (erro de \SI{0,176}{\percent} vs. $-0{,}711$ analítico) e confirmando que o gerador de indução em gaiola depende integralmente da fonte externa para estabelecer a excitação magnetizante do entreferro.

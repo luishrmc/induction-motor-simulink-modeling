@@ -57,7 +57,7 @@ T_{em} = \frac{P_{ag}}{\omega_s}, \qquad T_{atrito} = B \cdot \omega_m, \qquad T
 \label{eq:conjugados_vetoriais}
 \end{equation}
 
-Deduzindo-se as perdas mecânicas rotacionais da bancada ($P_{atrito} = B \cdot \omega_m^2$), a potência mecânica líquida e os rendimentos interno e de eixo são expressos por:
+Deduzindo-se as perdas mecânicas rotacionais ($P_{atrito} = B \cdot \omega_m^2$), a potência mecânica líquida e os rendimentos interno e de eixo são expressos por:
 \begin{equation}
 P_{shaft} = P_{em} - P_{atrito}, \qquad \eta_{em} = \frac{P_{em}}{P_{elec}}, \qquad \eta_{shaft} = \max\left(0, \, \frac{P_{shaft}}{P_{elec}}\right).
 \label{eq:rendimentos_vetoriais}
@@ -65,15 +65,15 @@ P_{shaft} = P_{em} - P_{atrito}, \qquad \eta_{em} = \frac{P_{em}}{P_{elec}}, \qq
 
 Para validação analítica independente dos pontos críticos sem dependência da resolução amostral, o algoritmo deduz o equivalente de Thévenin visto a partir dos nós do rotor:
 \begin{equation}
-\vec{V}_{th} = V_{ph} \cdot \frac{\jj X_m}{R_1 + \jj (X_1 + X_m)} = 220 \cdot \frac{\jj 49{,}6012}{1{,}1890 + \jj 51{,}7595} = \phasor{210{,}74}{1{,}32}\,\text{V},
+\vec{V}_{th} = V_{ph} \cdot \frac{\jj X_m}{R_1 + \jj (X_1 + X_m)} = 220 \cdot \frac{\jj 49{,}6011}{1{,}1890 + \jj 51{,}7594} = \phasor{210{,}77}{1{,}32}\,\text{V},
 \label{eq:v_thevenin_valor}
 \end{equation}
 \begin{equation}
-Z_{th} = \frac{Z_1 \cdot \jj X_m}{Z_1 + \jj X_m} = R_{th} + \jj X_{th} = 1{,}0908 + \jj 2{,}1122\,\Omega.
+Z_{th} = \frac{Z_1 \cdot \jj X_m}{Z_1 + \jj X_m} = R_{th} + \jj X_{th} = 1{,}0913 + \jj 2{,}0933\,\Omega.
 \label{eq:z_thevenin_valor}
 \end{equation}
 
-A partir desses parâmetros de Thévenin, determinam-se de forma exata o escorregamento de conjugado máximo ($s_{max} = 0{,}2194$), a velocidade de desengate ($n(T_{max}) = \SI{1405,0}{\RPM}$) e a amplitude do conjugado máximo de despolarização ($T_{max} = \SI{54,634}{\Nm}$):
+A partir desses parâmetros de Thévenin, determinam-se de forma exata o escorregamento de conjugado máximo ($s_{max} = 0{,}2194$), a velocidade de desengate ($n(T_{max}) = \SI{1405,2}{\RPM}$) e a amplitude do conjugado máximo de despolarização ($T_{max} = \SI{54,633}{\Nm}$):
 \begin{equation}
 s_{max} = \frac{R_2'}{\sqrt{R_{th}^2 + (X_{th} + X_2')^2}}, \qquad T_{max} = \frac{3 V_{th}^2}{2\omega_s \left[ R_{th} + \sqrt{R_{th}^2 + (X_{th} + X_2')^2} \right]},
 \label{eq:tmax_thevenin_geral}
@@ -123,7 +123,7 @@ P_cu2 = 3 * (abs(I2_prm).^2) * R2;
 P_ag  = 3 * (abs(I2_prm).^2) .* (R2 ./ s);
 P_em  = (1 - s) .* P_ag;
 
-% Perdas rotacionais por atrito viscoso da bancada (B = 0.0426 N.m.s/rad)
+% Perdas rotacionais por atrito viscoso equivalente (B = 0.003651 N.m.s/rad)
 P_atrito = B .* (w_m.^2);
 P_shaft  = P_em - P_atrito;
 

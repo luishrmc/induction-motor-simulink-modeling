@@ -1,47 +1,47 @@
 \section{Dedução Analítica da Corrente de Partida Direta a Rotor Bloqueado ($s = 1$)}\label{sec:partida_bloqueado}
 
-No instante inicial do fechamento dos contatos de alimentação direta com o rotor em repouso, anula-se a componente de velocidade angular, impondo escorregamento unitário ($s = 1$) e transformando a máquina em um transformador com enrolamento secundário em curto-circuito. A dedução analítica da impedância equivalente nessa condição permite prever o patamar simétrico da corrente de partida e a magnitude máxima do transitório de \textit{inrush} decorrente da componente contínua subtransitória.
+No instante inicial do fechamento dos contatos de alimentação direta com o rotor em repouso, anula-se a velocidade angular mecânica ($\omega_m = 0$), impondo escorregamento unitário ($s = 1$) e fazendo o circuito rotórico operar na frequência plena da rede (\SI{60}{\hertz}), de maneira análoga a um transformador com enrolamento secundário em curto-circuito. A dedução analítica da impedância equivalente de entrada nessa condição permite prever o patamar simétrico da corrente de partida, o conjugado inicial e o limite máximo do transitório de \textit{inrush} decorrente da componente contínua subtransitória.
 
-% =========================================================================
-% [DIRETRIZ DE REDAÇÃO]
-% - Objetivo: Atender ao Item 2.B de sim_proj.pdf. Calcular a corrente de partida direta
-%   a rotor bloqueado resolvendo o circuito equivalente em escorregamento unitário (s = 1).
-% - Formulação: Apresentar a dedução da impedância de entrada em s = 1:
-%   Z_{in}(1) = R_1 + jX_1 + (jX_m // (R_2' + jX_2')) = 5,5947 \phase{65,64^\circ} \Omega.
-%   Calcular a corrente de fase (I_{ph,cc} = 39,32 A) e a corrente de linha RMS (I_{line,cc} = 68,11 A).
-%   Deduzir a componente contínua subtransitória e o fator de pico assimétrico k_p.
-% - Figuras/Tabelas: Equações analíticas completas e valores numéricos resultantes.
-% - Confronto: Confrontar o valor em regime de rotor bloqueado com o pico transitório simulado (105,7 A).
-% =========================================================================
+\subsection{Impedância de Entrada e Corrente Simétrica em $s = 1$}\label{subsec:impedancia_s1}
 
-Substituindo $s = 1$ no ramo rotórico do circuito equivalente monofásico em conexão Triângulo:
+Substituindo $s = 1$ no ramo rotórico do circuito equivalente monofásico em conexão Triângulo ($\Delta$):
 \begin{equation}
-Z_2'(1) = R_2' + \jj X_2' = 1{,}180 + \jj 3{,}1742\,\Omega = 3{,}3865 \angle 69{,}60^\circ\,\Omega.
+Z_2'(1) = R_2' + \jj X_2' = 1{,}180 + \jj 3{,}1743\,\Omega = 3{,}3865 \angle 69{,}60^\circ\,\Omega.
 \label{eq:z2_bloqueado}
 \end{equation}
-
-A impedância total de entrada sob escorregamento unitário resulta em:
+Associando-se em paralelo a reatância magnetizante ($\jj X_m = \jj 49{,}6011\,\Omega$) com $Z_2'(1)$ e somando-se a impedância primária ($Z_1 = 1{,}1890 + \jj 2{,}1583\,\Omega$), obtém-se a impedância total de entrada por fase sob escorregamento unitário:
 \begin{equation}
-Z_{in}(1) = R_1 + \jj X_1 + \frac{\jj X_m (R_2' + \jj X_2')}{R_2' + \jj (X_m + X_2')} = 2{,}3082 + \jj 5{,}0971\,\Omega = 5{,}5947 \angle 65{,}64^\circ\,\Omega.
+Z_{in}(1) = R_1 + \jj X_1 + \frac{\jj X_m (R_2' + \jj X_2')}{R_2' + \jj (X_m + X_2')} = 2{,}2308 + \jj 5{,}1649\,\Omega = 5{,}6261 \angle 66{,}64^\circ\,\Omega.
 \label{eq:zin_bloqueado}
 \end{equation}
+Verifica-se o forte predomínio indutivo das reatâncias de dispersão sobre a resistência equivalente, caracterizado pela razão $X_{in}/R_{in} = 5{,}1649 / 2{,}2308 = 2{,}32$.
 
-A corrente eficaz de fase e a corrente eficaz de linha de partida em regime simétrico são calculadas por:
+Aplicando-se a tensão nominal de fase ($V_{ph} = \SI{220}{\volt}$), a corrente eficaz de fase e a corrente eficaz de linha de partida em regime simétrico resultam em:
 \begin{equation}
-I_{ph,cc} = \frac{V_{ph}}{|Z_{in}(1)|} = \frac{\SI{220}{\volt}}{\SI{5,5947}{\ohm}} = \SI{39,3230}{\ampere},
+I_{ph,\text{part}} = \frac{V_{ph}}{|Z_{in}(1)|} = \frac{\SI{220}{\volt}}{\SI{5,6261}{\ohm}} = \SI{39,1036}{\ampere},
 \label{eq:iph_bloqueado}
 \end{equation}
 \begin{equation}
-I_{line,cc} = \sqrt{3} \cdot I_{ph,cc} = \sqrt{3} \cdot \SI{39,3230}{\ampere} = \SI{68,1102}{\ampere}.
+I_{line,\text{part}} = \sqrt{3} \cdot I_{ph,\text{part}} = \sqrt{3} \cdot \SI{39,1036}{\ampere} = \SI{67,7294}{\ampere},
 \label{eq:iline_bloqueado}
 \end{equation}
-
-Considerando o fechamento do circuito no cruzamento por zero da tensão de fase (condição de máximo \textit{offset} de corrente contínua subtransitória), o fator de assimetria de pico $k_p$ e o pico máximo teórico de inrush são expressos por:
+ao qual corresponde o pico senoidal simétrico de corrente de linha $\hat{I}_{sim} = \sqrt{2} \cdot 67{,}7294 = \SI{95,78}{\ampere}$. A potência transmitida através do entreferro e o conjugado eletromagnético simétrico desenvolvido na partida assumem os valores:
 \begin{equation}
-k_p = \sqrt{2} \cdot \left[ 1 + \exp\left(-\frac{\pi}{\tan \theta_{cc}}\right) \right] = \sqrt{2} \cdot \left[ 1 + \exp\left(-\frac{\pi}{\tan 65{,}64^\circ}\right) \right] \approx 1{,}756,
+P_{ag,\text{part}} = 3 \cdot |I_2'(1)|^2 \cdot R_2' = \SI{4779,03}{\watt}, \qquad T_{\text{part}} = \frac{P_{ag,\text{part}}}{\omega_s} = \frac{\SI{4779,03}{\watt}}{\SI{188,4956}{\rads}} = \SI{25,3535}{\Nm}.
+\label{eq:conjugado_partida_s1}
+\end{equation}
+
+\subsection{Componente Contínua Subtransitória e Confronto com Dados de Placa}\label{subsec:inrush_placa}
+
+No fechamento instantâneo dos contatos sobre circuito fortemente indutivo ($\theta_{cc} = 66{,}64^\circ$), a continuidade do fluxo magnético concatenado impõe o surgimento de uma componente aperiódica contínua (\textit{offset} CC) que decai exponencialmente conforme a constante de tempo elétrica $\tau_a = X_{in}/(\omega_e R_{in}) = 2{,}3153 / (2\pi \cdot 60) \approx \SI{6,14}{\milli\second}$. Para o caso crítico de energização no cruzamento por zero da tensão de fase, o fator de assimetria de pico $k_p$ e o limite teórico máximo de crista instantânea são expressos por:
+\begin{equation}
+k_p = \sqrt{2} \cdot \left[ 1 + \exp\left(-\frac{\pi}{\tan \theta_{cc}}\right) \right] = \sqrt{2} \cdot \left[ 1 + \exp\left(-\frac{\pi}{\tan 66{,}64^\circ}\right) \right] \approx 1{,}7783,
 \label{eq:fator_kp}
 \end{equation}
 \begin{equation}
-I_{peak,teorico} = k_p \cdot I_{line,cc} = 1{,}756 \cdot \SI{68,1102}{\ampere} \approx \SI{119,6}{\ampere}.
+I_{peak,\text{teor}} = k_p \cdot I_{line,\text{part}} = 1{,}7783 \cdot \SI{67,7294}{\ampere} \approx \SI{120,44}{\ampere}.
 \label{eq:inrush_teorico}
 \end{equation}
+Esse valor converge estreitamente para a crista máxima observada na simulação dinâmica trifásica ($\SI{121,18}{\ampere}$, correspondente à razão de assimetria de $1{,}265$ sobre o pico simétrico de $\SI{95,78}{\ampere}$).
+
+Confrontando-se o valor analítico obtido ($I_{line,\text{part}} = \SI{67,73}{\ampere}$ RMS) com a especificação de catálogo da máquina ($I_p / I_n = 7{,}6 \implies I_p = 7{,}6 \cdot 14{,}0 = \SI{106,4}{\ampere}$ RMS), observa-se que a corrente calculada pelo modelo em T é aproximadamente \SI{36}{\percent} inferior ao dado nominal de placa. Essa discrepância decorre de duas causas físicas associadas ao ensaio experimental de parametrização. Em primeiro lugar, o ensaio de rotor bloqueado foi executado sob tensão reduzida de $V_{cc} = \SI{47,4}{\volt}$ (\SI{21,5}{\percent} da tensão nominal), cuja extrapolação linear direta fornece $\SI{65,30}{\ampere}$, mantendo os caminhos de fluxo de dispersão nas ranhuras e pontas de dente em região linear não saturada. Na energização real sob tensão plena de \SI{220}{\volt}, o elevado fluxo magnético de dispersão satura localmente os dentes do estator e do rotor (\textit{tooth-tip saturation}), reduzindo as indutâncias efetivas de dispersão ($L_{l1}$ e $L_{l2}'$) e elevando a corrente real drenada para \SI{106,4}{\ampere}. Em segundo lugar, o modelo linear a parâmetros concentrados não reproduz o efeito pelicular (\textit{deep-bar skin effect}) nas barras rotóricas a \SI{60}{\hertz} sob corrente elevada, o qual altera a distribuição espacial de corrente na gaiola e reduz adicionalmente a indutância de dispersão rotórica efetiva durante a partida.

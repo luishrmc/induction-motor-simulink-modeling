@@ -151,39 +151,39 @@ T_{em} = \frac{P_{em}}{\omega_{nom}} = \frac{\SI{4482,32}{\watt}}{\SI{179,5943}{
 \label{eq:torque_rotor_verificacao}
 \end{equation}
 
-\subsection{Conciliação com o Atrito da Bancada e Rendimentos}\label{subsec:atrito_rendimento_nominal}
+\subsection{Conciliação com o Atrito Viscoso Equivalente e Rendimentos}\label{subsec:atrito_rendimento_nominal}
 
-Conforme determinado no ensaio de desaceleração livre, o coeficiente de atrito viscoso total é $B = \SI{0,0426}{\Nm\cdot\second/\radian}$. Na rotação nominal de \SI{1715}{\RPM}, o conjugado de atrito e as perdas rotacionais mecânicas são dados por:
+Conforme determinado a partir das perdas rotacionais a vazio e do ensaio de desaceleração livre, o coeficiente de atrito viscoso equivalente do motor é $B = \SI{0,003651}{\Nm\cdot\second/\radian}$. Na rotação nominal de \SI{1715}{\RPM}, o conjugado de atrito e as perdas rotacionais mecânicas equivalentes são dados por:
 \begin{equation}
-T_{atrito} = B \cdot \omega_{nom} = 0{,}0426 \cdot 179{,}5943 = \SI{7,6507}{\Nm},
+T_{atrito} = B \cdot \omega_{nom} = 0{,}003651 \cdot 179{,}5943 = \SI{0,6557}{\Nm},
 \label{eq:torque_atrito_nominal_resolucao}
 \end{equation}
 \begin{equation}
-P_{atrito} = B \cdot \omega_{nom}^2 = 0{,}0426 \cdot (179{,}5943)^2 = \SI{1374,03}{\watt}.
+P_{atrito} = B \cdot \omega_{nom}^2 = 0{,}003651 \cdot (179{,}5943)^2 = \SI{117,76}{\watt}.
 \label{eq:perdas_rotacionais_viscosas}
 \end{equation}
 
-Deduzindo-se as perdas rotacionais do conjugado e da potência eletromecânica, determinam-se o conjugado mecânico e a potência entregues no eixo:
+Deduzindo-se as perdas rotacionais do conjugado e da potência eletromecânica, determinam-se o conjugado mecânico e a potência líquidos entregues no eixo:
 \begin{equation}
-T_{shaft} = T_{em} - T_{atrito} = 24{,}9580 - 7{,}6507 = \SI{17,3073}{\Nm},
+T_{shaft} = T_{em} - T_{atrito} = 24{,}9580 - 0{,}6557 = \SI{24,3023}{\Nm},
 \label{eq:torque_eixo_reconciliado}
 \end{equation}
 \begin{equation}
-P_{shaft} = P_{em} - P_{atrito} = 4482{,}32 - 1374{,}03 = \SI{3108,29}{\watt}.
+P_{shaft} = P_{em} - P_{atrito} = 4482{,}32 - 117{,}76 = \SI{4364,56}{\watt}.
 \label{eq:potencia_eixo_reconciliada}
 \end{equation}
 
-O rendimento eletromecânico da conversão ($\eta_{em}$), que desconsidera as perdas mecânicas da bancada acoplada, e o rendimento líquido de eixo ($\eta_{shaft}$), medido no acoplamento mecânico, resultam em:
+O rendimento eletromecânico da conversão ($\eta_{em}$), que desconsidera as perdas mecânicas rotacionais, e o rendimento líquido de eixo ($\eta_{shaft}$), disponível na ponta do eixo, resultam em:
 \begin{equation}
 \eta_{em} = \frac{P_{em}}{P_{elec}} = \frac{\SI{4482,32}{\watt}}{\SI{5014,70}{\watt}} = \SI{89,38}{\percent},
 \label{eq:rendimento_eletromagnetico}
 \end{equation}
 \begin{equation}
-\eta_{shaft} = \frac{P_{shaft}}{P_{elec}} = \frac{\SI{3108,29}{\watt}}{\SI{5014,70}{\watt}} = \SI{61,98}{\percent}.
+\eta_{shaft} = \frac{P_{shaft}}{P_{elec}} = \frac{\SI{4364,56}{\watt}}{\SI{5014,70}{\watt}} = \SI{87,04}{\percent}.
 \label{eq:rendimento_eixo}
 \end{equation}
 
-A \Cref{tab:comparacao_nominal} confronta os parâmetros nominais de catálogo, os resultados analíticos eletromagnéticos e os valores líquidos de eixo com o modelo da bancada.
+A \Cref{tab:comparacao_nominal} confronta os parâmetros nominais de catálogo, os resultados analíticos eletromagnéticos e os valores líquidos de eixo obtidos no modelo em T.
 
 \begin{table}[H]
 \centering
@@ -200,11 +200,13 @@ Corrente de Linha & $I_{line}$ & \SI{14,00}{\ampere} & \SI{16,15}{\ampere} & \SI
 Fator de Potência & $\cos\phi$ & $0{,}8100$ & $0{,}8147$ & $0{,}8147$ \\
 Potência Ativa & $P_{elec}$ & \SI{4327,5}{\watt} & \SI{5014,7}{\watt} & \SI{5014,7}{\watt} \\
 Potência Reativa & $Q_{elec}$ & \SI{3119,0}{\var} & \SI{3569,0}{\var} & \SI{3569,0}{\var} \\
-Conjugado & $T$ & \SI{20,60}{\Nm} & \SI{24,96}{\Nm} ($T_{em}$) & \SI{17,31}{\Nm} ($T_{shaft}$) \\
-Potência Mecânica & $P_{mec}$ & \SI{3700,0}{\watt} & \SI{4482,3}{\watt} ($P_{em}$) & \SI{3108,3}{\watt} ($P_{shaft}$) \\
-Rendimento & $\eta$ & \SI{85,50}{\percent} & \SI{89,38}{\percent} ($\eta_{em}$) & \SI{61,98}{\percent} ($\eta_{shaft}$) \\
+Conjugado & $T$ & \SI{20,60}{\Nm} & \SI{24,96}{\Nm} ($T_{em}$) & \SI{24,30}{\Nm} ($T_{shaft}$) \\
+Potência Mecânica & $P_{mec}$ & \SI{3700,0}{\watt} & \SI{4482,3}{\watt} ($P_{em}$) & \SI{4364,6}{\watt} ($P_{shaft}$) \\
+Rendimento & $\eta$ & \SI{85,50}{\percent} & \SI{89,38}{\percent} ($\eta_{em}$) & \SI{87,04}{\percent} ($\eta_{shaft}$) \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-A comparação dos resultados evidencia o comportamento da máquina na bancada de ensaios. O fator de potência obtido analiticamente ($0{,}8147$) coincide com a especificação de catálogo ($0{,}8100$), registrando diferença de \SI{0,58}{\percent}. A corrente de linha calculada com os parâmetros experimentais (\SI{16,15}{\ampere}) excede a corrente de catálogo (\SI{14,00}{\ampere}) em \SI{15,4}{\percent}, em virtude das tolerâncias de fabricação e das condições a frio dos ensaios em laboratório. O rendimento eletromecânico interno ($\eta_{em} = \SI{89,38}{\percent}$) supera a especificação de placa de \SI{85,50}{\percent} por não computar perdas mecânicas. Ao incorporar o arrasto viscoso do conjunto acoplado ($P_{atrito} = \SI{1374,03}{\watt}$), o rendimento útil no eixo estabiliza-se em \SI{61,98}{\percent}.
+A comparação dos resultados evidencia o efeito combinado da temperatura dos ensaios e das simplificações do modelo em T sobre o ponto nominal. O fator de potência analítico ($0{,}8147$) concorda com a especificação de catálogo ($0{,}8100$), apresentando desvio de apenas \SI{0,58}{\percent}. Por outro lado, ao impor o escorregamento nominal de placa ($s_{nom} = 0{,}04722$, $n_{nom} = \SI{1715}{\RPM}$) no circuito equivalente parametrizado com a resistência rotórica medida a frio ($R_2' = \SI{1,180}{\ohm}$ em temperatura ambiente próxima a \SI{25}{\celsius}), a corrente de linha calculada atinge \SI{16,15}{\ampere} (\SI{+15,4}{\percent} acima dos \SI{14,00}{\ampere} de placa), enquanto o conjugado líquido de eixo alcança \SI{24,30}{\Nm} (\SI{+18,0}{\percent} acima dos \SI{20,60}{\Nm} nominais) e o rendimento útil de eixo resulta em \SI{87,04}{\percent} frente aos \SI{85,50}{\percent} de catálogo.
+
+Fisicamente, sob operação contínua em regime térmico nominal (classe de isolação B, com elevação de temperatura nos condutores para patamares entre \SI{100}{\celsius} e \SI{120}{\celsius}), a resistividade elétrica da gaiola de alumínio sofre acréscimo de aproximadamente \SIrange{20}{30}{\percent}, elevando proporcionalmente a resistência rotórica efetiva $R_2'$. Como na região linear de operação o conjugado eletromagnético varia conforme $T_{em} \propto s / R_2'$, a subestimação térmica de $R_2'$ no modelo a frio reduz a resistência aparente $R_2' / s_{nom}$ avaliada na rotação de \SI{1715}{\RPM}, amplificando a corrente rotórica induzida $I_2'$, superestimando $T_{em}$ e $I_{line}$ e atenuando as perdas Joule rotóricas relativas. Adicionalmente, a omissão da resistência de perdas no núcleo ($R_c \to \infty$), cujas perdas magnéticas foram agregadas ao parâmetro viscoso $B$, contribui para o rendimento analítico ligeiramente superior ao de placa. Inversamente, quando se impõe o conjugado resistente nominal de catálogo ($T_L = \SI{20,602}{\Nm}$) com os parâmetros a frio, o equilíbrio estabelece-se em um escorregamento menor ($s \approx 0{,}0395$, $n \approx \SI{1729}{\RPM}$), reduzindo a corrente drenada para cerca de \SI{14,16}{\ampere}, em estreito acordo com o dado de placa.

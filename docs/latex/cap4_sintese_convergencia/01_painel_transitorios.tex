@@ -1,24 +1,20 @@
 \section{Painel Integrado de Transitórios Eletromecânicos}\label{sec:painel_transitorios}
 
-A avaliação unificada das trajetórias dinâmicas registradas nos três cenários de simulação proporciona uma perspectiva abrangente acerca dos tempos de resposta eletromecânicos e da estabilidade de integração numérica do modelo Simscape SPS. A justaposição em painel contínuo evidencia a transição suave entre a partida a vazio, a acomodação sob choque mecânico de carga nominal e a reversão de fluxo energético no regime regenerativo hipersíncrono.
+A avaliação unificada das trajetórias dinâmicas registradas nos três cenários de simulação proporciona uma perspectiva abrangente acerca dos tempos de resposta eletromecânicos e da estabilidade de integração numérica do modelo Simscape SPS. A justaposição em painel contínuo evidencia a transição entre a partida direta a vazio ($0$ a $\SI{2,0}{\second}$), a acomodação sob degrau de carga nominal ($+\SI{20,60}{\Nm}$ em $t = \SI{1,5}{\second}$) e a reversão de fluxo energético no regime regenerativo hipersíncrono ($-\SI{20,60}{\Nm}$ em $t = \SI{1,5}{\second}$), todas simuladas sob a inércia consolidada $J = \SI{0,0555}{\kilogram\meter\squared}$ e atrito viscoso equivalente $B = \SI{0,003651}{\Nm\cdot\second/\radian}$.
 
-% =========================================================================
-% [DIRETRIZ DE REDAÇÃO]
-% - Objetivo: Apresentar o painel consolidado de transitórios multimodais, integrando
-%   as respostas temporais de partida direta a vazio, degrau de carga e frenagem regenerativa.
-% - Formulação: Discutir as transições entre quadrantes de operação mecânica e elétrica
-%   (motor subsíncrono vs. gerador hipersíncrono) em uma escala temporal unificada.
-% - Figuras/Tabelas: Inserir a figura em largura de página inteira: consolidated_transient_overview.png.
-% - Confronto: Avaliar o tempo de resposta mecânico em função da inércia pesada acoplada (J = 0,701 kg*m^2).
-% =========================================================================
-
-A \Cref{fig:painel_consolidado} apresenta o painel integrado de transitórios dinâmicos do Simscape Specialized Power Systems, reunindo em escala temporal síncrona a velocidade, o conjugado, a corrente eficaz de estator e as potências ativa e reativa para todos os regimes estudados.
+A \Cref{fig:painel_consolidado} apresenta o painel integrado de transitórios dinâmicos e o balanço de potência reconciliado entre os diferentes quadrantes operacionais.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{consolidated_transient_overview.png}
-\caption{Painel sinóptico de transitórios eletromecânicos da máquina de indução simulada no Simscape SPS.}
+\caption{Painel sinóptico de transitórios eletromecânicos e balanço de potência reconciliado da máquina de indução simulada no Simscape SPS.}
 \label{fig:painel_consolidado}
 \end{figure}
 
-O painel atesta a robustez do solver L-estável na transição entre os quadrantes operacionais e confirma a estabilidade das variáveis após a extinção das oscilações subtransitórias elétricas e mecânicas.
+A inspeção simultânea dos quatro painéis evidencia três comportamentos físicos fundamentais:
+\begin{enumerate}
+    \item \textbf{Tempos de resposta eletromecânica:} Em virtude da inércia própria reduzida do rotor individual ($J = \SI{0,0555}{\kilogram\meter\squared}$), a aceleração completa a vazio consuma-se em cerca de $\SI{0,36}{\second}$, enquanto as perturbações em degrau a partir da rotação síncrona acomodam-se em menos de $\SI{0,15}{\second}$, exibindo transição suave do regime motor subsíncrono ($n = \SI{1728,87}{\RPM}$, $T_e = +\SI{21,263}{\Nm}$) para o quadrante gerador hipersíncrono ($n = \SI{1857,86}{\RPM}$, $T_e = -\SI{19,892}{\Nm}$).
+    \item \textbf{Inversão de polaridade energética:} A potência elétrica ativa $P(t)$ reflete a dualidade eletromecânica do rotor, transitando da absorção nominal de $+\SI{4,25}{\kilo\watt}$ ($+\SI{4248,71}{\watt}$) no modo motor para a injeção líquida de $-\SI{3,54}{\kilo\watt}$ ($-\SI{3543,60}{\watt}$) na rede elétrica no modo gerador.
+    \item \textbf{Consistência das perdas rotacionais:} O diagrama de barras de balanço de potência confirma que as perdas rotacionais equivalentes ($B\omega_m^2$) variam de forma restrita entre $\SI{119,67}{\watt}$ (sob carga nominal) e $\SI{138,20}{\watt}$ (em operação hipersíncrona), em plena coerência com os $\SI{129,57}{\watt}$ mensurados experimentalmente no ensaio a vazio a \SI{1799}{\RPM}.
+\end{enumerate}
+Os resultados atestam a robustez numérica do solucionador implícito de Euler Retroativo na transição entre quadrantes e confirmam a estabilidade assintótica das grandezas após a extinção das oscilações subtransitórias.

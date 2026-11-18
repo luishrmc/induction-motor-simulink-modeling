@@ -33,28 +33,26 @@ A diferença entre $T_n$ e $T_{sinc}$ decorre do escorregamento positivo caracte
 
 \subsection{Distinção entre Conjugado Útil de Eixo e Conjugado Eletromagnético}\label{subsec:distincao_torque}
 
-Em catálogos de motores ensaiados de forma desacoplada, as perdas mecânicas internas por atrito e ventilação são reduzidas ($P_{atrito} \approx \SI{130}{\watt}$), de modo que o conjugado eletromagnético desenvolvido no entreferro supera o torque nominal de eixo por uma diferença da ordem de \SI{0,7}{\Nm}.
-
-Na bancada descrita na \Cref{sec:parametros_bancada}, foi obtido um coeficiente de atrito viscoso equivalente de $B = \SI{0,0426}{\Nm\cdot\second/\radian}$. Na rotação nominal de \SI{1715}{\RPM}, o torque dissipado pelas forças viscosas do acoplamento é determinado por:
+Nos ensaios experimentais de laboratório descritos na \Cref{sec:parametros_bancada}, o motor foi caracterizado em operação desacoplada, obtendo-se perdas rotacionais a vazio de $P_{rot} = \SI{129,568}{\watt}$ a \SI{1799}{\RPM} e coeficiente de atrito viscoso equivalente de $B = \SI{0,003651}{\Nm\cdot\second/\radian}$. Na rotação nominal de \SI{1715}{\RPM}, o torque dissipado pelas forças viscosas e rotacionais equivalentes do motor é determinado por:
 \begin{equation}
-T_{atrito} = B \cdot \omega_{nom} = 0{,}0426 \cdot 179{,}5943 = \SI{7,6507}{\Nm},
+T_{atrito} = B \cdot \omega_{nom} = 0{,}003651 \cdot 179{,}5943 = \SI{0,6557}{\Nm},
 \label{eq:torque_atrito_nominal}
 \end{equation}
 ao qual corresponde a dissipação de potência rotacional:
 \begin{equation}
-P_{atrito} = B \cdot \omega_{nom}^2 = 0{,}0426 \cdot (179{,}5943)^2 = \SI{1374,03}{\watt}.
+P_{atrito} = B \cdot \omega_{nom}^2 = 0{,}003651 \cdot (179{,}5943)^2 = \SI{117,76}{\watt}.
 \label{eq:potencia_atrito_nominal}
 \end{equation}
 
-O conjugado mecânico líquido efetivamente entregue à ponta do eixo ($T_{shaft}$) relaciona-se diretamente com o conjugado eletromagnético interno ($T_{em}$) pela subtração das perdas viscosas:
+O conjugado mecânico líquido efetivamente entregue à ponta do eixo ($T_{shaft}$) relaciona-se diretamente com o conjugado eletromagnético interno ($T_{em}$) pela subtração das perdas viscosas equivalentes:
 \begin{equation}
 T_{shaft} = T_{em} - B \omega_m = T_{em} - T_{atrito}.
 \label{eq:torque_util_eixo}
 \end{equation}
 
-Para fornecer à carga acoplada o conjugado nominal de catálogo, com $T_L = T_n = \SI{20,6020}{\Nm}$, o campo do entreferro deve desenvolver um conjugado eletromagnético dado pelo equilíbrio dinâmico em regime permanente:
+Para fornecer à carga o conjugado nominal de catálogo na velocidade de placa ($T_L = T_n = \SI{20,6020}{\Nm}$), o campo do entreferro deve desenvolver um conjugado eletromagnético dado pelo equilíbrio dinâmico em regime permanente:
 \begin{equation}
-T_{e,\text{req}} = T_n + T_{atrito} = 20{,}6020 + 7{,}6507 = \SI{28,2527}{\Nm}.
+T_{e,\text{req}} = T_n + T_{atrito} = 20{,}6020 + 0{,}6557 = \SI{21,2577}{\Nm}.
 \label{eq:torque_total_requerido}
 \end{equation}
 

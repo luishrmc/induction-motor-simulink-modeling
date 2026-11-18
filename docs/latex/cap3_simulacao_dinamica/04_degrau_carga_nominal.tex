@@ -1,61 +1,51 @@
 \section{Resposta ao Degrau de Carga Nominal ($T_L = +T_{nom}$)}\label{sec:degrau_carga}
 
-A inserção abrupta de carregamento mecânico nominal com a máquina previamente estabilizada a vazio provoca uma desaceleração controlada do rotor, elevando o escorregamento relativo e amplificando a força eletromotriz induzida nas barras para restabelecer o equilíbrio eletromecânico. A avaliação das trajetórias temporais no Simscape SPS viabiliza quantificar os tempos de acomodação e auditar a convergência das variáveis de regime permanente frente às deduções analíticas da 1ª Parte.
+A inserção abrupta de carregamento mecânico nominal com a máquina previamente estabilizada a vazio provoca uma desaceleração controlada do rotor, elevando o escorregamento relativo e amplificando a força eletromotriz induzida nas barras da gaiola para restabelecer o equilíbrio eletromecânico. A avaliação das trajetórias temporais no Simscape SPS ao longo de $t \in [0, \, \SI{3,0}{\second}]$, com aplicação do degrau em $t = \SI{1,5}{\second}$, viabiliza quantificar o tempo de acomodação e auditar a convergência das variáveis de regime permanente frente à solução analítica da máquina carregada.
 
-% =========================================================================
-% [DIRETRIZ DE REDAÇÃO]
-% - Objetivo: Atender ao Item 2.D de sim_proj.pdf. Simular o motor operando inicialmente a vazio
-%   e aplicar um degrau de carga nominal (T_L = +T_nom = +20,6020 N*m) em t = 2,0 s.
-% - Formulação: Apresentar a resposta dinâmica de velocidade, conjugado, corrente e potências ativa e reativa.
-%   Demonstrar o reequilíbrio de conjugados: T_e = T_L + B * \omega_m = 20,60 + 7,65 = 28,25 N*m.
-% - Figuras/Tabelas: Incluir os 4 gráficos de transitório requeridos:
-%   item2d_step_load_speed.png, item2d_step_load_torque.png, item2d_step_load_current.png e item2d_step_load_powers.png.
-% - Confronto: Realizar a auditoria de convergência com a solução analítica nominal do Item 1.C,
-%   comprovando erro estritamente inferior a 2,0% (n_erro = 0,01%, I_erro = 0,96%, P_erro = 0,94%).
-% =========================================================================
+\subsection{Dinâmica de Velocidade e Equilíbrio de Conjugado sob Carga Plena}\label{subsec:degrau_speed_torque}
 
-No instante $t = \SI{2,0}{\second}$, aplica-se o degrau de torque $T_L = \SI{20,6020}{\Nm}$. O reequilíbrio estático requer que o conjugado eletromagnético desenvolvido compense a carga e o atrito da bancada:
+Após a partida direta a vazio, o motor opera em equilíbrio estacionário até $t = \SI{1,5}{\second}$ com $n_0 = \SI{1797,92}{\RPM}$ e $T_e = \SI{0,687}{\Nm}$. No instante $t = \SI{1,5}{\second}$, aplica-se o degrau positivo de conjugado resistente nominal $T_L = +T_{nom} = +\SI{20,6020}{\Nm}$. Como $T_L + B\omega_m > T_e$ no instante da perturbação, o saldo negativo na equação dinâmica (\cref{eq:dinamica_rotacional_bancada}) desacelera o rotor; a queda de rotação incrementa o escorregamento $s$, reduzindo a resistência aparente $R_2'/s$ e ampliando a corrente rotórica induzida até que o conjugado eletromagnético iguale a oposição mecânica total:
 \begin{equation}
-T_e = T_L + B \omega_m = 20{,}6020 + (0{,}0426 \cdot 179{,}57) = \SI{28,252}{\Nm} \approx \SI{28,36}{\Nm} \quad (\text{simulado}).
+T_e = T_L + B \omega_m = 20{,}6020 + (0{,}003651 \cdot 181{,}046) = 20{,}6020 + 0{,}6610 = \SI{21,263}{\Nm}.
 \label{eq:balanco_conjugado_degrau}
 \end{equation}
 
-\subsection{Dinâmica de Velocidade e Conjugado sob Carga Plena}\label{subsec:degrau_speed_torque}
-
-As \Cref{fig:degrau_velocidade,fig:degrau_torque} exibem a resposta da rotação mecânica e do conjugado eletromagnético ao degrau de carga.
+As \Cref{fig:degrau_velocidade,fig:degrau_torque} exibem a evolução temporal da rotação mecânica e do conjugado eletromagnético durante a partida e o transitório de carga.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.82\textwidth]{item2d_step_load_speed.png}
-\caption{Resposta da Velocidade Mecânica do Rotor ao degrau de conjugado nominal ($T_L = \SI{20,6020}{\Nm}$ em $t = \SI{2,0}{\second}$).}
+\includegraphics[width=0.84\textwidth]{item2d_step_load_speed.png}
+\caption{Resposta da Velocidade Mecânica do Rotor ao degrau de conjugado nominal ($T_L = +\SI{20,6020}{\Nm}$ em $t = \SI{1,5}{\second}$).}
 \label{fig:degrau_velocidade}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.82\textwidth]{item2d_step_load_torque.png}
-\caption{Resposta do Conjugado Eletromagnético ao degrau de carga nominal.}
+\includegraphics[width=0.84\textwidth]{item2d_step_load_torque.png}
+\caption{Resposta do Conjugado Eletromagnético e verificação do equilíbrio $T_e = T_L + B\omega_m$ ao degrau de carga nominal.}
 \label{fig:degrau_torque}
 \end{figure}
 
-A rotação acomoda-se suavemente em $n = \SI{1714,8}{\RPM}$ ($s = 0{,}04733$) em aproximadamente $t_s \approx \SI{0,8}{\second}$.
+Sob a inércia consolidada $J = \SI{0,0555}{\kilogram\meter\squared}$, observa-se um afundamento transitório de velocidade (\textit{droop}) de $\Delta n = \SI{69,05}{\RPM}$, acomodando-se assintoticamente em menos de \SI{0,15}{\second} no novo patamar de equilíbrio $n_{\text{sim}} = \SI{1728,87}{\RPM}$ ($s = \SI{3,95}{\percent}$), com erro relativo de \SI{0,034}{\percent} frente ao equilíbrio analítico ($n_{\text{an}} = \SI{1729,45}{\RPM}$). O conjugado eletromagnético simulado estabiliza em $T_{e,\text{sim}} = \SI{21,263}{\Nm}$ (erro relativo de \SI{0,001}{\percent} frente a $T_{e,\text{an}} = \SI{21,263}{\Nm}$), confirmando que o atrito viscoso equivalente ($B\omega_m = \SI{0,661}{\Nm}$) responde por apenas \SI{3,1}{\percent} do torque total desenvolvido. Ressalta-se que a rotação de equilíbrio sob $T_L = +\SI{20,602}{\Nm}$ resulta ligeiramente superior à nominal de placa (\SI{1715}{\RPM}) justamente porque a resistência rotórica medida a frio ($R_2' = \SI{1,180}{\ohm}$) demanda menor escorregamento ($3{,}95\%$ contra $4{,}72\%$) para desenvolver o mesmo conjugado no entreferro.
 
 \subsection{Dinâmica da Corrente de Estator e Potências Ativa e Reativa}\label{subsec:degrau_corrente_potencias}
 
-As \Cref{fig:degrau_corrente,fig:degrau_potencias} registram a evolução da corrente eficaz e das potências elétricas trifásicas absorvidas.
+As \Cref{fig:degrau_corrente,fig:degrau_potencias} registram a expansão da corrente eficaz de estator e a transição das potências ativa e reativa trifásicas.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.82\textwidth]{item2d_step_load_current.png}
-\caption{Resposta da Corrente de Linha de Estator ao degrau de carga nominal.}
+\includegraphics[width=0.84\textwidth]{item2d_step_load_current.png}
+\caption{Evolução da Corrente de Linha de Estator ao degrau de carga nominal e detalhe trifásico da transição.}
 \label{fig:degrau_corrente}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.82\textwidth]{item2d_step_load_powers.png}
-\caption{Dinâmica das Potências Ativa ($P$) e Reativa ($Q$) ao degrau de carga nominal.}
+\includegraphics[width=0.84\textwidth]{item2d_step_load_powers.png}
+\caption{Dinâmica das Potências Ativa ($P$) e Reativa ($Q$) absorvidas da rede no degrau de carga nominal.}
 \label{fig:degrau_potencias}
 \end{figure}
 
-A corrente estabiliza em $I_{line,sim} = \SI{14,15}{\ampere}$ (erro de $+0{,}96\%$ frente a $I_{line,an} = \SI{14,02}{\ampere}$), a potência ativa em $P_{sim} = \SI{5676,0}{\watt}$ (erro de $+0{,}94\%$) e a potência reativa em $Q_{sim} = \SI{3245,0}{\text{var}}$ (erro de $+1{,}14\%$), demonstrando conformidade com a tolerância de $\pm \SI{2,0}{\percent}$.
+Com a elevação do escorregamento após $t = \SI{1,5}{\second}$, a amplitude da corrente de linha expande-se suavemente ao longo de poucos ciclos elétricos, passando de \SI{7,342}{\ampere} RMS a vazio para $I_{line,\text{sim}} = \SI{14,163}{\ampere}$ RMS sob carga nominal (pico senoidal de $\pm \SI{20,03}{\ampere}$), apresentando erro de \SI{0,210}{\percent} frente à predição analítica ($I_{line,\text{an}} = \SI{14,133}{\ampere}$ RMS) e convergindo a \SI{1,17}{\percent} do valor nominal de placa (\SI{14,00}{\ampere}).
+
+Analogamente, a potência elétrica ativa absorvida da rede salta de $P_0 = \SI{194,25}{\watt}$ para $P_{\text{sim}} = \SI{4248,71}{\watt}$ (erro de \SI{0,075}{\percent} em relação ao valor analítico de \SI{4245,53}{\watt}), suprindo $\SI{3729,9}{\watt}$ de potência mecânica útil no eixo ($T_L \omega_m$), $\SI{119,67}{\watt}$ de perdas rotacionais ($B\omega_m^2$) e as perdas Joule no estator e no rotor, resultando em rendimento líquido de eixo de $\eta_{shaft} = \SI{87,79}{\percent}$ (analítico $\SI{87,88}{\percent}$). A potência reativa demandada eleva-se de \SI{2790,65}{\text{var}} para $Q_{\text{sim}} = \SI{3328,09}{\text{var}}$ (erro de \SI{0,437}{\percent} frente a $\SI{3313,59}{\text{var}}$ analítico), em decorrência do acréscimo de fluxo de dispersão nas indutâncias $L_{l1}$ e $L_{l2}'$ sob maior corrente de carga, estabilizando o fator de potência em $\cos\phi = 0{,}787$ (analítico $0{,}788$, erro de \SI{0,135}{\percent}). Todas as cinco grandezas auditadas convergem com desvios muito inferiores ao limite de $\pm \SI{2,0}{\percent}$.
