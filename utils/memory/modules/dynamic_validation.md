@@ -2,55 +2,53 @@
 module: dynamic_validation
 status: verified
 sources:
-  - simulacao_ele035/parte2_simulacao_dinamica/item_C_partida_direta_vazio/run_item_C_simulacao.m
-  - simulacao_ele035/parte2_simulacao_dinamica/item_D_degrau_carga_nominal/run_item_D_simulacao.m
-  - simulacao_ele035/parte2_simulacao_dinamica/item_E_operacao_regenerativa/run_item_E_simulacao.m
+  - simulacao_ele035/parte2_simulacao_dinamica/item_C_partida_direta_vazio/run_item_C_simulacao.m sha256=0e03dc8801d8f3d9102099c0650c78d68326e7d7bb2933353baa1adfe16233a9
+  - simulacao_ele035/parte2_simulacao_dinamica/item_D_degrau_carga_nominal/run_item_D_simulacao.m sha256=55e99dcb4867abdc9719adbb3a505fe6b44184aff196a41dcd02e83bf25c5f05
+  - simulacao_ele035/parte2_simulacao_dinamica/item_E_operacao_regenerativa/run_item_E_simulacao.m sha256=ef88ee56380920e07ceaa12789d6ce461228a2cd1b14de6ab145977ac0988b9f
 gates_passed: [matlab-lint, simulink-gate, tolerance-gate, technical-critic]
 ---
 
 # Dynamic Validation Module Digest
 
-Electromechanical and electrical transient validation of the Simscape SPS induction machine model against analytical baselines and tolerance gates.
+Transient validation of the Simscape SPS model against analytical baselines (`<= 2.0%`) and bench measurements (`02_Ensaio_Vazio.csv`, `07_dados_de_placa.csv`).
 
 ## Direct-On-Line (DOL) No-Load Startup Transient (Task 3.1)
-- **Time Horizon:** $t_{stop} = 6.0\text{ s}$ to guarantee asymptotic settlement under coupled bench inertia ($J = 0.701\text{ kg}\cdot\text{m}^2$).
-- **Standstill Initialization:** Motor accelerates from $n(0) = 0\text{ rpm}$ under accelerating torque $T_e - B\omega_m$.
-- **Analytical No-Load Equilibrium:** $T_{em}(s) = B\omega_m(s) \implies s = 0.013603$, $n = 1775.52\text{ rpm}$, $T_{em} = 7.9207\text{ N}\cdot\text{m}$, $I_{line} = 8.4928\text{ A RMS}$.
-- **Inrush Dynamics:** Locked-rotor theoretical symmetrical $I_{line,start} = 67.73\text{ A RMS}$ (peak $95.78\text{ A}$). Instantaneous simulated peak $121.25\text{ A}$ at $t = 7.9\text{ ms}$ (ratio $1.266\times$ due to DC inductive closing offset). Subtransient damping within $70\text{ ms}$.
+- **Horizon & Settling:** $t_{stop} = 2.0\text{ s}$ ($J = 0.0555\text{ kg}\cdot\text{m}^2$, $B = 0.003651\text{ N}\cdot\text{m}\cdot\text{s/rad}$); rotor settles in $\sim 0.36\text{ s}$.
+- **No-Load Equilibrium & Tier 2 Bench Match:** Analytical $n = 1797.93\text{ rpm}$, Simscape $1797.92\text{ rpm}$ vs. `02_Ensaio_Vazio.csv` ($1799\text{ rpm}$, $0.060\%$), $I_{line} = 7.342\text{ A}$ (vs. $7.36\text{ A}$, $0.249\%$), $P_0 = 194.25\text{ W}$ (vs. $194.00\text{ W}$, $0.127\%$).
+- **Inrush Dynamics:** Symmetrical $I_{line,start} = 67.73\text{ A RMS}$ (peak $95.78\text{ A}$); simulated peak $121.18\text{ A}$ (ratio $1.265\times$ DC offset); subtransient torque peak $77.99\text{ N}\cdot\text{m}$ damping in $70\text{ ms}$.
 
 ## Step Nominal Load Torque Transient & Mechanical Balance (Task 3.2)
-- **Time Horizon:** $t_{stop} = 8.0\text{ s}$, with step disturbance applied at $t_{step} = 5.0\text{ s}$ after complete no-load electromechanical settlement.
-- **Disturbance:** Full catalog nominal shaft torque $T_L = +20.602\text{ N}\cdot\text{m}$ applied as a step.
-- **Opposing Mechanical Torque:** $T_{opp} = T_L + B\omega_m = 20.602 + (0.0426 \times 178.07) = 28.188\text{ N}\cdot\text{m}$.
-- **Electrical Powers:** Instantaneous active and reactive powers computed via Clarke $\alpha-\beta$ transform ($p = v_\alpha i_\alpha + v_\beta i_\beta$, $q = v_\beta i_\alpha - v_\alpha i_\beta$), filtered with a 1-cycle running mean for fundamental display.
+- **Horizon & Disturbance:** $t_{stop} = 3.0\text{ s}$, step $T_L = +20.602\text{ N}\cdot\text{m}$ at $t_{step} = 1.5\text{ s}$ (steady window $t \in [2.7, 3.0]\text{ s}$).
+- **Opposing Torque & Powers:** $T_{opp} = T_L + B\omega_m = 21.263\text{ N}\cdot\text{m}$; Clarke $\alpha-\beta$ powers ($p, q$) filtered over 1 cycle.
+- **Nameplate Reconciliation:** Under cold-$R_2'$, $I_{line} = 14.163\text{ A}$ vs. $14.0\text{ A}$ nameplate ($+1.17\%$), $n = 1728.87\text{ rpm}$ ($s = 3.95\%$), $\eta_{shaft} = 87.79\%$ (vs. $85.5\%$ nameplate).
 
 ## Generating Quadrant & Regenerative Braking Simulation (Task 3.3)
-- **Time Horizon:** $t_{stop} = 8.0\text{ s}$, with negative mechanical torque disturbance $T_L = -20.602\text{ N}\cdot\text{m}$ (prime mover) applied at $t_{step} = 5.0\text{ s}$.
-- **Hypersynchronous Speed Crossing:** Motor accelerates from $n = 1775.52\text{ rpm}$, crossing synchronous boundary ($n_s = 1800\text{ rpm}$) to settle at $n_{ss} = 1836.42\text{ rpm}$ ($s = -0.0202 < 0$).
-- **Active Power Reversal:** Active electrical power inverts from $+1578.8\text{ W}$ to $-2218.13\text{ W}$, actively generating power back into the 220 V AC grid.
-- **Continuous Reactive Excitation:** Inductive reactive power remains strictly positive ($Q = +3118.39\text{ var} > 0$), validating continuous magnetic field excitation drawn from the AC grid.
-- **Mechanical Equilibrium:** $T_e = T_L + B\omega_m = -20.602 + (0.0426 \times 192.31) = -12.410\text{ N}\cdot\text{m}$ ($0.008\%$ error vs analytical $-12.411\text{ N}\cdot\text{m}$).
+- **Horizon & Disturbance:** $t_{stop} = 3.0\text{ s}$, negative prime-mover step $T_L = -20.602\text{ N}\cdot\text{m}$ at $t_{step} = 1.5\text{ s}$.
+- **Hypersynchronous Regime:** Rotor accelerates past $n_s = 1800\text{ rpm}$ to $1857.86\text{ rpm}$ ($s = -0.0321 < 0$).
+- **Power & Torque Inversion:** Active power inverts from $+194.25\text{ W}$ to $-3543.60\text{ W}$ (grid injection); reactive excitation stays positive ($Q = +3515.10\text{ var} > 0$); $T_e = -19.892\text{ N}\cdot\text{m}$.
 
-## Steady-State Convergence Audit (Tolerance Gate: $\le 2.0\%$)
+## Steady-State Convergence Audit (Tier 1 Tolerance: $\le 2.0\%$)
 
-| Operating Condition | Metric | Analytical Exact | Dynamic Simscape | Error (%) | Status |
+| Operating Condition | Metric | Analytical | Simscape | Error (%) | Status |
 |---|---|---|---|---|---|
-| **No-Load Motoring ($t=4.9\,\mathrm{s}$)** | Rotor Speed ($n$) | $1775.52\,\mathrm{rpm}$ | $1775.36\,\mathrm{rpm}$ | $0.009\%$ | PASS |
-| | Developed Torque ($T_e$) | $7.921\,\mathrm{N\cdot m}$ | $7.922\,\mathrm{N\cdot m}$ | $0.024\%$ | PASS |
-| | Stator Line Current ($I_s$) | $8.493\,\mathrm{A_{rms}}$ | $8.482\,\mathrm{A_{rms}}$ | $0.095\%$ | PASS |
-| **Loaded Motoring ($t=7.9\,\mathrm{s}$)** | Rotor Speed ($n$) | $1701.46\,\mathrm{rpm}$ | $1700.42\,\mathrm{rpm}$ | $0.061\%$ | PASS |
-| | Developed Torque ($T_e$) | $28.192\,\mathrm{N\cdot m}$ | $28.186\,\mathrm{N\cdot m}$ | $0.021\%$ | PASS |
-| | Stator Line Current ($I_s$) | $18.046\,\mathrm{A_{rms}}$ | $18.111\,\mathrm{A_{rms}}$ | $0.361\%$ | PASS |
-| | Active Power ($P$) | $5701.34\,\mathrm{W}$ | $5706.68\,\mathrm{W}$ | $0.094\%$ | PASS |
-| | Reactive Power ($Q$) | $3844.67\,\mathrm{var}$ | $3881.57\,\mathrm{var}$ | $0.960\%$ | PASS |
-| **Loaded Generating ($t=7.9\,\mathrm{s}$)** | Rotor Speed ($n$) | $1836.21\,\mathrm{rpm}$ | $1836.42\,\mathrm{rpm}$ | $0.011\%$ | PASS |
-| | Developed Torque ($T_e$) | $-12.411\,\mathrm{N\cdot m}$ | $-12.410\,\mathrm{N\cdot m}$ | $0.008\%$ | PASS |
-| | Stator Line Current ($I_s$) | $10.046\,\mathrm{A_{rms}}$ | $10.043\,\mathrm{A_{rms}}$ | $0.030\%$ | PASS |
-| | Active Power ($P$) | $-2219.34\,\mathrm{W}$ | $-2218.13\,\mathrm{W}$ | $0.055\%$ | PASS |
-| | Reactive Power ($Q$) | $+3119.08\,\mathrm{var}$ | $+3118.39\,\mathrm{var}$ | $0.022\%$ | PASS |
+| **No-Load ($t \ge 1.5\text{ s}$)** | Speed ($n$) | $1797.93\text{ rpm}$ | $1797.92\text{ rpm}$ | $0.001\%$ | PASS |
+| | Torque ($T_e$) | $0.687\text{ N}\cdot\text{m}$ | $0.687\text{ N}\cdot\text{m}$ | $0.001\%$ | PASS |
+| | Current ($I_s$) | $7.362\text{ A}$ | $7.342\text{ A}$ | $0.274\%$ | PASS |
+| | Active Power ($P$) | $194.01\text{ W}$ | $194.25\text{ W}$ | $0.121\%$ | PASS |
+| | Reactive Power ($Q$) | $2798.52\text{ var}$ | $2790.65\text{ var}$ | $0.281\%$ | PASS |
+| **Loaded ($t \ge 2.7\text{ s}$)** | Speed ($n$) | $1729.45\text{ rpm}$ | $1728.87\text{ rpm}$ | $0.034\%$ | PASS |
+| | Torque ($T_e$) | $21.263\text{ N}\cdot\text{m}$ | $21.263\text{ N}\cdot\text{m}$ | $0.001\%$ | PASS |
+| | Current ($I_s$) | $14.133\text{ A}$ | $14.163\text{ A}$ | $0.210\%$ | PASS |
+| | Active Power ($P$) | $4245.53\text{ W}$ | $4248.71\text{ W}$ | $0.075\%$ | PASS |
+| | Reactive Power ($Q$) | $3313.59\text{ var}$ | $3328.09\text{ var}$ | $0.437\%$ | PASS |
+| **Generating ($t \ge 2.7\text{ s}$)** | Speed ($n$) | $1857.49\text{ rpm}$ | $1857.86\text{ rpm}$ | $0.020\%$ | PASS |
+| | Torque ($T_e$) | $-19.892\text{ N}\cdot\text{m}$ | $-19.892\text{ N}\cdot\text{m}$ | $0.001\%$ | PASS |
+| | Current ($I_s$) | $13.084\text{ A}$ | $13.099\text{ A}$ | $0.109\%$ | PASS |
+| | Active Power ($P$) | $-3545.96\text{ W}$ | $-3543.60\text{ W}$ | $0.067\%$ | PASS |
+| | Reactive Power ($Q$) | $+3504.96\text{ var}$ | $+3515.10\text{ var}$ | $0.289\%$ | PASS |
 
 ## Generated Artifacts (`simulacao_ele035/parte2_simulacao_dinamica/` & `.agents/gates/`)
-- **Task 3.1 Waveforms:** `item2c_transient_dol_{speed,current,torque}.{png,fig}` and `analise_convergencia.json`.
-- **Task 3.2 Waveforms:** `item2d_step_load_{speed,current,powers,torque}.{png,fig}` and `comparison_3.2.json`.
-- **Task 3.3 Waveforms:** `item2e_regenerative_{speed,powers,torque}.{png,fig}` and `comparison_3.3.json`.
+- **Task 3.1:** `item2c_transient_dol_{speed,current,torque}.{png,fig}`, `analise_convergencia.json`.
+- **Task 3.2:** `item2d_step_load_{speed,current,powers,torque}.{png,fig}`, `comparison_3.2.json`.
+- **Task 3.3:** `item2e_regenerative_{speed,powers,torque}.{png,fig}`, `comparison_3.3.json`.
 - **Gate Receipts:** `.agents/gates/3.1.json`, `.agents/gates/3.2.json`, `.agents/gates/3.3.json`.

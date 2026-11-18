@@ -9,15 +9,15 @@
     },
     "tolerance-gate": {
       "status": "PASS",
-      "detail": "Convergence audit: PASS (tol=2.0%)",
+      "detail": "Tier1=PASS, Tier2=PASS (tol=2.0%)",
       "src_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "timestamp": "2026-11-18T07:15:53-0300"
+      "timestamp": "2026-11-18T08:54:52-0300"
     },
     "simulink-gate": {
       "status": "PASS",
       "detail": "Simscape model execution verified",
-      "src_sha256": "759f9ca9b14530d3924b08179b1af6b92100794cbd1aa87e32c385bd49dc070f",
-      "timestamp": "2026-11-18T07:12:04-0300"
+      "src_sha256": "ea71ed1bc49dc729b1f8545a721a956ffcfd04d3d810a2d24ca63eb93122e43b",
+      "timestamp": "2026-11-18T08:34:11-0300"
     },
     "technical-critic": {
       "status": "PASS",
