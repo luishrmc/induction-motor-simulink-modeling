@@ -1,42 +1,34 @@
 {
   "figure_id": "item2d_step_load_current",
   "task_ref": "Part 2, Item D",
-  "title": "Evolução da Corrente Estatórica no Degrau de Carga",
+  "title": "Evolucao da Corrente Estatorica no Degrau de Carga",
   "operating_conditions": {
     "voltage_LL_rms_V": 220.0,
     "frequency_Hz": 60.0,
-    "step_instant_s": 5.0,
+    "step_instant_s": 1.5,
     "load_torque_step_Nm": 20.602
   },
   "key_numerical_markers": {
-    "pre_step_no_load_current_A_rms": 8.482,
-    "post_step_loaded_current_A_rms": 18.111,
-    "theoretical_loaded_current_A_rms": 18.046,
-    "steady_state_relative_error_pct": 0.361,
-    "loaded_peak_current_A": 25.61
+    "pre_step_no_load_current_A_rms": 7.342,
+    "post_step_loaded_current_A_rms": 14.163,
+    "theoretical_loaded_current_A_rms": 14.133,
+    "steady_state_relative_error_pct": 0.21,
+    "loaded_peak_current_A": 20.03
   },
   "axis_extents": {
     "xlim_full": [
       0.0,
-      8.0
-    ],
-    "ylim_full": [
-      -140.0,
-      140.0
+      3.0
     ],
     "xlim_zoom": [
-      4.9,
-      5.25
-    ],
-    "ylim_zoom": [
-      -35.0,
-      35.0
+      1.4,
+      1.75
     ]
   },
   "physical_phenomena_summary": [
-    "A corrente de linha RMS expande de 8.48 A RMS (a vazio) para 18.11 A RMS sob carga nominal.",
-    "A expansão trifásica (zoom 4.90 a 5.25 s) ocorre suavemente ao longo de 2 a 3 ciclos elétricos.",
-    "A corrente sob plena carga (18.11 A) reflete a solicitação total de 28.19 N.m (torque de carga nominal + arrasto viscoso da bancada).",
-    "A concordância com a predição analítica (18.05 A RMS) é de 0.361%."
+    "A corrente de linha RMS expande de 7.342 A RMS (a vazio) para 14.163 A RMS sob carga nominal.",
+    "A expansao trifasica (zoom 1.40 a 1.75 s) ocorre suavemente ao longo de poucos ciclos eletricos.",
+    "A corrente sob plena carga (14.163 A) aproxima-se estreitamente do valor nominal de catalogo (14.0 A).",
+    "A concordancia com a predicao analitica (14.133 A RMS) apresenta erro de 0.210%."
   ]
 }

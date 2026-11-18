@@ -1,10 +1,10 @@
 # Parte 2: Item C — Simulação da Partida Direta a Vazio e Validação de Inrush
 
 ## Descrição do Módulo
-Este módulo atende integralmente ao Item C da 2ª Parte da especificação `sim_proj.pdf`. Ele simula a partida direta com rotor em repouso sem carga externa ($T_L = 0$) por um horizonte temporal de $6,0\text{ segundos}$ para validar:
-1. O pico instantâneo de inrush ($121,25\text{ A}$) com componente contínua assimétrica nos primeiros semiciclos.
+Este módulo atende integralmente ao Item C da 2ª Parte da especificação `sim_proj.pdf`. Ele simula a partida direta com rotor em repouso sem carga externa ($T_L = 0$) por um horizonte temporal de $2,0\text{ segundos}$ (adequado à constante de tempo mecânica sob $J = 0,0555\text{ kg}\cdot\text{m}^2$ e $B = 0,003651\text{ N}\cdot\text{m}\cdot\text{s/rad}$) para validar:
+1. O pico instantâneo de inrush ($121,18\text{ A}$) com componente contínua assimétrica nos primeiros semiciclos.
 2. A amortização rápida do offset DC ($\approx 70\text{ ms}$) e concordância com o valor simétrico de rotor bloqueado ($67,73\text{ A}$ RMS).
-3. A rotação estabilizada a vazio ($1775,36\text{ rpm}$), evidenciando o equilíbrio com o atrito da bancada acoplada ($T_e = B\omega_m = 7,92\text{ N}\cdot\text{m}$).
+3. A rotação estabilizada a vazio ($1797,92\text{ rpm}$), evidenciando o equilíbrio com as perdas rotacionais consolidadas ($T_e = B\omega_m = 0,687\text{ N}\cdot\text{m}$, $P_0 = 194,25\text{ W}$ frente a $194,00\text{ W}$ do ensaio experimental).
 
 ---
 
@@ -23,6 +23,6 @@ Este módulo atende integralmente ao Item C da 2ª Parte da especificação `sim
 
 ## Figuras e Arquivos Gerados
 - `figures/item2c_transient_dol_current.{png,fig}`: Forma de onda da corrente instantânea de estator e inrush.
-- `figures/item2c_transient_dol_speed.{png,fig}`: Aceleração da rotação de 0 a $1775,36\text{ rpm}$.
-- `figures/item2c_transient_dol_torque.{png,fig}`: Pulsação eletromagnética de partida ($78,8\text{ N}\cdot\text{m}$) e acomodação.
-- `analise_convergencia.json`: Relatório de validação de erro relativo frente aos valores analíticos calculados ($\le 0,095\%$).
+- `figures/item2c_transient_dol_speed.{png,fig}`: Aceleração da rotação de 0 a $1797,92\text{ rpm}$ (~0,35 s de acomodação).
+- `figures/item2c_transient_dol_torque.{png,fig}`: Pulsação eletromagnética de partida ($77,99\text{ N}\cdot\text{m}$) e acomodação.
+- `analise_convergencia.json`: Relatório de validação de erro relativo frente aos valores analíticos calculados via `fzero` ($\le 0,281\%$) e ao ensaio experimental a vazio.

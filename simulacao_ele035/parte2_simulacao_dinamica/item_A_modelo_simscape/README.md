@@ -19,9 +19,10 @@ Para abrir o modelo diretamente na interface gráfica do Simulink com todos os p
 
 ### Arquivos do Módulo
 - `abrir_modelo.m`: Inicializa o workspace via `setup_parametros_Y()` e abre `mit_simscape_model.slx` no Simulink GUI.
-- `setup_parametros_Y.m`: Define os parâmetros nominais e aplica a transformação Estrela-Triângulo ($R/3, L/3$).
+- `setup_parametros_Y.m`: Consome `simulacao_ele035/parametros_motor.m` (parâmetros consolidados de `utils/data/`) e aplica a transformação Estrela-Triângulo ($R/3, L/3$).
 - `build_simscape_model.m`: Constrói programaticamente o diagrama `mit_simscape_model.slx`.
 - `run_sim_harness.m`: Harness de execução em lote utilizado pelos Itens 2.C, 2.D e 2.E (`dol_startup`, `nominal_step`, `regenerative`).
+- `figures/mit_simscape_diagram.png`: Diagrama de blocos Simscape SPS exportado em 300 DPI.
 
 ---
 
@@ -38,9 +39,9 @@ $$\vec{Z}_Y = \frac{\vec{Z}_\Delta}{3}$$
 - $L_{l2,Y}' = L_{l2}' / 3 = 8,420\text{ mH} / 3 = 2,80667\text{ mH}$
 - $L_{m,Y} = L_m / 3 = 131,571\text{ mH} / 3 = 43,85700\text{ mH}$
 
-Os parâmetros mecânicos são invariantes com a conexão elétrica:
-- $J = 0,701\text{ kg}\cdot\text{m}^2$
-- $B = 0,0426\text{ N}\cdot\text{m}\cdot\text{s/rad}$
+Os parâmetros mecânicos são invariantes com a conexão elétrica (`utils/data/04_Mecanicos.csv`, ADR-007):
+- $J = 0,0555\text{ kg}\cdot\text{m}^2$
+- $B = 0,003651\text{ N}\cdot\text{m}\cdot\text{s/rad}$
 - $p = 2$ pares de polos
 
 ---

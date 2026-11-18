@@ -1,1 +1,1 @@
-{"analytical":{"n_noload_rpm":1775.52,"I_line_noload":8.49,"T_em_noload":7.92},"simulated":{"n_noload_rpm":1775.3548382607262,"I_line_noload":8.482324834190031,"T_em_noload":7.9244836759505217}}
+{"analytical":{"n_noload_rpm":1797.9305191019066,"I_line_noload":7.3618317770331219,"T_em_noload":0.68740605828486023,"P_elec_noload":194.012707662205,"Q_elec_noload":2798.5175743814389},"simulated":{"n_noload_rpm":1797.9188730734459,"I_line_noload":7.341653353738347,"T_em_noload":0.68740160563158592,"P_elec_noload":194.246886203592,"Q_elec_noload":2790.65492713135}}

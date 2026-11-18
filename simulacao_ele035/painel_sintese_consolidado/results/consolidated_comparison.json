@@ -1,1 +1,244 @@
-{"title":"UFMG ELE035 - Consolidated Analytical vs. Simulation vs. Experimental Matrix","timestamp":"2026-10-24 16:23:27","table_headers":["Regime_Operacional","Grandeza_Metrica","Unidade","Placa_Catalogo","Ensaio_Bancada","Modelo_Analitico","Simulacao_Simscape","Erro_Sim_vs_Ana_pct","Analise_Causa_Raiz"],"rows":["Partida / Rotor Bloqueado (s=1.0)","Partida / Rotor Bloqueado (s=1.0)","Partida / Rotor Bloqueado (s=1.0)","Regime Permanente a Vazio (TL=0)","Regime Permanente a Vazio (TL=0)","Regime Permanente a Vazio (TL=0)","Regime Permanente a Vazio (TL=0)","Regime Permanente a Vazio (TL=0)","Operacao Nominal de Placa (n=1715 rpm)","Operacao Nominal de Placa (n=1715 rpm)","Operacao Nominal de Placa (n=1715 rpm)","Operacao Nominal de Placa (n=1715 rpm)","Operacao Nominal de Placa (n=1715 rpm)","Operacao Nominal de Placa (n=1715 rpm)","Operacao Nominal de Placa (n=1715 rpm)","Operacao Nominal de Placa (n=1715 rpm)","Regime Permanente sob Carga (TL=+20.60 N.m)","Regime Permanente sob Carga (TL=+20.60 N.m)","Regime Permanente sob Carga (TL=+20.60 N.m)","Regime Permanente sob Carga (TL=+20.60 N.m)","Regime Permanente sob Carga (TL=+20.60 N.m)","Regime Gerador Hipersincrono (TL=-20.60 N.m)","Regime Gerador Hipersincrono (TL=-20.60 N.m)","Regime Gerador Hipersincrono (TL=-20.60 N.m)","Regime Gerador Hipersincrono (TL=-20.60 N.m)","Regime Gerador Hipersincrono (TL=-20.60 N.m)","Conjugado Maximo / Despolarizacao (Tmax)","Conjugado Maximo / Despolarizacao (Tmax)","Corrente de Linha de Partida","Pico Instantaneo de Inrush","Conjugado Eletromagnetico de Partida","Velocidade de Rotacao","Conjugado Eletromagnetico","Corrente de Linha Estatorica","Potencia Ativa Absorvida","Potencia Reativa Absorvida","Velocidade de Rotacao","Conjugado Eletromagnetico Interno","Conjugado Util de Eixo","Potencia Mecanica de Eixo","Corrente de Linha Estatorica","Fator de Potencia","Rendimento Eletromagnetico Interno","Rendimento Global com Bancada","Velocidade de Rotacao","Conjugado Eletromagnetico","Corrente de Linha Estatorica","Potencia Ativa Absorvida","Potencia Reativa Absorvida","Velocidade de Rotacao","Conjugado Eletromagnetico de Frenagem","Corrente de Linha Estatorica","Potencia Ativa Fornecida a Rede","Potencia Reativa Absorvida da Rede","Conjugado de Ruptura (Tmax)","Velocidade no Conjugado Maximo","A RMS","A","N.m","rpm","N.m","A RMS","W","var","rpm","N.m","N.m","W","A RMS","-","%","%","rpm","N.m","A RMS","W","var","rpm","N.m","A RMS","W","var","N.m","rpm","106.40","150.47","25.35","1800.00","0.00","-","-","-","1715.00","-","20.602","3700.00","14.00","0.810","85.50","85.50","1715.00","20.602","14.00","4327.00","3126.00","-","-","-","-","-","47.38","-","65.30","-","-","1799.00","-","7.36","194.00","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","67.73","95.78","25.35","1775.52","7.921","8.493","1835.60","3390.10","1715.00","24.958","17.308","3108.30","16.153","0.815","89.38","62.00","1701.46","28.192","18.046","5701.34","3844.67","1836.21","-12.411","10.046","-2219.34","3119.08","54.63","1405.00","67.73","121.25","25.35","1775.36","7.922","8.482","1835.80","3390.40","1715.00","24.958","17.308","3108.30","16.153","0.815","89.38","62.00","1700.42","28.186","18.111","5706.68","3881.57","1836.42","-12.410","10.043","-2218.13","3118.39","-","-","0.000","26.58","0.000","0.009","0.024","0.095","0.011","0.009","0.000","0.000","0.000","0.000","0.000","0.000","0.000","0.000","0.061","0.021","0.361","0.094","0.960","0.011","0.008","0.030","0.054","0.022","-","-","Ensaio CC/Rotor bloqueado a 47.4V extrapolado linearmente. Simetrico analitico concorda perfeitamente com Simscape.","O pico instantaneo inclui componente assimetrica CC (offset indutivo X/R=2.31), amortecendo em 70ms.","Conjugado de partida simetrico perfeitamente convergente; pico dinamico oscilatorio atinge 78.80 N.m.","A bancada acoplada possui atrito viscoso B=0.0426 N.m.s/rad, estabilizando em 1775.5 rpm (s=1.36%).","Equilibrio estrito com atrito viscoso da bancada: Te = B*omega_m = 7.92 N.m.","Corrente predominantemente de magnetizacao indutiva, acrescida da componente ativa de atrito da bancada.","O ensaio a vazio experimental foi com motor desacoplado (194W); com bancada acoplada absorve 1.84 kW.","Potencia reativa pura consumida pelo ramo magnetizante Xm e dispersao.","Ponto operacional nominal de catalogo WEG (escorregamento s=4.72%).","Conjugado no entreferro antes de deduzir as perdas por atrito viscoso da bancada.","T_shaft = T_em - B*omega_m; deduz 7.65 N.m de arraste viscoso do gerador acoplado.","P_shaft = P_em - B*omega_m^2; deduz 1374 W de perdas rotacionais na bancada.","Corrente ligeiramente superior a de placa devido aos parametros consolidados dos ensaios.","Excelente concordancia com a especificacao nominal de placa (0.81).","Rendimento interno no entreferro desconsiderando atrito acoplado.","Rendimento reduzido pelo arraste viscoso do conjunto motor-gerador (1374 W consumidos em B).","Escorregamento ligeiramente maior devido a sobreposicao do torque nominal com atrito viscoso.","Equilibrio estrito: Te = TL + B*omega_m = 20.602 + 7.586 = 28.188 N.m.","Corrente correspondente a solicitacao total de 28.19 N.m.","Potencia ativa total alimentando 3669W mecanicos de carga util e 1350W de perdas viscosas.","Potencia reativa de magnetizacao e dispersao sob plena carga.","Operacao hipersincrona (s = -2.02% < 0) acionada por maquina primaria externa.","Conjugado negativo equilibrando acionamento e atrito: Te = TL + B*omega_m = -20.602 + 8.192 = -12.410 N.m.","Corrente gerada alimentada a rede de 220 V.","Fluxo de potencia ativa invertido: maquina injeta 2.22 kW liquidos na rede eletrica.","Gerador de inducao consome reativo indutivo para excitacao do entreferro.","Conjugado maximo calculado pela formula analitica exata (Tmax/Tn = 2.65 vs 2.3 de catalogo).","Velocidade correspondente ao escorregamento critico s_max = 21.94%."]}
+[
+  {
+    "Regime": "Partida / Rotor Bloqueado (s=1.0)",
+    "Metrica": "Corrente de Linha de Partida",
+    "Unidade": "A RMS",
+    "Placa_Catalogo": "106.40",
+    "Ensaio_Bancada": "65.30",
+    "Modelo_Analitico": "67.73",
+    "Simulink_Simscape": "67.73",
+    "Erro_Relativo_pct": "0.000",
+    "Analise_Discrepancia": "Ensaio rotor bloqueado a 47.4 V extrapolado linearmente para 220 V; modelo analitico e Simscape concordam."
+  },
+  {
+    "Regime": "Partida / Rotor Bloqueado (s=1.0)",
+    "Metrica": "Pico Instantaneo de Inrush",
+    "Unidade": "A",
+    "Placa_Catalogo": "150.47",
+    "Ensaio_Bancada": "-",
+    "Modelo_Analitico": "95.78",
+    "Simulink_Simscape": "121.18",
+    "Erro_Relativo_pct": "26.52",
+    "Analise_Discrepancia": "Pico instantaneo inclui componente aperiodica CC (X/R = 2.32), amortecendo em ~70 ms."
+  },
+  {
+    "Regime": "Partida / Rotor Bloqueado (s=1.0)",
+    "Metrica": "Conjugado Eletromagnetico de Partida",
+    "Unidade": "N.m",
+    "Placa_Catalogo": "-",
+    "Ensaio_Bancada": "-",
+    "Modelo_Analitico": "25.35",
+    "Simulink_Simscape": "25.35",
+    "Erro_Relativo_pct": "0.000",
+    "Analise_Discrepancia": "Conjugado simetrico s=1 convergente; pico subtransitorio dinamico atinge 77.99 N.m."
+  },
+  {
+    "Regime": "Regime Permanente a Vazio (TL=0)",
+    "Metrica": "Velocidade de Rotacao",
+    "Unidade": "rpm",
+    "Placa_Catalogo": "1800.00",
+    "Ensaio_Bancada": "1799.00",
+    "Modelo_Analitico": "1797.93",
+    "Simulink_Simscape": "1797.92",
+    "Erro_Relativo_pct": "0.001",
+    "Analise_Discrepancia": "Atrito viscoso consolidado B = 0.003651 N.m.s/rad (Prot = 129.42 W), estabilizando proximo a 1797.92 rpm."
+  },
+  {
+    "Regime": "Regime Permanente a Vazio (TL=0)",
+    "Metrica": "Conjugado Eletromagnetico",
+    "Unidade": "N.m",
+    "Placa_Catalogo": "0.00",
+    "Ensaio_Bancada": "-",
+    "Modelo_Analitico": "0.687",
+    "Simulink_Simscape": "0.687",
+    "Erro_Relativo_pct": "0.001",
+    "Analise_Discrepancia": "Equilibrio estrito com atrito viscoso rotacional: Te = B*omega_m = 0.687 N.m."
+  },
+  {
+    "Regime": "Regime Permanente a Vazio (TL=0)",
+    "Metrica": "Corrente de Linha de Estator",
+    "Unidade": "A RMS",
+    "Placa_Catalogo": "-",
+    "Ensaio_Bancada": "7.36",
+    "Modelo_Analitico": "7.362",
+    "Simulink_Simscape": "7.342",
+    "Erro_Relativo_pct": "0.274",
+    "Analise_Discrepancia": "Corrente magnetizante a vazio em total acordo com ensaio experimental (7.36 A)."
+  },
+  {
+    "Regime": "Regime Permanente a Vazio (TL=0)",
+    "Metrica": "Potencia Ativa Absorvida",
+    "Unidade": "W",
+    "Placa_Catalogo": "-",
+    "Ensaio_Bancada": "194.00",
+    "Modelo_Analitico": "194.01",
+    "Simulink_Simscape": "194.25",
+    "Erro_Relativo_pct": "0.121",
+    "Analise_Discrepancia": "Suprimento exato das perdas rotacionais (129.4 W) e Joule estatoricas, validado contra P0 = 194.0 W."
+  },
+  {
+    "Regime": "Regime Permanente a Vazio (TL=0)",
+    "Metrica": "Potencia Reativa Absorvida",
+    "Unidade": "var",
+    "Placa_Catalogo": "-",
+    "Ensaio_Bancada": "-",
+    "Modelo_Analitico": "2798.52",
+    "Simulink_Simscape": "2790.65",
+    "Erro_Relativo_pct": "0.281",
+    "Analise_Discrepancia": "Potencia reativa de magnetizacao do entreferro a vazio."
+  },
+  {
+    "Regime": "Regime Permanente a Vazio (TL=0)",
+    "Metrica": "Fator de Potencia a Vazio",
+    "Unidade": "-",
+    "Placa_Catalogo": "-",
+    "Ensaio_Bancada": "0.069",
+    "Modelo_Analitico": "0.069",
+    "Simulink_Simscape": "0.069",
+    "Erro_Relativo_pct": "0.396",
+    "Analise_Discrepancia": "Predominancia fortemente indutiva da corrente magnetizante a vazio."
+  },
+  {
+    "Regime": "Carga Nominal (+Tnom)",
+    "Metrica": "Velocidade de Rotacao",
+    "Unidade": "rpm",
+    "Placa_Catalogo": "1715.00",
+    "Ensaio_Bancada": "1715.00",
+    "Modelo_Analitico": "1729.45",
+    "Simulink_Simscape": "1728.87",
+    "Erro_Relativo_pct": "0.034",
+    "Analise_Discrepancia": "Escorregamento sob carga s = 3.95% para suprir TL = +20.60 N.m e atrito B*omega_m."
+  },
+  {
+    "Regime": "Carga Nominal (+Tnom)",
+    "Metrica": "Conjugado Eletromagnetico",
+    "Unidade": "N.m",
+    "Placa_Catalogo": "20.60",
+    "Ensaio_Bancada": "20.60",
+    "Modelo_Analitico": "21.263",
+    "Simulink_Simscape": "21.263",
+    "Erro_Relativo_pct": "0.001",
+    "Analise_Discrepancia": "Equilibrio Te = TL + B*omega_m = 20.60 + 0.661 = 21.263 N.m."
+  },
+  {
+    "Regime": "Carga Nominal (+Tnom)",
+    "Metrica": "Corrente de Linha de Estator",
+    "Unidade": "A RMS",
+    "Placa_Catalogo": "14.00",
+    "Ensaio_Bancada": "-",
+    "Modelo_Analitico": "14.133",
+    "Simulink_Simscape": "14.163",
+    "Erro_Relativo_pct": "0.210",
+    "Analise_Discrepancia": "Corrente sob carga em forte convergencia analitica-Simscape e proxima da placa (14.0 A)."
+  },
+  {
+    "Regime": "Carga Nominal (+Tnom)",
+    "Metrica": "Potencia Eletrica Ativa",
+    "Unidade": "W",
+    "Placa_Catalogo": "4327.49",
+    "Ensaio_Bancada": "-",
+    "Modelo_Analitico": "4245.53",
+    "Simulink_Simscape": "4248.71",
+    "Erro_Relativo_pct": "0.075",
+    "Analise_Discrepancia": "Potencia absorvida supre 3729.9 W uteis no eixo + 119.7 W de atrito + perdas Joule."
+  },
+  {
+    "Regime": "Carga Nominal (+Tnom)",
+    "Metrica": "Potencia Reativa Absorvida",
+    "Unidade": "var",
+    "Placa_Catalogo": "3133.05",
+    "Ensaio_Bancada": "-",
+    "Modelo_Analitico": "3313.59",
+    "Simulink_Simscape": "3328.09",
+    "Erro_Relativo_pct": "0.437",
+    "Analise_Discrepancia": "Demanda reativa de magnetizacao e dispersao sob conjugado nominal."
+  },
+  {
+    "Regime": "Carga Nominal (+Tnom)",
+    "Metrica": "Fator de Potencia sob Carga",
+    "Unidade": "-",
+    "Placa_Catalogo": "0.810",
+    "Ensaio_Bancada": "-",
+    "Modelo_Analitico": "0.788",
+    "Simulink_Simscape": "0.787",
+    "Erro_Relativo_pct": "0.135",
+    "Analise_Discrepancia": "Fator de potencia sob carga convergente e coerente com a especificacao de catalogo."
+  },
+  {
+    "Regime": "Carga Nominal (+Tnom)",
+    "Metrica": "Rendimento Global de Eixo",
+    "Unidade": "%",
+    "Placa_Catalogo": "85.50",
+    "Ensaio_Bancada": "-",
+    "Modelo_Analitico": "87.88",
+    "Simulink_Simscape": "87.79",
+    "Erro_Relativo_pct": "0.109",
+    "Analise_Discrepancia": "Rendimento liquido no eixo: P_eixo / P_elec = 3729.9 / 4248.7 = 87.79%."
+  },
+  {
+    "Regime": "Gerador Regenerativo (-Tnom)",
+    "Metrica": "Velocidade de Rotacao",
+    "Unidade": "rpm",
+    "Placa_Catalogo": "-",
+    "Ensaio_Bancada": "-",
+    "Modelo_Analitico": "1857.49",
+    "Simulink_Simscape": "1857.86",
+    "Erro_Relativo_pct": "0.020",
+    "Analise_Discrepancia": "Operacao hipersincrona (s = -3.21%) acima do campo girante de 1800 rpm."
+  },
+  {
+    "Regime": "Gerador Regenerativo (-Tnom)",
+    "Metrica": "Conjugado Eletromagnetico",
+    "Unidade": "N.m",
+    "Placa_Catalogo": "-",
+    "Ensaio_Bancada": "-",
+    "Modelo_Analitico": "-19.892",
+    "Simulink_Simscape": "-19.892",
+    "Erro_Relativo_pct": "0.001",
+    "Analise_Discrepancia": "Conjugado negativo de frenagem: Te = -20.60 + 0.710 = -19.892 N.m."
+  },
+  {
+    "Regime": "Gerador Regenerativo (-Tnom)",
+    "Metrica": "Corrente de Linha de Estator",
+    "Unidade": "A RMS",
+    "Placa_Catalogo": "-",
+    "Ensaio_Bancada": "-",
+    "Modelo_Analitico": "13.084",
+    "Simulink_Simscape": "13.099",
+    "Erro_Relativo_pct": "0.109",
+    "Analise_Discrepancia": "Corrente de estator em regime gerador com erro relativo sub-0.2%."
+  },
+  {
+    "Regime": "Gerador Regenerativo (-Tnom)",
+    "Metrica": "Potencia Eletrica Ativa",
+    "Unidade": "W",
+    "Placa_Catalogo": "-",
+    "Ensaio_Bancada": "-",
+    "Modelo_Analitico": "-3545.96",
+    "Simulink_Simscape": "-3543.60",
+    "Erro_Relativo_pct": "0.067",
+    "Analise_Discrepancia": "Sinal negativo indica injecao liquida de 3.54 kW na rede eletrica trifasica."
+  },
+  {
+    "Regime": "Gerador Regenerativo (-Tnom)",
+    "Metrica": "Potencia Reativa Magnetizante",
+    "Unidade": "var",
+    "Placa_Catalogo": "-",
+    "Ensaio_Bancada": "-",
+    "Modelo_Analitico": "3504.96",
+    "Simulink_Simscape": "3515.10",
+    "Erro_Relativo_pct": "0.289",
+    "Analise_Discrepancia": "Consumo continuo de reativos da rede para excitacao do campo girante."
+  },
+  {
+    "Regime": "Gerador Regenerativo (-Tnom)",
+    "Metrica": "Fator de Potencia Regenerativo",
+    "Unidade": "-",
+    "Placa_Catalogo": "-",
+    "Ensaio_Bancada": "-",
+    "Modelo_Analitico": "-0.711",
+    "Simulink_Simscape": "-0.710",
+    "Erro_Relativo_pct": "0.176",
+    "Analise_Discrepancia": "Fator de potencia negativo reflete injecao de ativa com absorcao simultanea de reativa."
+  }
+]

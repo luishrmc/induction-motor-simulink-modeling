@@ -1,45 +1,47 @@
 {
   "figure_id": "consolidated_transient_overview",
   "task_ref": "Synthesis & Executive Overview",
-  "title": "Painel Comparativo de Transitórios e Balanço de Potência",
+  "title": "Painel Comparativo de Transitorios e Balanco de Potencia",
   "operating_conditions": {
     "scenarios_compared": [
-      "DOL No-Load Startup (0-6s)",
-      "Nominal Load Step +20.6 N.m (0-8s)",
-      "Regenerative Prime Mover -20.6 N.m (0-8s)"
+      "DOL No-Load Startup (0-2.0s)",
+      "Nominal Load Step +20.60 N.m (0-3.0s)",
+      "Regenerative Prime Mover -20.60 N.m (0-3.0s)"
     ],
-    "voltage_LL_rms_V": 220.0,
-    "frequency_Hz": 60.0
+    "voltage_LL_rms_V": 220,
+    "frequency_Hz": 60,
+    "inertia_J_kgm2": 0.0555,
+    "friction_B_Nms_rad": 0.003651
   },
   "key_numerical_markers": {
-    "no_load_speed_rpm": 1775.36,
-    "nominal_loaded_speed_rpm": 1700.42,
-    "hypersynchronous_speed_rpm": 1836.42,
-    "no_load_torque_Nm": 7.922,
-    "nominal_loaded_torque_Nm": 28.186,
-    "regenerative_torque_Nm": -12.41,
-    "no_load_active_power_W": 1835.8,
-    "nominal_loaded_active_power_W": 5706.68,
-    "regenerative_active_power_W": -2218.13,
-    "bench_viscous_losses_range_kW": [
-      1.35,
-      1.576
+    "no_load_speed_rpm": 1797.92,
+    "nominal_loaded_speed_rpm": 1728.87,
+    "hypersynchronous_speed_rpm": 1857.86,
+    "no_load_torque_Nm": 0.687,
+    "nominal_loaded_torque_Nm": 21.263,
+    "regenerative_torque_Nm": -19.892,
+    "no_load_active_power_W": 194.25,
+    "nominal_loaded_active_power_W": 4248.71,
+    "regenerative_active_power_W": -3543.6,
+    "bench_viscous_losses_W_range": [
+      119.67,
+      138.2
     ]
   },
   "axis_extents": {
     "xlim_transients_s": [
-      0.0,
-      8.0
+      0,
+      3
     ],
     "ylim_power_kW": [
-      -6.0,
-      8.0
+      -5.5,
+      10
     ]
   },
   "physical_phenomena_summary": [
-    "Visão executiva integrada comparando as três trajetórias dinâmicas essenciais da máquina de indução.",
-    "Demonstração visual do cruzamento de regime motor sub-síncrono (1700.4 rpm) para gerador hipersíncrono (1836.4 rpm).",
-    "Clara visualização da inversão de polaridade do fluxo de potência ativa entre operação motora (+5.71 kW) e geradora (-2.22 kW).",
-    "O gráfico em barras no Subplot 4 fornece a resolução definitiva do balanço de perdas mecânicas rotacionais da bancada acoplada."
+    "Visao executiva integrada comparando as tres trajetorias dinamicas essenciais sob J = 0.0555 kg.m^2 e B = 0.003651 N.m.s/rad.",
+    "Cruzamento de regime motor sub-sincrono (1728.87 rpm) para gerador hipersincrono (1857.86 rpm).",
+    "Inversao de polaridade do fluxo de potencia ativa entre operacao motora (+4.25 kW) e geradora (-3.54 kW).",
+    "Perdas rotacionais consistentes com o ensaio a vazio (119.7 a 138.2 W entre carga e geracao)."
   ]
 }

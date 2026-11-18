@@ -11,10 +11,10 @@ function results = run_sim_harness(scenario_name, varargin)
 %   - Task 3.3: Regenerative braking / generator quadrant (TL = -T_nom).
 %
 % Syntax:
-%   results = run_sim_harness()                   % Runs default nominal step (t = 8.0 s)
-%   results = run_sim_harness('dol_startup')       % Runs no-load DOL startup (t = 6.0 s)
-%   results = run_sim_harness('nominal_step')      % Runs rated step disturbance (t = 8.0 s)
-%   results = run_sim_harness('regenerative')      % Runs regenerative braking (t = 8.0 s)
+%   results = run_sim_harness()                   % Runs default nominal step (t = 3.0 s)
+%   results = run_sim_harness('dol_startup')       % Runs no-load DOL startup (t = 2.0 s)
+%   results = run_sim_harness('nominal_step')      % Runs rated step disturbance (t = 3.0 s)
+%   results = run_sim_harness('regenerative')      % Runs regenerative braking (t = 3.0 s)
 %
 % Outputs:
 %   results - Struct containing time-series telemetry, analytical s=1 baseline,
@@ -100,23 +100,23 @@ function results = run_sim_harness(scenario_name, varargin)
     switch lower(scenario_name)
         case 'dol_startup'
             % Task 3.1: DOL startup at no-load (T_L = 0)
-            t_stop_sim   = 6.0;                      % Full electromechanical speed settling
-            t_step_sim   = 3.0;                      % Transition time (irrelevant since amplitude is 0)
+            t_stop_sim   = 2.0;                      % Full electromechanical speed settling (~0.4 s startup)
+            t_step_sim   = 1.0;                      % Transition time (irrelevant since amplitude is 0)
             T_step_after = 0.0;                      % No load torque applied
             scenario_desc= 'DOL Startup at No Load (T_L = 0)';
 
         case 'nominal_step'
             % Task 3.2: Startup at no load, nominal load step disturbance
-            t_stop_sim   = 8.0;                      % Full electromechanical settling before and after step
-            t_step_sim   = 5.0;                      % Step applied after full no-load settling (>4.5s)
+            t_stop_sim   = 3.0;                      % Full electromechanical settling before and after step
+            t_step_sim   = 1.5;                      % Step applied after full no-load settling (~0.4 s)
             T_step_after = params.T_nom_ref;         % Step to +20.602 N.m
             scenario_desc= sprintf('Nominal Load Torque Step Disturbance (0 -> +%.2f N.m at t=%.1fs)', ...
                 T_step_after, t_step_sim);
 
         case {'regenerative', 'regenerative_braking'}
             % Task 3.3: Step to negative load torque (generator prime mover)
-            t_stop_sim   = 8.0;                      % Full electromechanical settling before and after step
-            t_step_sim   = 5.0;                      % Step applied after full no-load settling (>4.5s)
+            t_stop_sim   = 3.0;                      % Full electromechanical settling before and after step
+            t_step_sim   = 1.5;                      % Step applied after full no-load settling (~0.4 s)
             T_step_after = -params.T_nom_ref;        % Step to -20.602 N.m (generates power)
             scenario_desc= sprintf('Regenerative Braking / Generator Step (0 -> -%.2f N.m at t=%.1fs)', ...
                 abs(T_step_after), t_step_sim);
@@ -216,6 +216,7 @@ function results = run_sim_harness(scenario_name, varargin)
     %% 6. Package Results Structure
     results.scenario           = scenario_name;
     results.scenario_desc      = scenario_desc;
+    results.params             = params;
     results.t_stop             = t_stop_sim;
     results.t_step             = t_step_sim;
     results.T_step_val         = T_step_after;
