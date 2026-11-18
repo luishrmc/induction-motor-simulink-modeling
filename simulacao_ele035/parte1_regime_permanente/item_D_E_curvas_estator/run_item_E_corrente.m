@@ -4,35 +4,37 @@
 % =========================================================================
 clearvars -except base_dir; clc;
 
-%% 1. Machine Parameters (Table 2.4 and Section 2.4 of Lab Report)
-V_LL_nom = 220.0;           % Rated line RMS voltage [V]
-f_nom    = 60.0;            % Rated frequency [Hz]
-poles    = 4;               % Poles
-p_pairs  = poles / 2;       % Pole pairs (p = 2)
-P_nom_W  = 3700.0;          % Rated power [W] (5 cv)
-I_nom_A  = 14.0;            % Rated line current [A RMS]
-n_nom    = 1715.0;          % Rated speed [rpm]
-pf_plate = 0.81;            % Nameplate power factor
-eta_plate= 0.855;           % Nameplate efficiency
+%% 1. Load Centralized Machine Parameters (utils/data/04_Mecanicos.csv & 05_Resumo_Circuito.csv)
+addpath(fullfile(fileparts(mfilename('fullpath')), '..', '..'));
+p = parametros_motor();
 
-R1 = 1.189;                 % Stator resistance [Ohm]
-R2 = 1.180;                 % Referred rotor resistance [Ohm]
-L1 = 5.725e-3;              % Stator leakage inductance [H]
-L2 = 8.420e-3;              % Referred rotor leakage inductance [H]
-Lm = 131.571e-3;            % Magnetizing inductance [H]
-% J = 0.701;                % Total inertia [kg.m^2] (used in dynamic simulation)
-B = 0.0426;                 % Viscous friction coefficient [N.m.s/rad]
+V_LL_nom  = p.V_LL_nom;
+f_nom     = p.f_nom;
+poles     = p.poles;
+p_pairs   = p.p_pairs;
+P_nom_W   = p.P_nom_W;
+I_nom_A   = p.I_nom_A;
+n_nom     = p.n_nom;
+pf_plate  = p.pf_plate;
+eta_plate = p.eta_plate;
 
-omega_e = 2 * pi * f_nom;
-omega_s = omega_e / p_pairs;
-n_s     = 120 * f_nom / poles;       % 1800 rpm
-s_nom   = (n_s - n_nom) / n_s;
-omega_nom = (1 - s_nom) * omega_s;
-T_nom_ref = P_nom_W / omega_nom;
+R1 = p.R1;
+R2 = p.R2;
+L1 = p.L1;
+L2 = p.L2;
+Lm = p.Lm;
+B  = p.B;
 
-X1 = omega_e * L1;
-X2 = omega_e * L2;
-Xm = omega_e * Lm;
+omega_e   = p.omega_e;
+omega_s   = p.omega_s;
+n_s       = p.n_s;
+s_nom     = p.s_nom;
+omega_nom = p.omega_nom;
+T_nom_ref = p.T_nom_ref;
+
+X1 = p.X1;
+X2 = p.X2;
+Xm = p.Xm;
 
 
 %% 2. Diretorio de saida e modo de exibicao
@@ -109,6 +111,7 @@ set(groot, 'defaultAxesFontSize', 11);
 set(groot, 'defaultAxesFontName', 'Helvetica');
 set(groot, 'defaultTextInterpreter', 'latex');
 set(groot, 'defaultLegendInterpreter', 'latex');
+set(groot, 'defaultAxesTickLabelInterpreter', 'latex');
 
 % -------------------------------------------------------------
 % Figure 2: Current vs. Speed (Is x n)
@@ -118,15 +121,15 @@ plot(n_vec, I1_line_vec, 'r-', 'LineWidth', 2.0, 'DisplayName', 'Corrente de Lin
 hold on;
 plot(n_vec, abs(I1_ph_vec), 'b--', 'LineWidth', 1.8, 'DisplayName', 'Corrente de Fase $I_{\phi}$ (RMS)');
 plot(n_nom, I_line_nom_pt, 'ro', 'MarkerFaceColor', 'r', 'MarkerSize', 7, ...
-    'DisplayName', sprintf('Nominal Calculado $I_{line} = %.2f$ A', I_line_nom_pt));
+    'DisplayName', ['Nominal Calculado ' sprintf('($I_{line} = %.2f~\\mathrm{A}$)', I_line_nom_pt)]);
 plot(n_nom, I_nom_A, 'ks', 'MarkerFaceColor', 'y', 'MarkerSize', 8, ...
-    'DisplayName', sprintf('Corrente Nominal de Placa $I_n = %.1f$ A', I_nom_A));
+    'DisplayName', ['Corrente Nominal de Placa ' sprintf('($I_n = %.1f~\\mathrm{A}$)', I_nom_A)]);
 plot(0, I1_line_vec(1), 'kd', 'MarkerFaceColor', 'm', 'MarkerSize', 8, ...
-    'DisplayName', sprintf('Corrente de Partida $I_{part} = %.2f$ A', I1_line_vec(1)));
+    'DisplayName', ['Corrente de Partida ' sprintf('($I_{part} = %.2f~\\mathrm{A}$)', I1_line_vec(1))]);
 grid on; grid minor; box on;
 xlabel('Velocidade Mec\^{a}nica $n$ (rpm)', 'Interpreter', 'latex', 'FontSize', 12);
 ylabel('Corrente Estat\''orica RMS (A)', 'Interpreter', 'latex', 'FontSize', 12);
-title('Corrente Estat\''orica $\times$ Velocidade ($220\ \mathrm{V},\ 60\ \mathrm{Hz}$)', ...
+title('Corrente Estat\''orica $\times$ Velocidade ($220~\mathrm{V}$, $60~\mathrm{Hz}$)', ...
       'Interpreter', 'latex', 'FontSize', 13);
 xlim([0, 1850]);
 ylim([0, max(I1_line_vec) * 1.15]);

@@ -11,29 +11,29 @@
     ]
   },
   "key_numerical_markers": {
-    "nominal_electrical_input_power_W": 5014.79,
-    "nominal_airgap_power_W": 4704.58,
-    "nominal_electromagnetic_power_Pem_W": 4482.34,
-    "nominal_net_shaft_power_Pshaft_W": 3108.31,
+    "nominal_electrical_input_power_W": 5014.70,
+    "nominal_airgap_power_W": 4704.47,
+    "nominal_electromagnetic_power_Pem_W": 4482.32,
+    "nominal_net_shaft_power_Pshaft_W": 4364.56,
     "nameplate_catalog_power_W": 3700.0,
-    "bench_viscous_rotational_loss_W": 1374.03,
-    "stator_copper_loss_W": 310.21,
-    "rotor_copper_loss_W": 222.24
+    "rotational_viscous_loss_W": 117.76,
+    "stator_copper_loss_W": 310.23,
+    "rotor_copper_loss_W": 222.15
   },
   "axis_extents": {
     "xlim": [
       0.0,
-      1800.0
+      1850.0
     ],
     "ylim": [
       0.0,
-      10000.0
+      16619.4
     ]
   },
   "physical_phenomena_summary": [
-    "Na velocidade nominal de 1715 rpm, a potência elétrica ativa absorvida é de 5014.8 W.",
+    "Na velocidade nominal de 1715 rpm, a potência elétrica ativa absorvida é de 5014.7 W.",
     "A potência eletromagnética interna desenvolvida no entreferro é de 4482.3 W.",
-    "O arraste viscoso acoplado da bancada MG dissipa B*wm^2 = 1374.0 W, deixando 3108.3 W úteis no eixo.",
-    "As perdas Joule no estator e rotor somam 532.5 W em regime nominal."
+    "As perdas rotacionais (B = 0.003651 N.m.s/rad) dissipam B*wm^2 = 117.8 W a 1715 rpm (129.6 W a 1799 rpm), deixando 4364.6 W úteis no eixo.",
+    "As perdas Joule no estator e rotor somam 532.4 W em regime nominal."
   ]
 }

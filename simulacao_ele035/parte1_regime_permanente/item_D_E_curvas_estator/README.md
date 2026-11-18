@@ -6,7 +6,7 @@ Este módulo atende integralmente aos Itens D e E da especificação `sim_proj.p
 2. **Corrente de Estator x Velocidade** (`run_item_E_corrente.m`): Corrente de linha e de fase RMS, assinalando partida ($67,73\text{ A}$ RMS), nominal ($16,15\text{ A}$ RMS) e placa ($14,0\text{ A}$ RMS).
 3. **Potência Ativa x Velocidade** (`run_item_E_potencia.m`): Balanço de potências $P_{elec}$, $P_{ag}$, $P_{em}$ e $P_{shaft}$.
 4. **Fator de Potência x Velocidade** (`run_item_E_fp.m`): Curva de $\cos\phi$, assinalando nominal ($0,8148$ vs. placa $0,810$) e partida ($0,396$).
-5. **Rendimento x Velocidade** (`run_item_E_rendimento.m`): Rendimento eletromagnético interno $\eta_{em} = 89,38\%$ e rendimento no eixo com a bancada $\eta_{shaft} = 61,98\%$.
+5. **Rendimento x Velocidade** (`run_item_E_rendimento.m`): Rendimento eletromagnético interno $\eta_{em} = 89,38\%$ e rendimento útil no eixo $\eta_{shaft} = 87,04\%$ ($B = 0,003651\text{ N}\cdot\text{m}\cdot\text{s/rad}$, $P_{rot} = 117,76\text{ W}$ a $1715\text{ rpm}$).
 
 ---
 

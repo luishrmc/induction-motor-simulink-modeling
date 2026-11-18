@@ -36,11 +36,13 @@ Este módulo atende integralmente aos Itens A, B e C da 1ª Parte da especifica�
    - Potência mecânica convertida interna: $P_{em} = (1 - s) P_{ag} = 4482,32\text{ W}$
    - Conjugado eletromagnético interno: $T_{em} = P_{ag} / \omega_s = 24,958\text{ N}\cdot\text{m}$
 
-4. **Conciliação com o Atrito Viscoso da Bancada Acoplada ($B = 0,0426\text{ N}\cdot\text{m}\cdot\text{s/rad}$):**
-   - Conjugado útil no eixo: $T_{shaft} = T_{em} - B \omega_{nom} = 24,958 - 7,651 = 17,307\text{ N}\cdot\text{m}$
-   - Potência útil no eixo: $P_{shaft} = P_{em} - B \omega_{nom}^2 = 4482,32 - 1374,03 = 3108,29\text{ W}$
+4. **Perdas Rotacionais e Balanço no Eixo ($B = 0,003651\text{ N}\cdot\text{m}\cdot\text{s/rad}$, $J = 0,0555\text{ kg}\cdot\text{m}^2$, ref. `04_Mecanicos.csv`):**
+   - Perda de torque por atrito viscoso: $T_{loss} = B \omega_{nom} = 0,003651 \times 179,594 = 0,6557\text{ N}\cdot\text{m}$
+   - Conjugado útil no eixo: $T_{shaft} = T_{em} - B \omega_{nom} = 24,9580 - 0,6557 = 24,3023\text{ N}\cdot\text{m}$
+   - Perdas rotacionais a $1715\text{ rpm}$: $P_{rot} = B \omega_{nom}^2 = 117,76\text{ W}$ (vs. $129,57\text{ W}$ a vazio em $1799\text{ rpm}$)
+   - Potência útil no eixo: $P_{shaft} = P_{em} - B \omega_{nom}^2 = 4482,32 - 117,76 = 4364,56\text{ W}$
    - Rendimento eletromagnético interno: $\eta_{em} = 89,38\%$
-   - Rendimento de eixo com bancada: $\eta_{shaft} = 61,98\%$
+   - Rendimento útil no eixo: $\eta_{shaft} = 87,04\%$
 
 ---
 

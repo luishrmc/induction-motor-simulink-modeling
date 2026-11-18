@@ -18,41 +18,40 @@ function metrics = run_item_ABC()
     fprintf('  Task 1.1: Exact Solution of IEEE T-Equivalent Circuit at Nominal \n');
     fprintf('====================================================================\n\n');
 
-    %% 1. Machine Nameplate Ratings & Constants
-    V_LL_nom = 220.0;           % Rated line-to-line RMS voltage [V]
-    P_nom_W  = 3700.0;          % Rated shaft mechanical power [W] (5 cv)
-    I_nom_A  = 14.0;            % Rated line current [A RMS]
-    f_nom    = 60.0;            % Rated electrical frequency [Hz]
-    poles    = 4;               % Number of poles
-    p_pairs  = poles / 2;       % Pole pairs (p = 2)
-    n_nom    = 1715.0;          % Rated rotor speed [rpm]
-    pf_plate = 0.81;            % Nameplate power factor [-]
-    eta_plate= 0.855;           % Nameplate efficiency [-]
+    %% 1. Load Centralized Machine Ratings & Equivalent Circuit Parameters
+    addpath(fullfile(fileparts(mfilename('fullpath')), '..', '..'));
+    p = parametros_motor();
 
-    % Derived synchronous speeds
-    omega_e = 2 * pi * f_nom;              % Electrical angular frequency [rad/s] (~376.99)
-    omega_s = omega_e / p_pairs;           % Synchronous mechanical angular speed [rad/s] (~188.50)
-    n_s     = (120 * f_nom) / poles;       % Synchronous mechanical speed [rpm] (1800 rpm)
+    V_LL_nom = p.V_LL_nom;        % Rated line-to-line RMS voltage [V]
+    P_nom_W  = p.P_nom_W;         % Rated shaft mechanical power [W] (5 cv)
+    I_nom_A  = p.I_nom_A;         % Rated line current [A RMS]
+    f_nom    = p.f_nom;           % Rated electrical frequency [Hz]
+    poles    = p.poles;           % Number of poles
+    n_nom    = p.n_nom;           % Rated rotor speed [rpm]
+    pf_plate = p.pf_plate;        % Nameplate power factor [-]
+    eta_plate= p.eta_plate;       % Nameplate efficiency [-]
 
-    % Nominal slip and rotor operating speed
-    s_nom     = (n_s - n_nom) / n_s;       % Nominal slip [-] (0.04722, 4.72%)
-    omega_nom = (1 - s_nom) * omega_s;     % Nominal rotor speed [rad/s] (~179.59)
-    T_nom_ref = P_nom_W / omega_nom;       % Nominal catalog shaft torque [N.m] (~20.602)
+    % Derived synchronous speeds and nominal slip
+    omega_s   = p.omega_s;        % Synchronous mechanical angular speed [rad/s]
+    n_s       = p.n_s;            % Synchronous mechanical speed [rpm] (1800 rpm)
+    s_nom     = p.s_nom;          % Nominal slip [-] (0.04722, 4.72%)
+    omega_nom = p.omega_nom;      % Nominal rotor speed [rad/s]
+    T_nom_ref = p.T_nom_ref;      % Nominal catalog shaft torque [N.m]
 
-    %% 2. Consolidated Laboratory Equivalent Circuit Parameters (Per-Phase Delta)
-    % Sourced from Table 2.4 and Section 2.4 (LAB_CONV_RLT_08_09_10.pdf)
-    R1 = 1.189;                            % Stator resistance [Ohm]
-    R2 = 1.180;                            % Referred rotor resistance [Ohm]
-    L1 = 5.725e-3;                         % Stator leakage inductance [H]
-    L2 = 8.420e-3;                         % Referred rotor leakage inductance [H]
-    Lm = 131.571e-3;                       % Magnetizing inductance [H]
-    J  = 0.701;                            % Total equivalent inertia [kg.m^2] (MG set)
-    B  = 0.0426;                           % Viscous friction coefficient [N.m.s/rad]
+    %% 2. Equivalent Circuit & Mechanical Parameters (Per-Phase Delta)
+    % Sourced from utils/data/04_Mecanicos.csv and 05_Resumo_Circuito.csv
+    R1 = p.R1;                    % Stator resistance [Ohm]
+    R2 = p.R2;                    % Referred rotor resistance [Ohm]
+    L1 = p.L1;                    % Stator leakage inductance [H]
+    L2 = p.L2;                    % Referred rotor leakage inductance [H]
+    Lm = p.Lm;                    % Magnetizing inductance [H]
+    J  = p.J;                     % Equivalent moment of inertia [kg.m^2]
+    B  = p.B;                     % Viscous friction coefficient [N.m.s/rad]
 
     % Reactances at nominal frequency (60 Hz)
-    X1 = omega_e * L1;                     % Stator leakage reactance [Ohm] (~2.158)
-    X2 = omega_e * L2;                     % Rotor leakage reactance [Ohm] (~3.174)
-    Xm = omega_e * Lm;                     % Magnetizing reactance [Ohm] (~49.601)
+    X1 = p.X1;                    % Stator leakage reactance [Ohm]
+    X2 = p.X2;                    % Rotor leakage reactance [Ohm]
+    Xm = p.Xm;                    % Magnetizing reactance [Ohm]
 
     %% 3. Equivalent Circuit Impedance Calculation at Nominal Slip
     % Delta Connection: Phase voltage equals Line Voltage
@@ -111,7 +110,7 @@ function metrics = run_item_ABC()
     % Rotor copper losses
     P_cu2 = 3 * (mag_I2^2) * R2;                      % [W] (equals s * P_ag)
 
-    % Rotational mechanical losses due to coupled bench viscous friction
+    % Rotational mechanical losses due to uncoupled motor viscous friction (04_Mecanicos.csv)
     P_rot = B * (omega_nom^2);                         % [W] (B * w^2)
 
     % Net shaft output mechanical power
@@ -128,10 +127,10 @@ function metrics = run_item_ABC()
     T_shaft = T_em - T_loss;                          % [N.m] (equals P_shaft / omega_nom)
 
     %% 7. Efficiency Metrics
-    % Internal electromagnetic efficiency (neglecting coupled MG bench drag)
+    % Internal electromagnetic efficiency (neglecting mechanical rotational losses)
     eta_em = P_em / P_elec;
 
-    % Net shaft electromechanical efficiency (reconciled with bench friction)
+    % Net shaft electromechanical efficiency (including rotational losses B*w^2)
     eta_shaft = P_shaft / P_elec;
 
     %% 8. Thevenin Equivalent & Breakdown Characteristics
@@ -209,7 +208,7 @@ function metrics = run_item_ABC()
     fprintf('  Apparent Power (S):            %.2f VA\n', S_elec);
     fprintf('  Air-gap Power (P_ag):          %.2f W\n', P_ag);
     fprintf('  Electromechanical Power (P_em):%.2f W\n', P_em);
-    fprintf('  Rotational Friction Loss(Prot):%.2f W (B * w^2, B=%.4f)\n', P_rot, B);
+    fprintf('  Rotational Friction Loss(Prot):%.2f W (B * w^2, B=%.6f)\n', P_rot, B);
     fprintf('  Net Shaft Mechanical Power:    %.2f W\n', P_shaft);
     fprintf('  Developed Torque (T_em):       %.4f N.m\n', T_em);
     fprintf('  Net Shaft Torque (T_shaft):    %.4f N.m\n', T_shaft);

@@ -7,9 +7,9 @@ cos_phi,-,0.8147,0.8100,Operating power factor
 P_elec,W,5014.70,4327.49,Active electrical input power
 Q_elec,var,3569.02,3119.00,Reactive electrical power
 T_em,N.m,24.9580,20.6020,Electromagnetic developed torque
-T_shaft,N.m,17.3073,20.6020,Net shaft useful torque
+T_shaft,N.m,24.3023,20.6020,Net shaft useful torque
 P_em,W,4482.32,3700.00,Electromagnetic converted power
-P_shaft,W,3108.29,3700.00,Net shaft mechanical power
+P_shaft,W,4364.56,3700.00,Net shaft mechanical power
 eta_em,%,89.38,85.50,Electromagnetic efficiency
-eta_shaft,%,61.98,85.50,Net shaft efficiency
+eta_shaft,%,87.04,85.50,Net shaft efficiency
 T_max,N.m,54.63,54.64,Breakdown pull-out torque
