@@ -161,7 +161,7 @@ python3 .agents/hooks/loop-guard.py tick <task-id> <gate> [errfile]
 
 ## 7. Engineering Invariants & Modeling Conventions (Zero Tolerance)
 
-### Machine Parameters (Consolidated Lab Report Table 2.4 & Section 2.4)
+### Machine Parameters (Consolidated Lab CSVs `utils/data/01`–`07` & Lab Report Table 2.4 / Section 2.2.2)
 - **Rated Line Voltage ($V_L$):** $220\text{ V}$ RMS ($\Delta$ connection, $60\text{ Hz}$).
 - **Rated Mechanical Power ($P_{nom}$):** $3.7\text{ kW}$ ($5\text{ cv}$).
 - **Rated Line Current ($I_{line,nom}$):** $14.0\text{ A}$ RMS.
@@ -173,9 +173,9 @@ python3 .agents/hooks/loop-guard.py tick <task-id> <gate> [errfile]
   * $L_{l2}' = 8.420\text{ mH}$ ($X_2' = 3.174\,\Omega$ at $60\text{ Hz}$)
   * $L_m = 131.571\text{ mH}$ ($X_m = 49.601\,\Omega$ at $60\text{ Hz}$)
   * $R_c$ is neglected ($\infty$).
-- **Mechanical Constants (Section 2.4):**
-  * Total equivalent moment of inertia: $J = 0.701\text{ kg}\cdot\text{m}^2$ (bench motor-generator set).
-  * Viscous friction coefficient: $B = 0.0426\text{ N}\cdot\text{m}\cdot\text{s/rad}$.
+- **Mechanical Constants (`utils/data/04_Mecanicos.csv`, Section 2.2.2 $P_{rot} = 129.568\text{ W}$):**
+  * Viscous friction coefficient: $B = 0.003651\text{ N}\cdot\text{m}\cdot\text{s/rad}$ ($P_{rot}/\omega_0^2 = 129.568 / 188.391^2$).
+  * Equivalent moment of inertia: $J = 0.0555\text{ kg}\cdot\text{m}^2$ ($B \cdot \Delta t = 0.003651 \times 15.210\text{ s}$).
 
 ### Simscape SPS Block Mapping Invariant
 - The Simscape *Asynchronous Machine SI Units* block uses an internal Wye (Y) configuration with line-to-line RMS voltage input.
@@ -183,8 +183,8 @@ python3 .agents/hooks/loop-guard.py tick <task-id> <gate> [errfile]
   $$R_{1,Y} = \frac{R_1}{3} = 0.3963\,\Omega, \quad R_{2,Y}' = \frac{R_2'}{3} = 0.3933\,\Omega$$
   $$L_{l1,Y} = \frac{L_{l1}}{3} = 1.9083\text{ mH}, \quad L_{l2,Y}' = \frac{L_{l2}'}{3} = 2.8067\text{ mH}, \quad L_{m,Y} = \frac{L_m}{3} = 43.8570\text{ mH}$$
   $$V_{n} = 220\text{ V RMS (line-to-line)}, \quad P_n = 3700\text{ W (or VA equivalent)}, \quad f_n = 60\text{ Hz}$$
-- Mechanical parameters ($J = 0.701$, $B = 0.0426$, $p = 2$) are invariant under the electrical star-delta transformation.
-- This transformation guarantees that simulated terminal line currents, active/reactive powers, electromagnetic torque, and rotor speed are identical to physical delta operation.
+- Mechanical parameters ($J = 0.0555$, $B = 0.003651$, $p = 2$) are invariant under the electrical star-delta transformation.
+- All MATLAB scripts must consume the single canonical source `simulacao_ele035/parametros_motor.m` instead of hardcoding duplicated constants.
 
 ### MATLAB Programming Standards
 - Pure vectorized calculations for steady-state sweeps: strictly no `for` loops across slip/speed arrays.

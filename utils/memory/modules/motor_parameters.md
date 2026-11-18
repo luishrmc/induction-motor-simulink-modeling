@@ -3,6 +3,7 @@ module: motor_parameters
 status: verified
 sources:
   - utils/docs/LAB_CONV_RLT_08_09_10.pdf sha256=755075fb16c4afc40071c82ad4b393cec99b1a201a3f07aad99469af92be541f
+  - utils/data/04_Mecanicos.csv sha256=e396e81ebc795dcd0230a9e8bf90954a1e358f8a52c8e5ecb262b04d89495156
 gates_passed: [plan-check]
 ---
 
@@ -26,9 +27,10 @@ Consolidated ratings and equivalent circuit components for the WEG 3.7 kW motor.
 - Magnetizing inductance: $L_m = 131.571\text{ mH}$ ($X_m = 49.601\,\Omega$ at $60\text{ Hz}$).
 - Core loss resistance: $R_c \to \infty$ (neglected).
 
-## Mechanical Bench Invariants (Section 2.4)
-- Moment of inertia: $J = 0.701\text{ kg}\cdot\text{m}^2$ (coupled bench).
-- Viscous friction: $B = 0.0426\text{ N}\cdot\text{m}\cdot\text{s/rad}$.
+## Mechanical Bench Invariants (`utils/data/04_Mecanicos.csv` & Sec. 2.2.2)
+- Rotational loss at no-load ($1799\text{ rpm}$, $\omega_0 = 188.391\text{ rad/s}$): $P_{rot} = 129.568\text{ W}$.
+- Viscous friction: $B = 0.003651\text{ N}\cdot\text{m}\cdot\text{s/rad}$ ($P_{rot}/\omega_0^2$).
+- Moment of inertia: $J = 0.0555\text{ kg}\cdot\text{m}^2$ ($B \cdot \Delta t$, $\Delta t = 15.210\text{ s}$).
 
 ## Simscape SPS Equivalent Parameters (Wye-Mapped $Y$)
 - $R_{1,Y} = 0.3963\,\Omega$, $R_{2,Y}' = 0.3933\,\Omega$.

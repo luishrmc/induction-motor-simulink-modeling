@@ -8,7 +8,7 @@ Limit: 80 lines. Orchestrator-maintained log of technical insights, solver issue
 
 ## 2. Viscous Friction & Inelastic Rotational Losses
 - **Quirk:** When solving the equivalent circuit analytically, omitting $B \omega_m^2$ yields the internal air-gap electromagnetic power $P_{em}$ rather than the true net shaft output power $P_{shaft}$.
-- **Fix:** Explicitly compute mechanical loss $P_{rot} = B \omega_m^2$ and shaft torque $T_{shaft} = T_{em} - B \omega_m$. This resolves the apparent discrepancy between electrical power factor ($0.81$) and shaft efficiency ($\eta \approx 62\%$ on bench vs $85.5\%$ on bare motor plate due to coupled generator drag).
+- **Fix:** Explicitly compute mechanical loss $P_{rot} = B \omega_m^2$ and shaft torque $T_{shaft} = T_{em} - B \omega_m$. With consolidated `04_Mecanicos.csv` ($B = 0.003651$), $\eta_{shaft} = 87.04\%$ at $1715\text{ rpm}$ reconciles closely with the $85.5\%$ bare motor plate (residual gap from cold $R_2'$ and neglected $R_c$).
 
 ## 3. MATLAB Batch Mode CLI Handling
 - **Quirk:** `matlab -batch` exits with code 0 even if internal script errors occur unless explicitly trapped.
@@ -50,9 +50,9 @@ Limit: 80 lines. Orchestrator-maintained log of technical insights, solver issue
 - **Quirk:** Launching `matlab -batch` repeatedly incurs 8–20s JVM initialization latency per command.
 - **Fix:** Run a persistent background instance in tmux (`matlab_worker`) using `.agents/hooks/matlab-eval.sh` for sub-second CLI command evaluation.
 
-## 13. High-Inertia Simulation Horizon & Bench No-Load Equilibrium
-- **Quirk:** The coupled bench inertia ($J = 0.701\text{ kg}\cdot\text{m}^2$) requires $\ge 4.5\text{ s}$ to accelerate from standstill. Truncating at $t_{stop} \le 5.0\text{ s}$ leaves residual acceleration causing $> 3\%$ torque error vs analytical targets. Furthermore, at no load, equilibrium occurs at $T_{em}(s) = B\omega_m(s) \implies n_{noload} = 1775.5\text{ rpm}$, not synchronous speed.
-- **Fix:** Set $t_{stop} \ge 6.0\text{ s}$ for startup and solve $T_{em}(s) - B\omega_s(1-s) = 0$ via `fzero` for exact steady-state baseline comparisons.
+## 13. Simulation Horizon & Exact No-Load Equilibrium
+- **Quirk:** Truncating DOL startup before mechanical settling leaves residual acceleration error, while assuming $n_{noload} = n_s$ ignores viscous drag $B\omega_m$. Under `04_Mecanicos.csv` ($J = 0.0555\text{ kg}\cdot\text{m}^2$, $B = 0.003651$), rotor settles in $\sim 0.36\text{ s}$ at $n_{noload} = 1797.92\text{ rpm}$.
+- **Fix:** Set $t_{stop} \ge 2.0\text{ s}$ for startup ($t_{stop} \ge 3.0\text{ s}$ for step tests at $t_{step} = 1.5\text{ s}$) and solve $T_{em}(s) - B\omega_s(1-s) = 0$ via `fzero` for exact steady-state baselines.
 
 ## 14. Plain Char Vectors vs sprintf LaTeX Escapes & Decoupled Concatenation
 - **Quirk:** Writing `\\` inside plain strings `'...'` passes literal `\\` to LaTeX, triggering linebreaks (`\linebreak`) that orphan inline units (e.g. `$\mathrm{s}$` on a second line). Conversely, writing TeX accents (e.g. `\c{c}`) inside `sprintf` triggers invalid escape warnings.
@@ -66,3 +66,7 @@ Limit: 80 lines. Orchestrator-maintained log of technical insights, solver issue
 ## 16. Distinção Eletromecânica entre Pico de Torque e Pico de Potência Convertida
 - **Quirk:** Assumir erroneamente que a potência mecânica convertida $P_{em}$ atinge o ápice na rotação de conjugado máximo ($T_{max}$). Como $P_{em} = T_{em}\omega_m$, a condição $\frac{dP_{em}}{d\omega_m} = 0 \implies \frac{dT_{em}}{d\omega_m} < 0$ localiza o pico de potência estritamente na região estável da curva de torque ($n = 1492{,}9\,\text{rpm}$ vs. $n(T_{max}) = 1405{,}0\,\text{rpm}$).
 - **Fix:** Distinguir explicitamente o ponto de desengate ($T_{max} = 54{,}63\,\text{N}\cdot\text{m}$ a $1405\,\text{rpm}$) do ápice de potência eletromecânica ($P_{em,max} = 8322\,\text{W}$ a $1493\,\text{rpm}$) em análises teóricas e gráficas de regime permanente.
+
+## 17. Two-Tier Physical Validation Against Laboratory Bench CSVs
+- **Quirk:** Analytical-vs-Simscape convergence ($\le 2\%$) only proves self-consistency; uncalibrated $B, J$ (e.g. $10\times$ inflated values) still pass Tier 1 while failing no-load bench physics ($n_0=1799\text{ rpm}$, $I_0=7.36\text{ A}$, $P_0=194\text{ W}$).
+- **Fix:** Enforce Tier 2 bench assertions in `tolerance-gate.py` against `02_Ensaio_Vazio.csv` and `07_dados_de_placa.csv`, grounded in `parametros_motor.m` (`04_Mecanicos.csv`).
