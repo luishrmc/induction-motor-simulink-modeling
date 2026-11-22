@@ -1,8 +1,8 @@
-\section{Dedução Analítica da Corrente de Partida Direta a Rotor Bloqueado ($s = 1$)}\label{sec:partida_bloqueado}
+\section{Dedução Analítica da Corrente de Partida Direta ($s = 1$)}\label{sec:partida_bloqueado}
 
-No instante inicial do fechamento dos contatos de alimentação direta com o rotor em repouso, anula-se a velocidade angular mecânica ($\omega_m = 0$), impondo escorregamento unitário ($s = 1$) e fazendo o circuito rotórico operar na frequência plena da rede (\SI{60}{\hertz}), de maneira análoga a um transformador com enrolamento secundário em curto-circuito. A dedução analítica da impedância equivalente de entrada nessa condição permite prever o patamar simétrico da corrente de partida, o conjugado inicial e o limite máximo do transitório de \textit{inrush} decorrente da componente contínua subtransitória.
+No instante inicial do fechamento dos contatos de alimentação direta com o rotor em repouso, anula-se a velocidade angular mecânica ($\omega_m = 0$), impondo escorregamento unitário ($s = 1$) e fazendo o circuito rotórico operar na frequência plena da rede (\SI{60}{\hertz}), de maneira análoga a um transformador com enrolamento secundário em curto-circuito. A dedução analítica da impedância equivalente de entrada nessa condição permite prever o patamar da corrente de partida, o conjugado inicial e o limite máximo do transitório de \textit{inrush} decorrente da componente contínua subtransitória.
 
-\subsection{Impedância de Entrada e Corrente Simétrica em $s = 1$}\label{subsec:impedancia_s1}
+\subsection{Impedância de Entrada e Corrente em $s = 1$}\label{subsec:impedancia_s1}
 
 Substituindo $s = 1$ no ramo rotórico do circuito equivalente monofásico em conexão Triângulo ($\Delta$):
 \begin{equation}
@@ -31,9 +31,9 @@ P_{ag,\text{part}} = 3 \cdot |I_2'(1)|^2 \cdot R_2' = \SI{4779,03}{\watt}, \qqua
 \label{eq:conjugado_partida_s1}
 \end{equation}
 
-\subsection{Componente Contínua Subtransitória e Confronto com Dados de Placa}\label{subsec:inrush_placa}
+\subsection{Componente Contínua transitória e Confronto com Dados de Placa}\label{subsec:inrush_placa}
 
-No fechamento instantâneo dos contatos sobre circuito fortemente indutivo ($\theta_{cc} = 66{,}64^\circ$), a continuidade do fluxo magnético concatenado impõe o surgimento de uma componente aperiódica contínua (\textit{offset} CC) que decai exponencialmente conforme a constante de tempo elétrica $\tau_a = X_{in}/(\omega_e R_{in}) = 2{,}3153 / (2\pi \cdot 60) \approx \SI{6,14}{\milli\second}$. Para o caso crítico de energização no cruzamento por zero da tensão de fase, o fator de assimetria de pico $k_p$ e o limite teórico máximo de crista instantânea são expressos por:
+Ao energizar o motor em repouso, o circuito apresenta caráter fortemente indutivo ($\theta_{cc} = 66{,}64^\circ$). Como a corrente em um circuito indutivo não pode variar instantaneamente, surge uma componente contínua transitória (\textit{offset} CC) para garantir a continuidade do fluxo magnético, que decai exponencialmente com constante de tempo $\tau_a = X_{in}/(\omega_e R_{in}) \approx \SI{6,14}{\milli\second}$. No caso crítico de energização no cruzamento por zero da tensão, essa componente se soma ao primeiro semiciclo da senoide, definindo o fator de assimetria $k_p$ e o pico teórico máximo de corrente:
 \begin{equation}
 k_p = \sqrt{2} \cdot \left[ 1 + \exp\left(-\frac{\pi}{\tan \theta_{cc}}\right) \right] = \sqrt{2} \cdot \left[ 1 + \exp\left(-\frac{\pi}{\tan 66{,}64^\circ}\right) \right] \approx 1{,}7783,
 \label{eq:fator_kp}
@@ -42,6 +42,6 @@ k_p = \sqrt{2} \cdot \left[ 1 + \exp\left(-\frac{\pi}{\tan \theta_{cc}}\right) \
 I_{peak,\text{teor}} = k_p \cdot I_{line,\text{part}} = 1{,}7783 \cdot \SI{67,7294}{\ampere} \approx \SI{120,44}{\ampere}.
 \label{eq:inrush_teorico}
 \end{equation}
-Esse valor converge estreitamente para a crista máxima observada na simulação dinâmica trifásica ($\SI{121,18}{\ampere}$, correspondente à razão de assimetria de $1{,}265$ sobre o pico simétrico de $\SI{95,78}{\ampere}$).
+Esse limite teórico concorda de perto com o pico máximo observado na simulação dinâmica ($\SI{121,18}{\ampere}$, valor $1{,}265$ vezes superior ao pico simétrico de $\SI{95,78}{\ampere}$).
 
-Confrontando-se o valor analítico obtido ($I_{line,\text{part}} = \SI{67,73}{\ampere}$ RMS) com a especificação de catálogo da máquina ($I_p / I_n = 7{,}6 \implies I_p = 7{,}6 \cdot 14{,}0 = \SI{106,4}{\ampere}$ RMS), observa-se que a corrente calculada pelo modelo em T é aproximadamente \SI{36}{\percent} inferior ao dado nominal de placa. Essa discrepância decorre de duas causas físicas associadas ao ensaio experimental de parametrização. Em primeiro lugar, o ensaio de rotor bloqueado foi executado sob tensão reduzida de $V_{cc} = \SI{47,4}{\volt}$ (\SI{21,5}{\percent} da tensão nominal), cuja extrapolação linear direta fornece $\SI{65,30}{\ampere}$, mantendo os caminhos de fluxo de dispersão nas ranhuras e pontas de dente em região linear não saturada. Na energização real sob tensão plena de \SI{220}{\volt}, o elevado fluxo magnético de dispersão satura localmente os dentes do estator e do rotor (\textit{tooth-tip saturation}), reduzindo as indutâncias efetivas de dispersão ($L_{l1}$ e $L_{l2}'$) e elevando a corrente real drenada para \SI{106,4}{\ampere}. Em segundo lugar, o modelo linear a parâmetros concentrados não reproduz o efeito pelicular (\textit{deep-bar skin effect}) nas barras rotóricas a \SI{60}{\hertz} sob corrente elevada, o qual altera a distribuição espacial de corrente na gaiola e reduz adicionalmente a indutância de dispersão rotórica efetiva durante a partida.
+Comparando a corrente de partida do modelo ($I_{line,\text{part}} = \SI{67,73}{\ampere}$ RMS) com o valor de placa ($I_p / I_n = 7{,}6 \implies I_p = \SI{106,4}{\ampere}$ RMS), nota-se que o circuito equivalente estima uma corrente cerca de \SI{36}{\percent} menor. Essa diferença ocorre principalmente porque o ensaio de rotor bloqueado foi realizado sob tensão reduzida ($V_{cc} = \SI{47,4}{\volt}$), mantendo o circuito magnético na região linear. Na partida direta real em \SI{220}{\volt}, a corrente elevada satura localmente as pontas dos dentes do estator e do rotor (\textit{tooth-tip saturation}), reduzindo as indutâncias de dispersão ($L_{l1}$ e $L_{l2}'$) e elevando a corrente real drenada da rede.
