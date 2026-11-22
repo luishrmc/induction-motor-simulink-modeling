@@ -108,7 +108,7 @@
     {
       "name": "simulink-architect",
       "definition": ".agents/agents/simulink-architect.md",
-      "role": "Simscape Specialized Power Systems modeling, Asynchronous Machine parameterization, solver tuning",
+      "role": "Simulink Specialized Power Systems modeling, Asynchronous Machine parameterization, solver tuning",
       "model": "pro",
       "tools_allowed": ["view_file", "write_to_file", "replace_file_content", "run_command"],
       "run_scope": ["matlab -batch *", "bash .agents/hooks/matlab-lint.sh", "python3 .agents/hooks/simulink-gate.py"],
@@ -117,10 +117,10 @@
         "matlab/scripts/**",
         "out/**",
         "simulacao_ele035/**",
-        "utils/memory/modules/simscape_model.md",
+        "utils/memory/modules/Simulink_model.md",
         "utils/memory/handoff/*"
       ],
-      "skills": ["simscape-modeling", "matlab-headless", "memory-protocol"]
+      "skills": ["Simulink-modeling", "matlab-headless", "memory-protocol"]
     },
     {
       "name": "validation-auditor",

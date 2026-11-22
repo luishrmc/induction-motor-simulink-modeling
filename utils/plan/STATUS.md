@@ -25,5 +25,5 @@ None.
 
 ## Next Eligible Tasks
 
-- **5.3** Redação e conciliação dos Capítulos 3 e 4 (Simulação Dinâmica Simscape e Convergência)
+- **5.3** Redação e conciliação dos Capítulos 3 e 4 (Simulação Dinâmica Simulink e Convergência)
 

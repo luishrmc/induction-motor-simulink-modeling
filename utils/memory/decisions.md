@@ -2,11 +2,11 @@
 
 ## ADR-001: Adoption of Consolidated Laboratory Bench Parameters as Project Ground Truth
 - **Context:** The motor has both catalog nameplate values (WEG 3.7 kW, 220 V Delta, 14.0 A, 1715 rpm, cos phi 0.81, eta 85.5%) and experimental parameters extracted from standardized bench tests (Table 2.4 and Section 2.4 of `LAB_CONV_RLT_08_09_10.pdf`). In particular, total inertia $J = 0.701\text{ kg}\cdot\text{m}^2$ and viscous friction $B = 0.0426\text{ N}\cdot\text{m}\cdot\text{s/rad}$ reflect the coupled motor-generator bench.
-- **Decision:** All analytical calculations and Simscape dynamic models will use the consolidated laboratory parameters ($R_1 = 1.189\,\Omega$, $R_2' = 1.180\,\Omega$, $L_{l1} = 5.725\text{ mH}$, $L_{l2}' = 8.420\text{ mH}$, $L_m = 131.571\text{ mH}$, $J = 0.701\text{ kg}\cdot\text{m}^2$, $B = 0.0426\text{ N}\cdot\text{m}\cdot\text{s/rad}$, $R_c \to \infty$). Nameplate data will serve as reference for comparison and discrepancy analysis.
+- **Decision:** All analytical calculations and Simulink dynamic models will use the consolidated laboratory parameters ($R_1 = 1.189\,\Omega$, $R_2' = 1.180\,\Omega$, $L_{l1} = 5.725\text{ mH}$, $L_{l2}' = 8.420\text{ mH}$, $L_m = 131.571\text{ mH}$, $J = 0.701\text{ kg}\cdot\text{m}^2$, $B = 0.0426\text{ N}\cdot\text{m}\cdot\text{s/rad}$, $R_c \to \infty$). Nameplate data will serve as reference for comparison and discrepancy analysis.
 - **Status:** Superseded in mechanical constants ($B, J$) by ADR-007.
 
-## ADR-002: Star-Delta Impedance Mapping for Simscape Specialized Power Systems Block
-- **Context:** The physical motor is connected in Delta ($\Delta$) at 220 V line-to-line. The standard Simscape Specialized Power Systems `Asynchronous Machine SI Units` block models stator windings internally in Wye ($Y$) configuration with line-to-line terminal voltages.
+## ADR-002: Star-Delta Impedance Mapping for Simulink Specialized Power Systems Block
+- **Context:** The physical motor is connected in Delta ($\Delta$) at 220 V line-to-line. The standard Simulink Specialized Power Systems `Asynchronous Machine SI Units` block models stator windings internally in Wye ($Y$) configuration with line-to-line terminal voltages.
 - **Decision:** Apply the exact Star-Delta transformation to electrical parameters:
   $R_{s,Y} = R_1 / 3 = 0.3963\,\Omega$, $R_{r,Y}' = R_2' / 3 = 0.3933\,\Omega$, $L_{ls,Y} = L_{l1} / 3 = 1.9083\text{ mH}$, $L_{lr,Y}' = L_{l2}' / 3 = 2.8067\text{ mH}$, $L_{m,Y} = L_m / 3 = 43.8570\text{ mH}$.
   Line voltage remains $V_{LL} = 220\text{ V}$ RMS, and mechanical parameters ($J, B, p$) remain invariant. This guarantees identical terminal line currents, electrical powers, torque, and speed.
@@ -35,9 +35,9 @@
 - **Status:** Approved.
 
 ## ADR-007: Correction of Mechanical Parameters ($B, J$) from `utils/data/`, Parameter Centralization, and Independent Validation
-- **Context:** An external technical audit revealed an internal contradiction in `LAB_CONV_RLT_08_09_10.pdf`: Section 2.2.2 measured uncoupled no-load power $P_0 = 194\text{ W}$ ($P_{rot} = 129.568\text{ W}$), whereas Section 2.4 used an erroneous $P_{rot} = 1510.7\text{ W}$, inflating $B = 0.0426$ and $J = 0.701$ (~12x too large). The CSV ground-truth tables in `utils/data/04_Mecanicos.csv` and `05_Resumo_Circuito.csv` already record the physically consistent values ($B = 0.003651$, $J = 0.0555$). Moreover, parameters were duplicated across 9 `.m` files and `tolerance-gate.py` only checked analytical-vs-Simscape consistency.
+- **Context:** An external technical audit revealed an internal contradiction in `LAB_CONV_RLT_08_09_10.pdf`: Section 2.2.2 measured uncoupled no-load power $P_0 = 194\text{ W}$ ($P_{rot} = 129.568\text{ W}$), whereas Section 2.4 used an erroneous $P_{rot} = 1510.7\text{ W}$, inflating $B = 0.0426$ and $J = 0.701$ (~12x too large). The CSV ground-truth tables in `utils/data/04_Mecanicos.csv` and `05_Resumo_Circuito.csv` already record the physically consistent values ($B = 0.003651$, $J = 0.0555$). Moreover, parameters were duplicated across 9 `.m` files and `tolerance-gate.py` only checked analytical-vs-Simulink consistency.
 - **Decision:** Per explicit user directive:
   1. Adopt exclusively `utils/data/` mechanical constants: $B = 0.003651\text{ N}\cdot\text{m}\cdot\text{s/rad}$ and $J = 0.0555\text{ kg}\cdot\text{m}^2$ (superseding the mechanical constants in ADR-001).
   2. Centralize all motor, bench, and Star-Delta parameters in `simulacao_ele035/parametros_motor.m` consumed by all Part 1, Part 2, and Painel MATLAB scripts.
-  3. Upgrade `tolerance-gate.py` to enforce independent physical validation against `utils/data/02_Ensaio_Vazio.csv` ($P_0 = 194\text{ W}$, $I_0 = 7.36\text{ A}$, $n_0 = 1799\text{ rpm}$) alongside analytical-vs-Simscape convergence ($\le 2.0\%$).
+  3. Upgrade `tolerance-gate.py` to enforce independent physical validation against `utils/data/02_Ensaio_Vazio.csv` ($P_0 = 194\text{ W}$, $I_0 = 7.36\text{ A}$, $n_0 = 1799\text{ rpm}$) alongside analytical-vs-Simulink convergence ($\le 2.0\%$).
 - **Status:** Approved (User Override).

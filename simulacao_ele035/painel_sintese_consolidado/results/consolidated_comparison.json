@@ -6,9 +6,9 @@
     "Placa_Catalogo": "106.40",
     "Ensaio_Bancada": "65.30",
     "Modelo_Analitico": "67.73",
-    "Simulink_Simscape": "67.73",
+    "Simulink_Simulink": "67.73",
     "Erro_Relativo_pct": "0.000",
-    "Analise_Discrepancia": "Ensaio rotor bloqueado a 47.4 V extrapolado linearmente para 220 V; modelo analitico e Simscape concordam."
+    "Analise_Discrepancia": "Ensaio rotor bloqueado a 47.4 V extrapolado linearmente para 220 V; modelo analitico e Simulink concordam."
   },
   {
     "Regime": "Partida / Rotor Bloqueado (s=1.0)",
@@ -17,7 +17,7 @@
     "Placa_Catalogo": "150.47",
     "Ensaio_Bancada": "-",
     "Modelo_Analitico": "95.78",
-    "Simulink_Simscape": "121.18",
+    "Simulink_Simulink": "121.18",
     "Erro_Relativo_pct": "26.52",
     "Analise_Discrepancia": "Pico instantaneo inclui componente aperiodica CC (X/R = 2.32), amortecendo em ~70 ms."
   },
@@ -28,7 +28,7 @@
     "Placa_Catalogo": "-",
     "Ensaio_Bancada": "-",
     "Modelo_Analitico": "25.35",
-    "Simulink_Simscape": "25.35",
+    "Simulink_Simulink": "25.35",
     "Erro_Relativo_pct": "0.000",
     "Analise_Discrepancia": "Conjugado simetrico s=1 convergente; pico subtransitorio dinamico atinge 77.99 N.m."
   },
@@ -39,7 +39,7 @@
     "Placa_Catalogo": "1800.00",
     "Ensaio_Bancada": "1799.00",
     "Modelo_Analitico": "1797.93",
-    "Simulink_Simscape": "1797.92",
+    "Simulink_Simulink": "1797.92",
     "Erro_Relativo_pct": "0.001",
     "Analise_Discrepancia": "Atrito viscoso consolidado B = 0.003651 N.m.s/rad (Prot = 129.42 W), estabilizando proximo a 1797.92 rpm."
   },
@@ -50,7 +50,7 @@
     "Placa_Catalogo": "0.00",
     "Ensaio_Bancada": "-",
     "Modelo_Analitico": "0.687",
-    "Simulink_Simscape": "0.687",
+    "Simulink_Simulink": "0.687",
     "Erro_Relativo_pct": "0.001",
     "Analise_Discrepancia": "Equilibrio estrito com atrito viscoso rotacional: Te = B*omega_m = 0.687 N.m."
   },
@@ -61,7 +61,7 @@
     "Placa_Catalogo": "-",
     "Ensaio_Bancada": "7.36",
     "Modelo_Analitico": "7.362",
-    "Simulink_Simscape": "7.342",
+    "Simulink_Simulink": "7.342",
     "Erro_Relativo_pct": "0.274",
     "Analise_Discrepancia": "Corrente magnetizante a vazio em total acordo com ensaio experimental (7.36 A)."
   },
@@ -72,7 +72,7 @@
     "Placa_Catalogo": "-",
     "Ensaio_Bancada": "194.00",
     "Modelo_Analitico": "194.01",
-    "Simulink_Simscape": "194.25",
+    "Simulink_Simulink": "194.25",
     "Erro_Relativo_pct": "0.121",
     "Analise_Discrepancia": "Suprimento exato das perdas rotacionais (129.4 W) e Joule estatoricas, validado contra P0 = 194.0 W."
   },
@@ -83,7 +83,7 @@
     "Placa_Catalogo": "-",
     "Ensaio_Bancada": "-",
     "Modelo_Analitico": "2798.52",
-    "Simulink_Simscape": "2790.65",
+    "Simulink_Simulink": "2790.65",
     "Erro_Relativo_pct": "0.281",
     "Analise_Discrepancia": "Potencia reativa de magnetizacao do entreferro a vazio."
   },
@@ -94,7 +94,7 @@
     "Placa_Catalogo": "-",
     "Ensaio_Bancada": "0.069",
     "Modelo_Analitico": "0.069",
-    "Simulink_Simscape": "0.069",
+    "Simulink_Simulink": "0.069",
     "Erro_Relativo_pct": "0.396",
     "Analise_Discrepancia": "Predominancia fortemente indutiva da corrente magnetizante a vazio."
   },
@@ -105,7 +105,7 @@
     "Placa_Catalogo": "1715.00",
     "Ensaio_Bancada": "1715.00",
     "Modelo_Analitico": "1729.45",
-    "Simulink_Simscape": "1728.87",
+    "Simulink_Simulink": "1728.87",
     "Erro_Relativo_pct": "0.034",
     "Analise_Discrepancia": "Escorregamento sob carga s = 3.95% para suprir TL = +20.60 N.m e atrito B*omega_m."
   },
@@ -116,7 +116,7 @@
     "Placa_Catalogo": "20.60",
     "Ensaio_Bancada": "20.60",
     "Modelo_Analitico": "21.263",
-    "Simulink_Simscape": "21.263",
+    "Simulink_Simulink": "21.263",
     "Erro_Relativo_pct": "0.001",
     "Analise_Discrepancia": "Equilibrio Te = TL + B*omega_m = 20.60 + 0.661 = 21.263 N.m."
   },
@@ -127,9 +127,9 @@
     "Placa_Catalogo": "14.00",
     "Ensaio_Bancada": "-",
     "Modelo_Analitico": "14.133",
-    "Simulink_Simscape": "14.163",
+    "Simulink_Simulink": "14.163",
     "Erro_Relativo_pct": "0.210",
-    "Analise_Discrepancia": "Corrente sob carga em forte convergencia analitica-Simscape e proxima da placa (14.0 A)."
+    "Analise_Discrepancia": "Corrente sob carga em forte convergencia analitica-Simulink e proxima da placa (14.0 A)."
   },
   {
     "Regime": "Carga Nominal (+Tnom)",
@@ -138,7 +138,7 @@
     "Placa_Catalogo": "4327.49",
     "Ensaio_Bancada": "-",
     "Modelo_Analitico": "4245.53",
-    "Simulink_Simscape": "4248.71",
+    "Simulink_Simulink": "4248.71",
     "Erro_Relativo_pct": "0.075",
     "Analise_Discrepancia": "Potencia absorvida supre 3729.9 W uteis no eixo + 119.7 W de atrito + perdas Joule."
   },
@@ -149,7 +149,7 @@
     "Placa_Catalogo": "3133.05",
     "Ensaio_Bancada": "-",
     "Modelo_Analitico": "3313.59",
-    "Simulink_Simscape": "3328.09",
+    "Simulink_Simulink": "3328.09",
     "Erro_Relativo_pct": "0.437",
     "Analise_Discrepancia": "Demanda reativa de magnetizacao e dispersao sob conjugado nominal."
   },
@@ -160,7 +160,7 @@
     "Placa_Catalogo": "0.810",
     "Ensaio_Bancada": "-",
     "Modelo_Analitico": "0.788",
-    "Simulink_Simscape": "0.787",
+    "Simulink_Simulink": "0.787",
     "Erro_Relativo_pct": "0.135",
     "Analise_Discrepancia": "Fator de potencia sob carga convergente e coerente com a especificacao de catalogo."
   },
@@ -171,7 +171,7 @@
     "Placa_Catalogo": "85.50",
     "Ensaio_Bancada": "-",
     "Modelo_Analitico": "87.88",
-    "Simulink_Simscape": "87.79",
+    "Simulink_Simulink": "87.79",
     "Erro_Relativo_pct": "0.109",
     "Analise_Discrepancia": "Rendimento liquido no eixo: P_eixo / P_elec = 3729.9 / 4248.7 = 87.79%."
   },
@@ -182,7 +182,7 @@
     "Placa_Catalogo": "-",
     "Ensaio_Bancada": "-",
     "Modelo_Analitico": "1857.49",
-    "Simulink_Simscape": "1857.86",
+    "Simulink_Simulink": "1857.86",
     "Erro_Relativo_pct": "0.020",
     "Analise_Discrepancia": "Operacao hipersincrona (s = -3.21%) acima do campo girante de 1800 rpm."
   },
@@ -193,7 +193,7 @@
     "Placa_Catalogo": "-",
     "Ensaio_Bancada": "-",
     "Modelo_Analitico": "-19.892",
-    "Simulink_Simscape": "-19.892",
+    "Simulink_Simulink": "-19.892",
     "Erro_Relativo_pct": "0.001",
     "Analise_Discrepancia": "Conjugado negativo de frenagem: Te = -20.60 + 0.710 = -19.892 N.m."
   },
@@ -204,7 +204,7 @@
     "Placa_Catalogo": "-",
     "Ensaio_Bancada": "-",
     "Modelo_Analitico": "13.084",
-    "Simulink_Simscape": "13.099",
+    "Simulink_Simulink": "13.099",
     "Erro_Relativo_pct": "0.109",
     "Analise_Discrepancia": "Corrente de estator em regime gerador com erro relativo sub-0.2%."
   },
@@ -215,7 +215,7 @@
     "Placa_Catalogo": "-",
     "Ensaio_Bancada": "-",
     "Modelo_Analitico": "-3545.96",
-    "Simulink_Simscape": "-3543.60",
+    "Simulink_Simulink": "-3543.60",
     "Erro_Relativo_pct": "0.067",
     "Analise_Discrepancia": "Sinal negativo indica injecao liquida de 3.54 kW na rede eletrica trifasica."
   },
@@ -226,7 +226,7 @@
     "Placa_Catalogo": "-",
     "Ensaio_Bancada": "-",
     "Modelo_Analitico": "3504.96",
-    "Simulink_Simscape": "3515.10",
+    "Simulink_Simulink": "3515.10",
     "Erro_Relativo_pct": "0.289",
     "Analise_Discrepancia": "Consumo continuo de reativos da rede para excitacao do campo girante."
   },
@@ -237,7 +237,7 @@
     "Placa_Catalogo": "-",
     "Ensaio_Bancada": "-",
     "Modelo_Analitico": "-0.711",
-    "Simulink_Simscape": "-0.710",
+    "Simulink_Simulink": "-0.710",
     "Erro_Relativo_pct": "0.176",
     "Analise_Discrepancia": "Fator de potencia negativo reflete injecao de ativa com absorcao simultanea de reativa."
   }

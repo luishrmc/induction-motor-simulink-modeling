@@ -26,7 +26,7 @@
 \contentsline {subsection}{\numberline {2.5.2}Inspeção da Família de Curvas e Efeito da Resistência Estatórica}{23}{subsection.2.5.2}%
 \contentsline {subsection}{\numberline {2.5.3}Compensação de Tensão em Baixas Rotações}{25}{subsection.2.5.3}%
 \contentsline {chapter}{\numberline {3}Simulação Dinâmica}{27}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Arquitetura e Parametrização do Modelo Simscape Specialized Power Systems}{27}{section.3.1}%
+\contentsline {section}{\numberline {3.1}Arquitetura e Parametrização do Modelo Simulink Specialized Power Systems}{27}{section.3.1}%
 \contentsline {subsection}{\numberline {3.1.1}Transformação Estrela-Triângulo ($\text {Y}-\Delta $)}{27}{subsection.3.1.1}%
 \contentsline {subsection}{\numberline {3.1.2}Diagrama de Blocos Desenvolvido}{28}{subsection.3.1.2}%
 \contentsline {subsection}{\numberline {3.1.3}Configuração do Solver Numérico L-Estável}{29}{subsection.3.1.3}%
@@ -50,4 +50,4 @@
 \contentsline {chapter}{Conclusão}{45}{chapter*.26}%
 \contentsline {chapter}{\numberline {A}Códigos Computacionais em MATLAB}{47}{appendix.A}%
 \contentsline {section}{\numberline {A.1}Fonte Canônica de Parâmetros e Resolução Analítica Vetorizada}{47}{section.A.1}%
-\contentsline {section}{\numberline {A.2}Rotina de Parametrização e Execução Dinâmica no Simscape SPS}{49}{section.A.2}%
+\contentsline {section}{\numberline {A.2}Rotina de Parametrização e Execução Dinâmica no Simulink SPS}{49}{section.A.2}%

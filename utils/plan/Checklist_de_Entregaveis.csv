@@ -1,7 +1,7 @@
 Item,Descrição,Formato,Status de Conformidade,Observações
 Script Analítico MATLAB,Código de resolução do circuito equivalente e curvas de regime permanente,.m,Conforme,Implementação vetorizada e validada na Fase 1 em simulacao_ele035/parte1_regime_permanente/
 Curvas de Regime Permanente,Gráficos de T Is Pa cos(phi) e eta vs velocidade + família V/f,.png / .fig,Conforme,5 gráficos nominais + 1 gráfico com 4 curvas de controle escalar gerados em 300 DPI
-Modelo Simscape Simulink,Diagrama SPS com bloco Asynchronous Machine e medições trifásicas,.slx,Conforme,Construção e parametrização com mapeamento Y-Delta validados na Fase 2
+Modelo Simulink Simulink,Diagrama SPS com bloco Asynchronous Machine e medições trifásicas,.slx,Conforme,Construção e parametrização com mapeamento Y-Delta validados na Fase 2
 Script de Simulação e Setup,Harness de inicialização e execução automatizada dos transitórios,.m,Conforme,Configuração de solver ode23tb e simulação em lote concluídas
 Transitório de Partida Direta,Gráfico de corrente de partida e comparação com valor calculado em s=1,.png / .fig,Conforme,Pico e corrente de regime a vazio validados na Fase 3
 Transitório com Degrau de Carga,Gráficos de velocidade corrente potência ativa e reativa para TL=Tnom,.png / .fig,Conforme,Convergência e auditoria de erro <= 0.96% validadas na Fase 3

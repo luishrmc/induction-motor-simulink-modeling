@@ -24,7 +24,7 @@ function results = run_item_C_simulacao()
     %% 1. Initialize Paths & Simulation Harness
     item_dir  = fileparts(mfilename('fullpath'));
     proj_root = fullfile(item_dir, '..', '..', '..');
-    addpath(fullfile(item_dir, '..', 'item_A_modelo_simscape'));
+    addpath(fullfile(item_dir, '..', 'item_A_modelo_Simulink'));
 
     fig_dir = fullfile(item_dir, 'figures');
     res_dir = fullfile(proj_root, 'out', 'results');

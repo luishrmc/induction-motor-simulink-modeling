@@ -34,11 +34,11 @@ simulacao_ele035/
 │       ├── figures/                       % Gráficos sobrepostos (.png e .fig)
 │       └── README.md                      % Análise teórica da queda IR e voltage boost
 └── parte2_simulacao_dinamica/
-    ├── item_A_modelo_simscape/            % Diagrama Simscape SPS e parametrização
+    ├── item_A_modelo_Simulink/            % Diagrama Simulink SPS e parametrização
     │   ├── abrir_modelo.m                 % Abre o modelo no Simulink GUI com 1 clique
-    │   ├── build_simscape_model.m         % Constrói programaticamente o diagrama .slx
-    │   ├── mit_simscape_model.slx         % Modelo Simscape SPS (unidades SI, referencial rotor)
-    │   ├── figures/mit_simscape_diagram.png % Diagrama esquemático exportado em 300 DPI
+    │   ├── build_Simulink_model.m         % Constrói programaticamente o diagrama .slx
+    │   ├── mit_Simulink_model.slx         % Modelo Simulink SPS (unidades SI, referencial rotor)
+    │   ├── figures/mit_Simulink_diagram.png % Diagrama esquemático exportado em 300 DPI
     │   ├── run_sim_harness.m              % Harness em lote para os cenários C, D e E
     │   ├── setup_parametros_Y.m           % Transformação Estrela-Triângulo de impedâncias (R/3, L/3)
     │   └── README.md                      % Explicação dos blocos e convenções
@@ -80,8 +80,8 @@ Todos os módulos consomem [`parametros_motor.m`](parametros_motor.m), consolida
 3. Use `Ctrl+Enter` para rodar seção por seção (`%%`) ou clique em **Run** para executar o script completo.
 4. As figuras interativas abrem na tela e salvam automaticamente versões `.fig` (com zoom/pan ativos) e `.png` (para relatórios em 300 DPI) na pasta `figures/`.
 
-### Para Inspecionar o Modelo Simscape no Simulink
-1. Navegue até `parte2_simulacao_dinamica/item_A_modelo_simscape`.
+### Para Inspecionar o Modelo Simulink no Simulink
+1. Navegue até `parte2_simulacao_dinamica/item_A_modelo_Simulink`.
 2. Digite no Command Window:
    ```matlab
    abrir_modelo

@@ -1,4 +1,4 @@
-# Workspace Directives: Induction Motor Steady-State & Dynamic Simscape Simulation (UFMG ELE035)
+# Workspace Directives: Induction Motor Steady-State & Dynamic Simulink Simulation (UFMG ELE035)
 
 Language: all code, comments, hooks, skills, agent definitions, and memory files are in English. Values inside `utils/plan/*.csv` stay in Portuguese because they represent course deliverables.
 
@@ -7,12 +7,12 @@ Language: all code, comments, hooks, skills, agent definitions, and memory files
 Goal (academic specifications in `utils/docs/sim_proj.pdf` and experimental baseline in `utils/docs/LAB_CONV_RLT_08_09_10.pdf`):
 Model, solve, simulate, and validate a WEG 3.7 kW (5 cv), 220 V (Delta), 4-pole, 60 Hz squirrel-cage induction motor.
 1. **Part 1 (Analytical Engine)**: Exact solution of the IEEE T-equivalent circuit at nominal speed ($n = 1715\text{ rpm}$); full-speed sweeps ($0$ to $n_s$) for Torque, $I_s$, $P_a$, $\cos\phi$, and Efficiency; scalar $V/f$ curve family ($100\%$, $75\%$, $50\%$, $25\%$).
-2. **Part 2 (Dynamic Simscape Simulation)**: Parameterized Specialized Power Systems model using the Asynchronous Machine block; DOL startup transient ($s=1$ comparison); step nominal load torque disturbance ($T_L = 0 \rightarrow +T_{nom}$); regenerative braking quadrant ($T_L = -T_{nom}$).
+2. **Part 2 (Dynamic Simulink Simulation)**: Parameterized Specialized Power Systems model using the Asynchronous Machine block; DOL startup transient ($s=1$ comparison); step nominal load torque disturbance ($T_L = 0 \rightarrow +T_{nom}$); regenerative braking quadrant ($T_L = -T_{nom}$).
 
 | Path | Content |
 |---|---|
 | `simulacao_ele035/parte1_regime_permanente/` | Part 1 steady-state analytical engine, nominal metrics, sweeps, and scalar V/f |
-| `simulacao_ele035/parte2_simulacao_dinamica/` | Part 2 Simscape SPS model, locked-rotor calculation, and dynamic transient waveforms |
+| `simulacao_ele035/parte2_simulacao_dinamica/` | Part 2 Simulink SPS model, locked-rotor calculation, and dynamic transient waveforms |
 | `simulacao_ele035/painel_sintese_consolidado/` | Multi-scenario dynamic overview dashboard and consolidated comparison matrices |
 | `docs/` | Modular LaTeX academic report (`docs/latex/main.tex`, chapters, and compiled `out/main.pdf`) |
 | `utils/data/` | Experimental bench CSVs (`01` to `07`) and summary JSONs |
@@ -54,7 +54,7 @@ Defined in `.agents/manifest.json` and `.agents/agents/*.md`:
 |---|---|---|
 | `orchestrator-agent` | pro | Task DAG, state synchronization, ADR maintenance, sole writer of `utils/plan/` |
 | `matlab-analyst` | pro | Circuit theory, vectorized analytical solver, nominal metrics, $V/f$ sweeps |
-| `simulink-architect` | pro | Simscape SPS model generation, block parametrization, ODE solver setup |
+| `simulink-architect` | pro | Simulink SPS model generation, block parametrization, ODE solver setup |
 | `validation-auditor` | pro | Transient test harness, error metrics ($\le \pm 2\%$), bench data reconciliation |
 | `technical-critic-agent` | pro | Read-only adversarial reviewer of physical validity and spec compliance |
 | `doc-agent` | flash | Figure collation, markdown reporting, thesis-grade formatting, export packaging |
@@ -177,8 +177,8 @@ python3 .agents/hooks/loop-guard.py tick <task-id> <gate> [errfile]
   * Viscous friction coefficient: $B = 0.003651\text{ N}\cdot\text{m}\cdot\text{s/rad}$ ($P_{rot}/\omega_0^2 = 129.568 / 188.391^2$).
   * Equivalent moment of inertia: $J = 0.0555\text{ kg}\cdot\text{m}^2$ ($B \cdot \Delta t = 0.003651 \times 15.210\text{ s}$).
 
-### Simscape SPS Block Mapping Invariant
-- The Simscape *Asynchronous Machine SI Units* block uses an internal Wye (Y) configuration with line-to-line RMS voltage input.
+### Simulink SPS Block Mapping Invariant
+- The Simulink *Asynchronous Machine SI Units* block uses an internal Wye (Y) configuration with line-to-line RMS voltage input.
 - To model the 220 V Delta machine in the internal-Wye SPS block without modifying terminal voltages, use the exact **Star-Delta Impedance Transformation**:
   $$R_{1,Y} = \frac{R_1}{3} = 0.3963\,\Omega, \quad R_{2,Y}' = \frac{R_2'}{3} = 0.3933\,\Omega$$
   $$L_{l1,Y} = \frac{L_{l1}}{3} = 1.9083\text{ mH}, \quad L_{l2,Y}' = \frac{L_{l2}'}{3} = 2.8067\text{ mH}, \quad L_{m,Y} = \frac{L_m}{3} = 43.8570\text{ mH}$$

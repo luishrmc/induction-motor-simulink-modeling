@@ -1,6 +1,6 @@
 \chapter{Códigos Computacionais em MATLAB}\label{anexo:codigos_matlab}
 
-A reprodutibilidade integral dos cálculos numéricos de regime permanente e das rotinas de parametrização e simulação dinâmica no ambiente Simscape SPS fundamenta-se na estruturação modular e vetorizada dos códigos-fonte em MATLAB. Todas as rotinas consomem a fonte única canônica de parâmetros (\texttt{parametros\_motor.m}), eliminando duplicação de constantes entre os módulos analíticos e dinâmicos.
+A reprodutibilidade integral dos cálculos numéricos de regime permanente e das rotinas de parametrização e simulação dinâmica no ambiente Simulink SPS fundamenta-se na estruturação modular e vetorizada dos códigos-fonte em MATLAB. Todas as rotinas consomem a fonte única canônica de parâmetros (\texttt{parametros\_motor.m}), eliminando duplicação de constantes entre os módulos analíticos e dinâmicos.
 
 \section{Fonte Canônica de Parâmetros e Resolução Analítica Vetorizada}\label{sec:codigo_analitico}
 
@@ -37,7 +37,7 @@ function p = parametros_motor()
     p.X2 = p.omega_e * p.L2;
     p.Xm = p.omega_e * p.Lm;
 
-    % Transformacao Estrela-Triangulo (Z_Y = Z_Delta / 3) para Simscape SPS
+    % Transformacao Estrela-Triangulo (Z_Y = Z_Delta / 3) para Simulink SPS
     p.R1_Y = p.R1 / 3;  p.R2_Y = p.R2 / 3;
     p.L1_Y = p.L1 / 3;  p.L2_Y = p.L2 / 3;  p.Lm_Y = p.Lm / 3;
     p.X1_Y = p.X1 / 3;  p.X2_Y = p.X2 / 3;  p.Xm_Y = p.Xm / 3;
@@ -88,11 +88,11 @@ eta_em_vec    = max(P_em_vec, 0) ./ P_elec_vec;
 eta_shaft_vec = max(P_shaft_vec, 0) ./ P_elec_vec;
 \end{lstlisting}
 
-\section{Rotina de Parametrização e Execução Dinâmica no Simscape SPS}\label{sec:codigo_simulink_setup}
+\section{Rotina de Parametrização e Execução Dinâmica no Simulink SPS}\label{sec:codigo_simulink_setup}
 
-O \Cref{lst:setup_simulink} documenta a rotina de configuração dos parâmetros transformados Estrela-Triângulo e dos temporizadores de simulação utilizados pelo modelo dinâmico no Simscape SPS (\texttt{setup\_parametros\_Y.m} e despacho via \texttt{run\_sim\_harness.m}).
+O \Cref{lst:setup_simulink} documenta a rotina de configuração dos parâmetros transformados Estrela-Triângulo e dos temporizadores de simulação utilizados pelo modelo dinâmico no Simulink SPS (\texttt{setup\_parametros\_Y.m} e despacho via \texttt{run\_sim\_harness.m}).
 
-\begin{lstlisting}[style=matlabstyle, caption={Script de parametrizacao Y-Delta e temporizacao de cenarios Simscape (\texttt{setup\_parametros\_Y.m}).}, label={lst:setup_simulink}]
+\begin{lstlisting}[style=matlabstyle, caption={Script de parametrizacao Y-Delta e temporizacao de cenarios Simulink (\texttt{setup\_parametros\_Y.m}).}, label={lst:setup_simulink}]
 function params = setup_parametros_Y()
     p = parametros_motor();
 
@@ -123,7 +123,7 @@ function params = setup_parametros_Y()
     params.T_load_step = p.T_nom_ref;  % Amplitude do degrau [N.m]
     params.T_sample    = 50e-6;        % Passo amostral [s] (20 kHz)
 
-    % Exportacao ao workspace base para ligacao com blocos Simscape
+    % Exportacao ao workspace base para ligacao com blocos Simulink
     fields = fieldnames(params);
     for k = 1:length(fields)
         assignin('base', fields{k}, params.(fields{k}));

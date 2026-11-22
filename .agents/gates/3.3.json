@@ -15,7 +15,7 @@
     },
     "simulink-gate": {
       "status": "PASS",
-      "detail": "Simscape model execution verified",
+      "detail": "Simulink model execution verified",
       "src_sha256": "efa76ff7de35d20e209169e0eeb7c9ab0f73667505672251301d9497fefb8caf",
       "timestamp": "2026-11-18T08:35:13-0300"
     },

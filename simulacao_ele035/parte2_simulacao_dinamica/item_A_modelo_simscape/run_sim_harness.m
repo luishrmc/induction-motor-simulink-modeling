@@ -1,7 +1,7 @@
 function results = run_sim_harness(scenario_name, varargin)
 % RUN_SIM_HARNESS
 % Automated batch simulation harness and scenario dispatcher for the WEG 3.7 kW
-% Simscape Specialized Power Systems induction motor dynamic model.
+% Simulink Specialized Power Systems induction motor dynamic model.
 %
 % Tasks Addressed:
 %   - Task 2.2: Analytical locked-rotor starting calculation (s = 1.0) and
@@ -41,7 +41,7 @@ function results = run_sim_harness(scenario_name, varargin)
     end
 
     fprintf('====================================================================\n');
-    fprintf('  UFMG ELE035 - SIMSCAPE SIMULATION HARNESS & SCENARIO DISPATCHER   \n');
+    fprintf('  UFMG ELE035 - Simulink SIMULATION HARNESS & SCENARIO DISPATCHER   \n');
     fprintf('  Active Scenario: %s\n', scenario_name);
     fprintf('====================================================================\n\n');
 
@@ -49,7 +49,7 @@ function results = run_sim_harness(scenario_name, varargin)
     item_a_dir = fileparts(mfilename('fullpath'));
     addpath(item_a_dir);
     params = setup_parametros_Y();
-    model_name = 'mit_simscape_model';
+    model_name = 'mit_Simulink_model';
     model_file = fullfile(item_a_dir, [model_name, '.slx']);
 
     %% 2. Exact Analytical Locked-Rotor Starting Calculation (s = 1.0)
@@ -151,7 +151,7 @@ function results = run_sim_harness(scenario_name, varargin)
     set_param(model_name, 'StopTime', num2str(t_stop_sim));
 
     %% 4. Execute Dynamic Time-Domain Simulation
-    fprintf('[INFO] Executing Simscape dynamic simulation (StopTime = %.1f s)...\n', t_stop_sim);
+    fprintf('[INFO] Executing Simulink dynamic simulation (StopTime = %.1f s)...\n', t_stop_sim);
     t_start_sim = tic;
     simOut = sim(model_name, 'StopTime', num2str(t_stop_sim));
     elapsed_sim = toc(t_start_sim);

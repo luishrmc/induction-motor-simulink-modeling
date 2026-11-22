@@ -1,9 +1,9 @@
-function model_name = build_simscape_model()
-% BUILD_SIMSCAPE_MODEL
-% Programmatically constructs, configures, and saves the Simscape Specialized
+function model_name = build_Simulink_model()
+% BUILD_Simulink_MODEL
+% Programmatically constructs, configures, and saves the Simulink Specialized
 % Power Systems induction machine model for the WEG 3.7 kW (5 cv) motor.
 %
-% Generates: mit_simscape_model.slx (in current module directory)
+% Generates: mit_Simulink_model.slx (in current module directory)
 %
 % Architecture:
 %   - 3-Phase AC Voltage Source (220 V RMS L-L, 60 Hz)
@@ -20,10 +20,10 @@ function model_name = build_simscape_model()
 %   - ADR-002 (Star-Delta Parameter Transformation)
 
     fprintf('====================================================================\n');
-    fprintf('  UFMG ELE035 - BUILD SIMSCAPE SPS INDUCTION MOTOR MODEL (TASK 2.1) \n');
+    fprintf('  UFMG ELE035 - BUILD Simulink SPS INDUCTION MOTOR MODEL (TASK 2.1) \n');
     fprintf('====================================================================\n\n');
 
-    model_name = 'mit_simscape_model';
+    model_name = 'mit_Simulink_model';
     script_dir = fileparts(mfilename('fullpath'));
     model_path = fullfile(script_dir, [model_name, '.slx']);
 
@@ -32,7 +32,7 @@ function model_name = build_simscape_model()
     setup_parametros_Y();
 
     %% 2. Load Required Libraries
-    fprintf('[INFO] Loading Simscape Electrical and Simulink libraries...\n');
+    fprintf('[INFO] Loading Simulink Electrical and Simulink libraries...\n');
     trans_dir = fullfile(matlabroot, 'toolbox', 'physmod', 'elec', 'assistant', 'm', 'transform');
     if exist(trans_dir, 'dir')
         addpath(trans_dir);
@@ -226,13 +226,13 @@ function model_name = build_simscape_model()
 
     %% 10. Save Model & Export High-Resolution Block Diagram
     save_system(model_name, model_path);
-    fprintf('[OK] Simscape model successfully saved to:\n     %s\n\n', model_path);
+    fprintf('[OK] Simulink model successfully saved to:\n     %s\n\n', model_path);
 
     fig_dir = fullfile(script_dir, 'figures');
     if ~exist(fig_dir, 'dir'), mkdir(fig_dir); end
-    diag_path = fullfile(fig_dir, 'mit_simscape_diagram.png');
+    diag_path = fullfile(fig_dir, 'mit_Simulink_diagram.png');
     set_param(model_name, 'ZoomFactor', 'FitSystem');
     print(['-s', model_name], '-dpng', '-r300', diag_path);
-    fprintf('[OK] Simscape diagram exported (300 DPI) to:\n     %s\n\n', diag_path);
+    fprintf('[OK] Simulink diagram exported (300 DPI) to:\n     %s\n\n', diag_path);
 
 end

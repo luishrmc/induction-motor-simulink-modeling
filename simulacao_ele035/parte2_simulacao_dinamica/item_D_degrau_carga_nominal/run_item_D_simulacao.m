@@ -31,7 +31,7 @@ function results = run_item_D_simulacao()
     %% 1. Initialize Paths & Output Directories
     item_dir  = fileparts(mfilename('fullpath'));
     proj_root = fullfile(item_dir, '..', '..', '..');
-    addpath(fullfile(item_dir, '..', 'item_A_modelo_simscape'));
+    addpath(fullfile(item_dir, '..', 'item_A_modelo_Simulink'));
 
     fig_dir = fullfile(item_dir, 'figures');
     res_dir = fullfile(proj_root, 'out', 'results');
@@ -64,7 +64,7 @@ function results = run_item_D_simulacao()
     end
 
     if ~use_cache
-        fprintf('[INFO] Executing Simscape simulation harness for nominal_step (t_step=%.1fs, t_stop=%.1fs)...\n', ...
+        fprintf('[INFO] Executing Simulink simulation harness for nominal_step (t_step=%.1fs, t_stop=%.1fs)...\n', ...
             t_step_target, t_stop_target);
         results = run_sim_harness('nominal_step', 'StepTime', t_step_target, 'StopTime', t_stop_target);
     end

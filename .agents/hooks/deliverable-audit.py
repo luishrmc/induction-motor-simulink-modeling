@@ -23,7 +23,7 @@ REQUIRED_FIGURES = [
     "simulacao_ele035/parte1_regime_permanente/item_D_E_curvas_estator/figures/item1e_rendimento_vs_speed.json",
     "simulacao_ele035/parte1_regime_permanente/item_F_controle_escalar_vf/figures/item1f_vf_scalar_family.png",
     "simulacao_ele035/parte1_regime_permanente/item_F_controle_escalar_vf/figures/item1f_vf_scalar_family.json",
-    "simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape/figures/mit_simscape_diagram.png",
+    "simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_Simulink/figures/mit_Simulink_diagram.png",
     "simulacao_ele035/parte2_simulacao_dinamica/item_C_partida_direta_vazio/figures/item2c_transient_dol_current.png",
     "simulacao_ele035/parte2_simulacao_dinamica/item_C_partida_direta_vazio/figures/item2c_transient_dol_current.json",
     "simulacao_ele035/parte2_simulacao_dinamica/item_C_partida_direta_vazio/figures/item2c_transient_dol_speed.png",

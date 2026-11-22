@@ -1,7 +1,7 @@
-# Parte 2: Item A — Montagem e Parametrização do Modelo Simscape
+# Parte 2: Item A — Montagem e Parametrização do Modelo Simulink
 
 ## Descrição do Módulo
-Este módulo atende integralmente ao Item A da 2ª Parte da especificação `sim_proj.pdf`. Ele contém o modelo dinâmico computacional em **Simscape Specialized Power Systems (SPS)** do motor de indução trifásico WEG de 3,7 kW (5 cv).
+Este módulo atende integralmente ao Item A da 2ª Parte da especificação `sim_proj.pdf`. Ele contém o modelo dinâmico computacional em **Simulink Specialized Power Systems (SPS)** do motor de indução trifásico WEG de 3,7 kW (5 cv).
 
 ---
 
@@ -9,7 +9,7 @@ Este módulo atende integralmente ao Item A da 2ª Parte da especificação `sim
 Para abrir o modelo diretamente na interface gráfica do Simulink com todos os parâmetros carregados:
 1. Abra o MATLAB e navegue até esta pasta:
    ```matlab
-   cd simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape
+   cd simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_Simulink
    ```
 2. Execute o script de abertura:
    ```matlab
@@ -18,11 +18,11 @@ Para abrir o modelo diretamente na interface gráfica do Simulink com todos os p
 3. A janela do Simulink abrirá automaticamente exibindo o diagrama elétrico e mecânico completo.
 
 ### Arquivos do Módulo
-- `abrir_modelo.m`: Inicializa o workspace via `setup_parametros_Y()` e abre `mit_simscape_model.slx` no Simulink GUI.
+- `abrir_modelo.m`: Inicializa o workspace via `setup_parametros_Y()` e abre `mit_Simulink_model.slx` no Simulink GUI.
 - `setup_parametros_Y.m`: Consome `simulacao_ele035/parametros_motor.m` (parâmetros consolidados de `utils/data/`) e aplica a transformação Estrela-Triângulo ($R/3, L/3$).
-- `build_simscape_model.m`: Constrói programaticamente o diagrama `mit_simscape_model.slx`.
+- `build_Simulink_model.m`: Constrói programaticamente o diagrama `mit_Simulink_model.slx`.
 - `run_sim_harness.m`: Harness de execução em lote utilizado pelos Itens 2.C, 2.D e 2.E (`dol_startup`, `nominal_step`, `regenerative`).
-- `figures/mit_simscape_diagram.png`: Diagrama de blocos Simscape SPS exportado em 300 DPI.
+- `figures/mit_Simulink_diagram.png`: Diagrama de blocos Simulink SPS exportado em 300 DPI.
 
 ---
 
@@ -48,4 +48,4 @@ Os parâmetros mecânicos são invariantes com a conexão elétrica (`utils/data
 
 ## Configuração do Solver Numérico
 - **Solver do Simulink:** `FixedStepDiscrete` com passo $T_s = 50\,\mu\text{s}$ ($20\text{ kHz}$).
-- **Solver Local do Simscape:** `NE_BACKWARD_EULER_ADVANCER` para garantia de L-estabilidade em descontinuidades de chaveamento e rigidez eletromecânica.
+- **Solver Local do Simulink:** `NE_BACKWARD_EULER_ADVANCER` para garantia de L-estabilidade em descontinuidades de chaveamento e rigidez eletromecânica.

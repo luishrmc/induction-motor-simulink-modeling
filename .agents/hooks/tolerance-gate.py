@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""tolerance-gate.py: Enforce Tier 1 (+/- 2% Analytical vs Simscape) and Tier 2 (Physical Bench/Nameplate) gates.
+"""tolerance-gate.py: Enforce Tier 1 (+/- 2% Analytical vs Simulink) and Tier 2 (Physical Bench/Nameplate) gates.
 
 Tier 1: Compares simulated steady-state values with analytical predictions (<= 2.0%):
   - Electromagnetic Torque (Te)
@@ -9,7 +9,7 @@ Tier 1: Compares simulated steady-state values with analytical predictions (<= 2
   - Reactive Electrical Power (Q)
 
 Tier 2: Independent physical validation against bench CSVs:
-  - Task 3.1: Asserts Simscape no-load speed (<= 2.0% vs 1799 rpm), line current
+  - Task 3.1: Asserts Simulink no-load speed (<= 2.0% vs 1799 rpm), line current
     (<= 2.0% vs 7.36 A), and active power (<= 5.0% vs 194.0 W) against utils/data/02_Ensaio_Vazio.csv.
   - Tasks 1.1 / 3.2: Prints Physical Nameplate Reconciliation against utils/data/07_dados_de_placa.csv.
 
@@ -211,7 +211,7 @@ def print_tier2_nameplate(task_id, ana_vals, sim_vals):
             if "I_line_nom" in sim32:
                 i_sim32 = float(sim32["I_line_nom"])
                 rows.append((
-                    "Simscape Current @ TL=+Tnom",
+                    "Simulink Current @ TL=+Tnom",
                     f"{i_sim32:.2f} A",
                     f"{i_plate:.2f} A",
                     f"{((i_sim32 - i_plate) / i_plate) * 100:+.2f}%",
@@ -315,7 +315,7 @@ def main():
 
     tier1_passed, report = check_steady_state_convergence(ana_vals, sim_vals, TOLERANCE_PCT)
 
-    print("\nTier 1 Convergence Audit Matrix (Analytical vs. Simscape):")
+    print("\nTier 1 Convergence Audit Matrix (Analytical vs. Simulink):")
     print(f"{'Metric':<15} | {'Analytical':<12} | {'Simulated':<12} | {'Error (%)':<10} | {'Status'}")
     print("-" * 68)
     for m, r in report.items():

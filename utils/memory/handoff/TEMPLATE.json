@@ -6,7 +6,7 @@
   "sender": "orchestrator-agent",
   "recipient": "doc-writer",
   "target_files": [
-    "docs/latex/cap3_simulacao_dinamica/01_modelagem_simscape_sps.tex"
+    "docs/latex/cap3_simulacao_dinamica/01_modelagem_Simulink_sps.tex"
   ],
   "verification_invariants": {
     "steady_state_tolerance_pct": 2.0,

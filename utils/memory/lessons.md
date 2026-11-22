@@ -2,7 +2,7 @@
 
 Limit: 80 lines. Orchestrator-maintained log of technical insights, solver issues, and tool quirks.
 
-## 1. Simscape Specialized Power Systems (SPS) Block Parameterization
+## 1. Simulink Specialized Power Systems (SPS) Block Parameterization
 - **Quirk:** The *Asynchronous Machine SI Units* block requires line-to-line RMS voltage ($V_n = 220\text{ V}$) but assumes an internal Wye winding structure. If Delta parameters ($R_1, X_1$) are directly fed into the block, the machine behaves as if its winding impedance is 3x too high, causing line currents and developed torque to fall to 1/3 of their true values.
 - **Fix:** Always scale per-phase Delta resistances and inductances by $1/3$ ($R_{s,Y} = R_1/3$, $L_{ls,Y} = L_{l1}/3$, etc.) when supplying them to the internal-Wye SPS machine block (see ADR-002).
 
@@ -34,15 +34,15 @@ Limit: 80 lines. Orchestrator-maintained log of technical insights, solver issue
 - **Quirk:** In headless Linux environments without an active X11 server, exporting graphics can print benign Qt Wayland/XCB warnings.
 - **Fix:** Set `export QT_QPA_PLATFORM=offscreen` before running batch MATLAB visualization scripts.
 
-## 9. Simscape Stiff DAE Solver Selection (Stalling Prevention)
-- **Quirk:** Defaulting to explicit variable-step solvers (e.g. `ode45`) on Simscape physical networks chokes on stiff DAEs from leakage inductances, causing sub-microsecond time steps and multi-minute stalls.
+## 9. Simulink Stiff DAE Solver Selection (Stalling Prevention)
+- **Quirk:** Defaulting to explicit variable-step solvers (e.g. `ode45`) on Simulink physical networks chokes on stiff DAEs from leakage inductances, causing sub-microsecond time steps and multi-minute stalls.
 - **Fix:** Always use an implicit solver (`ode23tb`, `ode15s`) or configure a discrete local solver (`Backward Euler`, $T_s = 50\,\mu\text{s}$) paired with `FixedStepDiscrete`.
 
-## 10. Modern Simscape Electrical SPS Library Path
+## 10. Modern Simulink Electrical SPS Library Path
 - **Quirk:** In modern MATLAB releases (R2024b+ through R2026b), Specialized Power Systems blocks reside under `toolbox/physmod/elec/assistant/m/transform`.
 - **Fix:** Dynamically add `matlabroot/toolbox/physmod/elec/assistant/m/transform` to the MATLAB path in initialization scripts before loading models.
 
-## 11. Simscape Machine Standstill DOL Starting & Unit Scaling
+## 11. Simulink Machine Standstill DOL Starting & Unit Scaling
 - **Quirk:** `AsynchronousMachineSIUni_TmSCRotor` defaults to synchronous speed (`fElectrical0 = 60`) and raw per-unit measurement gains (`pu2si_wm = 1`, `pu2si_Te = 1`).
 - **Fix:** Set mask parameters `fElectrical0 = '0'`, `wrm0 = '0'`, `pu2si_wm = 'omega_s'`, and `pu2si_Te = 'P_nom_W / omega_s'` for true standstill ($s=1.0$) DOL startup in base SI units.
 
@@ -68,5 +68,5 @@ Limit: 80 lines. Orchestrator-maintained log of technical insights, solver issue
 - **Fix:** Distinguir explicitamente o ponto de desengate ($T_{max} = 54{,}63\,\text{N}\cdot\text{m}$ a $1405\,\text{rpm}$) do ápice de potência eletromecânica ($P_{em,max} = 8322\,\text{W}$ a $1493\,\text{rpm}$) em análises teóricas e gráficas de regime permanente.
 
 ## 17. Two-Tier Physical Validation Against Laboratory Bench CSVs
-- **Quirk:** Analytical-vs-Simscape convergence ($\le 2\%$) only proves self-consistency; uncalibrated $B, J$ (e.g. $10\times$ inflated values) still pass Tier 1 while failing no-load bench physics ($n_0=1799\text{ rpm}$, $I_0=7.36\text{ A}$, $P_0=194\text{ W}$).
+- **Quirk:** Analytical-vs-Simulink convergence ($\le 2\%$) only proves self-consistency; uncalibrated $B, J$ (e.g. $10\times$ inflated values) still pass Tier 1 while failing no-load bench physics ($n_0=1799\text{ rpm}$, $I_0=7.36\text{ A}$, $P_0=194\text{ W}$).
 - **Fix:** Enforce Tier 2 bench assertions in `tolerance-gate.py` against `02_Ensaio_Vazio.csv` and `07_dados_de_placa.csv`, grounded in `parametros_motor.m` (`04_Mecanicos.csv`).

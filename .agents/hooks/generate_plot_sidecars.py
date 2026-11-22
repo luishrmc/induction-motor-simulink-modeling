@@ -211,7 +211,7 @@ SIDECARS = [
     },
 
     # -------------------------------------------------------------
-    # PARTE 2: SIMULAÇÃO DINÂMICA SIMSCAPE (Items 2C, 2D, 2E)
+    # PARTE 2: SIMULAÇÃO DINÂMICA Simulink (Items 2C, 2D, 2E)
     # -------------------------------------------------------------
     {
         "figure_id": "item2c_transient_dol_current",
@@ -511,7 +511,7 @@ SIDECARS = [
             "Inversão comprovada do fluxo de potência ativa: de +1.84 kW (consumo a vazio) para -2.22 kW (geração líquida entregue à rede de 220 V).",
             "O consumo de potência reativa indutiva permanece estritamente positivo (+3.12 kvar), demonstrando que o gerador de indução gaiola de esquilo depende de excitação magnética externa da rede.",
             "A passagem pelo zero de potência ativa ocorre exatamente no cruzamento da rotação síncrona (1800 rpm).",
-            "A concordância entre a simulação Simscape e a solução do circuito equivalente é excepcional (erro de 0.054% em P e 0.022% em Q)."
+            "A concordância entre a simulação Simulink e a solução do circuito equivalente é excepcional (erro de 0.054% em P e 0.022% em Q)."
         ]
     },
     {

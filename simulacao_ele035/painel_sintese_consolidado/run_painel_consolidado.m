@@ -32,7 +32,7 @@ function run_painel_consolidado()
     if ~exist(res_dir, 'dir'), mkdir(res_dir); end
 
     addpath(base_dir);
-    addpath(fullfile(base_dir, 'parte2_simulacao_dinamica', 'item_A_modelo_simscape'));
+    addpath(fullfile(base_dir, 'parte2_simulacao_dinamica', 'item_A_modelo_Simulink'));
     p = parametros_motor();
 
     fig_vis = 'off';
@@ -49,7 +49,7 @@ function run_painel_consolidado()
     item_d_json = jsondecode(fileread(fullfile(base_dir, 'parte2_simulacao_dinamica', 'item_D_degrau_carga_nominal', 'comparison_3.2.json')));
     item_e_json = jsondecode(fileread(fullfile(base_dir, 'parte2_simulacao_dinamica', 'item_E_operacao_regenerativa', 'comparison_3.3.json')));
 
-    % Load cached Simscape time-series telemetry
+    % Load cached Simulink time-series telemetry
     dol_mat  = fullfile(out_res, 'sim_transient_dol_startup.mat');
     step_mat = fullfile(out_res, 'sim_transient_nominal_step.mat');
     reg_mat  = fullfile(out_res, 'sim_transient_regenerative.mat');
@@ -148,7 +148,7 @@ function run_painel_consolidado()
     comparison_rows = {
         % Partida / Rotor Bloqueado (s = 1.0)
         'Partida / Rotor Bloqueado (s=1.0)', 'Corrente de Linha de Partida', 'A RMS', fmt2(I_start_plate), fmt2(I_start_exp), fmt2(I_start_ana), fmt2(I_start_sim), fmt3(rel_err(I_start_sim, I_start_ana)), ...
-            sprintf('Ensaio rotor bloqueado a %.1f V extrapolado linearmente para %.0f V; modelo analitico e Simscape concordam.', dados_exp.ensaio_rotor_bloqueado.V_linha_V, p.V_LL_nom);
+            sprintf('Ensaio rotor bloqueado a %.1f V extrapolado linearmente para %.0f V; modelo analitico e Simulink concordam.', dados_exp.ensaio_rotor_bloqueado.V_linha_V, p.V_LL_nom);
         'Partida / Rotor Bloqueado (s=1.0)', 'Pico Instantaneo de Inrush', 'A', fmt2(I_peak_plate), '-', fmt2(I_crest_ana), fmt2(I_peak_sim), fmt2(rel_err(I_peak_sim, I_crest_ana)), ...
             sprintf('Pico instantaneo inclui componente aperiodica CC (X/R = %.2f), amortecendo em ~70 ms.', X_over_R);
         'Partida / Rotor Bloqueado (s=1.0)', 'Conjugado Eletromagnetico de Partida', 'N.m', '-', '-', fmt2(T_start_ana), fmt2(T_start_sim), fmt3(rel_err(T_start_sim, T_start_ana)), ...
@@ -174,7 +174,7 @@ function run_painel_consolidado()
         'Carga Nominal (+Tnom)', 'Conjugado Eletromagnetico', 'N.m', fmt2(p.T_nom_ref), fmt2(p.T_nom_ref), fmt3(T_ld_ana), fmt3(T_ld_sim), fmt3(rel_err(T_ld_sim, T_ld_ana)), ...
             sprintf('Equilibrio Te = TL + B*omega_m = %.2f + %.3f = %.3f N.m.', p.T_nom_ref, T_ld_sim - p.T_nom_ref, T_ld_sim);
         'Carga Nominal (+Tnom)', 'Corrente de Linha de Estator', 'A RMS', fmt2(p.I_nom_A), '-', fmt3(I_ld_ana), fmt3(I_ld_sim), fmt3(rel_err(I_ld_sim, I_ld_ana)), ...
-            sprintf('Corrente sob carga em forte convergencia analitica-Simscape e proxima da placa (%.1f A).', p.I_nom_A);
+            sprintf('Corrente sob carga em forte convergencia analitica-Simulink e proxima da placa (%.1f A).', p.I_nom_A);
         'Carga Nominal (+Tnom)', 'Potencia Eletrica Ativa', 'W', fmt2(P_elec_plate), '-', fmt2(P_ld_ana), fmt2(P_ld_sim), fmt3(rel_err(P_ld_sim, P_ld_ana)), ...
             sprintf('Potencia absorvida supre %.1f W uteis no eixo + %.1f W de atrito + perdas Joule.', P_shaft_ld_sim, P_rot_ld_sim);
         'Carga Nominal (+Tnom)', 'Potencia Reativa Absorvida', 'var', fmt2(Q_elec_plate), '-', fmt2(Q_ld_ana), fmt2(Q_ld_sim), fmt3(rel_err(Q_ld_sim, Q_ld_ana)), ...
@@ -199,7 +199,7 @@ function run_painel_consolidado()
             'Fator de potencia negativo reflete injecao de ativa com absorcao simultanea de reativa.'
     };
 
-    headers = {'Regime', 'Metrica', 'Unidade', 'Placa_Catalogo', 'Ensaio_Bancada', 'Modelo_Analitico', 'Simulink_Simscape', 'Erro_Relativo_pct', 'Analise_Discrepancia'};
+    headers = {'Regime', 'Metrica', 'Unidade', 'Placa_Catalogo', 'Ensaio_Bancada', 'Modelo_Analitico', 'Simulink_Simulink', 'Erro_Relativo_pct', 'Analise_Discrepancia'};
     T = cell2table(comparison_rows, 'VariableNames', headers);
 
     csv_path = fullfile(res_dir, 'consolidated_comparison.csv');

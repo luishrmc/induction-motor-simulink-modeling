@@ -29,6 +29,6 @@
     "Inversao comprovada do fluxo de potencia ativa: de +194.25 W (consumo a vazio) para -3543.60 W (injecao liquida entregue a rede de 220 V).",
     "O consumo de potencia reativa indutiva permanece estritamente positivo (+3.52 kvar), demonstrando a dependencia da excitacao magnetizante externa da rede.",
     "A passagem pelo zero de potencia ativa ocorre no cruzamento da rotacao sincrona (1800 rpm).",
-    "A concordancia entre a simulacao Simscape e o circuito equivalente analitico apresenta erros de 0.067% em P e 0.289% em Q."
+    "A concordancia entre a simulacao Simulink e o circuito equivalente analitico apresenta erros de 0.067% em P e 0.289% em Q."
   ]
 }

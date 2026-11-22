@@ -16,7 +16,7 @@ Act as an independent, adversarial peer reviewer. Inspect scripts, derivations, 
 
 ## 2. Review Checklist
 - **Parameter Check**: Are all parameters derived strictly from Table 2.4 and Section 2.4 of `LAB_CONV_RLT_08_09_10.pdf`?
-- **Impedance Scaling Check**: If Simscape SPS block uses internal Wye, has the Star-Delta parameter transformation been applied properly?
+- **Impedance Scaling Check**: If Simulink SPS block uses internal Wye, has the Star-Delta parameter transformation been applied properly?
 - **Friction Balance**: Does the steady-state equation account for viscous friction losses ($B \omega_{m}^2$ and $T_{loss} = B \omega_m$)?
 - **Regenerative Mode Check**: Does $T_L = -T_{nom}$ push slip negative ($s < 0$), mechanical speed above synchronous speed ($n > 1800\text{ rpm}$), and reverse active power flow ($P < 0$)?
 - **Figure Quality & Typography Pre-Flight**:

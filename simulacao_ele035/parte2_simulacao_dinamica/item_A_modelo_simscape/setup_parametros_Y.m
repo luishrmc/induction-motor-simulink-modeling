@@ -5,16 +5,16 @@ function params = setup_parametros_Y()
 %
 % Consumes the single canonical parameter source simulacao_ele035/parametros_motor.m
 % (consolidated from utils/data/01-07 CSVs, ADR-007) and maps impedances via
-% the exact Star-Delta transformation (ADR-002) required by the Simscape SPS
+% the exact Star-Delta transformation (ADR-002) required by the Simulink SPS
 % internal Wye machine block.
 %
 % Assigns all necessary variables to the MATLAB base workspace for Simulink.
 
     fprintf('====================================================================\n');
-    fprintf('  UFMG ELE035 - SETUP SIMSCAPE MOTOR PARAMETERS (TASK 2.1)           \n');
+    fprintf('  UFMG ELE035 - SETUP Simulink MOTOR PARAMETERS (TASK 2.1)           \n');
     fprintf('====================================================================\n\n');
 
-    %% 0. Ensure Simscape Electrical Transform Library & Canonical Params Are On Path
+    %% 0. Ensure Simulink Electrical Transform Library & Canonical Params Are On Path
     script_dir = fileparts(mfilename('fullpath'));
     ele035_dir = fullfile(script_dir, '..', '..');
     if exist(ele035_dir, 'dir') && ~contains(path, ele035_dir)
@@ -93,13 +93,13 @@ function params = setup_parametros_Y()
     fprintf('  Nominal Shaft Torque (T_nom): %.3f N.m\n', params.T_nom_ref);
     fprintf('\n[OK] Motor parameters successfully initialized in base workspace.\n');
 
-    %% 7. Validate Simscape Model Compilation If Present
-    model_path = fullfile(script_dir, 'mit_simscape_model.slx');
-    if exist(model_path, 'file') && ~bdIsLoaded('mit_simscape_model')
+    %% 7. Validate Simulink Model Compilation If Present
+    model_path = fullfile(script_dir, 'mit_Simulink_model.slx');
+    if exist(model_path, 'file') && ~bdIsLoaded('mit_Simulink_model')
         try
             load_system(model_path);
-            set_param('mit_simscape_model', 'SimulationCommand', 'update');
-            fprintf('[OK] Simscape model validated successfully with 0 compilation errors.\n\n');
+            set_param('mit_Simulink_model', 'SimulationCommand', 'update');
+            fprintf('[OK] Simulink model validated successfully with 0 compilation errors.\n\n');
         catch e
             fprintf('[WARN] Model compilation check deferred: %s\n\n', e.message);
         end

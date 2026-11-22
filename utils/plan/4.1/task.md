@@ -6,7 +6,7 @@ Assigned Agent: `doc-agent`
 
 ## 2. Deliverables
 - Target path: `out/results/consolidated_comparison.csv` and `out/figures/` exports.
-- Multi-column comparison tables: Nameplate Ratings vs. Experimental Bench vs. Analytical Model vs. Simscape Simulation.
+- Multi-column comparison tables: Nameplate Ratings vs. Experimental Bench vs. Analytical Model vs. Simulink Simulation.
 - Comprehensive discrepancy metrics ($\Delta\%$ and root-cause annotations).
 
 ## 3. Verification Gates

@@ -4,7 +4,7 @@
 %% =========================================================================
 clear; clc;
 this_dir = fileparts(mfilename('fullpath'));
-addpath(fullfile(this_dir, '..', 'item_A_modelo_simscape'));
+addpath(fullfile(this_dir, '..', 'item_A_modelo_Simulink'));
 
 %% 1. Parametros do motor (mapeamento Y-Delta no item A)
 params = setup_parametros_Y();

@@ -2,14 +2,14 @@
 ## UFMG — ELE035: Laboratório de Conversão de Energia
 
 [![MATLAB](https://img.shields.io/badge/MATLAB-R2026b-blue.svg)](https://www.mathworks.com/products/matlab.html)
-[![Simulink](https://img.shields.io/badge/Simulink-Simscape%20Electrical-orange.svg)](https://www.mathworks.com/products/simscape.html)
+[![Simulink](https://img.shields.io/badge/Simulink-Simulink%20Electrical-orange.svg)](https://www.mathworks.com/products/Simulink.html)
 [![LaTeX](https://img.shields.io/badge/LaTeX-Modular%20Report-008080.svg)](docs/latex/main.tex)
 [![Institution](https://img.shields.io/badge/UFMG-Engenharia%20Elétrica-red.svg)](https://www.ufmg.br/)
 [![Status](https://img.shields.io/badge/Status-Fase%205%20(v0.2%20%7C%2084.4%25)-blue.svg)](utils/plan/STATUS.md)
 
 Este repositório contém o projeto computacional de modelagem em regime permanente e simulação dinâmica de transitórios eletromecânicos de um **motor de indução trifásico de gaiola de esquilo WEG de 3,7 kW (5 cv)**, desenvolvido para a disciplina **ELE035 - Laboratório de Conversão de Energia** da **Universidade Federal de Minas Gerais (UFMG)**, sob orientação do Prof. Victor Flores Mendes.
 
-O projeto atende à especificação oficial acadêmica ([`utils/docs/sim_proj.pdf`](utils/docs/sim_proj.pdf)), combinando os parâmetros consolidados nos ensaios laboratoriais ([`utils/docs/LAB_CONV_RLT_08_09_10.pdf`](utils/docs/LAB_CONV_RLT_08_09_10.pdf)), resolução matricial 100% vetorizada do circuito equivalente em T por fase, simulação temporal em **Simscape Specialized Power Systems (SPS)** e relatório técnico modular em LaTeX ([`docs/latex/main.tex`](docs/latex/main.tex)).
+O projeto atende à especificação oficial acadêmica ([`utils/docs/sim_proj.pdf`](utils/docs/sim_proj.pdf)), combinando os parâmetros consolidados nos ensaios laboratoriais ([`utils/docs/LAB_CONV_RLT_08_09_10.pdf`](utils/docs/LAB_CONV_RLT_08_09_10.pdf)), resolução matricial 100% vetorizada do circuito equivalente em T por fase, simulação temporal em **Simulink Specialized Power Systems (SPS)** e relatório técnico modular em LaTeX ([`docs/latex/main.tex`](docs/latex/main.tex)).
 
 ---
 
@@ -60,11 +60,11 @@ O código, os modelos, as figuras interativas (`.fig`), as figuras de alta resol
 
 ---
 
-### 2ª Parte: Simulação Dinâmica Simscape (Specialized Power Systems)
+### 2ª Parte: Simulação Dinâmica Simulink (Specialized Power Systems)
 
 | Bloco Acadêmico | Tarefa / Descrição | Script Executável | Documentação do Bloco | Entregáveis Principais |
 |---|---|---|:---:|---|
-| **Item 2.A** | Modelo Simscape SPS, Abertura no GUI, Parametrização $Y$ e Harness | [`abrir_modelo.m`](simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape/abrir_modelo.m)<br>[`setup_parametros_Y.m`](simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape/setup_parametros_Y.m)<br>[`run_sim_harness.m`](simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape/run_sim_harness.m) | [📖 README](simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape/README.md) | Diagrama [`mit_simscape_model.slx`](simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape/mit_simscape_model.slx) parametrizado ($R/3, L/3$) e esquema [`mit_simscape_diagram.png`](simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape/figures/mit_simscape_diagram.png) |
+| **Item 2.A** | Modelo Simulink SPS, Abertura no GUI, Parametrização $Y$ e Harness | [`abrir_modelo.m`](simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_Simulink/abrir_modelo.m)<br>[`setup_parametros_Y.m`](simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_Simulink/setup_parametros_Y.m)<br>[`run_sim_harness.m`](simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_Simulink/run_sim_harness.m) | [📖 README](simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_Simulink/README.md) | Diagrama [`mit_Simulink_model.slx`](simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_Simulink/mit_Simulink_model.slx) parametrizado ($R/3, L/3$) e esquema [`mit_Simulink_diagram.png`](simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_Simulink/figures/mit_Simulink_diagram.png) |
 | **Item 2.B** | Cálculo Analítico de Partida em Rotor Bloqueado ($s = 1$) | [`run_item_B_partida.m`](simulacao_ele035/parte2_simulacao_dinamica/item_B_calculo_partida/run_item_B_partida.m) | [📖 README](simulacao_ele035/parte2_simulacao_dinamica/item_B_calculo_partida/README.md) | Corrente simétrica de partida ($67,73\text{ A}$ RMS), torque de partida ($25,35\text{ N}\cdot\text{m}$) e pico teórico de inrush ($120,44\text{ A}$) |
 | **Item 2.C** | Simulação da Partida Direta a Vazio e Validação de Inrush | [`run_item_C_simulacao.m`](simulacao_ele035/parte2_simulacao_dinamica/item_C_partida_direta_vazio/run_item_C_simulacao.m) | [📖 README](simulacao_ele035/parte2_simulacao_dinamica/item_C_partida_direta_vazio/README.md) | Inrush de $121,18\text{ A}$, amortecimento em $\sim 70\text{ ms}$, estabilização a $1797,92\text{ rpm}$ ($0,36\text{ s}$) e convergência $\le 0,28\%$ |
 | **Item 2.D** | Resposta ao Degrau de Carga Nominal ($T_L = +T_{nom}$) | [`run_item_D_simulacao.m`](simulacao_ele035/parte2_simulacao_dinamica/item_D_degrau_carga_nominal/run_item_D_simulacao.m) | [📖 README](simulacao_ele035/parte2_simulacao_dinamica/item_D_degrau_carga_nominal/README.md) | Degrau em $t = 1,5\text{ s}$ ($0$–$3,0\text{ s}$); equilíbrio em $1728,87\text{ rpm}$, $T_e = 21,263\text{ N}\cdot\text{m}$, $I = 14,163\text{ A}$ e $P = 4248,71\text{ W}$ |
@@ -84,7 +84,7 @@ O código, os modelos, as figuras interativas (`.fig`), as figuras de alta resol
 ## ⚙️ Pré-requisitos, Instalação e Uso
 
 ### 1. Dependências do Ambiente
-- **MATLAB R2026b** com **Simulink** e **Simscape Electrical (Specialized Power Systems)**.
+- **MATLAB R2026b** com **Simulink** e **Simulink Electrical (Specialized Power Systems)**.
 - **Python 3** (biblioteca padrão; executa os hooks determinísticos de auditoria e sincronização).
 - **Distribuição TeX Live** com `latexmk`, `pdflatex`, `bibtex` e pacotes `babel` (`brazilian`), `newtxtext`, `newtxmath`, `siunitx`, `circuitikz`, `booktabs`, `cleveref`, `listings`, `steinmetz`.
 - *(Opcional)* **VS Code** com a extensão **LaTeX Workshop** (receitas pré-configuradas em [`.vscode/settings.json`](.vscode/settings.json)).
@@ -109,9 +109,9 @@ Todos os scripts em [`simulacao_ele035/`](simulacao_ele035/) são autônomos e e
    cd simulacao_ele035/parte1_regime_permanente/item_D_E_curvas_estator
    run_item_E_torque   % ou use Ctrl+Enter por seção no MATLAB Editor
    ```
-2. **Abrir o modelo Simscape no Simulink GUI:**
+2. **Abrir o modelo Simulink no Simulink GUI:**
    ```matlab
-   cd simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape
+   cd simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_Simulink
    abrir_modelo
    ```
 3. **Execução em lote (headless CLI):**
@@ -146,7 +146,7 @@ ufmg/lab-conv/proj/
 │   │   ├── item_D_E_curvas_estator/          # [README] [run_item_E_*.m] [figures/] [data/]
 │   │   └── item_F_controle_escalar_vf/       # [README] [run_item_F_vf_family.m] [figures/]
 │   ├── parte2_simulacao_dinamica/
-│   │   ├── item_A_modelo_simscape/           # [README] [abrir_modelo.m] [run_sim_harness.m] [mit_simscape_model.slx] [figures/mit_simscape_diagram.png]
+│   │   ├── item_A_modelo_Simulink/           # [README] [abrir_modelo.m] [run_sim_harness.m] [mit_Simulink_model.slx] [figures/mit_Simulink_diagram.png]
 │   │   ├── item_B_calculo_partida/           # [README] [run_item_B_partida.m] [resultados_partida.json]
 │   │   ├── item_C_partida_direta_vazio/      # [README] [run_item_C_simulacao.m] [figures/]
 │   │   ├── item_D_degrau_carga_nominal/      # [README] [run_item_D_simulacao.m] [figures/]
@@ -161,7 +161,7 @@ ufmg/lab-conv/proj/
 │       ├── pre_textuais/                     # Capa institucional (00_capa.tex)
 │       ├── cap1_introducao/                  # Capítulo 1 (Contexto e parâmetros consolidados)
 │       ├── cap2_regime_permanente/           # Capítulo 2 (Regime permanente analítico e V/f)
-│       ├── cap3_simulacao_dinamica/          # Capítulo 3 (Simscape SPS, partida, carga e geração)
+│       ├── cap3_simulacao_dinamica/          # Capítulo 3 (Simulink SPS, partida, carga e geração)
 │       ├── cap4_sintese_convergencia/        # Capítulo 4 (Painel integrado e auditoria Tier 1/2)
 │       ├── pos_textuais/ & anexos/           # Conclusão geral e códigos MATLAB
 │       └── img/                              # 18 figuras 300 DPI integradas ao texto
@@ -180,7 +180,7 @@ ufmg/lab-conv/proj/
 
 ## 📣 Mudanças Recentes e Prontidão para Contribuições (v0.2)
 
-- **Consolidação do Workspace (`457260d`, `882e380`):** Os diretórios legados `matlab/` e `out/` foram consolidados em [`simulacao_ele035/`](simulacao_ele035/) e `.agents/gates/`, mantendo o harness [`run_sim_harness.m`](simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape/run_sim_harness.m) integrado junto ao modelo em `item_A_modelo_simscape/`.
+- **Consolidação do Workspace (`457260d`, `882e380`):** Os diretórios legados `matlab/` e `out/` foram consolidados em [`simulacao_ele035/`](simulacao_ele035/) e `.agents/gates/`, mantendo o harness [`run_sim_harness.m`](simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_Simulink/run_sim_harness.m) integrado junto ao modelo em `item_A_modelo_Simulink/`.
 - **Migração para LaTeX Modular (`55a49b3` – `0a32b72`):** O antigo relatório monolítico `docs/RELATORIO_FINAL_SIMULACAO.{md,pdf}` foi substituído pela arquitetura modular em [`docs/latex/`](docs/latex/), com automação via `latex-lint.py`, `latex-gate.py` e hook `pre-commit` ([`.agents/hooks/git-pre-commit.sh`](.agents/hooks/git-pre-commit.sh)).
 - **Marco `v0.2` (Capítulos 1 e 2 aprovados):** Tarefas `5.1` e `5.2` concluídas com zero erros de compilação e auditoria editorial aprovada (`84,4%` do esforço total concluído; ver [`utils/plan/STATUS.md`](utils/plan/STATUS.md) e [`utils/plan/CHANGELOG.md`](utils/plan/CHANGELOG.md)).
 - **Próximas Contribuições:** As tarefas elegíveis em aberto são **5.3** (redação e conciliação dos Capítulos 3 e 4) e **5.4** (revisão editorial global, pós-textuais, apêndices e entrega do PDF final). Consulte [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md) antes de iniciar novos commits.
@@ -200,7 +200,7 @@ python3 .agents/hooks/memory-check.py
 # Verificação estática de código MATLAB (vetorização e estilo)
 bash .agents/hooks/matlab-lint.sh
 
-# Auditoria de tolerância de regime permanente (analítico vs. Simscape + Tier 2 bancada/placa)
+# Auditoria de tolerância de regime permanente (analítico vs. Simulink + Tier 2 bancada/placa)
 python3 .agents/hooks/tolerance-gate.py --task 1.1   # Ponto nominal estático (Erro 0.0% Tier 1)
 python3 .agents/hooks/tolerance-gate.py --task 3.1   # Partida a vazio (Erro máx 0.281% Tier 1; 0.249% Tier 2)
 python3 .agents/hooks/tolerance-gate.py --task 3.2   # Degrau de carga (Erro máx 0.437% Tier 1)

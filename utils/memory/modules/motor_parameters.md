@@ -32,6 +32,6 @@ Consolidated ratings and equivalent circuit components for the WEG 3.7 kW motor.
 - Viscous friction: $B = 0.003651\text{ N}\cdot\text{m}\cdot\text{s/rad}$ ($P_{rot}/\omega_0^2$).
 - Moment of inertia: $J = 0.0555\text{ kg}\cdot\text{m}^2$ ($B \cdot \Delta t$, $\Delta t = 15.210\text{ s}$).
 
-## Simscape SPS Equivalent Parameters (Wye-Mapped $Y$)
+## Simulink SPS Equivalent Parameters (Wye-Mapped $Y$)
 - $R_{1,Y} = 0.3963\,\Omega$, $R_{2,Y}' = 0.3933\,\Omega$.
 - $L_{l1,Y} = 1.9083\text{ mH}$, $L_{l2,Y}' = 2.8067\text{ mH}$, $L_{m,Y} = 43.8570\text{ mH}$.

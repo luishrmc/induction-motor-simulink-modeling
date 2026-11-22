@@ -15,7 +15,7 @@ function p = parametros_motor()
 %
 % Output:
 %   p - struct containing nameplate, Delta equivalent-circuit, Star-Delta
-%       Wye-mapped (Y) Simscape SPS parameters, and mechanical constants
+%       Wye-mapped (Y) Simulink SPS parameters, and mechanical constants
 %       in base SI units.
 
     %% 1. Nameplate Ratings (utils/data/07_dados_de_placa.csv)
@@ -49,7 +49,7 @@ function p = parametros_motor()
     p.X2 = p.omega_e * p.L2;      % Referred rotor leakage reactance (Delta) [Ohm]
     p.Xm = p.omega_e * p.Lm;      % Magnetizing reactance (Delta) [Ohm]
 
-    %% 4. Star-Delta Equivalent Parameters (Wye-Mapped for Simscape SPS)
+    %% 4. Star-Delta Equivalent Parameters (Wye-Mapped for Simulink SPS)
     % Z_Y = Z_Delta / 3 preserves terminal line voltage & power
     p.R1_Y = p.R1 / 3;            % Stator resistance per phase (Wye) [Ohm]
     p.R2_Y = p.R2 / 3;            % Referred rotor resistance per phase (Wye) [Ohm]

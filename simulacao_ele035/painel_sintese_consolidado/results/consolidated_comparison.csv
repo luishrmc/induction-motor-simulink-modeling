@@ -1,5 +1,5 @@
-Regime,Metrica,Unidade,Placa_Catalogo,Ensaio_Bancada,Modelo_Analitico,Simulink_Simscape,Erro_Relativo_pct,Analise_Discrepancia
-Partida / Rotor Bloqueado (s=1.0),Corrente de Linha de Partida,A RMS,106.40,65.30,67.73,67.73,0.000,"Ensaio rotor bloqueado a 47.4 V extrapolado linearmente para 220 V; modelo analitico e Simscape concordam."
+Regime,Metrica,Unidade,Placa_Catalogo,Ensaio_Bancada,Modelo_Analitico,Simulink_Simulink,Erro_Relativo_pct,Analise_Discrepancia
+Partida / Rotor Bloqueado (s=1.0),Corrente de Linha de Partida,A RMS,106.40,65.30,67.73,67.73,0.000,"Ensaio rotor bloqueado a 47.4 V extrapolado linearmente para 220 V; modelo analitico e Simulink concordam."
 Partida / Rotor Bloqueado (s=1.0),Pico Instantaneo de Inrush,A,150.47,-,95.78,121.18,26.52,"Pico instantaneo inclui componente aperiodica CC (X/R = 2.32), amortecendo em ~70 ms."
 Partida / Rotor Bloqueado (s=1.0),Conjugado Eletromagnetico de Partida,N.m,-,-,25.35,25.35,0.000,"Conjugado simetrico s=1 convergente; pico subtransitorio dinamico atinge 77.99 N.m."
 Regime Permanente a Vazio (TL=0),Velocidade de Rotacao,rpm,1800.00,1799.00,1797.93,1797.92,0.001,"Atrito viscoso consolidado B = 0.003651 N.m.s/rad (Prot = 129.42 W), estabilizando proximo a 1797.92 rpm."
@@ -10,7 +10,7 @@ Regime Permanente a Vazio (TL=0),Potencia Reativa Absorvida,var,-,-,2798.52,2790
 Regime Permanente a Vazio (TL=0),Fator de Potencia a Vazio,-,-,0.069,0.069,0.069,0.396,"Predominancia fortemente indutiva da corrente magnetizante a vazio."
 Carga Nominal (+Tnom),Velocidade de Rotacao,rpm,1715.00,1715.00,1729.45,1728.87,0.034,"Escorregamento sob carga s = 3.95% para suprir TL = +20.60 N.m e atrito B*omega_m."
 Carga Nominal (+Tnom),Conjugado Eletromagnetico,N.m,20.60,20.60,21.263,21.263,0.001,"Equilibrio Te = TL + B*omega_m = 20.60 + 0.661 = 21.263 N.m."
-Carga Nominal (+Tnom),Corrente de Linha de Estator,A RMS,14.00,-,14.133,14.163,0.210,"Corrente sob carga em forte convergencia analitica-Simscape e proxima da placa (14.0 A)."
+Carga Nominal (+Tnom),Corrente de Linha de Estator,A RMS,14.00,-,14.133,14.163,0.210,"Corrente sob carga em forte convergencia analitica-Simulink e proxima da placa (14.0 A)."
 Carga Nominal (+Tnom),Potencia Eletrica Ativa,W,4327.49,-,4245.53,4248.71,0.075,"Potencia absorvida supre 3729.9 W uteis no eixo + 119.7 W de atrito + perdas Joule."
 Carga Nominal (+Tnom),Potencia Reativa Absorvida,var,3133.05,-,3313.59,3328.09,0.437,"Demanda reativa de magnetizacao e dispersao sob conjugado nominal."
 Carga Nominal (+Tnom),Fator de Potencia sob Carga,-,0.810,-,0.788,0.787,0.135,"Fator de potencia sob carga convergente e coerente com a especificacao de catalogo."

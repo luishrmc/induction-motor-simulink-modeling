@@ -23,4 +23,4 @@ Este módulo compila, reconcilia e apresenta de forma comparativa e integrada to
 
 ## Estrutura de Arquivos
 - `figures/consolidated_transient_overview.{png, fig, json}`: Painel de 4 subgráficos multivariáveis em 300 DPI e formato editável `.fig`.
-- `results/consolidated_comparison.{csv, json}`: Tabela comparativa multidimensional confrontando Catálogo WEG, Ensaios de Laboratório, Modelo Analítico e Simscape SPS.
+- `results/consolidated_comparison.{csv, json}`: Tabela comparativa multidimensional confrontando Catálogo WEG, Ensaios de Laboratório, Modelo Analítico e Simulink SPS.

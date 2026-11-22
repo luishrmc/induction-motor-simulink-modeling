@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""simulink-gate.py: Verification gate for Phase 2 & 3 Simscape simulation runs.
+"""simulink-gate.py: Verification gate for Phase 2 & 3 Simulink simulation runs.
 
 Validates that:
-  1. Simscape model compiles without solver singularities or algebraic loops.
+  1. Simulink model compiles without solver singularities or algebraic loops.
   2. Simulation runs to completion for the requested time horizon.
   3. Signal telemetry logs are populated under simulacao_ele035/parte2_simulacao_dinamica/.
 """
@@ -18,14 +18,14 @@ GATE_NAME = "simulink-gate"
 
 
 def main():
-    print(f"[SIMULINK-GATE] Auditing Simscape simulation artifacts for task {TASK_ID}...")
+    print(f"[SIMULINK-GATE] Auditing Simulink simulation artifacts for task {TASK_ID}...")
 
-    model_file = ROOT / "simulacao_ele035" / "parte2_simulacao_dinamica" / "item_A_modelo_simscape" / "mit_simscape_model.slx"
-    setup_script = ROOT / "simulacao_ele035" / "parte2_simulacao_dinamica" / "item_A_modelo_simscape" / "setup_parametros_Y.m"
+    model_file = ROOT / "simulacao_ele035" / "parte2_simulacao_dinamica" / "item_A_modelo_Simulink" / "mit_Simulink_model.slx"
+    setup_script = ROOT / "simulacao_ele035" / "parte2_simulacao_dinamica" / "item_A_modelo_Simulink" / "setup_parametros_Y.m"
 
     if TASK_ID == "2.1":
         if not model_file.is_file() or not setup_script.is_file():
-            detail = "Missing model or setup script in simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape/"
+            detail = "Missing model or setup script in simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_Simulink/"
             print(f"[ERR][SIMULINK-GATE] {detail}", file=sys.stderr)
             subprocess.run(["python3", str(ROOT / ".agents/hooks/gate_record.py"),
                             TASK_ID, GATE_NAME, "FAIL", "--detail", detail])
@@ -87,7 +87,7 @@ def main():
             return 1
 
     subprocess.run(["python3", str(ROOT / ".agents/hooks/gate_record.py"),
-                    TASK_ID, GATE_NAME, "PASS", "--detail", "Simscape model execution verified",
+                    TASK_ID, GATE_NAME, "PASS", "--detail", "Simulink model execution verified",
                     "--src", "simulacao_ele035/parte2_simulacao_dinamica"])
     print("[SIMULINK-GATE] Gate PASSED.")
     return 0

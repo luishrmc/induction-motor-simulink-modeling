@@ -1,12 +1,12 @@
 ---
-name: simscape-modeling
-description: Guidance on configuring Simscape Electrical Specialized Power Systems induction machine blocks, solvers, and measurements.
+name: Simulink-modeling
+description: Guidance on configuring Simulink Electrical Specialized Power Systems induction machine blocks, solvers, and measurements.
 ---
 
-# Simscape Modeling Skill
+# Simulink Modeling Skill
 
 ## Overview
-Procedures for setting up, parameterizing, and simulating three-phase induction machines using Simscape Specialized Power Systems (SPS).
+Procedures for setting up, parameterizing, and simulating three-phase induction machines using Simulink Specialized Power Systems (SPS).
 
 ## Block Configuration
 - Block: `powerlib/Machines/Asynchronous Machine SI Units`

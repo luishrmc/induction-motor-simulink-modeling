@@ -32,7 +32,7 @@ function results = run_item_E_simulacao()
         fig_vis = 'on';   % interactive session (MATLAB GUI)
     end
 
-    addpath(fullfile(item_dir, '..', 'item_A_modelo_simscape'));
+    addpath(fullfile(item_dir, '..', 'item_A_modelo_Simulink'));
     params = setup_parametros_Y();
 
     V_LL_nom = params.V_LL_nom;
@@ -98,7 +98,7 @@ function results = run_item_E_simulacao()
     fprintf('  Regen   (t > %.1fs): n = %.2f rpm, Te = %.3f N.m, I_s = %.3f A, P = %.1f W, Q = %.1f var\n\n', ...
         t_step_val, n_regen_ana, T_em_regen_ana, I_line_regen_ana, P_elec_regen_ana, Q_elec_regen_ana);
 
-    %% 3. Execute or Load Dynamic Simscape Simulation
+    %% 3. Execute or Load Dynamic Simulink Simulation
     cache_file = fullfile(data_dir, 'sim_transient_regenerative.mat');
     use_cache = false;
     if exist(cache_file, 'file')
@@ -116,7 +116,7 @@ function results = run_item_E_simulacao()
     end
 
     if ~use_cache
-        fprintf('[INFO] Running Simscape dynamic harness for scenario: regenerative (t_step = %.1fs, t_stop = %.1fs)...\n', ...
+        fprintf('[INFO] Running Simulink dynamic harness for scenario: regenerative (t_step = %.1fs, t_stop = %.1fs)...\n', ...
             t_step_val, t_stop_val);
         results = run_sim_harness('regenerative', 'StopTime', t_stop_val, 'StepTime', t_step_val);
         save(cache_file, 'results');
