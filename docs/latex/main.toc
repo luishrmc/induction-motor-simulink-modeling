@@ -1,0 +1,53 @@
+\babel@toc {brazilian}{}\relax 
+\contentsline {chapter}{\numberline {1}Introdução e Especificações do Sistema}{3}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Contextualização e Objetivos Acadêmicos}{3}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Dados de Placa e Parâmetros Experimentais da Bancada}{4}{section.1.2}%
+\contentsline {chapter}{\numberline {2}Regime Permanente Analítico}{7}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Cálculo do Conjugado Nominal de Placa ($T_n$)}{7}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Formulação Mecânica e Dedução Analítica}{7}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Distinção entre Conjugado Útil de Eixo e Conjugado Eletromagnético}{8}{subsection.2.1.2}%
+\contentsline {section}{\numberline {2.2}Resolução Analítica do Circuito Equivalente no Ponto Nominal}{9}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Impedâncias Fasoriais e Correntes no Ponto Nominal}{9}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Balanço Eletromecânico de Potências e Perdas}{10}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Conciliação com o Atrito Viscoso Equivalente e Rendimentos}{11}{subsection.2.2.3}%
+\contentsline {section}{\numberline {2.3}Algoritmo Computacional Vetorizado}{13}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Estratégia de Vetorização e Tratamento de Singularidades}{13}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Formulação Matricial das Impedâncias e Fasores}{14}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}Estrutura Vetorial do Balanço de Potência e Conjugado}{14}{subsection.2.3.3}%
+\contentsline {subsection}{\numberline {2.3.4}Implementação em Código MATLAB}{15}{subsection.2.3.4}%
+\contentsline {section}{\numberline {2.4}Curvas Características de Regime Permanente em Tensão e Frequência Nominais}{16}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Conjugado Eletromagnético vs. Velocidade}{17}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Corrente de Linha do Estator vs. Velocidade}{18}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}Potência Ativa vs. Velocidade}{19}{subsection.2.4.3}%
+\contentsline {subsection}{\numberline {2.4.4}Fator de Potência vs. Velocidade}{21}{subsection.2.4.4}%
+\contentsline {subsection}{\numberline {2.4.5}Rendimento vs. Velocidade}{22}{subsection.2.4.5}%
+\contentsline {section}{\numberline {2.5}Família de Curvas sob Controle Escalar com Relação $V/f$ Constante}{23}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}Princípio do Controle Escalar e Manutenção do Fluxo de Entreferro}{23}{subsection.2.5.1}%
+\contentsline {subsection}{\numberline {2.5.2}Inspeção da Família de Curvas e Efeito da Resistência Estatórica}{23}{subsection.2.5.2}%
+\contentsline {subsection}{\numberline {2.5.3}Compensação de Tensão em Baixas Rotações}{25}{subsection.2.5.3}%
+\contentsline {chapter}{\numberline {3}Simulação Dinâmica}{27}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Arquitetura e Parametrização do Modelo Simscape Specialized Power Systems}{27}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Transformação Estrela-Triângulo ($\text {Y}-\Delta $)}{27}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Diagrama de Blocos Desenvolvido}{28}{subsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.1.3}Configuração do Solver Numérico L-Estável}{29}{subsection.3.1.3}%
+\contentsline {section}{\numberline {3.2}Dedução Analítica da Corrente de Partida Direta ($s = 1$)}{30}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Impedância de Entrada e Corrente em $s = 1$}{30}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Componente Contínua transitória e Confronto com Dados de Placa}{31}{subsection.3.2.2}%
+\contentsline {section}{\numberline {3.3}Simulação da Partida Direta a Vazio ($T_L = 0$)}{31}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Comportamento da Corrente de Estator e Validação de Inrush}{31}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Dinâmica de Velocidade e Conjugado Eletromagnético}{32}{subsection.3.3.2}%
+\contentsline {section}{\numberline {3.4}Resposta ao Degrau de Carga Nominal ($T_L = +T_{nom}$)}{34}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Dinâmica de Velocidade e Equilíbrio de Conjugado sob Carga Plena}{34}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Dinâmica da Corrente de Estator e Potências Ativa e Reativa}{36}{subsection.3.4.2}%
+\contentsline {section}{\numberline {3.5}Operação Regenerativa sob Torque Negativo ($T_L = -T_{nom}$)}{37}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Dinâmica Hipersíncrona e Conjugado de Frenagem}{38}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}Reversão do Fluxo de Potência Ativa e Demanda de Reativo}{39}{subsection.3.5.2}%
+\contentsline {chapter}{\numberline {4}Síntese Comparativa Global e Auditoria de Convergência}{41}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Painel Integrado dos Transitórios}{41}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Tabela Comparativa e Critérios de Validação}{43}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Critérios de Comparação e Tabela Geral}{43}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Análise das Diferenças nos Dois Níveis}{44}{subsection.4.2.2}%
+\contentsline {chapter}{Conclusão}{45}{chapter*.26}%
+\contentsline {chapter}{\numberline {A}Códigos Computacionais em MATLAB}{47}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Fonte Canônica de Parâmetros e Resolução Analítica Vetorizada}{47}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Rotina de Parametrização e Execução Dinâmica no Simscape SPS}{49}{section.A.2}%
