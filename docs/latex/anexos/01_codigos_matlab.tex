@@ -1,132 +1,69 @@
-\chapter{Códigos Computacionais em MATLAB}\label{anexo:codigos_matlab}
+\chapter{Códigos de Parametrização e Regime Permanente (1ª Parte)}\label{anexo:codigos_parte1}
 
-A reprodutibilidade integral dos cálculos numéricos de regime permanente e das rotinas de parametrização e simulação dinâmica no ambiente Simulink SPS fundamenta-se na estruturação modular e vetorizada dos códigos-fonte em MATLAB. Todas as rotinas consomem a fonte única canônica de parâmetros (\texttt{parametros\_motor.m}), eliminando duplicação de constantes entre os módulos analíticos e dinâmicos.
+Neste apêndice e no \cref{anexo:codigos_parte2}, apresentam-se os principais códigos-fonte em MATLAB utilizados nos cálculos analíticos de regime permanente e nas simulações dinâmicas no Simulink. Os arquivos encontram-se organizados por etapa de trabalho no diretório \texttt{simulacao\_\allowbreak{}ele035/} e consultam o mesmo arquivo de parâmetros (\texttt{parametros\_\allowbreak{}motor.m}), de modo a manter os mesmos valores nominais, elétricos e mecânicos em todas as rotinas.
 
-\section{Fonte Canônica de Parâmetros e Resolução Analítica Vetorizada}\label{sec:codigo_analitico}
+A \cref{tab:mapa_codigos_fonte} relaciona os arquivos empregados, suas finalidades e as respectivas listagens no relatório. Para evitar repetição, o algoritmo vetorizado sobre a malha de escorregamento ($s \in [10^{-4}, \, 1{,}0]$), já exibido no \cref{code:algoritmo_vetorizado} (\cref{subsec:implementacao_script}), não é reproduzido novamente nos apêndices.
 
-O \Cref{lst:parametros_motor} apresenta a função centralizada de parâmetros nominais, circuito equivalente em Triângulo ($\Delta$), transformação Estrela-Triângulo ($\text{Y}$) e constantes mecânicas consolidadas ($B = \SI{0,003651}{\Nm\cdot\second/\radian}$ e $J = \SI{0,0555}{\kilogram\meter\squared}$). Na sequência, o \Cref{lst:run_item_ABC} documenta a rotina vetorizada responsável pelo cálculo do ponto nominal e pelas varreduras de regime permanente.
+\begin{table}[H]
+\centering
+\small
+\caption{Organização dos códigos-fonte em MATLAB e sua distribuição no relatório.}
+\label{tab:mapa_codigos_fonte}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llll}
+\toprule
+\textbf{Arquivo / Rotina} & \textbf{Finalidade} & \textbf{Etapa do Trabalho} & \textbf{Referência} \\
+\midrule
+\texttt{parametros\_motor.m} & Parâmetros de placa, circuito $\Delta$/$\text{Y}$ e constantes $J$ e $B$ & Base comum & \cref{lst:parametros_motor} \\
+\texttt{run\_item\_ABC.m} & Solução analítica nominal e equivalente de Thévenin & 1ª Parte (Itens A--C) & \cref{lst:run_item_ABC} \\
+\texttt{run\_item\_E\_*.m} / \texttt{run\_all\_item\_E.m} & Varredura vetorizada e traçado das cinco curvas nominais & 1ª Parte (Itens D--E) & \cref{code:algoritmo_vetorizado} (Cap. 2) \\
+\texttt{run\_item\_F\_vf\_family.m} & Família de curvas de conjugado sob controle escalar $V/f$ & 1ª Parte (Item F) & \cref{lst:run_item_F_vf} \\
+\texttt{setup\_parametros\_Y.m} & Conversão $\Delta \to \text{Y}$ no \textit{workspace} do Simulink & 2ª Parte (Item A) & \cref{lst:setup_parametros_Y} \\
+\texttt{build\_simscape\_model.m} & Montagem do diagrama de blocos e configuração do \textit{solver} & 2ª Parte (Item A) & \cref{lst:build_simscape_model} \\
+\texttt{run\_sim\_harness.m} / \texttt{run\_item\_B\_partida.m} & Cálculo em $s = 1$, simulação dos casos e transformada $\alpha\beta$ & 2ª Parte (Itens B--E) & \cref{lst:run_sim_harness} \\
+\texttt{run\_item\_C/D/E\_simulacao.m} & Equilíbrio via \texttt{fzero} e desvios relativos ($\le \SI{2}{\percent}$) & 2ª Parte (Itens C--E) & \cref{lst:auditoria_item_D,lst:auditoria_item_E} \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
 
-\begin{lstlisting}[style=matlabstyle, caption={Funcao canonica centralizada de parametros eletricos e mecanicos (\texttt{parametros\_motor.m}).}, label={lst:parametros_motor}]
-function p = parametros_motor()
-    % Dados de placa (WEG 3~ 100L, 3.7 kW / 5 cv, 220 V Delta, 4 polos, 60 Hz)
-    p.V_LL_nom  = 220.0;          % Tensao de linha nominal [V RMS]
-    p.f_nom     = 60.0;           % Frequencia nominal [Hz]
-    p.poles     = 4;              % Numero de polos [-]
-    p.p_pairs   = p.poles / 2;    % Pares de polos [-]
-    p.P_nom_W   = 3700.0;         % Potencia nominal de eixo [W]
-    p.I_nom_A   = 14.0;           % Corrente nominal de linha [A RMS]
-    p.n_nom     = 1715.0;         % Velocidade nominal [rpm]
-    p.pf_plate  = 0.81;           % Fator de potencia de placa [-]
-    p.eta_plate = 0.855;          % Rendimento de placa [-]
+\section{Parâmetros Nominais, Elétricos e Mecânicos}\label{sec:codigo_parametros}
 
-    % Grandezas sincronas e escorregamento nominal
-    p.omega_e   = 2 * pi * p.f_nom;
-    p.omega_s   = p.omega_e / p.p_pairs;
-    p.n_s       = (120 * p.f_nom) / p.poles;
-    p.s_nom     = (p.n_s - p.n_nom) / p.n_s;
-    p.omega_nom = (1 - p.s_nom) * p.omega_s;
-    p.T_nom_ref = p.P_nom_W / p.omega_nom;
+O \cref{lst:parametros_motor} apresenta a função \texttt{parametros\_\allowbreak{}motor.m}, na qual são declarados os dados de placa do motor WEG de \SI{3,7}{\kilo\watt} (\SI{5,0}{\cv}), as impedâncias por fase em conexão Triângulo ($\Delta$), os valores transformados para a ligação Estrela ($Z_Y = Z_\Delta / 3$) utilizados no Simulink e as constantes mecânicas determinadas em bancada ($B = \SI{0,003651}{\Nm\cdot\second/\radian}$ e $J = \SI{0,0555}{\kilogram\meter\squared}$).
 
-    % Parametros por fase em Triangulo (05_Resumo_Circuito.csv)
-    p.R1 = 1.189;                 % Resistencia estatorica [Ohm]
-    p.R2 = 1.180;                 % Resistencia rotorica referida [Ohm]
-    p.L1 = 5.725e-3;              % Indutancia dispersao estator [H]
-    p.L2 = 8.420e-3;              % Indutancia dispersao rotor [H]
-    p.Lm = 131.571e-3;            % Indutancia magnetizacao [H]
-    p.X1 = p.omega_e * p.L1;
-    p.X2 = p.omega_e * p.L2;
-    p.Xm = p.omega_e * p.Lm;
+\lstinputlisting[
+  style=matlabstyle,
+  firstline=1,
+  lastline=69,
+  firstnumber=1,
+  caption={Definição centralizada dos parâmetros nominais, elétricos e mecânicos (\texttt{parametros\_motor.m}).},
+  label={lst:parametros_motor}
+]{../../simulacao_ele035/parametros_motor.m}
 
-    % Transformacao Estrela-Triangulo (Z_Y = Z_Delta / 3) para Simulink SPS
-    p.R1_Y = p.R1 / 3;  p.R2_Y = p.R2 / 3;
-    p.L1_Y = p.L1 / 3;  p.L2_Y = p.L2 / 3;  p.Lm_Y = p.Lm / 3;
-    p.X1_Y = p.X1 / 3;  p.X2_Y = p.X2 / 3;  p.Xm_Y = p.Xm / 3;
+\section{Cálculo Analítico no Ponto Nominal}\label{sec:codigo_item_abc}
 
-    % Constantes mecanicas consolidadas (04_Mecanicos.csv)
-    p.B = 0.003651;               % Atrito viscoso equivalente [N.m.s/rad]
-    p.J = 0.0555;                 % Momento de inercia equivalente [kg.m^2]
-end
-\end{lstlisting}
+A rotina \texttt{run\_\allowbreak{}item\_\allowbreak{}ABC.m} resolve o circuito equivalente em T por fase no escorregamento nominal ($s_{nom} = 0{,}04722$, $n_{nom} = \SI{1715}{\RPM}$), calculando as correntes, as potências elétrica e mecânica, as perdas Joule, as perdas rotacionais ($P_{rot} = B\omega_{nom}^2$) e os parâmetros do equivalente de Thévenin. O \cref{lst:run_item_ABC} exibe a parte analítica do algoritmo (linhas 21 a 144); o restante do arquivo reúne apenas comandos de organização da variável de saída, impressão em tela e gravação de arquivos auxiliares (\texttt{.mat}, \texttt{.csv} e \texttt{.json}).
 
-\begin{lstlisting}[style=matlabstyle, caption={Rotina vetorizada de resolucao analitica e varredura de regime permanente (\texttt{run\_item\_ABC.m}).}, label={lst:run_item_ABC}]
-%% ELE035 - PARTE 1: RESOLUCAO ANALITICA E VARREDURA VETORIZADA
-p = parametros_motor();
+\lstinputlisting[
+  style=matlabstyle,
+  firstline=21,
+  lastline=144,
+  firstnumber=21,
+  caption={Resolução analítica do circuito equivalente no ponto nominal e cálculo de Thévenin (\texttt{run\_item\_ABC.m}).},
+  label={lst:run_item_ABC}
+]{../../simulacao_ele035/parte1_regime_permanente/item_A_B_C_ponto_nominal/run_item_ABC.m}
 
-% Malha de escorregamento vetorizada (evita divisao por zero em s = 0)
-N_pts = 1000;
-n_vec = linspace(0, p.n_s - 1e-4, N_pts);
-s_vec = (p.n_s - n_vec) ./ p.n_s;
-wm_vec = n_vec .* (2 * pi / 60);
+\section{Curvas Características e Controle Escalar $V/f$}\label{sec:codigo_vf_family}
 
-% Impedancias complexas elemento a elemento (Delta, V_ph = V_LL)
-V_phase = p.V_LL_nom;
-Z1 = p.R1 + 1j * p.X1;
-Zm = 1j * p.Xm;
-Z2_vec = (p.R2 ./ s_vec) + 1j * p.X2;
-Zp_vec = (Zm .* Z2_vec) ./ (Zm + Z2_vec);
-Zin_vec = Z1 + Zp_vec;
+As rotinas \texttt{run\_all\_item\_E.m} e \texttt{run\_item\_E\_*.m}, destinadas ao traçado das cinco curvas características nominais (conjugado, corrente, potência, fator de potência e rendimento), executam a formulação vetorizada já transcrita no \cref{code:algoritmo_vetorizado} (\cref{subsec:implementacao_script}), diferindo apenas nos comandos gráficos de formatação e salvamento das figuras. Por essa razão, tais rotinas não são repetidas neste apêndice.
 
-% Correntes estatoricas e rotoricas
-I1_ph_vec   = V_phase ./ Zin_vec;
-I1_line_vec = sqrt(3) .* abs(I1_ph_vec);
-E1_vec      = V_phase - I1_ph_vec .* Z1;
-I2_vec      = E1_vec ./ Z2_vec;
+Para a família de curvas sob relação $V/f$ constante (\cref{sec:controle_escalar}), o script \texttt{run\_\allowbreak{}item\_\allowbreak{}F\_\allowbreak{}vf\_\allowbreak{}family.m} repete o equacionamento vetorizado nos quatro patamares proporcionais de tensão e frequência ($100\%$, $75\%$, $50\%$ e $25\%$), atualizando a velocidade síncrona, as reatâncias ($X_k = 2\pi f_k L$) e o conjugado máximo de Thévenin ($T_{max,k}$) em cada caso. O \cref{lst:run_item_F_vf} apresenta o laço correspondente a essa variação paramétrica (linhas 120 a 186), omitindo-se o trecho inicial de cálculo nominal e a formatação final do gráfico.
 
-% Balanco de potencias, conjugados e rendimentos
-P_ag_vec    = 3 .* (abs(I2_vec).^2) .* (p.R2 ./ s_vec);
-P_em_vec    = (1 - s_vec) .* P_ag_vec;
-P_elec_vec  = 3 .* real(V_phase .* conj(I1_ph_vec));
-Q_elec_vec  = 3 .* imag(V_phase .* conj(I1_ph_vec));
-cos_phi_vec = P_elec_vec ./ (3 .* V_phase .* abs(I1_ph_vec));
-
-P_rot_vec   = p.B .* (wm_vec.^2);
-P_shaft_vec = P_em_vec - P_rot_vec;
-T_em_vec    = P_ag_vec ./ p.omega_s;
-T_shaft_vec = T_em_vec - p.B .* wm_vec;
-
-eta_em_vec    = max(P_em_vec, 0) ./ P_elec_vec;
-eta_shaft_vec = max(P_shaft_vec, 0) ./ P_elec_vec;
-\end{lstlisting}
-
-\section{Rotina de Parametrização e Execução Dinâmica no Simulink SPS}\label{sec:codigo_simulink_setup}
-
-O \Cref{lst:setup_simulink} documenta a rotina de configuração dos parâmetros transformados Estrela-Triângulo e dos temporizadores de simulação utilizados pelo modelo dinâmico no Simulink SPS (\texttt{setup\_parametros\_Y.m} e despacho via \texttt{run\_sim\_harness.m}).
-
-\begin{lstlisting}[style=matlabstyle, caption={Script de parametrizacao Y-Delta e temporizacao de cenarios Simulink (\texttt{setup\_parametros\_Y.m}).}, label={lst:setup_simulink}]
-function params = setup_parametros_Y()
-    p = parametros_motor();
-
-    % Parametros nominais e mapeamento Star-Delta (Z_Y = Z_Delta / 3)
-    params.V_LL_nom  = p.V_LL_nom;     % 220.0 V RMS (linha-linha)
-    params.f_nom     = p.f_nom;        % 60.0 Hz
-    params.P_nom_W   = p.P_nom_W;      % 3700.0 W
-    params.p_pairs   = p.p_pairs;      % 2 pares de polos
-    params.omega_s   = p.omega_s;      % 188.4956 rad/s
-    params.T_nom_ref = p.T_nom_ref;    % 20.6020 N.m
-
-    params.R1_Y = p.R1_Y;              % 0.396333 Ohm
-    params.R2_Y = p.R2_Y;              % 0.393333 Ohm
-    params.L1_Y = p.L1_Y;              % 1.908333 mH
-    params.L2_Y = p.L2_Y;              % 2.806667 mH
-    params.Lm_Y = p.Lm_Y;              % 43.857000 mH
-    params.X1_Y = p.X1_Y;              % 0.719444 Ohm
-    params.X2_Y = p.X2_Y;              % 1.058267 Ohm
-    params.Xm_Y = p.Xm_Y;              % 16.533667 Ohm
-
-    % Constantes mecanicas invariantes (04_Mecanicos.csv)
-    params.J = p.J;                    % 0.0555 kg.m^2
-    params.B = p.B;                    % 0.003651 N.m.s/rad
-
-    % Temporizacao e passo discreto (FixedStepDiscrete / Backward Euler)
-    params.t_stop      = 3.0;          % Horizonte de simulacao [s]
-    params.t_step_load = 1.5;          % Instante do degrau de carga [s]
-    params.T_load_step = p.T_nom_ref;  % Amplitude do degrau [N.m]
-    params.T_sample    = 50e-6;        % Passo amostral [s] (20 kHz)
-
-    % Exportacao ao workspace base para ligacao com blocos Simulink
-    fields = fieldnames(params);
-    for k = 1:length(fields)
-        assignin('base', fields{k}, params.(fields{k}));
-    end
-end
-\end{lstlisting}
+\lstinputlisting[
+  style=matlabstyle,
+  firstline=120,
+  lastline=186,
+  firstnumber=120,
+  caption={Laço de cálculo da família de curvas sob controle escalar $V/f$ (\texttt{run\_item\_F\_vf\_family.m}).},
+  label={lst:run_item_F_vf}
+]{../../simulacao_ele035/parte1_regime_permanente/item_F_controle_escalar_vf/run_item_F_vf_family.m}

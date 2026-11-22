@@ -2,8 +2,8 @@
 module: latex_report
 status: verified
 sources:
-  - docs/latex/00_config.tex sha256=b8c63665a7cb462ae1a011fde448cccc6ba625617d76f43448ee02fe987e92e6
-  - docs/latex/main.tex sha256=36e20aca1433b77ef0b7bcf2fac7e1c920d8657344d3c594da00e4d19d9fa33c
+  - docs/latex/00_config.tex sha256=16ea040254c8428d2f3fd4747821c1f69cc91bed6b1f47b284fe0890777043c7
+  - docs/latex/main.tex sha256=fc913cd3997190fe05eaf6c4c84940a6ec70cf1d83cc92f2cc091ff160068d31
   - docs/latex/cap1_introducao/01_contexto_objetivos.tex sha256=ba8bc7bc1fb9bc24d51fcfd96b250a9edf663b30a6fc5ccceefa5ff150396621
   - docs/latex/cap1_introducao/02_parametros_bancada.tex sha256=304796fa7ede754ecf3bf315480f52299690ecd3fa5db6e9d294da9165e182bc
   - docs/latex/cap2_regime_permanente/01_calculo_torque_nominal.tex sha256=3dd2909979d8d6b3a6e88f683d2cc5b49af1e3c6aa2124d01b47895637143f9f

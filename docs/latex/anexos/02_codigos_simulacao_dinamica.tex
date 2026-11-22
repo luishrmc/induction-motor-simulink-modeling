@@ -1,0 +1,62 @@
+\chapter{Códigos de Simulação Dinâmica (2ª Parte)}\label{anexo:codigos_parte2}
+
+Neste apêndice, documentam-se os códigos utilizados na conversão de parâmetros para o modelo no Simulink, na montagem do diagrama de blocos, na execução das simulações transitórias e na comparação com o circuito equivalente analítico.
+
+\section{Parametrização Estrela-Triângulo e Construção do Modelo no Simulink}\label{sec:codigo_simulink_construcao}
+
+O \cref{lst:setup_parametros_Y} reproduz a rotina principal da função \texttt{setup\_\allowbreak{}parametros\_\allowbreak{}Y.m} (linhas 29 a 83), que lê os dados de \texttt{parametros\_\allowbreak{}motor.m}, define as impedâncias equivalentes em Estrela ($Z_Y = Z_\Delta / 3$), fixa os instantes de simulação e o passo de amostragem ($T_s = \SI{50}{\micro\second}$) e transfere essas variáveis para o \textit{workspace} base do MATLAB.
+
+\lstinputlisting[
+  style=matlabstyle,
+  firstline=29,
+  lastline=83,
+  firstnumber=29,
+  caption={Inicialização dos parâmetros $\Delta \to \text{Y}$ e transferência para o \textit{workspace} base (\texttt{setup\_parametros\_Y.m}).},
+  label={lst:setup_parametros_Y}
+]{../../simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape/setup_parametros_Y.m}
+
+A criação do diagrama de blocos mostrado na \cref{fig:diagrama_Simulink} (\cref{subsec:topologia_Simulink}) é realizada pelo script \texttt{build\_\allowbreak{}simscape\_\allowbreak{}model.m}. Conforme apresentado no \cref{lst:build_simscape_model} (linhas 56 a 225), o código insere e interliga a fonte trifásica (\SI{220}{\volt} RMS, \SI{60}{\hertz}), o divisor de fases, o bloco \textit{Asynchronous Machine SI Units}, o degrau de conjugado resistente na entrada mecânica $T_m$, os blocos de medição e o solucionador discreto de passo fixo (\texttt{FixedStepDiscrete} com integrador local \texttt{NE\_BACKWARD\_EULER\_ADVANCER}).
+
+\lstinputlisting[
+  style=matlabstyle,
+  firstline=56,
+  lastline=225,
+  firstnumber=56,
+  caption={Montagem do diagrama de blocos, instrumentação e configuração do \textit{solver} no Simulink (\texttt{build\_simscape\_model.m}).},
+  label={lst:build_simscape_model}
+]{../../simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape/build_simscape_model.m}
+
+\section{Execução dos Ensaios Dinâmicos e Cálculo de Potência}\label{sec:codigo_harness}
+
+Os ensaios no domínio do tempo são executados pela função \texttt{run\_\allowbreak{}sim\_\allowbreak{}harness.m} (\cref{lst:run_sim_harness}, linhas 55 a 198). Inicialmente, calcula-se a impedância de entrada, a corrente de linha e o conjugado para o rotor bloqueado ($s = 1{,}0$). Como o script \texttt{run\_\allowbreak{}item\_\allowbreak{}B\_\allowbreak{}partida.m} (2ª Parte, Item B) reproduz exatamente esse mesmo cálculo de partida, evita-se sua listagem em separado. Em seguida, a função ajusta o bloco \texttt{Load\_Torque\_Step} conforme o caso selecionado (\texttt{dol\_startup}, \texttt{nominal\_step} ou \texttt{regenerative}), executa a simulação via \texttt{sim(...)} e aplica a transformada de Clarke ($\alpha\beta$) às tensões e correntes obtidas para determinar as potências ativa ($P$) e reativa ($Q$).
+
+\lstinputlisting[
+  style=matlabstyle,
+  firstline=55,
+  lastline=198,
+  firstnumber=55,
+  caption={Cálculo da partida com rotor bloqueado ($s = 1$), execução dos ensaios e cálculo de potências via transformada de Clarke (\texttt{run\_sim\_harness.m}).},
+  label={lst:run_sim_harness}
+]{../../simulacao_ele035/parte2_simulacao_dinamica/item_A_modelo_simscape/run_sim_harness.m}
+
+\section{Verificação de Regime Permanente}\label{sec:codigo_auditoria_sintese}
+
+Os scripts dos ensaios dinâmicos (\texttt{run\_item\_C\_simulacao.m}, \texttt{run\_item\_D\_simulacao.m} e \texttt{run\_item\_E\_simulacao.m}) chamam \texttt{run\_sim\_harness}, determinam o escorregamento analítico de equilíbrio por meio da função \texttt{fzero} ($T_{em}(s) = T_L + B\omega_s(1-s)$) e calculam os desvios percentuais em relação à média e ao valor eficaz da janela estacionária simulada. Descartando-se as rotinas repetitivas de geração dos gráficos e o caso a vazio já avaliado antes do degrau em \texttt{run\_item\_D\_simulacao.m}, o \cref{lst:auditoria_item_D} reúne o cálculo analítico e a verificação do degrau de carga nominal ($T_L = +T_{nom}$), enquanto o \cref{lst:auditoria_item_E} apresenta a solução do ponto de equilíbrio hipersíncrono ($T_L = -T_{nom}$).
+
+\lstinputlisting[
+  style=matlabstyle,
+  firstline=84,
+  lastline=154,
+  firstnumber=84,
+  caption={Cálculo do equilíbrio via \texttt{fzero} e dos desvios relativos no degrau de carga nominal (\texttt{run\_item\_D\_simulacao.m}).},
+  label={lst:auditoria_item_D}
+]{../../simulacao_ele035/parte2_simulacao_dinamica/item_D_degrau_carga_nominal/run_item_D_simulacao.m}
+
+\lstinputlisting[
+  style=matlabstyle,
+  firstline=55,
+  lastline=94,
+  firstnumber=55,
+  caption={Equacionamento analítico e cálculo do escorregamento hipersíncrono ($s < 0$) em operação regenerativa (\texttt{run\_item\_E\_simulacao.m}).},
+  label={lst:auditoria_item_E}
+]{../../simulacao_ele035/parte2_simulacao_dinamica/item_E_operacao_regenerativa/run_item_E_simulacao.m}
