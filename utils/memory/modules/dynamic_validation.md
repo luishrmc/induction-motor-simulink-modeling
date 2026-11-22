@@ -2,19 +2,19 @@
 module: dynamic_validation
 status: verified
 sources:
-  - simulacao_ele035/parte2_simulacao_dinamica/item_C_partida_direta_vazio/run_item_C_simulacao.m sha256=0e03dc8801d8f3d9102099c0650c78d68326e7d7bb2933353baa1adfe16233a9
-  - simulacao_ele035/parte2_simulacao_dinamica/item_D_degrau_carga_nominal/run_item_D_simulacao.m sha256=55e99dcb4867abdc9719adbb3a505fe6b44184aff196a41dcd02e83bf25c5f05
-  - simulacao_ele035/parte2_simulacao_dinamica/item_E_operacao_regenerativa/run_item_E_simulacao.m sha256=ef88ee56380920e07ceaa12789d6ce461228a2cd1b14de6ab145977ac0988b9f
+  - simulacao_ele035/parte2_simulacao_dinamica/item_C_partida_direta_vazio/run_item_C_simulacao.m sha256=6f6828aa5538550973a49ec34f818f042a6fa8120d38f7dfc7eb1aa311a2f037
+  - simulacao_ele035/parte2_simulacao_dinamica/item_D_degrau_carga_nominal/run_item_D_simulacao.m sha256=4144b778e83aa58099d01dcdb12ad81f1cadf2de983890036ccb0484e181c219
+  - simulacao_ele035/parte2_simulacao_dinamica/item_E_operacao_regenerativa/run_item_E_simulacao.m sha256=15e28bbba2846e6928027bf97055a038c6486191038667106b4c3d9e9ebda9de
 gates_passed: [matlab-lint, simulink-gate, tolerance-gate, technical-critic]
 ---
 
 # Dynamic Validation Module Digest
 
-Transient validation of the Simscape SPS model against analytical baselines (`<= 2.0%`) and bench measurements (`02_Ensaio_Vazio.csv`, `07_dados_de_placa.csv`).
+Transient validation of the Simulink SPS model against analytical baselines (`<= 2.0%`) and bench measurements (`02_Ensaio_Vazio.csv`, `07_dados_de_placa.csv`).
 
 ## Direct-On-Line (DOL) No-Load Startup Transient (Task 3.1)
 - **Horizon & Settling:** $t_{stop} = 2.0\text{ s}$ ($J = 0.0555\text{ kg}\cdot\text{m}^2$, $B = 0.003651\text{ N}\cdot\text{m}\cdot\text{s/rad}$); rotor settles in $\sim 0.36\text{ s}$.
-- **No-Load Equilibrium & Tier 2 Bench Match:** Analytical $n = 1797.93\text{ rpm}$, Simscape $1797.92\text{ rpm}$ vs. `02_Ensaio_Vazio.csv` ($1799\text{ rpm}$, $0.060\%$), $I_{line} = 7.342\text{ A}$ (vs. $7.36\text{ A}$, $0.249\%$), $P_0 = 194.25\text{ W}$ (vs. $194.00\text{ W}$, $0.127\%$).
+- **No-Load Equilibrium & Tier 2 Bench Match:** Analytical $n = 1797.93\text{ rpm}$, Simulink $1797.92\text{ rpm}$ vs. `02_Ensaio_Vazio.csv` ($1799\text{ rpm}$, $0.060\%$), $I_{line} = 7.342\text{ A}$ (vs. $7.36\text{ A}$, $0.249\%$), $P_0 = 194.25\text{ W}$ (vs. $194.00\text{ W}$, $0.127\%$).
 - **Inrush Dynamics:** Symmetrical $I_{line,start} = 67.73\text{ A RMS}$ (peak $95.78\text{ A}$); simulated peak $121.18\text{ A}$ (ratio $1.265\times$ DC offset); subtransient torque peak $77.99\text{ N}\cdot\text{m}$ damping in $70\text{ ms}$.
 
 ## Step Nominal Load Torque Transient & Mechanical Balance (Task 3.2)
@@ -29,7 +29,7 @@ Transient validation of the Simscape SPS model against analytical baselines (`<=
 
 ## Steady-State Convergence Audit (Tier 1 Tolerance: $\le 2.0\%$)
 
-| Operating Condition | Metric | Analytical | Simscape | Error (%) | Status |
+| Operating Condition | Metric | Analytical | Simulink | Error (%) | Status |
 |---|---|---|---|---|---|
 | **No-Load ($t \ge 1.5\text{ s}$)** | Speed ($n$) | $1797.93\text{ rpm}$ | $1797.92\text{ rpm}$ | $0.001\%$ | PASS |
 | | Torque ($T_e$) | $0.687\text{ N}\cdot\text{m}$ | $0.687\text{ N}\cdot\text{m}$ | $0.001\%$ | PASS |

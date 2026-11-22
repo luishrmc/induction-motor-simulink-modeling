@@ -1,10 +1,10 @@
 \section{Tabela Comparativa e Critérios de Validação}\label{sec:auditoria_tolerancia}
 
-Para avaliar o modelo, fizemos as comparações em dois níveis. No Nível 1, comparamos a simulação no Simscape com o circuito equivalente analítico. No Nível 2, comparamos os dois com dados independentes: as medições de bancada e os dados de placa.
+Para avaliar o modelo, realizam-se as comparações em dois níveis. No Nível 1, compara-se a simulação no Simulink com o circuito equivalente analítico. No Nível 2, comparam-se os dois com dados independentes: as medições de bancada e os dados de placa.
 
 \subsection{Critérios de Comparação e Tabela Geral}\label{subsec:matriz_validacao}
 
-No Nível 1, calculamos a diferença percentual entre o valor de regime permanente da simulação ($X_{\text{sim}}$) e o valor do circuito equivalente ($X_{\text{an}}$):
+No Nível 1, calcula-se a diferença percentual entre o valor de regime permanente da simulação ($X_{\text{sim}}$) e o valor do circuito equivalente ($X_{\text{an}}$):
 \begin{equation}
 \varepsilon_{\text{rel}} = \frac{|X_{\text{sim}} - X_{\text{an}}|}{|X_{\text{an}}|} \times \SI{100}{\percent} \le \SI{2,0}{\percent}.
 \label{eq:erro_relativo_auditoria}
@@ -15,12 +15,12 @@ A \Cref{tab:auditoria_consolidada} reúne os resultados dos quatro casos: partid
 
 \begin{table}[H]
 \centering
-\caption{Comparação entre dados de placa, ensaios, circuito equivalente e simulação no Simscape.}
+\caption{Comparação entre dados de placa, ensaios, circuito equivalente e simulação no Simulink.}
 \label{tab:auditoria_consolidada}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{llcccccc}
 \toprule
-\textbf{Regime} & \textbf{Grandeza} & \textbf{Unid.} & \textbf{Placa WEG} & \textbf{Ensaio Lab.} & \textbf{Analítico} & \textbf{Simscape} & \textbf{Erro Nível 1} \\
+\textbf{Regime} & \textbf{Grandeza} & \textbf{Unid.} & \textbf{Placa WEG} & \textbf{Ensaio Lab.} & \textbf{Analítico} & \textbf{Simulink} & \textbf{Erro Nível 1} \\
 \midrule
 \multirow{3}{*}{Partida ($s = 1{,}0$)}
  & Corrente de Partida ($I_{\text{part}}$) & \si{\ampere} & $106{,}40$ & $65{,}30$ & $67{,}73$ & $67{,}73$ & \SI{0,000}{\percent} \\
@@ -58,7 +58,7 @@ A \Cref{tab:auditoria_consolidada} reúne os resultados dos quatro casos: partid
 
 \subsection{Análise das Diferenças nos Dois Níveis}\label{subsec:analise_dois_niveis}
 
-No Nível 1 (\cref{tab:auditoria_consolidada}), todas as grandezas de regime permanente da simulação ficaram a menos de $\SI{0,44}{\percent}$ dos valores analíticos. A maior diferença aparece na potência reativa com carga nominal ($\varepsilon_Q = \SI{0,437}{\percent}$), seguida pela potência reativa no modo gerador ($\SI{0,289}{\percent}$) e pela corrente a vazio ($\SI{0,274}{\percent}$). Em velocidade, torque e potência ativa, as diferenças ficaram abaixo de $\SI{0,13}{\percent}$ em todos os casos. Isso mostra que a conversão triângulo-estrela e a configuração do \textit{solver} estão corretas. É importante notar, porém, que esse nível só confirma que o Simscape resolve o mesmo modelo do circuito equivalente, já que os dois usam os mesmos parâmetros. Na partida, o pico simulado ($\SI{121,18}{\ampere}$) é maior que o analítico ($\SI{95,78}{\ampere}$) porque inclui a componente contínua do instante de ligação, enquanto o valor analítico é o pico da corrente senoidal simétrica. Em valor eficaz, os dois coincidem em $\SI{67,73}{\ampere}$.
+No Nível 1 (\cref{tab:auditoria_consolidada}), todas as grandezas de regime permanente da simulação ficaram a menos de $\SI{0,44}{\percent}$ dos valores analíticos. A maior diferença aparece na potência reativa com carga nominal ($\varepsilon_Q = \SI{0,437}{\percent}$), seguida pela potência reativa no modo gerador ($\SI{0,289}{\percent}$) e pela corrente a vazio ($\SI{0,274}{\percent}$). Em velocidade, torque e potência ativa, as diferenças ficaram abaixo de $\SI{0,13}{\percent}$ em todos os casos. Isso mostra que a conversão triângulo-estrela e a configuração do \textit{solver} estão corretas. É importante notar, porém, que esse nível só confirma que o Simulink resolve o mesmo modelo do circuito equivalente, já que os dois usam os mesmos parâmetros. Na partida, o pico simulado ($\SI{121,18}{\ampere}$) é maior que o analítico ($\SI{95,78}{\ampere}$) porque inclui a componente contínua do instante de ligação, enquanto o valor analítico é o pico da corrente senoidal simétrica. Em valor eficaz, os dois coincidem em $\SI{67,73}{\ampere}$.
 
 O Nível 2 é o que de fato compara o modelo com a máquina real. A vazio, a simulação reproduz bem as medições: a velocidade ($\SI{1797,92}{\RPM}$) difere \SI{0,060}{\percent} da medida ($\SI{1799}{\RPM}$, limite de \SI{2}{\percent}); a corrente ($\SI{7,342}{\ampere}$) difere \SI{0,249}{\percent} da leitura de bancada ($\SI{7,36}{\ampere}$, limite de \SI{2}{\percent}); e a potência ativa ($\SI{194,25}{\watt}$) difere \SI{0,127}{\percent} da soma dos dois wattímetros ($P_0 = \SI{194,0}{\watt}$, limite de \SI{5}{\percent}). Como $X_m$ e $B$ foram calculados a partir desse mesmo ensaio, essa concordância já era esperada em parte; ela confirma, sobretudo, que esses parâmetros foram aplicados corretamente.
 
